@@ -1,0 +1,186 @@
+<!doctype html>
+    <!--[if lt IE 7 ]><html dir="ltr" lang="en-US" class="no-js ie ie6 lte7 lte8 lte9"><![endif]-->
+    <!--[if IE 7 ]><html dir="ltr" lang="en-US" class="no-js ie ie7 lte7 lte8 lte9"><![endif]-->
+    <!--[if IE 8 ]><html dir="ltr" lang="en-US" class="no-js ie ie8 lte8 lte9"><![endif]-->
+    <!--[if IE 9 ]><html dir="ltr" lang="en-US" class="no-js ie ie9 lte9"><![endif]-->
+    <!--[if (gt IE 9)|!(IE)]><!--><html dir="ltr" lang="en-US"> <!--<![endif]-->
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CS116 | Lecture Notes</title>
+        <link rel="stylesheet" type="text/css" href="foundation-4.3.2\css\foundation.css">
+
+        <style type="text/css">
+            html, 
+            html a {
+                    -webkit-font-smoothing: antialiased;
+                    text-shadow: 0.1em 0.1em 0.1em rgba(0,0,0,0.004);
+            }
+            h3 {
+                color: rgb(10,120,180);
+            }
+            i {
+                font-style: normal;
+            }
+            .pTrue,
+            .pFalse {
+                color: rgb(80,100,180);
+                font-style: normal;
+            }
+            .pFalse {
+                color: rgb(180,100,80);
+            }
+            .indent-1tab{
+                margin-left: 2em;
+            }
+            pre {
+                margin: 1.5em;
+                padding: 0.5em 1.5em;
+                background-color: rgb(40,40,40);
+                border: 0.25em solid rgb(70,70,70);
+            }
+            code {  
+                font-size: 0.95em;
+                font-weight: lighter;
+                line-height: 1.35em;        
+                color: rgb(200,200,200);
+            }
+            .comments {
+                color: rgb(100,100,100);
+            }
+            .keyword {
+                color: rgb(200,80,60);
+            }
+            .identifier {
+                color: rgb(80, 120, 200);
+            }
+            .string {
+                color: rgb(180, 120, 10);
+            }
+            .row-shading,
+                            .row-noshading {
+                padding: 1em 1.5em;
+                margin: 1em 0;
+                border: 0.25em solid rgb(200,200,200);
+                border-top-width: 0;
+                margin: 0;
+            }
+            .row-shading {
+                 background-color: rgb(220,220,220);
+            }
+            .add-top-border {
+                border-top-width:  0.25em;
+            }
+        </style>    
+    </head>
+    <body>
+        <div class="row">
+            <div class="large-10 small-10 small-centered large-centered columns">
+                <h1>CS-175 Lecture Notes</h1>
+                <h2>Classes 1</h2>
+                <h3>What is a class?</h3>
+                <p>a <strong>class</strong> is an abstract representation of an object. It stores information about the types of data that an object can hold and the behavious that an object can exhibit.  Essentially, when you create a class you are creating a custom type that contains other types and functions. Clase allow you to better control how objects are created and how they interact with one another.</p>
+                <h3>What is a Class Constructor?</h3>
+                <p>A <strong>constructor</strong> is a function inside a class what has the same name as the class. It will be called <em>only once</em>, when you create an object of type that class. The constructor can take <strong>parameters</strong> but can <em>never have a return type</em> <i>(since by default it should return an object of that class&rsquo; type)</i>.</p>
+                <h3>Packages</h3>
+                <p>A package is used to specify in which folder your <strong>.as file</strong> can be located at <i>(if you change the location of where the actionscript file can be found in relation to the .fla file)</i>.</p>
+<pre class="large-11 small-11 large-centered small-centered columns">
+    <code>
+    <i class="keyword">package</i> <em>Directory Hierarchy</em>
+    {
+        <i class="keyword">public class</i> Classname
+        {
+            &hellip;
+        }
+    }
+    </code>
+</pre>
+            </div><!--END COLUMNS-->
+        </div><!--END ROW-->
+
+        <!--Thursday, January 16th, 2014-->
+
+        <div class="row">
+            <div class="large-10 small-10 small-centered large-centered columns">
+                <h4>Lab Exercise</h4>
+                <p>Create a hero class using the following steps:
+                    <ol>
+                        <li>Game.fla</li>
+                        <li>Hero Class .as file, inside an a folder GameObjects
+                            <ul>
+                                <li>PosX:Number</li>
+                                <li>PosY:Number</li>
+                                <li>iHealth:int</li>
+                                <li>sName:String</li>
+                                <li>Constructor(____, ____, ____)</li>
+                            </ul>
+                        </li>
+                        <li>Test Hero Class by tracing out the xPos, yPos and iHealth</li>
+                        <li>Create an Enemy class that has everything except the iHealth</li>
+                    </ol>
+                </p>
+                <h6>Hero.as</h6>
+<pre class="large-11 small-11 large-centered small-centered columns">
+    <code>
+    <i class="keyword">package</i> GameObjects
+    {
+        <i class="keyword">public class</i> Hero
+        {
+            <i class="comments">//PROPERTIES</i>
+            <i class="keyword">public var</i> nPosX:<i class="identifier">Number</i>;
+            <i class="keyword">public var</i> nPosY:<i class="identifier">Number</i>;
+            <i class="keyword">public var</i> iHealth:<i class="identifier">int</i>;
+            <i class="keyword">public var</i> sName:<i class="identifier">String</i>;
+
+            <i class="comments">//METHODS</i>
+            <i class="keyword">public function</i> Hero(_nPosX:<i class="identifier">Number</i>, _nPosY:<i class="identifier">Number</i>, _iHealth:<i class="identifier">int</i>):void
+            {
+                nPosX = _nPosX;
+                nPosY = _nPosY;
+                iHealth = _iHealth;
+                sName = <i class="string">"Hero"</i>;
+            }
+        }
+    }
+    </code>
+</pre>
+                <h6>Game.fla</h6>
+<pre class="large-11 small-11 large-centered small-centered columns">
+    <code>
+    <i class="comments">//IMPORT CLASS</i>
+    <i class="keyword">import</i> GameObjects.Hero;
+
+    <i class="comments">//CREATE CLASS OBJECTS</i>
+    <i class="keyword">var</i> Player:Hero = <i class="keyword">new</i> Hero(200,200,100);
+
+    <i class="comments">//TRACE</i>
+    <i class="keyword">trace</i>(Player.sName);
+    <i class="keyword">trace</i>(<i class="string">"Player is located at x = "</i> + Player.nPosX);
+    <i class="keyword">trace</i>(<i class="string">"Player is located at y = "</i> + Player.nPosY);
+    <i class="keyword">trace</i>(<i class="string">"Player has health = "</i> + Player.iHealth);
+    </code>
+</pre>
+            </div><!--END COLUMNS-->
+            <div class="large-10 small-10 small-centered large-centered columns">
+                <h2>Game State Manager</h2>
+                <h3>Game State Manager&mdash;Cycle Functions</h3>
+                <p>The <strong>Game State Manager</strong> should always be in a state. This state can be any one of the <strong>5 cycle functions</strong>:
+                    <ul>
+                        <li><strong>Create</strong></li>
+                        <li><strong>Initialize</strong></li>
+                        <li><strong>Update</strong></li>
+                        <li><strong>Uninitialize</strong></li>
+                        <li><strong>Destroy</strong></li>
+                    </ul>
+                </p>
+        </div><!--END ROW-->
+
+
+
+
+
+
+
+    </body>
+</html>
