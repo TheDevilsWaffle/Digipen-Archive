@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "CollisionManager",
+		uint64 ResourceId = 5221a73621b95874,
+	},
+},

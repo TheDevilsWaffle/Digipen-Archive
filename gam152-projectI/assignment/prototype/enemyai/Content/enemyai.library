@@ -1,0 +1,25 @@
+ContentLibrary = 
+{
+	string Name = "enemyai",
+	Array Files = 
+	[
+		"5221a1e15e64df91.TilePaletteSource.bin",
+		"CollisionManager.py",
+		"Game.data",
+		"Goo.Archetype.data",
+		"Level.data",
+		"Level_TileMap00.TileMapSource.bin",
+		"Player.Archetype.data",
+		"Space.data",
+		"physicsmaterial_character.PhysicsMaterial.data",
+		"py_character_movement.py",
+		"py_enemyAI_basic.py",
+		"py_player_input.py",
+		"py_shoot.py",
+		"snail.SpriteSource.png",
+		"spider.png",
+	],
+	uint64 LibraryId = 52b1f47e8d7131d7,
+	string SourceControlType = "",
+	bool ReadOnly = false,
+},

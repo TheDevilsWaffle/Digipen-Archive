@@ -1,0 +1,18 @@
+ContentLibrary = 
+{
+	string Name = "prototype",
+	Array Files = 
+	[
+		"CharacterMaterial.PhysicsMaterial.data",
+		"Game.data",
+		"Level.data",
+		"Level_TileMap00.bin",
+		"Snail.Archetype.data",
+		"Space.data",
+		"py_snail_controller.py",
+		"snail.png",
+	],
+	uint64 LibraryId = 52850f9503ca023f,
+	string SourceControlType = "",
+	bool ReadOnly = false,
+},

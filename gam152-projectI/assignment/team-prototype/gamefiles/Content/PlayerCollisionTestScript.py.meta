@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "PlayerCollisionTestScript",
+		uint64 ResourceId = 52acd1a4833e8cee,
+	},
+},

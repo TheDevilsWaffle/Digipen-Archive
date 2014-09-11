@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_shoot",
+		uint64 ResourceId = 5221a38e179e3bfa,
+	},
+},

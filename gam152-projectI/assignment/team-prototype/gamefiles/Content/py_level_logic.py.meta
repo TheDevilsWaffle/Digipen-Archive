@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_level_logic",
+		uint64 ResourceId = 522b9b4b91ff96a6,
+	},
+},

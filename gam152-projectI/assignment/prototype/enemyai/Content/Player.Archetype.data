@@ -1,0 +1,81 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "Player",
+	},
+	Archetyped = 
+	{
+		string Name = "5221a8e3a1e60235:Player",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [0, -3.19415, 0],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "52b1e9d82b218429:snail",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = true,
+		bool OnTop = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+	},
+	RigidBody = 
+	{
+		bool Static = false,
+		bool Asleep = false,
+		bool Kinematic = false,
+		bool RotationLocked = true,
+		bool Mode2D = true,
+		bool AllowSleep = true,
+		bool Inherit2DMode = true,
+		Vec3 Velocity = [0, 0, 0],
+		Vec3 AngularVelocity = [0, 0, 0],
+	},
+	SphereCollider = 
+	{
+		bool Ghost = false,
+		bool SendsMessages = true,
+		bool Seamless = false,
+		string MaterialName = "5221a807b864a7fe:physicsmaterial_character",
+		string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+		Vec3 Offset = [0, 0, 0],
+		float Radius = 0.5,
+	},
+	DynamicMotor = 
+	{
+	},
+	CharacterInput = 
+	{
+		bool InputType = true,
+		int GamepadIndex = 0,
+	},
+	PlatformerCharacterController = 
+	{
+		bool Active = true,
+		Vec3 Up = [0, 1, 0],
+		float MaxSpeed = 7,
+		float MovePower = 2,
+		float InAirControl = 0.2,
+		float WalkableSlopeAngle = 40,
+		float InitialJumpVelocity = 6,
+		float AdditiveJumpVelocity = 150,
+		float AdditiveJumpTime = 0,
+		float LateJumpTimer = 0.23,
+	},
+	CollisionManager = 
+	{
+	},
+},

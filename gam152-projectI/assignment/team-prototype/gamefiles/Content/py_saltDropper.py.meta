@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_saltDropper",
+		uint64 ResourceId = 52e2faf26f80f53f,
+	},
+},

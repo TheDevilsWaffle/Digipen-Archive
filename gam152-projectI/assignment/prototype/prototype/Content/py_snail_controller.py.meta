@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_snail_controller",
+		uint64 ResourceId = 52850cd9e9129896,
+	},
+},

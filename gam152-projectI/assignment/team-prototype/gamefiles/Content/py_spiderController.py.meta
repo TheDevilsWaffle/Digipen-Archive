@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_spiderController",
+		uint64 ResourceId = 529ee5e32e5f2522,
+	},
+},

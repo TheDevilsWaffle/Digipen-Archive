@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_objectSettings",
+		uint64 ResourceId = 525dc97925f70498,
+	},
+},
