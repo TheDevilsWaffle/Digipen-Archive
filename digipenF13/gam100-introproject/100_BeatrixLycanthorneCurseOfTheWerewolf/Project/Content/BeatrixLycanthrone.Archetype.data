@@ -1,0 +1,94 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "BeatrixLycanthorne",
+	},
+	Archetyped = 
+	{
+		string Name = "52e8b4e2419f6e2c:BeatrixLycanthrone",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [-16.65, 24.595, 0],
+		Vec3 Scale = [0.8, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "52b2fdfa5d299763:BeatrixAnimationSheet",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = true,
+		bool OnTop = false,
+		bool AnimationActive = false,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+	},
+	RigidBody = 
+	{
+		bool Static = false,
+		bool Asleep = false,
+		bool Kinematic = false,
+		bool RotationLocked = true,
+		bool Mode2D = true,
+		bool AllowSleep = true,
+		bool Inherit2DMode = true,
+		Vec3 Velocity = [0, 0, 0],
+		Vec3 AngularVelocity = [0, 0, 0],
+	},
+	py_player_use_door = 
+	{
+	},
+	py_player_use_ladder = 
+	{
+	},
+	Health = 
+	{
+		float MaxHealth = 10,
+		bool DestroyAtZeroHealth = false,
+	},
+	CapsuleCollider = 
+	{
+		bool Ghost = false,
+		bool SendsMessages = true,
+		bool Seamless = false,
+		string MaterialName = "52a19d0e02bcfc27:BeatrixLight",
+		string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+		Vec3 Offset = [0.2, 0, 0],
+		float Radius = 0.5,
+		float Height = 1.9,
+		uint Direction = 1,
+	},
+	GravityEffect = 
+	{
+		bool Active = true,
+		bool WakeUpOnChange = false,
+		bool LocalSpaceDirection = false,
+		float Strength = 15,
+		Vec3 Direction = [0, -1, 0],
+	},
+	py_beatrix_controller = 
+	{
+		float HumanAcceleration = 1,
+		float HumanMaxSpeed = 5,
+		float HumanCrouchAcceleration = 1,
+		float HumanMaxCrouchSpeed = 3,
+		float HumanJumpSpeed = 6.5,
+		int HumanMaxNumberOfJumps = 1,
+		float WerewolfAcceleration = 2,
+		float WerewolfMaxSpeed = 10,
+		float WerewolfJumpSpeed = 7.5,
+		int WerewolfMaxNumberOfJumps = 2,
+		float gTimerCurrentValue = 5,
+		float CooldownTimer = 5,
+		float MoveDrag = 0.99,
+	},
+},

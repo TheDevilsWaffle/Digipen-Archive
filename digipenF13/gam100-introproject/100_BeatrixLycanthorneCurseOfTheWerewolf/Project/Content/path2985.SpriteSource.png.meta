@@ -1,0 +1,19 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "path2985",
+		uint64 ResourceId = 52a9c2665862a712,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 376,
+		uint FrameSizeY = 376,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 188,
+		float OriginY = 188,
+		float PixelsPerUnit = 64,
+		bool Smoothing = false,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+	},
+},

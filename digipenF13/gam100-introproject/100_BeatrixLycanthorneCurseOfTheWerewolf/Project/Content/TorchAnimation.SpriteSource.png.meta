@@ -1,0 +1,19 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "TorchAnimation",
+		uint64 ResourceId = 529cce8a0cd953fa,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 110,
+		uint FrameSizeY = 143,
+		uint FrameCount = 16,
+		float FrameDelay = 0.0833333,
+		float OriginX = 55,
+		float OriginY = 71,
+		float PixelsPerUnit = 64,
+		bool Smoothing = false,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+	},
+},

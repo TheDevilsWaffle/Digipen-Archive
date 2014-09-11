@@ -1,0 +1,19 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "screens-controls-werewolf",
+		uint64 ResourceId = 52a19b0c43fb729a,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 1600,
+		uint FrameSizeY = 900,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 800,
+		float OriginY = 450,
+		float PixelsPerUnit = 64,
+		bool Smoothing = false,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+	},
+},

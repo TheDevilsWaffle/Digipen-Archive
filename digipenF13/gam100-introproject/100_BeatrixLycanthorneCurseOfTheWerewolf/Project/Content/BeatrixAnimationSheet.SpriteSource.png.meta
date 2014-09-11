@@ -1,0 +1,19 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "BeatrixAnimationSheet",
+		uint64 ResourceId = 52b2fdfa5d299763,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 112,
+		uint FrameSizeY = 192,
+		uint FrameCount = 9,
+		float FrameDelay = 0.1,
+		float OriginX = 56,
+		float OriginY = 96,
+		float PixelsPerUnit = 64,
+		bool Smoothing = false,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+	},
+},

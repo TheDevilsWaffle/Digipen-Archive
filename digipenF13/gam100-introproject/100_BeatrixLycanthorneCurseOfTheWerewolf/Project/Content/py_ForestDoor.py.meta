@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_ForestDoor",
+		uint64 ResourceId = 52ac55ed52dd791c,
+	},
+},

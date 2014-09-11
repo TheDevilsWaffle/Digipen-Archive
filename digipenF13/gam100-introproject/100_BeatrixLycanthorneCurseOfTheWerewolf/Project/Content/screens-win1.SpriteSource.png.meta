@@ -1,0 +1,19 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "screens-win1",
+		uint64 ResourceId = 528d02cd68fd1617,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 800,
+		uint FrameSizeY = 450,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 400,
+		float OriginY = 225,
+		float PixelsPerUnit = 64,
+		bool Smoothing = false,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+	},
+},

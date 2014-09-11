@@ -1,0 +1,19 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "human-form-hover",
+		uint64 ResourceId = 52a19bf04f716ebe,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 410,
+		uint FrameSizeY = 80,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 205,
+		float OriginY = 40,
+		float PixelsPerUnit = 64,
+		bool Smoothing = false,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+	},
+},

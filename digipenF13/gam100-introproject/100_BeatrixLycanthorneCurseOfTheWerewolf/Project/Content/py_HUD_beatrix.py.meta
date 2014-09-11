@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_HUD_beatrix",
+		uint64 ResourceId = 525e117a4af30a17,
+	},
+},

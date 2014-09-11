@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_beatrix_controller",
+		uint64 ResourceId = 5207d5ab2b500c67,
+	},
+},

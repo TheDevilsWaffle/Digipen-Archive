@@ -1,0 +1,19 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "quit-hover",
+		uint64 ResourceId = 52b1b75185d3ca2b,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 214,
+		uint FrameSizeY = 87,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 107,
+		float OriginY = 43,
+		float PixelsPerUnit = 64,
+		bool Smoothing = false,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+	},
+},

@@ -1,0 +1,19 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "CaveBackgroundResize",
+		uint64 ResourceId = 52a91f0fc83a9b03,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 998,
+		uint FrameSizeY = 999,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 499,
+		float OriginY = 499,
+		float PixelsPerUnit = 64,
+		bool Smoothing = false,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+	},
+},

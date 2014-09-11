@@ -1,0 +1,19 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "animation-lava",
+		uint64 ResourceId = 52b20f31f4b8c7ef,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 504,
+		uint FrameSizeY = 200,
+		uint FrameCount = 3,
+		float FrameDelay = 0.0833333,
+		float OriginX = 252,
+		float OriginY = 100,
+		float PixelsPerUnit = 64,
+		bool Smoothing = true,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+	},
+},

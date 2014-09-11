@@ -1,0 +1,20 @@
+SoundCue = 
+{
+	PlayMode PlayMode = Single,
+	float Volume = 1,
+	float VolumeVariation = 0,
+	float Pitch = 0,
+	float PitchVariation = 0,
+	float MinDistance = 10,
+	float MaxDistance = 10000,
+	float PositionRandomization = 0,
+	uint MaxPlaybacks = 10,
+	int Priority = 128,
+	Array Sounds = 
+	[
+		{
+			string SoundName = "52a06bb34cb22bbd:Cauldron01",
+			float Weight = 1,
+		},
+	],
+},
