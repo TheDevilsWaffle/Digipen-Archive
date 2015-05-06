@@ -1,8 +1,0 @@
-TextContent = 
-{
-	PyScriptBuilder = 
-	{
-		string Name = "py_CaveDoor",
-		uint64 ResourceId = 52ab46d6ab7b0085,
-	},
-},

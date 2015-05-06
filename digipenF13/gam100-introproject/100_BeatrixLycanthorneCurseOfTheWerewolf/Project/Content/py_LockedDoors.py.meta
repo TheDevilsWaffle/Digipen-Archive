@@ -1,8 +1,0 @@
-TextContent = 
-{
-	PyScriptBuilder = 
-	{
-		string Name = "py_LockedDoors",
-		uint64 ResourceId = 52aed277ee080478,
-	},
-},

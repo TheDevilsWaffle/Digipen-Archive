@@ -1,8 +1,0 @@
-TextContent = 
-{
-	PyScriptBuilder = 
-	{
-		string Name = "py_SplashScreenLogic",
-		uint64 ResourceId = 52abe6d24a5cd956,
-	},
-},

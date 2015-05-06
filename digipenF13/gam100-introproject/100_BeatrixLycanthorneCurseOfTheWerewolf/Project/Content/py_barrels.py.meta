@@ -1,8 +1,0 @@
-TextContent = 
-{
-	PyScriptBuilder = 
-	{
-		string Name = "py_barrels",
-		uint64 ResourceId = 52ae3437d133b530,
-	},
-},

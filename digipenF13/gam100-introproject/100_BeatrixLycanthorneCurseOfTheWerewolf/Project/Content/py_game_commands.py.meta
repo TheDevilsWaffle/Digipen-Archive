@@ -1,8 +1,0 @@
-TextContent = 
-{
-	PyScriptBuilder = 
-	{
-		string Name = "py_game_commands",
-		uint64 ResourceId = 52194be0531f6d72,
-	},
-},

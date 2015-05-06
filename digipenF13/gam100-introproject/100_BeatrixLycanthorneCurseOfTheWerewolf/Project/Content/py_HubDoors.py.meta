@@ -1,8 +1,0 @@
-TextContent = 
-{
-	PyScriptBuilder = 
-	{
-		string Name = "py_HubDoors",
-		uint64 ResourceId = 52ac5145eab21c04,
-	},
-},

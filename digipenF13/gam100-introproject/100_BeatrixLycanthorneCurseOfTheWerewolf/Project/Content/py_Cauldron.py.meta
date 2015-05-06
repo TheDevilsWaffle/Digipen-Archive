@@ -1,8 +1,0 @@
-TextContent = 
-{
-	PyScriptBuilder = 
-	{
-		string Name = "py_Cauldron",
-		uint64 ResourceId = 52ab17246a357d2f,
-	},
-},

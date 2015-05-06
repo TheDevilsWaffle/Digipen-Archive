@@ -1,8 +1,0 @@
-TextContent = 
-{
-	PyScriptBuilder = 
-	{
-		string Name = "UIManager",
-		uint64 ResourceId = 52a2f9b989a6818e,
-	},
-},

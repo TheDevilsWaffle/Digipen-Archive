@@ -1,8 +1,0 @@
-TextContent = 
-{
-	PyScriptBuilder = 
-	{
-		string Name = "py_camera_controller",
-		uint64 ResourceId = 5207d59523884e69,
-	},
-},

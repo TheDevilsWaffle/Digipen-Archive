@@ -1,8 +1,0 @@
-TextContent = 
-{
-	PyScriptBuilder = 
-	{
-		string Name = "py_MenuButtonLogic",
-		uint64 ResourceId = 52a27978cbc94c62,
-	},
-},
