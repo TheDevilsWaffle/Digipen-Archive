@@ -1,0 +1,81 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "goLevelIntro",
+	},
+	Archetyped = 
+	{
+		string Name = "55200093de7166d1:ARC_LevelIntro",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [-25.7785, 2.04049, 0.925503],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	SpriteText = 
+	{
+		bool Visible = true,
+		bool VisibilityCulling = true,
+		bool VisibilityEvents = false,
+		bool CastShadows = false,
+		Vec4 Color = [1, 1, 1, 1],
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+		TextPositionMode Position = Centered,
+		string FontName = "55206125d0245c45:blocky-smocky",
+		uint FontSize = 110,
+		string Text = "LEVEL 01",
+		bool OnTop = false,
+		Vec2 Size = [0, 0],
+		TextAlign Align = Center,
+		float PixelsPerUnit = 64,
+		bool Smoothing = false,
+	},
+	Hierarchy = 
+	{
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 2,
+			},
+			Named = 
+			{
+				string Name = "goLevelIntroSubText",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0.145959, -1.85279, 2.38419e-007],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			SpriteText = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				bool VisibilityEvents = false,
+				bool CastShadows = false,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				TextPositionMode Position = Centered,
+				string FontName = "55803720ce6e6bd0:GUBBLO",
+				uint FontSize = 65,
+				string Text = "Getting to Know You",
+				bool OnTop = false,
+				Vec2 Size = [0, 0],
+				TextAlign Align = Center,
+				float PixelsPerUnit = 64,
+				bool Smoothing = false,
+			},
+		},
+	},
+},

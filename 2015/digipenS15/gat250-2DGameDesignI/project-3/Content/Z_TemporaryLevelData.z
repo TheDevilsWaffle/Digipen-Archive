@@ -1,0 +1,113 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_TemporaryLevelData.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - © 2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class DestroyTheHUD:Event
+{
+    var DispatcherName:String = "";
+    var DataToSend:Integer = 1;
+    constructor():base()
+    {
+        
+    }
+}
+
+class Z_TemporaryLevelData:ZilchComponent
+{
+    //LEVEL
+    [Property]
+    var LevelDataName:String = "Level01Data";
+    
+    //CUBES
+    var CubesCollected:Integer = Integer(0);
+    
+    //TIME
+    var Time:Real = Real(0.0);
+    
+    //DATA
+    var LevelDataCog:Cog;
+    var LevelRecapDataCog:Cog;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-initialize variables and event listeners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //event listner update every logical frame
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        if(this.LevelDataName != null)
+        {
+            this.LevelDataCog = Zero.ObjectStore.RestoreOrArchetype(this.LevelDataName, "ARC_DataLevel", this.Space);
+            this.LevelRecapDataCog = Zero.ObjectStore.RestoreOrArchetype("DataInitializer", "ARC_DataLevel", this.Space);
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-perform code every logical update
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //as long as the level is not ending
+        if(this.Space.LevelSettings.Z_LevelLoader != null && !this.Space.LevelSettings.Z_LevelLoader.IsEndingLevel)
+        {
+            //update the temporary level clock
+            this.Time += event.Dt;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-CubeCollected()
+    //EXPLANATION-update the current cube count for this level
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function CubeCollected():Void
+    {
+        ++this.CubesCollected;
+        Console.WriteLine(this.CubesCollected);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-EvaluateLevelData()
+    //EXPLANATION-evaluate cubes and time against what is in the object store
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function EvaluateLevelData():Void
+    {
+        //set the temp part of the datacog for the cubes and time
+        this.LevelDataCog.Z_LevelData.TempCubesCollected = this.CubesCollected;
+        this.LevelDataCog.Z_LevelData.TempTime = Math.Ceil(this.Time, -2);
+        
+        //unlock this level from here on out
+        this.LevelDataCog.Z_LevelData.IsUnlocked = true;
+        
+        //get the next level that we will be loading
+        this.LevelDataCog.Z_LevelData.NextLevel = this.Space.LevelSettings.Z_LevelLoader.NextLevel;
+        
+        //setup the data initializer with the name of the level we'll be using for level recap
+        this.LevelRecapDataCog.Z_DataInitializer.LevelRecapName = this.LevelDataName;
+        Zero.ObjectStore.Store("DataInitializer", this.LevelRecapDataCog);
+        
+        //update the level's data no matter what at this point
+        Zero.ObjectStore.Store(this.LevelDataName, this.LevelDataCog);
+        
+        //if we have more cubes than previously before, set the record datacog
+        if(this.CubesCollected > this.LevelDataCog.Z_LevelData.CubesCollected)
+        {
+            this.LevelDataCog.Z_LevelData.CubesCollected = this.CubesCollected;
+            Zero.ObjectStore.Store(this.LevelDataName, this.LevelDataCog);
+        }
+        //if we have a better time than before, or if a time has not been set, set the record datacog
+        if(this.Time <= this.LevelDataCog.Z_LevelData.Time || this.LevelDataCog.Z_LevelData.Time == 0.0)
+        {
+            this.LevelDataCog.Z_LevelData.Time = this.Time;
+            Zero.ObjectStore.Store(this.LevelDataName, this.LevelDataCog);
+        }
+        
+        //destroy the hud
+        var destroyHUD = new DestroyTheHUD();
+        this.GameSession.DispatchEvent("DestroyTheHUD", destroyHUD);
+    }
+}

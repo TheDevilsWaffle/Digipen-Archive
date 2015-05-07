@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_ShovelFling",
+		uint64 ResourceId = 54365c87ed83be70,
+	},
+},

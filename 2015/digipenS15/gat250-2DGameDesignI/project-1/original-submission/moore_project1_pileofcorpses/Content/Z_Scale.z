@@ -1,0 +1,40 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_Scale.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - © 2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_Scale : ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var ScaleOutTime:Real = 4.0;
+    var EaseType:Ease = Ease.QuadIn;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        //scale the owner up
+        this.ScaleUp();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ScaleUp
+    //EXPLANATION-Scale the owner up slightly
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ScaleUp():Void
+    {
+        //create action sequence
+        var aScaleOut = Action.Sequence(this.Owner.Actions);
+        
+        //scale smallest
+        Action.Property(aScaleOut,
+                        @this.Owner.Transform.Scale,
+                        Real3(1.05,1.05,1.05),
+                        this.ScaleOutTime,
+                        this.EaseType);
+    }
+}

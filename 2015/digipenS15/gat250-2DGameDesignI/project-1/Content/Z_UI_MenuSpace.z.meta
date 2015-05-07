@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_UI_MenuSpace",
+		uint64 ResourceId = 5438f4602895b74f,
+	},
+},

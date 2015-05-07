@@ -1,0 +1,76 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_SFXController.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_SFXController:ZilchComponent
+{
+    //TARGETS
+    var Player1:Cog = null;
+    var Player2:Cog = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/event listeners so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer)
+    {
+        //set player1 and player2
+        this.Player1 = this.Space.FindObjectByName("goPlayer1");
+        this.Player2 = this.Space.FindObjectByName("goPlayer2");
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-PlaySFX
+    //EXPLANATION-Receives a string and then matches it to the correct sound to play.
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function PlaySFX(sound_:String):Void
+    {
+        //create variable to store sound
+        var sound:SoundCue = null;
+        
+        //JUMP
+        if(sound_ == "jump")
+        {
+            if(this.Owner == this.Player1)
+            {
+                this.Space.SoundSpace.PlayCue(SoundCue.Find("scRedJump"));
+            }
+            else
+            {
+                this.Space.SoundSpace.PlayCue(SoundCue.Find("scBlueJump"));
+            }
+        }
+        //DEATH
+        if(sound_ == "death")
+        {
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("scDeath"));
+        }
+        //BUTTONON
+        if(sound_ == "buttonOn")
+        {
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("scButtonOn"));
+        }
+        //BUTTONON
+        if(sound_ == "buttonOff")
+        {
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("scButtonOff"));
+        }
+        //BOUNCEPAD
+        if(sound_ == "bouncePad")
+        {
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("scBounce"));
+        }
+        //CUBE
+        if(sound_ == "cube")
+        {
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("SC_Cube"));
+        }
+        //VICTORY!
+        if(sound_ == "victory")
+        {
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("scVictory"));
+        }
+    }
+}

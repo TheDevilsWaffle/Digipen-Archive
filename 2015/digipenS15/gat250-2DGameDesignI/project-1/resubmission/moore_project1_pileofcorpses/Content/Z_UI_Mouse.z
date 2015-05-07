@@ -1,0 +1,106 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_Mouse.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - © 2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_Mouse:ZilchComponent
+{
+    //LEVELS
+    [Property]
+    var Delay:Real = Real(0.5);
+    
+    //non-settables
+    var MainSpace:Space = null;
+    var Active:Boolean = false;
+    var Timer:Real = 0;
+    var NextMouseClick:Real = Real(20);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer)
+    {
+        //get gamepad
+        var gamepad = Zero.Gamepads.GetGamePad(0);
+        
+        //if a gamepad is active, disregard mouse event listeners
+        if(!gamepad.IsActive)
+        {
+            //get the main space
+            this.MainSpace = this.GameSession.FindSpaceByName("Main");
+            
+            //mouse event listeners
+            Zero.Connect(this.Owner, Events.MouseEnter,this.OnMouseEnter);
+            Zero.Connect(this.Owner, Events.MouseExit, this.OnMouseExit);
+            Zero.Connect(this.Owner, Events.MouseDown, this.OnMouseDown);
+            
+            //button delay
+            Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        }
+    }
+    
+     /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-Updates every frame and performs actions with button presses
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event : UpdateEvent):Void
+    {
+        this.Timer = this.Timer + 1.0;
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnMouseEnter
+    //EXPLANATION-Perform sprite swap to enchance player feedback
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnMouseEnter(event:ViewportMouseEvent):Void
+    {
+        //call Z_UI_Button's OnEnter animations
+        this.Owner.Z_UI_Button.OnEnter();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnMouseExit
+    //EXPLANATION-Perform sprite swap to enchance player feedback
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnMouseExit(event:ViewportMouseEvent):Void
+    {
+        //call Z_UI_Button's OnExit animations
+        this.Owner.Z_UI_Button.OnExit();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnMouseDown
+    //EXPLANATION-very similar to gamepad's controls, just minor corrections to make it work w/ this script
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnMouseDown(event:ViewportMouseEvent):Void
+    {
+        if(this.Timer > this.NextMouseClick)
+        {
+            //perform Z_UI_Button's animations
+            this.Owner.Z_UI_Button.OnDown();
+            
+            //if paused
+            if(this.MainSpace.TimeSpace.Paused)
+            {
+                //toggle pause, play sounds again
+                this.MainSpace.TimeSpace.TogglePause();
+                this.MainSpace.SoundSpace.Pause = false;
+            }
+            
+            //MAINSPACE - MAIN MENU - QUIT GAME
+            if(this.Owner.Parent.Name == "BtnMenuQuitGame")
+            {
+                this.Owner.Z_UI_Button.DelayLoadSubMenu();
+            }
+            //if button is "Quit No"
+            if(this.Owner.Parent.Name == "BtnQuitNoMainMenu")
+            {
+                if(this.Owner.Name != null)
+                {
+                    this.Owner.Z_UI_Button.DelayDestroySubMenu();
+                }
+            }
+        }
+    }
+}

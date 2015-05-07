@@ -1,0 +1,41 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_Coffin.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_Coffin:ZilchComponent
+{
+    [Dependency]
+    var BoxCollider:Collider = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //collision listeners
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted()
+    //EXPLANATION-Send Z_UI_HUD what kind of body hit this coffin and then destroy the body
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event:CollisionEvent):Void
+    {
+        //animation to show coffin closing and sinking back into the earth
+        
+        //play the sound for clicking a button
+        this.Space.SoundSpace.PlayCue(SoundCue.Find("SC_Coffin"));
+        
+        //call Z_UI_HUD to update the score
+        this.Space.LevelSettings.Z_UI_HUD.ScorePoints(event.OtherObject.Name);
+        
+        //display the appropriate text
+        this.Space.LevelSettings.Z_UI_HUD.AddToTimer(this.Owner.Transform.Translation);
+        //destroy the body
+        event.OtherObject.Destroy();
+    }
+}

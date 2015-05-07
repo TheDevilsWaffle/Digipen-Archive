@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_JumpParticles",
+		uint64 ResourceId = 547b5df15193dab6,
+	},
+},

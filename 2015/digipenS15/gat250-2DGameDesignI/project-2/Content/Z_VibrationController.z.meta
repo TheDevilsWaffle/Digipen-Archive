@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_VibrationController",
+		uint64 ResourceId = 5454e516adf71d50,
+	},
+},

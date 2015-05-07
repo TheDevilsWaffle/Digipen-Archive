@@ -1,0 +1,146 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_Pause.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_Pause:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var LvlSubMenu:Level = null;                        //the level contains the sub menus
+    [Property]
+    var GamepadPauseBtn:Buttons = Buttons.Start;
+    [Property]
+    var KeyboardPauseBtn:Keys = Keys.P;
+    
+    var GamepadIndex:Integer = 0;
+    var Gamepad:Gamepad = null;
+    var PauseMenu:Cog = null;
+    var MainMenuConfirmation:Cog = null;
+    var PauseMenuPos:Real3 = Real3(0,0,10);
+    var ConfirmMainMenuPos:Real3 = Real3(0,0,21);
+    
+    //non-settables
+    var MainSpace:Space = null;
+    var HUDSpace:Space = null;
+    var SpaceArc:Archetype = Archetype.Find("Space");   //the archetype of space
+    var SpaceSubMenu:Space = null;                      //the space where our menus exist
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        //get the spaces
+        this.MainSpace = this.GameSession.FindSpaceByName("Main");
+        this.HUDSpace = this.GameSession.FindSpaceByName("HUDSpace");
+        
+        Zero.Connect(this.Space, Events.FrameUpdate, this.OnFrameUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnFrameUpdate
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnFrameUpdate(event:UpdateEvent)
+    {
+        if(Zero.Keyboard.KeyIsPressed(this.KeyboardPauseBtn) || this.Gamepad.IsButtonPressed(this.GamepadPauseBtn))
+        {
+            this.TogglePauseMenu();
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-TogglePauseMenu()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function TogglePauseMenu():Void
+    {
+        if(this.PauseMenu == null)
+        {
+            //stop sound, pause game
+            this.MainSpace.SoundSpace.Pause = !this.Space.SoundSpace.Pause;
+            this.MainSpace.TimeSpace.TogglePause();
+            if(this.HUDSpace == null)
+            {
+                this.HUDSpace = this.GameSession.FindSpaceByName("HUDSpace");
+            }
+            this.HUDSpace.TimeSpace.Paused = true;
+            
+            //create the menu space
+            this.SpaceSubMenu = this.GameSession.CreateNamedSpace("SpaceSubMenu", this.SpaceArc);
+            //load our LvlSubMenu level into it
+            this.SpaceSubMenu.LoadLevel(this.LvlSubMenu);
+            //set PauseMenu to ARC of Pausemenu
+            this.PauseMenu = this.SpaceSubMenu.CreateAtPosition(Archetype.Find("ARC_PauseMenu"), this.PauseMenuPos);
+        }
+        else
+        {
+            this.MainSpace.SoundSpace.Pause = false;
+            this.HUDSpace.SoundSpace.Pause = false;
+            this.MainSpace.TimeSpace.Paused = false;
+            this.HUDSpace.TimeSpace.Paused = false;
+            
+            this.PauseMenu.Destroy();
+            this.SpaceSubMenu.Destroy();
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-GameoverMenu()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function GameoverMenu():Void
+    {
+        if(!this.MainSpace.TimeSpace.Paused)
+        {
+            //stop sound, pause game
+            this.MainSpace.SoundSpace.Pause = !this.Space.SoundSpace.Pause;
+            this.MainSpace.TimeSpace.TogglePause();
+            
+            
+            
+            //create the menu space
+            this.SpaceSubMenu = this.GameSession.CreateNamedSpace("SpaceSubMenu", this.SpaceArc);
+            //load our LvlSubMenu level into it
+            this.SpaceSubMenu.LoadLevel(this.LvlSubMenu);
+            //set PauseMenu to ARC of Pausemenu
+            this.PauseMenu = this.SpaceSubMenu.CreateAtPosition(Archetype.Find("ARC_GameoverMenu"), this.PauseMenuPos);
+            
+            var yourScore:Cog = this.PauseMenu.FindChildByName("txt_YourScore");
+            var score = this.MainSpace.LevelSettings.Z_UI_HUD.TotalPoints;
+                
+            yourScore.SpriteText.Text = "Your Score: `score`";
+        }
+        else
+        {
+            this.MainSpace.SoundSpace.Pause = false;
+            this.MainSpace.TimeSpace.TogglePause();
+            
+            if(this.PauseMenu != null)
+            {
+                this.PauseMenu.Destroy();
+            }
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ToggleMainMenuConfirmation
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ToggleMainMenuConfirmation():Void
+    {
+        if(this.MainMenuConfirmation == null)
+        {
+            //set PauseMenu to ARC of Pausemenu
+            this.MainMenuConfirmation = this.SpaceSubMenu.CreateAtPosition(Archetype.Find("ARC_ConfirmMainMenu"), this.ConfirmMainMenuPos);
+        }
+        else
+        {
+            this.MainMenuConfirmation.Destroy();
+        }
+    }
+}

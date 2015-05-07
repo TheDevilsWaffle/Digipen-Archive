@@ -1,0 +1,177 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "btn01",
+	},
+	Archetyped = 
+	{
+		string Name = "559a481ce5eceb3c:ARC_Button_LevelSelect",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [-1.65352, 2.79006, 2.50025],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Z_UI_Gamepad = 
+	{
+		int GamepadIndex = 0,
+		CogPath UpBtn = ":/BtnMainMenu",
+		CogPath DownBtn = ":/BtnMainMenu",
+		CogPath LeftBtn = ":/btn05",
+		CogPath RightBtn = ":/btn02",
+		Enum GamepadConfirm = A,
+		Enum KeyboardConfirm = Enter,
+		bool Active = false,
+		float Timer = 0,
+		string LevelToLoad = "",
+		float DelayBetweenButtonSwitch = 10,
+		float SubMenuDelayForAnimation = 10,
+	},
+	Hierarchy = 
+	{
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 2,
+			},
+			Named = 
+			{
+				string Name = "BtnTop",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0, 0, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				bool VisibilityEvents = false,
+				bool CastShadows = false,
+				Vec4 Color = [0.0862745, 0.0862745, 0.0862745, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "5275aa4d802dd6dc:Square",
+				bool RenderMask = false,
+				bool FlipX = false,
+				bool FlipY = false,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+			Area = 
+			{
+				Vec2 Size = [2.5, 2.5],
+				Location Origin = Center,
+			},
+			Reactive = 
+			{
+				bool Active = true,
+				bool CaptureMouse = false,
+			},
+			Z_UI_Button_LevelSelect = 
+			{
+				string LevelToLoad = "",
+				float LoadDelay = 0.25,
+				Vec3 ButtonHoverSize = [1.2, 1.2, 0],
+				Vec4 BtnTopOriginalColor = [0, 0, 0, 1],
+				Vec4 BtnTopHoverColor = [0.0823529, 0.0862745, 0.0862745, 1],
+				Vec4 BtnTopPressedColor = [0.0823529, 0.0862745, 0.0862745, 1],
+				Vec4 BtnBotOriginalColor = [0.196078, 0.196078, 0.2, 1],
+				Vec4 BtnBotHoverColor = [0.976471, 0.945098, 0.878431, 1],
+				Vec4 BtnTextOriginalColor = [0.0823529, 0.0862745, 0.0862745, 1],
+				Vec4 BtnTextHoverColor = [0.976471, 0.984314, 1, 1],
+				Vec4 BtnTextPressedColor = [0.976471, 0.984314, 1, 1],
+				float ChangeTime = 0.1,
+				Enum EaseType = QuadInOut,
+			},
+			Hierarchy = 
+			{
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 3,
+			},
+			Named = 
+			{
+				string Name = "BtnBot",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0, 0, 0],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				bool VisibilityEvents = false,
+				bool CastShadows = false,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "5275aa4d802dd6dc:Square",
+				bool RenderMask = false,
+				bool FlipX = false,
+				bool FlipY = false,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+			Area = 
+			{
+				Vec2 Size = [3, 3],
+				Location Origin = Center,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 4,
+			},
+			Named = 
+			{
+				string Name = "BtnText",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0, 0.770984, 3],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			SpriteText = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				bool VisibilityEvents = false,
+				bool CastShadows = false,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string FontName = "55206125d0245c45:blocky-smocky",
+				uint FontSize = 70,
+				string Text = "01",
+				TextAlign Align = Center,
+				float PixelsPerUnit = 64,
+				bool Smoothing = true,
+			},
+		},
+	},
+},

@@ -1,0 +1,150 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_CameraController.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_CameraController:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var Target:CogPath = null;
+    [Property]
+    var LerpSpeed:Real = 3.0;
+    [Property]
+    var CameraPosModifier:Real = Real(0.3);
+    [Property]
+    var CameraYPosModifier:Real = Real(0.3);
+    [Property]
+    var CameraSize:Real = 15.0;
+    [Property]
+    var IsZoomEnabled:Boolean = Boolean(false);
+    [Property]
+    var CameraZoom:Real = 5.0;
+    [Property]
+    var IdleTimer:Real = 0.0;
+    [Property]
+    var StartIdleAfter:Real = 60.0;
+    //non-settables
+    var Zooming:Boolean = false;
+    var GamepadIndex:Integer = 0;
+    var Gamepad:Gamepad = null;
+    
+    var Shovel:Cog = null;
+    var IsShovelPlanted:Boolean = Boolean(false);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //update event listener
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        //get the shovel
+        this.Shovel = this.Space.FindObjectByName("go_shovel");
+        //initialize IsShovelPlanted
+        this.IsShovelPlanted = this.Shovel.Z_ShovelFling.ShovelPlanted;
+        
+        //zoom out from beginning
+        this.ZoomOut();
+        
+        //gamepad stuffs
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Perform actions every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //used to modifier camera position based on if player is moving
+        var cameraPos:Real3 = Real3(0,this.CameraYPosModifier,5);
+        //make sure camera has a target
+        if(this.Target != null)
+        {
+            //Moving RIGHT
+            if(Math.Abs(this.Target.Cog.RigidBody.Velocity.X) != 0.0 && Zero.Keyboard.KeyIsDown(Keys.D) || this.Gamepad.IsButtonHeld(Buttons.StickRight))
+            {
+                //shovel check
+                this.IsShovelPlanted = this.Shovel.Z_ShovelFling.ShovelPlanted;
+                if(!this.IsShovelPlanted)
+                {
+                    cameraPos = Real3(this.CameraPosModifier,this.CameraYPosModifier,5);
+                }
+            }
+            //Moving RIGHT
+            if(Math.Abs(this.Target.Cog.RigidBody.Velocity.X) != 0.0 && Zero.Keyboard.KeyIsDown(Keys.A) || this.Gamepad.IsButtonHeld(Buttons.StickLeft))
+            {
+                //shovel check
+                this.IsShovelPlanted = this.Shovel.Z_ShovelFling.ShovelPlanted;
+                if(!this.IsShovelPlanted)
+                {
+                    cameraPos = Real3(-this.CameraPosModifier,this.CameraYPosModifier,5);
+                }
+            }
+            //lerp based on camera's location and target's location * speed to lerp at + z offset
+            this.Owner.Transform.LocalTranslation = Math.Lerp(this.Owner.Transform.Translation, 
+                                                              this.Target.Cog.Transform.Translation, 
+                                                              this.LerpSpeed * event.Dt) + 
+                                                              cameraPos;
+        }
+        if(Math.Abs(this.Target.Cog.RigidBody.Velocity.X) == 0.0 && this.IsZoomEnabled)
+        {
+            this.IdleTimer += 0.1;
+            if(this.IdleTimer >= this.StartIdleAfter && this.Zooming == false)
+            {
+                this.Zooming = true;
+                this.ZoomIn();
+            }
+        }
+        if(Math.Abs(this.Target.Cog.RigidBody.Velocity.X) != 0.0 && this.Zooming)
+        {
+            this.ZoomOut();
+            this.IdleTimer = 0.0;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ZoomOut
+    //EXPLANATION-Zoom the Camera in and out
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ZoomOut():Void
+    {
+        //create action sequence
+        var aZoomOut = Action.Sequence(this.Owner.Actions);
+        
+        //zoom out
+        Action.Property(aZoomOut,
+                        @this.Owner.Camera.Size,
+                        this.CameraSize,
+                        0.5,
+                        Ease.QuadOut);
+        //set zooming to false
+        this.Zooming = false;
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ZoomIn
+    //EXPLANATION-Zoom the camera in if the player is idle
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ZoomIn():Void
+    {
+        //create action sequence
+        var aZoomIn = Action.Group(this.Owner.Actions);
+        
+        //zoom in
+        Action.Property(aZoomIn,
+                        @this.Owner.Camera.Size,
+                        this.CameraZoom,
+                        0.5,
+                        Ease.QuadIn);
+        //recenter
+        Action.Property(aZoomIn,
+                        @this.Owner.Transform.Translation,
+                        this.Target.Cog.Transform.Translation + Real3(0,0,5),
+                        0.1,
+                        Ease.QuadIn);
+    }
+}

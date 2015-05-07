@@ -1,0 +1,12 @@
+BinaryContent = 
+{
+	BinaryBuilder = 
+	{
+		string Name = "LVL_splash_digipen_TileMap01",
+		uint64 ResourceId = 55843616b669f50a,
+		string LoaderType = "TileMapSource",
+		uint Version = 0,
+		string FilterTag = "",
+		string ResourceOwner = "5424e9b3a6bce7ef:LVL_splash_digipen",
+	},
+},

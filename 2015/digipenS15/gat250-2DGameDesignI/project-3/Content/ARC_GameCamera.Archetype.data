@@ -1,0 +1,36 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "Camera",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [-3.30463, -1.97, 100],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Camera = 
+	{
+		ProjectionMode ProjectionMode = Orthographic,
+		Facing Facing = NegativeZ,
+		CameraTransparentSort TransparentSort = InheritFromSpace,
+		float FieldOfView = 45,
+		float NearPlane = 0.5,
+		float FarPlane = 200,
+		float Size = 20,
+	},
+	Z_CameraController = 
+	{
+		CogPath Target1 = ":/goPlayer1",
+		CogPath Target2 = ":/goPlayer2",
+		float LerpSpeed = 3,
+		float CameraZPos = 5,
+		float CameraSize = 17,
+		float CameraZoom = 5,
+	},
+},

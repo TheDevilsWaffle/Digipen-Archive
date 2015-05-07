@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_Flingable",
+		uint64 ResourceId = 543659cd087560f2,
+	},
+},

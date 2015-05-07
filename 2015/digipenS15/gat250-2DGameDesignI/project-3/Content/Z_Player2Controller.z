@@ -1,0 +1,205 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_Player2Controller.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_Player2Controller:ZilchComponent
+{
+    //DEPENDENCIES
+    [Dependency]
+    var SweptController:SweptController = null;
+    
+    //KEYBOARD
+    [Property]
+    var KBLeft:Keys = Keys.Left;
+    [Property]
+    var KBRight:Keys = Keys.Right;
+    [Property]
+    var KBJump:Keys = Keys.Down;
+    
+    //GAMEPAD
+    [Property]
+    var GPLeft:Buttons = Buttons.StickLeft;
+    [Property]
+    var GPRight:Buttons = Buttons.StickRight;
+    [Property]
+    var GPJump:Buttons = Buttons.A;
+    
+    //PROPERTIES
+    [Property]
+    var JumpCount:Integer = Integer(1);
+    [Property]
+    var MaxJumps:Integer = Integer(1);
+    var GamepadIndex:Integer = Integer(1);
+    var Gamepad:Gamepad = null;
+    
+    //GRAVITY
+    [Property]
+    var IsGravityReversed:Boolean = Boolean(false);
+    var PlayerOriginalGravity:Boolean = Boolean(false);
+    var IsInGravityZone:Boolean = Boolean(false);
+    
+    //non-settables
+    var StartPos:Real3 = Real3();
+    var WallCount:Integer = Integer();
+    var WallTimer:Real = Real();
+    var WallNormal:Real3 = Real3();
+    var Movement:Real3 = Real3();
+    var IsStunned:Boolean = false;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //gamepad
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        
+        //check the starting gravity for this player
+        if(this.IsGravityReversed)
+        {
+            this.Owner.Z_Gravity.ToggleGravity();
+        }
+        
+        //logic update listener
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        //collision listeners
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        Zero.Connect(this.Owner, Events.CollisionPersisted, this.OnCollisionPersisted);
+        Zero.Connect(this.Owner, Events.CollisionEnded, this.OnCollisionEnded);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Perform actions every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //JUMPING
+        //if player is on ground reset jump count.
+        if(this.SweptController.Grounded)
+        {
+            this.JumpCount = this.MaxJumps;
+        }
+        
+        //WALLJUMPING
+        //used for leeway to let player jump off of wall
+        this.WallTimer -= event.Dt;
+        
+        //if we are touching a wall affect gravity
+        if(this.WallCount > 0)
+        {
+            //this.SweptController.Gravity = 4;
+        }
+        else
+        {
+            //this.SweptController.Gravity = 10;
+        }
+        
+        //MOVEMENT
+        //variable to store movement direction
+        this.Movement = Real3(0,0,0);
+        
+        if(!this.IsStunned)
+        {
+            //--MOVE LEFT
+            if(Zero.Keyboard.KeyIsDown(this.KBLeft) || this.Gamepad.IsButtonHeld(this.GPLeft))
+            {
+                //set movement direction
+                this.Movement = Real3(-1,0,0);
+                //flip the owner's sprite to the left
+                this.Owner.Sprite.FlipX = true;
+            }
+            //--MOVE RIGHT
+            if(Zero.Keyboard.KeyIsDown(this.KBRight) || this.Gamepad.IsButtonHeld(this.GPRight))
+            {
+                //set movement direction
+                this.Movement = Real3(1,0,0);
+                //flip the owner's sprite to the right
+                this.Owner.Sprite.FlipX = false;
+            }
+            //--JUMP
+            //if(this.Owner.SweptController.Grounded)
+            //{
+                if(Zero.Keyboard.KeyIsPressed(this.KBJump) || this.Gamepad.IsButtonHeld(this.GPJump))
+                {
+                    //ensure we can jump
+                    if(this.SweptController.Grounded || this.JumpCount > 0)
+                    {
+                        //create particle system for jumping/landing
+                        this.Owner.Z_JumpParticles.CreateJumpParticles(this.Owner.Transform.Translation, this.Owner);
+                        //decrement jumping
+                        --this.JumpCount;
+                        //unconditional jump allows for double jumping
+                        this.SweptController.JumpUnconditionally();
+                        //play the appropriate sound with this character's sfx controller
+                        this.Owner.Z_SFXController.PlaySFX("jump");
+                    }
+                    //if walljump is possible
+                    else if(this.WallCount > 0 || this.WallTimer > 0)
+                    {
+                        //decrement jumpcount
+                        --this.JumpCount;
+                        //jump directionally based off of wall normal
+                        this.SweptController.JumpDirectionally( this.WallNormal * 10 );
+                    }
+                }
+            //}
+        }
+        
+        //APPLY MOVEMENT
+        this.SweptController.Update(this.Movement, event.Dt);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event:CollisionEvent):Void
+    {
+        //button detector
+        if(event.OtherObject.Name == "detector")
+        {
+            this.Owner.Z_SFXController.PlaySFX("buttonOn");
+        }
+        //bounce pad detection
+        if(event.OtherObject.Z_BouncePad != null)
+        {
+            this.Owner.Z_SFXController.PlaySFX("bouncePad");
+            this.Space.LevelSettings.Z_VibrationController.VibrateGamepad(this.Gamepad, 0.2, 0.75, 0.75);
+        }
+        //cube detection
+        if(event.OtherObject.Name == "goCube")
+        {
+            this.Owner.Z_SFXController.PlaySFX("cube");
+            this.Space.LevelSettings.Z_TemporaryLevelData.CubeCollected();
+            event.OtherObject.Destroy();
+            
+            var cubeCollected = new CubeCollected();
+            this.GameSession.DispatchEvent("CubeCollected", cubeCollected);
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionPersisted
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionPersisted(event:CollisionEvent):Void
+    {
+        
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionEnded
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionEnded(event:CollisionEvent):Void
+    {
+        if(event.OtherObject.Name == "detector")
+        {
+            this.Owner.Z_SFXController.PlaySFX("buttonOff");
+        }
+    }
+}

@@ -1,0 +1,189 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_FallingBodySpawner.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_FallingBodySpawner:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var TimerThreshold:Real = Real(10.0);
+    [Property]
+    var BodyTimerMinTime:Integer = Integer(1);
+    [Property]
+    var BodyTimerMaxTime:Integer = Integer(5);
+    [Property]
+    var NormalBodyPercentage:Real = Real(0.75);
+    [Property]
+    var RichBodyPercentage:Real = Real(0.15);
+    [Property]
+    var ShellPercentage:Real = Real(0.10);
+    [Property]
+    var MinBodyRotation:Real = Real(0);
+    [Property]
+    var MaxBodyRotation:Real = Real(360);
+    
+    var Timer:Real = Real(0);
+    var WallLeftPos:Real3 = Real3();
+    var WallRightPos:Real3 = Real3();
+    var RandomPos:Real3 = Real3();
+    var DropType:String = null;
+    var MainSpace:Space = null;
+    var IsGameStart:Boolean = Boolean(false);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //reset Timer
+        this.Timer = 0;
+        
+        //grab the mainspace
+        this.MainSpace = this.GameSession.FindSpaceByName("Main");
+        
+        //reset IsGameStart
+        this.IsGameStart = false;
+        
+        //get location of walls
+        this.WallLeftPos = this.MainSpace.FindObjectByName("leftwall").Transform.Translation;
+        this.WallRightPos = this.MainSpace.FindObjectByName("rightwall").Transform.Translation;
+        
+        //intialize logic update listener
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-Updates every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //update timer based on game Dt
+        this.Timer += 1 * event.Dt;
+        //DEBUG
+        //Console.WriteLine(this.Timer);
+        
+        //is countdown over?(controls this bool)
+        if(this.IsGameStart)
+        {
+            if(this.Timer >= this.TimerThreshold)
+            {
+                //determine what to drop
+                this.DetermineDropType(this.RandomRange(0.01, 1.0));
+                //determine random place to drop the item
+                this.DropBody(this.RandomRange(this.WallLeftPos.X, this.WallRightPos.X),this.DropType);
+                //reset the timer back to 0
+                this.Timer = 0;
+                //get a new TimerThreshold
+                this.RandomizeTimer();
+            }
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-RandomizeTimer()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function RandomizeTimer():Void
+    {
+        //set TimerThreshold equal to valuse of RandomRange()
+        this.TimerThreshold  = this.RandomRange(this.BodyTimerMinTime, this.BodyTimerMaxTime);
+        
+        //DEBUG
+        //Console.WriteLine("New TimerThreshold = `this.TimerThreshold`");
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DetermineDropType()
+    //EXPLANATION-Randomly decides what thingto drop
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DetermineDropType(result_:Real):Void
+    {
+        //reset the drop type (if previously set)
+        this.DropType = null;
+        
+        //determine results
+        if(result_ <= this.NormalBodyPercentage)
+        {
+            this.DropType = "normal-body";
+        }
+        if(result_ >= this.NormalBodyPercentage && result_ <= (this.NormalBodyPercentage + this.RichBodyPercentage))
+        {
+            this.DropType = "rich-body";
+        }
+        if(result_ >= (this.NormalBodyPercentage + this.RichBodyPercentage))
+        {
+            this.DropType = "shell";
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DropBody()
+    //EXPLANATION-Randomly decides what thing to drop
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DropBody(randomPos_:Real, dropType_:String):Void
+    {
+        //set RandomPos equal to passed random x and wall y and z
+        this.RandomPos = Real3(randomPos_, this.WallLeftPos.Y, this.WallLeftPos.Z);
+        
+        //variable to store the body
+        var body:Cog = null;
+        
+        //drop the right arc
+        if(dropType_ == "normal-body")
+        {
+            body = this.MainSpace.CreateAtPosition(Archetype.Find("ARC_NormalBody"), this.RandomPos);
+        }
+        //drop the right arc
+        if(dropType_ == "rich-body")
+        {
+            body = this.MainSpace.CreateAtPosition(Archetype.Find("ARC_RichBody"), this.RandomPos);
+        }
+        //drop the right arc
+        if(dropType_ == "shell")
+        {
+            this.MainSpace.CreateAtPosition(Archetype.Find("ARC_Shell"), this.RandomPos);
+            //DEBUG
+            //Console.WriteLine(this.RandomPos);
+        }
+        
+        if(body != null)
+        {
+            this.InitialBodyRotation(body);
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-InitialBodyRotation()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function InitialBodyRotation(body_:Cog):Void
+    {
+        //get a random rotation
+        var randomRotation = this.RandomRange(this.MinBodyRotation, this.MaxBodyRotation);
+        //DEBUG
+        //Console.WriteLine("Random Rotation = `randomRotation`");
+        
+        //turn the rotation into a quat
+        var localRotation:Quaternion = Math.ToQuaternion(Real3(0,0,1), randomRotation);
+        
+        //set the rotation on the body
+        body_.Transform.LocalRotation = localRotation;
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-RandomRange()
+    //EXPLANATION-Randomly decides what thing to drop
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function RandomRange(min_:Real, max_:Real):Real
+    {
+        //create a random number
+        var randomGenerator:Random = new Random();
+        //get the new random number
+        var result:Real = randomGenerator.Range(min_, max_);
+        //return
+        return result;
+    }
+}

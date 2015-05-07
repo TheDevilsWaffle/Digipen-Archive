@@ -1,0 +1,248 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_HUD.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_StartingCountdown:ZilchComponent
+{
+    //SPACES
+    var HUDSpace:Space = null;
+    var MainSpace:Space = null;
+    
+    //COUNTDOWN
+    [Property]
+    var CountdownPos:Real3 = Real3(0,0,0);
+    [Property]
+    var FadeInTime:Real = Real(4);
+    [Property]
+    var Delay:Real = Real(0.5);
+    [Property]
+    var EaseType:Ease = Ease.QuadIn;
+    var Countdown:Cog = null;
+    var CountdownText:String = null;
+    var Timer:Real = Real(6.0);
+    var CountdownScale:Real3 = Real3();
+    var CountdownNumber:Integer = Integer(3);    
+    var CountdownGate:Boolean = Boolean(true);
+    var IsCountingDown:Boolean = Boolean(false);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //get the MainSpace
+        this.MainSpace = this.GameSession.FindSpaceByName("Main");
+        //get the HUDSpace
+        this.HUDSpace = this.GameSession.FindSpaceByName("HUDSpace");
+        //initialize timer
+        this.Timer = 6.0;
+        //initialize IsCountingDown to true
+        this.IsCountingDown = false;
+        //logic update listener for HUDSpace
+        Zero.Connect(this.HUDSpace, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //while countdown is happenning, pause the game only one time
+        if(this.Timer > 0 && !this.IsCountingDown)
+        {
+            //set IsCountingDown to true so we only do this once
+            this.IsCountingDown = true;
+            //make sure game is paused
+            //this.MainSpace.TimeSpace.Paused = true;
+            this.StartCountdown();
+        }
+        
+        //the bulk of the countdown happens here
+        if(this.Timer > 0 && this.IsCountingDown)
+        {
+            if(this.CountdownNumber == 3 && this.CountdownGate)
+            {
+                //set CountdownGate to false
+                this.CountdownGate = false;
+                //call an action sequence for countdown
+                this.DisplayCountdown(this.CountdownNumber);
+                
+                //play audio "3"
+                this.MainSpace.SoundSpace.PlayCue(SoundCue.Find("SC_Countdown3"));
+            }
+           if(this.CountdownNumber == 2 && this.CountdownGate)
+            {
+                //set CountdownGate to false
+                this.CountdownGate = false;
+                //call an action sequence for countdown
+                this.DisplayCountdown(this.CountdownNumber);
+                
+                //play audio "2"
+                this.MainSpace.SoundSpace.PlayCue(SoundCue.Find("SC_Countdown2"));
+            }
+            if(this.CountdownNumber == 1 && this.CountdownGate)
+            {
+                //set CountdownGate to false
+                this.CountdownGate = false;
+                //call an action sequence for countdown
+                this.DisplayCountdown(this.CountdownNumber);
+                
+                //play audio "1"
+                this.MainSpace.SoundSpace.PlayCue(SoundCue.Find("SC_Countdown1"));
+            }
+            if(this.CountdownNumber == 0 && this.CountdownGate)
+            {
+                //set CountdownGate to false
+                this.CountdownGate = false;
+                //call an action sequence for countdown
+                this.DisplayCountdown(this.CountdownNumber);
+                
+                //play audio "start"
+                this.MainSpace.SoundSpace.PlayCue(SoundCue.Find("SC_CountdownStart"));
+            }
+        }
+        
+        //if the timer is past zero, do this once
+        if(this.Timer < 0 && this.IsCountingDown)
+        {
+            //set IsCountingDown to false to ensure we only do this once
+            this.IsCountingDown = false;
+            //unpause the MainSpace
+            this.MainSpace.TimeSpace.Paused = false;
+            
+            this.Fadeout("scn-objective");
+        }
+        
+        
+        //update the timer
+        this.Timer = this.Timer - event.Dt;
+        //DEBUG
+        //Console.WriteLine(this.Timer);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-StartCountdown()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Fadeout(obj_:String):Void
+    {
+        var obj:Cog = this.Space.FindObjectByName(obj_);
+        var objPos:Real3 = obj.Transform.Translation;
+        
+        //create action sequence
+        var aFade = Action.Group(this.Owner.Actions);
+        
+        //fade out
+        Action.Property(aFade,
+                        @obj.Sprite.Color,
+                        Real4(1,1,1,0),
+                        2.0,
+                        Ease.Linear);
+        //move up
+        Action.Property(aFade,
+                        @obj.Transform.Translation,
+                        Real3(objPos.X, objPos.Y + 1, objPos.Z),
+                        2.0,
+                        Ease.Linear);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-StartCountdown()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function StartCountdown():Void
+    {
+        //if there is not CountDownText already
+        if(this.Countdown == null)
+        {
+            //create coutdown object based off ARC_UI_Countdown at CountdownPos
+            this.Countdown = this.HUDSpace.CreateAtPosition(Archetype.Find("ARC_UI_Countdown"), this.CountdownPos);
+            
+            //remember the original scale of the countdown
+            this.CountdownScale = this.Countdown.Transform.Scale;
+        }
+        
+        //we need to make sure there is no Countdown to begin with
+        else
+        {
+            //destroy it, null it
+            this.Countdown.Destroy();
+            this.Countdown = null;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ACountdown()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DisplayCountdown(number_:Integer):Void
+    {
+        //update the countdowntext
+        this.CountdownText = "`number_`";
+        //apply the countdowntext
+        this.Countdown.SpriteText.Text = this.CountdownText;
+        
+        if(number_ == 0)
+        {
+            //update the countdowntext
+            this.CountdownText = "Start!";
+            //apply the countdowntext
+            this.Countdown.SpriteText.Text = this.CountdownText;
+        }
+        //create action sequence
+        var aDisplay = Action.Sequence(this.Owner.Actions);
+        
+        //scale up
+        Action.Property(aDisplay,
+                    @this.Countdown.Transform.Scale,
+                    Real3(10,10,10),
+                    0.01,
+                    this.EaseType);
+                    
+        //scale down
+        Action.Property(aDisplay,
+                    @this.Countdown.Transform.Scale,
+                    this.CountdownScale,
+                    0.5,
+                    this.EaseType);
+                    
+        if(number_ == 0)
+        {
+            var aEnd = Action.Group(this.Owner.Actions);
+            //fade away
+            Action.Property(aEnd,
+                    @this.Countdown.SpriteText.Color,
+                    Real4(1,1,1,0.0),
+                    1.5,
+                    this.EaseType);
+            
+            Action.Call(aDisplay, this.DestroyCountdown);
+        }
+        else
+        {
+            Action.Delay(aDisplay, this.Delay);
+            Action.Call(aDisplay, this.ChangeCountdownNumber);
+        }
+    }
+    
+    function ChangeCountdownNumber():Void
+    {
+        --this.CountdownNumber;
+        this.CountdownGate = true;
+        //DEBUG
+        //Console.WriteLine(this.CountdownNumber);
+    }
+    
+    function DestroyCountdown():Void
+    {
+        //destroy it, null it
+        this.Countdown.Destroy();
+        this.Countdown = null;
+        
+        this.MainSpace.LevelSettings.Z_FallingBodySpawner.IsGameStart = true;
+    }
+}

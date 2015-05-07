@@ -1,0 +1,41 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "txt_addTime",
+	},
+	Archetyped = 
+	{
+		string Name = "545a3e7b7c34d001:ARC_UI_AddTime",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [0.749687, -8.29517, -0.000999451],
+		Vec3 Scale = [3, 3, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	SpriteText = 
+	{
+		bool Visible = true,
+		bool VisibilityCulling = true,
+		bool VisibilityEvents = false,
+		bool CastShadows = false,
+		Vec4 Color = [0.678431, 0.701961, 0.631373, 1],
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+		TextPositionMode Position = Centered,
+		string FontName = "544fb00c969504be:ChineseRocksRg-Regular",
+		uint FontSize = 35,
+		string Text = "+3 sec",
+		bool OnTop = false,
+		Vec2 Size = [0, 0],
+		TextAlign Align = Center,
+		float PixelsPerUnit = 50,
+		bool Smoothing = true,
+	},
+},

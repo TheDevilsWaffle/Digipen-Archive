@@ -1,0 +1,105 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_AngleArrow.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_AngleArrow:ZilchComponent
+{
+    //COGS
+    var Player:Cog = null;
+    var Shovel:Cog = null;
+    //KEYBOARD
+    [Property]
+    var KbLeft:Keys = Keys.Left;
+    [Property]
+    var KbRight:Keys = Keys.Right;
+    //GAMEPAD
+    var GpLeft:Buttons = Buttons.StickLeft;
+    var GpRight:Buttons = Buttons.StickRight;
+    var GamepadIndex:Integer = Integer(0);
+    var Gamepad:Gamepad = null;
+   //DIRECTION
+    var FlingDirection:Real3 = Real3();
+    var BodyShovelContactPos:Real3 = Real3();
+    //ANGLEARROW
+    var ARCAngleArrow:Archetype = Archetype.Find("ARC_UI_AngleArrow");
+    var AngleArrow:Cog = null;
+    //BOOLEANS
+    var IsShovelPlanted:Boolean = Boolean(false);
+    var IsAngleArrowCreated:Boolean = Boolean(false);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //gamepad stuffs
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        //get the player
+        this.Player = this.Space.FindObjectByName("Player");
+        //get the current strength
+        this.Shovel = this.Space.FindObjectByName("go_shovel");
+        //logic update listener
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-update every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //update IsShovelPlanted bool
+        this.IsShovelPlanted = this.Shovel.Z_ShovelFling.ShovelPlanted;
+        
+        //proceed if shovel is planted
+        if(this.IsShovelPlanted)
+        {
+            //is the angle arrow created yet? if not, create it
+            if(!this.IsAngleArrowCreated)
+            {
+                //get the location of the shovel and body contact
+                this.BodyShovelContactPos = this.Shovel.Z_ShovelFling.FlingArrowPos;
+                
+                //create and assign an instance of ARC_UI_AngleArrow and give it the location of the shovel
+                this.AngleArrow = this.Space.CreateAtPosition(this.ARCAngleArrow, Real3(this.BodyShovelContactPos.X,
+                                                                                        this.BodyShovelContactPos.Y,
+                                                                                        this.BodyShovelContactPos.Z + 10));
+                
+                //set IsAngleArrowCreated to true
+                this.IsAngleArrowCreated = true;
+            }
+            
+            //assign the fling direction as per Z_ShovelFling
+            this.FlingDirection = this.Shovel.Z_ShovelFling.FlingDirection;
+            
+            //get the angle from the vector
+            var rotation:Real = Math.Angle2D(this.FlingDirection);
+            
+            //turn the rotation into a quat
+            var localRotation = Math.ToQuaternion(Real3(0,0,1), rotation);
+            
+            //set the rotation of the angle arrow to the quat
+            this.AngleArrow.Transform.LocalRotation = localRotation;
+            
+            //DEBUG
+            //Console.WriteLine("ARROW ANGLE: `this.AngleArrow.Transform.Rotation`");
+        }
+        
+        //shovel is not planted
+        else
+        {
+            //if angle arrow still exists then destroy it and null its variable
+            if(this.AngleArrow != null)
+            {
+                this.AngleArrow.Destroy();
+                this.AngleArrow = null;
+            }
+            
+            //ensure IsAngleArrowCreated is false
+            this.IsAngleArrowCreated = false;
+        }
+    }
+}

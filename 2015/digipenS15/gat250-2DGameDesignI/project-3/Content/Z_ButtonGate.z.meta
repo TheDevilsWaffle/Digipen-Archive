@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_ButtonGate",
+		uint64 ResourceId = 54669337f2ff70b3,
+	},
+},

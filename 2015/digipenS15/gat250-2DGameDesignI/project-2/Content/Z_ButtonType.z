@@ -1,0 +1,198 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_ButtonType.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+[Property]
+enum ButtonType {Gate, Bounce, Bridge, Gravity}
+class Z_ButtonType : ZilchComponent
+{
+    //BUTTON TYPE
+    [Property]
+    var ButtonTypeList:ButtonType = ButtonType.Gate;
+    
+    //BUTTON CONTROLLED OBJECT
+    [Property]
+    var ButtonControlledObject:CogPath = null;
+    
+    //BUTTON
+    var Button:Cog = null;
+    var ButtonPos:Real3 = Real3();
+    var ButtonScale:Real3 = Real3();
+    var ButtonUpsideDown:Boolean = Boolean(false);
+    var Detector:Cog = null;
+    var DetectorPos:Real3 = Real3();
+    
+    //ANIMATION
+    [Property]
+    var ButtonDown:Real = Real(0.35);
+    [Property]
+    var ButtonTime:Real = Real(0.35);
+    [Property]
+    var IsUpsideDown:Boolean = Boolean(false);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-initialize variables and event listeners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //find the
+        this.Button = this.Owner;
+        this.ButtonPos = this.Button.Transform.Translation;
+        
+        //determine if button is upside down or not (used for action animation purposes)
+        if(this.Button.Transform.Rotation.Z != 0)
+        {
+            this.ButtonUpsideDown = true;
+        }
+        
+        //get the detector
+        this.Detector = this.Owner.FindChildByName("detector");
+        this.DetectorPos = this.Detector.Transform.Translation;
+        
+        //what type of button is this?
+        //--GATE BUTTON
+        if(this.ButtonTypeList == ButtonType.Gate)
+        {
+            this.Detector.AddComponentByName("Z_ButtonGate");
+            this.Detector.Sprite.SpriteSource = SpriteSource.Find("sprBtnGateInactive");
+        }
+        //--BOUNCE BUTTON
+        if(this.ButtonTypeList == ButtonType.Bounce)
+        {
+            this.Detector.AddComponentByName("Z_ButtonBounce");
+            this.Detector.Sprite.SpriteSource = SpriteSource.Find("sprBtnBounceInactive");
+        }
+        //-GRAVITY BUTTON
+        if(this.ButtonTypeList == ButtonType.Gravity)
+        {
+            this.Detector.AddComponentByName("Z_ButtonGravity");
+            this.Detector.Sprite.SpriteSource = SpriteSource.Find("sprBtnGravityInactive");
+        }
+        //-BRIDGE BUTTON
+        if(this.ButtonTypeList == ButtonType.Bridge)
+        {
+            this.Detector.AddComponentByName("Z_ButtonBridge");
+            this.ButtonControlledObject.Cog.AddComponentByName("Z_BridgeBuilder");
+            this.Detector.Sprite.SpriteSource = SpriteSource.Find("sprBtnBridgeInactive");
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-AnimateButtonPressed()
+    //EXPLANATION-animate button by shrinking it into its shroud
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function AnimateButtonPressed():Void
+    {
+        //create action sequence
+        var aButtonPressed = Action.Group(this.Owner.Actions);
+        
+        //if button is not upside-down, animate normally
+        if(!this.ButtonUpsideDown)
+        {
+            //go down
+            Action.Property(aButtonPressed,
+                            @this.Button.Transform.Translation,
+                            Real3(this.ButtonPos.X, 
+                                  this.ButtonPos.Y - this.ButtonDown, 
+                                  this.ButtonPos.Z),
+                            this.ButtonTime,
+                            Ease.QuadInOut);
+            //position correction
+            Action.Property(aButtonPressed,
+                            @this.Detector.Transform.Translation,
+                            Real3(this.Detector.Transform.Translation.X, 
+                                  this.Detector.Transform.Translation.Y + this.ButtonDown, 
+                                  this.Detector.Transform.Translation.Z),
+                            this.ButtonTime,
+                            Ease.QuadInOut);
+        }
+        //else, animate upside-down
+        else
+        {
+            //go up
+            Action.Property(aButtonPressed,
+                            @this.Button.Transform.Translation,
+                            Real3(this.ButtonPos.X, 
+                                  this.ButtonPos.Y + this.ButtonDown, 
+                                  this.ButtonPos.Z),
+                            this.ButtonTime,
+                            Ease.QuadInOut);
+            //position correction
+            Action.Property(aButtonPressed,
+                            @this.Detector.Transform.Translation,
+                            Real3(this.Detector.Transform.Translation.X, 
+                                  this.Detector.Transform.Translation.Y + this.ButtonDown, 
+                                  this.Detector.Transform.Translation.Z),
+                            this.ButtonTime,
+                            Ease.QuadInOut);
+        }
+        
+        //swap out the inactive sprite for the active one
+        if(this.ButtonTypeList == ButtonType.Gate)
+        {
+            this.Detector.Sprite.SpriteSource = SpriteSource.Find("sprBtnGateActive");
+        }
+        //--BOUNCE BUTTON
+        if(this.ButtonTypeList == ButtonType.Bounce)
+        {
+            this.Detector.Sprite.SpriteSource = SpriteSource.Find("sprBtnBounceActive");
+        }
+        //-GRAVITY BUTTON
+        if(this.ButtonTypeList == ButtonType.Gravity)
+        {
+            this.Detector.Sprite.SpriteSource = SpriteSource.Find("sprBtnGravityActive");
+        }
+        //-BRIDGE BUTTON
+        if(this.ButtonTypeList == ButtonType.Bridge)
+        {
+            this.Detector.Sprite.SpriteSource = SpriteSource.Find("sprBtnBridgeActive");
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-AnimateButtonDepressed()
+    //EXPLANATION-animate button by shrinking it into its shroud
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function AnimateButtonDepressed():Void
+    {
+        //create action sequence
+        var aButtonDepressed = Action.Group(this.Owner.Actions);
+        
+        //position correction
+        Action.Property(aButtonDepressed,
+                        @this.Button.Transform.Translation,
+                        this.ButtonPos,
+                        this.ButtonTime,
+                        Ease.QuadInOut);
+        //position correction
+            Action.Property(aButtonDepressed,
+                            @this.Detector.Transform.Translation,
+                            this.DetectorPos,
+                            this.ButtonTime,
+                            Ease.QuadInOut);
+        
+        //swap out the active sprite for the inactive one
+        if(this.ButtonTypeList == ButtonType.Gate)
+        {
+            this.Detector.Sprite.SpriteSource = SpriteSource.Find("sprBtnGateInactive");
+        }
+        //--BOUNCE BUTTON
+        if(this.ButtonTypeList == ButtonType.Bounce)
+        {
+            this.Detector.Sprite.SpriteSource = SpriteSource.Find("sprBtnBounceInactive");
+        }
+        //-GRAVITY BUTTON
+        if(this.ButtonTypeList == ButtonType.Gravity)
+        {
+            this.Detector.Sprite.SpriteSource = SpriteSource.Find("sprBtnGravityInactive");
+        }
+        //-BRIDGE BUTTON
+        if(this.ButtonTypeList == ButtonType.Bridge)
+        {
+            this.Detector.Sprite.SpriteSource = SpriteSource.Find("sprBtnBridgeInactive");
+        }
+    }
+}

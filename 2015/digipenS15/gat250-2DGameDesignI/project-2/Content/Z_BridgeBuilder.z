@@ -1,0 +1,138 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_BridgeBuilder.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_BridgeBuilder:ZilchComponent
+{
+    //BUTTON
+    var Button:Cog = null;
+    var ButtonPos:Real3 = Real3();
+    
+    //BUTTON PRESSER (if needed)
+    var ButtonPresserObject:CogPath = null;
+    var ButtonPresser:Cog = null;
+    
+    //STATE
+    var IsPressed:Boolean = Boolean(false);
+    
+    //BRIDGE
+    var Bridge:Cog = null;
+    var BridgeArray:Array[Cog] = Array[Cog]();
+    var BridgeArraySize:Integer = Integer();
+    
+    //BRIDGE BLOCKS
+    var ARC_BridgeBlock:Archetype = Archetype.Find("ARC_BridgeBlock");
+    var BridgeBlock:Cog = null;
+    var BridgeOriginalSprite:SpriteSource = null;
+    var BridgeExtendedSprite:SpriteSource = null;
+    var BridgeBlockScale:Real3 = Real3();
+    [Property]
+    var RetractedColor:Real4 = Real4(0.6,0.6,0.6,1.0);
+    [Property]
+    var ExtendedColor:Real4 = Real4(1.0,1.0,1.0,1.0);
+    [Property]
+    var RetractedScale:Real3 = Real3(0.5,0.5,1);
+    [Property]
+    var ExtendedScale:Real3 = Real3(1.0,1.0,1);
+    
+    //ANIMATION
+    [Property]
+    var BridgeExtendTime:Real = Real(0.25);
+    [Property]
+    var BridgeRetractTime:Real = Real(0.25);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-initialize variables and event listeners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //get the button
+        this.Button = this.Owner.Parent;
+        
+        //get the inactive/active sprites ready
+        this.BridgeOriginalSprite = SpriteSource.Find("sprBridgePieceInactive");
+        this.BridgeExtendedSprite = SpriteSource.Find("sprBridgePieceActive");
+        
+        //get the bridge block (children) and place them in the array
+        foreach (var block in this.Owner.Children)
+        {
+            this.BridgeArray.Push(block);
+        }
+        //get the size
+        this.BridgeArraySize = this.BridgeArray.Capacity;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-AnimateBridgeExtend()
+    //EXPLANATION-extend the bridge
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function AnimateBridgeExtend():Void
+    {
+        //create action sequence
+        var aBridgeExtend = Action.Group(this.Owner.Actions);
+        
+        foreach(var block in this.BridgeArray)
+        {
+            //extend
+            Action.Property(aBridgeExtend,
+                            @block.Transform.Translation,
+                            Real3(block.Transform.Translation.X,
+                                  block.Transform.Translation.Y,
+                                  1.0),
+                            this.BridgeExtendTime,
+                            Ease.QuadInOut);
+            //scale
+            Action.Property(aBridgeExtend,
+                            @block.Transform.Scale,
+                            this.ExtendedScale,
+                            this.BridgeExtendTime,
+                            Ease.QuadInOut);
+            //color
+            Action.Property(aBridgeExtend,
+                            @block.Sprite.Color,
+                            this.ExtendedColor,
+                            this.BridgeExtendTime,
+                            Ease.QuadInOut);
+            //swap out sprite
+            block.Sprite.SpriteSource = this.BridgeExtendedSprite;
+        }
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-AnimateBridgeRetract()
+    //EXPLANATION-retract the bridge
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function AnimateBridgeRetract():Void
+    {
+        //create action sequence
+        var aBridgeRetract = Action.Group(this.Owner.Actions);
+        
+        foreach(var block in this.BridgeArray)
+        {
+            //retract
+            Action.Property(aBridgeRetract,
+                            @block.Transform.Translation,
+                            Real3(block.Transform.Translation.X,
+                                  block.Transform.Translation.Y,
+                                  0.0),
+                            this.BridgeRetractTime,
+                            Ease.QuadInOut);
+            //scale
+            Action.Property(aBridgeRetract,
+                            @block.Transform.Scale,
+                            this.RetractedScale,
+                            this.BridgeRetractTime,
+                            Ease.QuadInOut);
+            //color
+            Action.Property(aBridgeRetract,
+                            @block.Sprite.Color,
+                            this.RetractedColor,
+                            this.BridgeRetractTime,
+                            Ease.QuadInOut);
+            //swap out sprite
+            block.Sprite.SpriteSource = this.BridgeOriginalSprite;
+        }
+    }
+}

@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_SplashScreenLogic",
+		uint64 ResourceId = 5424d46814825c84,
+	},
+},

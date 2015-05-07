@@ -1,0 +1,18 @@
+class Z_VibrationController : ZilchComponent
+{
+    //GAMEPAD
+    var Gamepad:Gamepad = null;
+    var GamepadIndex:Integer = Integer(0);
+    function Initialize(init : CogInitializer)
+    {
+        //get the gamepad
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+    }
+    
+    
+    function VibrateGamepad(time_:Real, leftIntensity_:Real, rightIntensity_:Real):Void
+    {
+        //time:real, leftspeed:real, rightspeed:real
+        this.Gamepad.Vibrate(time_, leftIntensity_, rightIntensity_);
+    }
+}

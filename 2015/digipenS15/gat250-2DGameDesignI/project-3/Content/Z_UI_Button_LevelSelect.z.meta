@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_UI_Button_LevelSelect",
+		uint64 ResourceId = 5592b00572c86c16,
+	},
+},

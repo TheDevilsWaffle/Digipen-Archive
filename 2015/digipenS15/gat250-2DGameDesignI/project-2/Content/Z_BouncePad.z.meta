@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_BouncePad",
+		uint64 ResourceId = 547b6dd6749f6d09,
+	},
+},

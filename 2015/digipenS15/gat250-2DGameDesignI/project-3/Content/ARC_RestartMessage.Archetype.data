@@ -1,0 +1,41 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "goLevelIntro",
+	},
+	Archetyped = 
+	{
+		string Name = "552021cd1d3100ed:ARC_RestartMessage",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [31.8093, 5.49387, 2.50025],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	SpriteText = 
+	{
+		bool Visible = true,
+		bool VisibilityCulling = true,
+		bool VisibilityEvents = false,
+		bool CastShadows = false,
+		Vec4 Color = [1, 1, 1, 1],
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+		TextPositionMode Position = Centered,
+		string FontName = "55803720ce6e6bd0:GUBBLO",
+		uint FontSize = 100,
+		string Text = "PLAYER 2 GAMEPAD DETECTED. RESTARTING LEVEL...",
+		bool OnTop = false,
+		Vec2 Size = [26, 5],
+		TextAlign Align = Center,
+		float PixelsPerUnit = 64,
+		bool Smoothing = false,
+	},
+},

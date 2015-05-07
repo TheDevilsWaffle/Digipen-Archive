@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_LevelLogic",
+		uint64 ResourceId = 54253d41f3de601f,
+	},
+},

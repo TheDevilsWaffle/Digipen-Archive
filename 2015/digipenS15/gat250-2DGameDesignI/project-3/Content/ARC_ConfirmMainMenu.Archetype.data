@@ -1,0 +1,566 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "ui_confirm_main_menu",
+	},
+	Archetyped = 
+	{
+		string Name = "543d165d17f49eca:ARC_ConfirmMainMenu",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [31.818, 9.57658, 4.0005],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Reactive = 
+	{
+		bool Active = true,
+		bool CaptureMouse = false,
+	},
+	Hierarchy = 
+	{
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 2,
+			},
+			Named = 
+			{
+				string Name = "MenuBackground",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0, 0, 12],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				bool VisibilityEvents = false,
+				bool CastShadows = false,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "55802eb4116c5df5:sprSubmenuBackground",
+				bool RenderMask = false,
+				bool FlipX = false,
+				bool FlipY = false,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+			Area = 
+			{
+				Vec2 Size = [17, 20],
+				Location Origin = Center,
+			},
+			Hierarchy = 
+			{
+				Cog = 
+				{
+					LinkId = 
+					{
+						uint Id = 3,
+					},
+					Named = 
+					{
+						string Name = "MenuText",
+					},
+					Transform = 
+					{
+						Vec3 Translation = [0, 1.90393, 1],
+						Vec3 Scale = [1, 1, 1],
+						Quat Rotation = [0, 0, 0, 1],
+					},
+					SpriteText = 
+					{
+						bool Visible = true,
+						bool VisibilityCulling = true,
+						bool VisibilityEvents = false,
+						bool CastShadows = false,
+						Vec4 Color = [1, 1, 1, 1],
+						BlendMode BlendMode = Alpha,
+						SpriteGeometryMode GeometryMode = ZPlane,
+						string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+						string FontName = "55803720ce6e6bd0:GUBBLO",
+						uint FontSize = 100,
+						string Text = "QUIT TO MAIN MENU?",
+						TextAlign Align = Center,
+						float PixelsPerUnit = 64,
+						bool Smoothing = false,
+					},
+					Area = 
+					{
+						Vec2 Size = [10, 4],
+						Location Origin = Center,
+					},
+				},
+				Cog = 
+				{
+					LinkId = 
+					{
+						uint Id = 4,
+					},
+					Named = 
+					{
+						string Name = "SubTitle",
+					},
+					Transform = 
+					{
+						Vec3 Translation = [0, -0.325832, 1],
+						Vec3 Scale = [1, 1, 1],
+						Quat Rotation = [0, 0, 0, 1],
+					},
+					SpriteText = 
+					{
+						bool Visible = true,
+						bool VisibilityCulling = true,
+						bool VisibilityEvents = false,
+						bool CastShadows = false,
+						Vec4 Color = [0.301961, 0.301961, 0.301961, 1],
+						BlendMode BlendMode = Alpha,
+						SpriteGeometryMode GeometryMode = ZPlane,
+						string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+						string FontName = "55803720ce6e6bd0:GUBBLO",
+						uint FontSize = 50,
+						string Text = "ALL PROGRESS WILL BE LOST...",
+						TextAlign Align = Center,
+						float PixelsPerUnit = 64,
+						bool Smoothing = false,
+					},
+					Area = 
+					{
+						Vec2 Size = [15, 1.25],
+						Location Origin = Center,
+					},
+				},
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 5,
+			},
+			Named = 
+			{
+				string Name = "BgFocus",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0, 0, 11],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				bool VisibilityEvents = false,
+				bool CastShadows = false,
+				Vec4 Color = [1, 1, 1, 0.1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "5275aa4d802dd6dc:Square",
+				bool RenderMask = false,
+				bool FlipX = false,
+				bool FlipY = false,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+			Area = 
+			{
+				Vec2 Size = [50, 50],
+				Location Origin = Center,
+			},
+			Reactive = 
+			{
+				bool Active = true,
+				bool CaptureMouse = false,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 6,
+			},
+			Named = 
+			{
+				string Name = "BtnConfirmNo",
+			},
+			Archetyped = 
+			{
+				string Name = "5424ddf53d81bebc:ARC_btn",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [-3.48008, -3.0413, 12],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Z_UI_Gamepad = 
+			{
+				int GamepadIndex = 0,
+				CogPath UpBtn = "",
+				CogPath DownBtn = "",
+				CogPath LeftBtn = "../BtnConfirmYes",
+				CogPath RightBtn = "../BtnConfirmYes",
+				Enum GamepadConfirm = A,
+				Enum KeyboardConfirm = Enter,
+				bool Active = true,
+				float Timer = 0,
+				string LevelToLoad = "",
+				float DelayBetweenButtonSwitch = 10,
+				float SubMenuDelayForAnimation = 10,
+			},
+			Hierarchy = 
+			{
+				Cog = 
+				{
+					LinkId = 
+					{
+						uint Id = 7,
+					},
+					Named = 
+					{
+						string Name = "BtnBot",
+					},
+					Transform = 
+					{
+						Vec3 Translation = [0, -0.184916, 1],
+						Vec3 Scale = [1, 1, 1],
+						Quat Rotation = [0, 0, 0, 1],
+					},
+					Sprite = 
+					{
+						bool Visible = false,
+						bool VisibilityCulling = true,
+						bool VisibilityEvents = false,
+						bool CastShadows = false,
+						Vec4 Color = [0.255, 0.255, 0.255, 1],
+						BlendMode BlendMode = Alpha,
+						SpriteGeometryMode GeometryMode = ZPlane,
+						string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+						string SpriteSource = "5275aa4d802dd6dc:Square",
+						bool RenderMask = false,
+						bool FlipX = false,
+						bool FlipY = false,
+						bool AnimationActive = true,
+						float AnimationSpeed = 1,
+						uint StartFrame = 0,
+					},
+					Area = 
+					{
+						Vec2 Size = [10, 2.5],
+						Location Origin = Center,
+					},
+				},
+				Cog = 
+				{
+					LinkId = 
+					{
+						uint Id = 8,
+					},
+					Named = 
+					{
+						string Name = "BtnTop",
+					},
+					Transform = 
+					{
+						Vec3 Translation = [0, 0, 2],
+						Vec3 Scale = [1, 1, 1],
+						Quat Rotation = [0, 0, 0, 1],
+					},
+					Sprite = 
+					{
+						bool Visible = false,
+						bool VisibilityCulling = true,
+						bool VisibilityEvents = false,
+						bool CastShadows = false,
+						Vec4 Color = [1, 1, 1, 1],
+						BlendMode BlendMode = Alpha,
+						SpriteGeometryMode GeometryMode = ZPlane,
+						string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+						string SpriteSource = "558026c8383588c6:sprUIButtonTop",
+						bool RenderMask = false,
+						bool FlipX = false,
+						bool FlipY = false,
+						bool AnimationActive = true,
+						float AnimationSpeed = 1,
+						uint StartFrame = 0,
+					},
+					Area = 
+					{
+						Vec2 Size = [10, 2.5],
+						Location Origin = Center,
+					},
+					Reactive = 
+					{
+						bool Active = true,
+						bool CaptureMouse = false,
+					},
+					Z_UI_Mouse = 
+					{
+						float Delay = 0.5,
+					},
+					Z_UI_Button = 
+					{
+						string LevelToLoad = "",
+						float LoadDelay = 0.25,
+						Vec4 BtnTopOriginalColor = [0, 0, 0, 1],
+						Vec4 BtnTopHoverColor = [0, 0, 0, 1],
+						Vec4 BtnTopPressedColor = [0, 0, 0, 1],
+						Vec4 BtnBotOriginalColor = [0, 0, 0, 1],
+						Vec4 BtnBotHoverColor = [0, 0, 0, 1],
+						Vec4 BtnTextOriginalColor = [0.301961, 0.301961, 0.301961, 1],
+						Vec4 BtnTextHoverColor = [0.305882, 0.658824, 0.611765, 1],
+						Vec4 BtnTextHoverColor2 = [0, 0, 0, 1],
+						Vec4 BtnTextPressedColor = [1, 1, 1, 1],
+						float HoverDrop = 0.05,
+						float PressedDrop = 0.1,
+						float ChangeTime = 0.1,
+						Enum EaseType = QuadInOut,
+					},
+					Hierarchy = 
+					{
+						Cog = 
+						{
+							LinkId = 
+							{
+								uint Id = 9,
+							},
+							Named = 
+							{
+								string Name = "BtnText",
+							},
+							Transform = 
+							{
+								Vec3 Translation = [-0.539932, -0.358548, 1],
+								Vec3 Scale = [1, 1, 1],
+								Quat Rotation = [0, 0, 0, 1],
+							},
+							SpriteText = 
+							{
+								bool Visible = true,
+								bool VisibilityCulling = true,
+								bool VisibilityEvents = false,
+								bool CastShadows = false,
+								Vec4 Color = [1, 1, 1, 1],
+								BlendMode BlendMode = Alpha,
+								SpriteGeometryMode GeometryMode = ZPlane,
+								string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+								string FontName = "55803720ce6e6bd0:GUBBLO",
+								uint FontSize = 50,
+								string Text = "NO",
+								TextAlign Align = Center,
+								float PixelsPerUnit = 64,
+								bool Smoothing = false,
+							},
+							Area = 
+							{
+								Vec2 Size = [10, 2.5],
+								Location Origin = Center,
+							},
+						},
+					},
+				},
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 10,
+			},
+			Named = 
+			{
+				string Name = "BtnConfirmYes",
+			},
+			Archetyped = 
+			{
+				string Name = "5424ddf53d81bebc:ARC_btn",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [3.53079, -3.01413, 12],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Z_UI_Gamepad = 
+			{
+				int GamepadIndex = 0,
+				CogPath UpBtn = "",
+				CogPath DownBtn = "",
+				CogPath LeftBtn = "../BtnConfirmNo",
+				CogPath RightBtn = "../BtnConfirmNo",
+				Enum GamepadConfirm = A,
+				Enum KeyboardConfirm = Enter,
+				bool Active = false,
+				float Timer = 0,
+				string LevelToLoad = "",
+				float DelayBetweenButtonSwitch = 10,
+				float SubMenuDelayForAnimation = 10,
+			},
+			Hierarchy = 
+			{
+				Cog = 
+				{
+					LinkId = 
+					{
+						uint Id = 11,
+					},
+					Named = 
+					{
+						string Name = "BtnBot",
+					},
+					Transform = 
+					{
+						Vec3 Translation = [0, -0.184916, 1],
+						Vec3 Scale = [1, 1, 1],
+						Quat Rotation = [0, 0, 0, 1],
+					},
+					Sprite = 
+					{
+						bool Visible = false,
+						bool VisibilityCulling = true,
+						bool VisibilityEvents = false,
+						bool CastShadows = false,
+						Vec4 Color = [0.255, 0.255, 0.255, 1],
+						BlendMode BlendMode = Alpha,
+						SpriteGeometryMode GeometryMode = ZPlane,
+						string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+						string SpriteSource = "5275aa4d802dd6dc:Square",
+						bool RenderMask = false,
+						bool FlipX = false,
+						bool FlipY = false,
+						bool AnimationActive = true,
+						float AnimationSpeed = 1,
+						uint StartFrame = 0,
+					},
+					Area = 
+					{
+						Vec2 Size = [10, 2.5],
+						Location Origin = Center,
+					},
+				},
+				Cog = 
+				{
+					LinkId = 
+					{
+						uint Id = 12,
+					},
+					Named = 
+					{
+						string Name = "BtnTop",
+					},
+					Transform = 
+					{
+						Vec3 Translation = [0, 0, 2],
+						Vec3 Scale = [1, 1, 1],
+						Quat Rotation = [0, 0, 0, 1],
+					},
+					Sprite = 
+					{
+						bool Visible = false,
+						bool VisibilityCulling = true,
+						bool VisibilityEvents = false,
+						bool CastShadows = false,
+						Vec4 Color = [1, 1, 1, 1],
+						BlendMode BlendMode = Alpha,
+						SpriteGeometryMode GeometryMode = ZPlane,
+						string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+						string SpriteSource = "558026c8383588c6:sprUIButtonTop",
+						bool RenderMask = false,
+						bool FlipX = false,
+						bool FlipY = false,
+						bool AnimationActive = true,
+						float AnimationSpeed = 1,
+						uint StartFrame = 0,
+					},
+					Area = 
+					{
+						Vec2 Size = [10, 2.5],
+						Location Origin = Center,
+					},
+					Reactive = 
+					{
+						bool Active = true,
+						bool CaptureMouse = false,
+					},
+					Z_UI_Mouse = 
+					{
+						float Delay = 0.5,
+					},
+					Z_UI_Button = 
+					{
+						string LevelToLoad = "559951f2c801b28a:LVL_menu_main",
+						float LoadDelay = 0.25,
+						Vec4 BtnTopOriginalColor = [0, 0, 0, 1],
+						Vec4 BtnTopHoverColor = [0, 0, 0, 1],
+						Vec4 BtnTopPressedColor = [0, 0, 0, 1],
+						Vec4 BtnBotOriginalColor = [0, 0, 0, 1],
+						Vec4 BtnBotHoverColor = [0, 0, 0, 1],
+						Vec4 BtnTextOriginalColor = [0.301961, 0.301961, 0.301961, 1],
+						Vec4 BtnTextHoverColor = [0.94902, 0.321569, 0.266667, 1],
+						Vec4 BtnTextHoverColor2 = [0, 0, 0, 1],
+						Vec4 BtnTextPressedColor = [1, 1, 1, 1],
+						float HoverDrop = 0.05,
+						float PressedDrop = 0.1,
+						float ChangeTime = 0.1,
+						Enum EaseType = QuadInOut,
+					},
+					Hierarchy = 
+					{
+						Cog = 
+						{
+							LinkId = 
+							{
+								uint Id = 13,
+							},
+							Named = 
+							{
+								string Name = "BtnText",
+							},
+							Transform = 
+							{
+								Vec3 Translation = [-0.317608, 0.469572, 1],
+								Vec3 Scale = [1, 1, 1],
+								Quat Rotation = [0, 0, 0, 1],
+							},
+							SpriteText = 
+							{
+								bool Visible = true,
+								bool VisibilityCulling = true,
+								bool VisibilityEvents = false,
+								bool CastShadows = false,
+								Vec4 Color = [1, 1, 1, 1],
+								BlendMode BlendMode = Alpha,
+								SpriteGeometryMode GeometryMode = ZPlane,
+								string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+								string FontName = "55803720ce6e6bd0:GUBBLO",
+								uint FontSize = 50,
+								string Text = "YES",
+								TextAlign Align = Center,
+								float PixelsPerUnit = 64,
+								bool Smoothing = true,
+							},
+						},
+					},
+				},
+			},
+		},
+	},
+},

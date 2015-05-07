@@ -1,0 +1,230 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_CorpseDecay.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+//ENUMS
+enum CorpseState {Fresh, Rotting, Decaying, Decayed}
+class Z_CorpseDecay:ZilchComponent
+{
+    [Property]
+    var RottingSprite:SpriteSource = null;
+    [Property]
+    var ARC_DecayedCorpse:Archetype = null;
+    [Property]
+    var ARC_Highlight:Archetype = null;
+    [Property]
+    var OutOfBounds:Real = Real(-6.0);
+    
+    var CorpseYTolerance:Real = Real(0.09);
+    
+    var IsCorpseGrounded:Boolean = Boolean();
+    var CorpsePos:Real3 = Real3();
+    
+    var GroundedTimerThreshold:Real = Real(5.0);
+    var GroundedTimer:Real = Real();
+    
+    var CurrentCorpseState:Integer = Integer();
+    var CorpseCurrentY:Real = Real();
+    var CorpseOldY:Real = Real();
+    
+    var EaseType:Ease = Ease.QuadInOut;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //initialize the grounded timer
+        this.GroundedTimer = 0.0;
+        //initialize IsCorpseGrounded to false (start out falling)
+        this.IsCorpseGrounded = false;
+        //set the corpse Y positions
+        this.CorpseOldY = this.Owner.Transform.Translation.Y;
+        
+        //set this corpse's state from the start
+        this.CurrentCorpseState = CorpseState.Fresh;
+        
+        //event listener for logic update
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-update every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //as long as this corpse has not yet decayed, keep track of it
+        if(this.CurrentCorpseState != CorpseState.Decayed)
+        {
+            //update the corpse's current Y
+            this.CorpseCurrentY = this.UpdateCorpsePos("currentY");
+            //check to see if corpse stopped falling
+            this.IsCorpseGrounded = this.CorpseGroundedCheck(this.CorpseOldY, this.CorpseCurrentY);
+            
+            //start grounded timer if IsCorpseGrounded is true
+            if(this.IsCorpseGrounded)
+            {
+                //update the grounded timer based on event.DT
+                this.GroundedTimer = this.GroundedTimer + (1 * event.Dt);
+                
+                //DEBUG - CHECK grounded timer start and how far along it is.
+                //Console.WriteLine("GROUNDED TIMER: `this.GroundedTimer`");
+                
+                //if grounded timer passes grounded threshold the update corpse state
+                if(this.GroundedTimer > this.GroundedTimerThreshold)
+                {
+                    //DEBUG
+                    //Console.WriteLine("CORPSE GROUNDED THRESHOLD PASSED");
+                    
+                    //change the corpes's current state
+                    this.UpdateCorpseState();
+                    //check the corpse's current state
+                    this.CheckCorpseState(this.CurrentCorpseState);
+                    //reset GroundedTimer
+                    this.GroundedTimer = 0.0;
+                }
+            }
+            //oldY and currentY are different
+            else
+            {
+                //reset GroundedTimer
+                this.GroundedTimer = 0.0;
+            }
+        }
+        
+        //check to see if corpse is out of bounds
+        if(this.Owner.Transform.Translation.Y < this.OutOfBounds)
+        {
+            this.Owner.Destroy();
+            
+            //DEBUG
+            //Console.WriteLine("OUT OF BOUNDS, DESTROYING CORPSE");
+        }
+        
+        //update the corpse's old Y value
+        this.CorpseOldY = this.UpdateCorpsePos("oldY");
+            
+        //update the position of this corpse
+        this.CorpsePos = this.Owner.Transform.Translation;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-UpdateCorpsePos()
+    //EXPLANATION-returns corpse's current Y if sent currentY or returns  oldY if sent oldY
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function UpdateCorpsePos(whichY_:String):Real
+    {
+        if(whichY_ == "currentY")
+        {
+            return this.Owner.Transform.Translation.Y;
+        }
+        if(whichY_ == "oldY")
+        {
+            return this.CorpseCurrentY;
+        }
+        return this.Owner.Transform.Translation.Y;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-CorpseGroundedCheck()
+    //EXPLANATION-return bool if corpse has stopped moving
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function CorpseGroundedCheck(oldY_:Real, newY_:Real):Boolean
+    {
+        //DEBUG - CHECK newY_ vs oldY_
+        //Console.WriteLine("NEW Y:`newY_`, OLD Y: `oldY_`");
+        //allow some tollerance for movement
+        if(newY_ < oldY_ + this.CorpseYTolerance && newY_ > oldY_ - this.CorpseYTolerance)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-UpdateCorpseState()
+    //EXPLANATION-update's corpse state and check it so we can perform actions 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function UpdateCorpseState():Void
+    {
+        //update the current state of this corpse
+        ++this.CurrentCorpseState;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-CheckCorpseState()
+    //EXPLANATION-check's corpse's state and performs actions based on current state
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function CheckCorpseState(currentState_:Integer):Void
+    {
+        //DEBUG
+        //Console.WriteLine("CHECKING CORPSE STATE");
+        if(currentState_ == CorpseState.Rotting)
+        {
+            //Console.WriteLine("ROTTING CORPSE");
+            //animation for slowly decaying corpse
+            this.Owner.Sprite.SpriteSource = this.RottingSprite;
+            this.RotCorpse();
+        }
+        if(currentState_ == CorpseState.Decaying)
+        {
+            //Console.WriteLine("Decaying CORPSE");
+            //animation for rapidly decaying corpse
+            this.RotCorpse();
+        }
+        if(currentState_ == CorpseState.Decayed)
+        {
+            //Console.WriteLine("Decayed CORPSE");
+            //quick animation for decayed corpse, remove components so we do not work so hard
+            this.DecayCorpse();
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-RotCorpse()
+    //EXPLANATION-check's corpse's state and performs actions based on current state
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function RotCorpse():Void
+    {
+        //create action sequence
+        var aRot = Action.Sequence (this.Owner.Actions);
+        
+        var cycle:Integer = 0;
+        while (cycle < 5)
+        {
+            //be invisible
+            Action.Property(aRot,
+                            @this.Owner.Sprite.Color,
+                            Real4(1,0.2,0.5,0.2),
+                            0.5,
+                            this.EaseType);
+            //be visible
+            Action.Property(aRot,
+                            @this.Owner.Sprite.Color,
+                            Real4(1,1,1,1.0),
+                            0.5,
+                            this.EaseType);
+            ++cycle;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DecayCorpse()
+    //EXPLANATION-make the corpse ground
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DecayCorpse():Void
+    {
+        //destroy this corpse
+        this.Owner.Destroy();
+        
+        //replace with appropriate Decayed Corpse Pile
+        this.Space.CreateAtPosition(this.ARC_DecayedCorpse, this.CorpsePos);
+    }
+}

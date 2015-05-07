@@ -1,0 +1,215 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_RunOnceDataInitializer.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_RunOnceDataInitializer : ZilchComponent
+{
+    //DATA
+    var DataCogInitializer:Cog = null;
+    var DataCogLevelInfo:Cog = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        //create the data initializer
+        this.DataCogInitializer = Zero.ObjectStore.RestoreOrArchetype("DataInitializer", "ARC_DataInitializer", this.Space);
+        
+        //only do this once upon the game starting up for the first time
+        if(!this.DataCogInitializer.Z_DataInitializer.IsDataInitialized)
+        {
+            //DEBUG -- is running only the first time
+            //Console.WriteLine("Performing DATA INITIALIZATION");
+            
+            //set IsDataInitialized to true so that we will never do all this work again
+            this.DataCogInitializer.Z_DataInitializer.IsDataInitialized = true;
+            this.DataCogInitializer.Z_DataInitializer.LevelRecapName = "NOTHING YET";
+            this.DataCogInitializer.Z_DataInitializer.TotalLives = 5;
+            
+            //now that the value is set, save it
+            Zero.ObjectStore.Store("DataInitializer", this.DataCogInitializer);
+            
+            //LEVEL01
+            //connect to LEVEL01's data archetype
+            this.DataCogLevelInfo = Zero.ObjectStore.RestoreOrArchetype("Level01Data", "ARC_DataLevel", this.Space);
+            //update the serialized properties
+            this.DataCogLevelInfo.Z_LevelData.IsUnlocked = true;
+            this.DataCogLevelInfo.Z_LevelData.LevelNumber = "LEVEL01";
+            this.DataCogLevelInfo.Z_LevelData.LevelDescription = "Getting To Know You";
+            this.DataCogLevelInfo.Z_LevelData.Time = 999;
+            this.DataCogLevelInfo.Z_LevelData.TempTime = 999;
+            this.DataCogLevelInfo.Z_LevelData.CubesCollected = 0;
+            this.DataCogLevelInfo.Z_LevelData.TempCubesCollected = 0;
+            //save these new values
+            Zero.ObjectStore.Store("Level01Data", this.DataCogLevelInfo);
+            
+            //LEVEL02
+            //connect to LEVEL02's data archetype
+            this.DataCogLevelInfo = Zero.ObjectStore.RestoreOrArchetype("Level02Data", "ARC_DataLevel", this.Space);
+            //update the serialized properties
+            this.DataCogLevelInfo.Z_LevelData.IsUnlocked = false;
+            this.DataCogLevelInfo.Z_LevelData.LevelNumber = "LEVEL02";
+            this.DataCogLevelInfo.Z_LevelData.LevelDescription = "A Little Bit Dangerous";
+            this.DataCogLevelInfo.Z_LevelData.Time = 999;
+            this.DataCogLevelInfo.Z_LevelData.TempTime = 999;
+            this.DataCogLevelInfo.Z_LevelData.CubesCollected = 0;
+            this.DataCogLevelInfo.Z_LevelData.TempCubesCollected = 0;
+            //save these new values
+            Zero.ObjectStore.Store("Level02Data", this.DataCogLevelInfo);
+            
+            //LEVEL03
+            //connect to LEVEL03's data archetype
+            this.DataCogLevelInfo = Zero.ObjectStore.RestoreOrArchetype("Level03Data", "ARC_DataLevel", this.Space);
+            //update the serialized properties
+            this.DataCogLevelInfo.Z_LevelData.IsUnlocked = false;
+            this.DataCogLevelInfo.Z_LevelData.LevelNumber = "LEVEL03";
+            this.DataCogLevelInfo.Z_LevelData.LevelDescription = "Worth While";
+            this.DataCogLevelInfo.Z_LevelData.Time = 999;
+            this.DataCogLevelInfo.Z_LevelData.TempTime = 999;
+            this.DataCogLevelInfo.Z_LevelData.CubesCollected = 0;
+            this.DataCogLevelInfo.Z_LevelData.TempCubesCollected = 0;
+            //save these new values
+            Zero.ObjectStore.Store("Level03Data", this.DataCogLevelInfo);
+            
+            //LEVEL04
+            //connect to LEVEL04's data archetype
+            this.DataCogLevelInfo = Zero.ObjectStore.RestoreOrArchetype("Level04Data", "ARC_DataLevel", this.Space);
+            //update the serialized properties
+            this.DataCogLevelInfo.Z_LevelData.IsUnlocked = false;
+            this.DataCogLevelInfo.Z_LevelData.LevelNumber = "LEVEL04";
+            this.DataCogLevelInfo.Z_LevelData.LevelDescription = "Openning Up";
+            this.DataCogLevelInfo.Z_LevelData.Time = 999;
+            this.DataCogLevelInfo.Z_LevelData.TempTime = 999;
+            this.DataCogLevelInfo.Z_LevelData.CubesCollected = 0;
+            this.DataCogLevelInfo.Z_LevelData.TempCubesCollected = 0;
+            //save these new values
+            Zero.ObjectStore.Store("Level04Data", this.DataCogLevelInfo);
+            
+            //LEVEL05
+            //connect to LEVEL05's data archetype
+            this.DataCogLevelInfo = Zero.ObjectStore.RestoreOrArchetype("Level05Data", "ARC_DataLevel", this.Space);
+            //update the serialized properties
+            this.DataCogLevelInfo.Z_LevelData.IsUnlocked = false;
+            this.DataCogLevelInfo.Z_LevelData.LevelNumber = "LEVEL05";
+            this.DataCogLevelInfo.Z_LevelData.LevelDescription = "Helping You";
+            this.DataCogLevelInfo.Z_LevelData.Time = 999;
+            this.DataCogLevelInfo.Z_LevelData.TempTime = 999;
+            this.DataCogLevelInfo.Z_LevelData.CubesCollected = 0;
+            this.DataCogLevelInfo.Z_LevelData.TempCubesCollected = 0;
+            //save these new values
+            Zero.ObjectStore.Store("Level05Data", this.DataCogLevelInfo);
+            
+            //LEVEL06
+            //connect to LEVEL06's data archetype
+            this.DataCogLevelInfo = Zero.ObjectStore.RestoreOrArchetype("Level06Data", "ARC_DataLevel", this.Space);
+            //update the serialized properties
+            this.DataCogLevelInfo.Z_LevelData.IsUnlocked = false;
+            this.DataCogLevelInfo.Z_LevelData.LevelNumber = "LEVEL06";
+            this.DataCogLevelInfo.Z_LevelData.LevelDescription = "Because You Help Me";
+            this.DataCogLevelInfo.Z_LevelData.Time = 999;
+            this.DataCogLevelInfo.Z_LevelData.TempTime = 999;
+            this.DataCogLevelInfo.Z_LevelData.CubesCollected = 0;
+            this.DataCogLevelInfo.Z_LevelData.TempCubesCollected = 0;
+            //save these new values
+            Zero.ObjectStore.Store("Level06Data", this.DataCogLevelInfo);
+            
+            //LEVEL07
+            //connect to LEVEL07's data archetype
+            this.DataCogLevelInfo = Zero.ObjectStore.RestoreOrArchetype("Level07Data", "ARC_DataLevel", this.Space);
+            //update the serialized properties
+            this.DataCogLevelInfo.Z_LevelData.IsUnlocked = false;
+            this.DataCogLevelInfo.Z_LevelData.LevelNumber = "LEVEL07";
+            this.DataCogLevelInfo.Z_LevelData.LevelDescription = "A New Perspective";
+            this.DataCogLevelInfo.Z_LevelData.Time = 999;
+            this.DataCogLevelInfo.Z_LevelData.TempTime = 999;
+            this.DataCogLevelInfo.Z_LevelData.CubesCollected = 0;
+            this.DataCogLevelInfo.Z_LevelData.TempCubesCollected = 0;
+            //save these new values
+            Zero.ObjectStore.Store("Level07Data", this.DataCogLevelInfo);
+            
+            //LEVEL08
+            //connect to LEVEL08's data archetype
+            this.DataCogLevelInfo = Zero.ObjectStore.RestoreOrArchetype("Level08Data", "ARC_DataLevel", this.Space);
+            //update the serialized properties
+            this.DataCogLevelInfo.Z_LevelData.IsUnlocked = false;
+            this.DataCogLevelInfo.Z_LevelData.LevelNumber = "LEVEL08";
+            this.DataCogLevelInfo.Z_LevelData.LevelDescription = "Floating Together";
+            this.DataCogLevelInfo.Z_LevelData.Time = 999;
+            this.DataCogLevelInfo.Z_LevelData.TempTime = 999;
+            this.DataCogLevelInfo.Z_LevelData.CubesCollected = 0;
+            this.DataCogLevelInfo.Z_LevelData.TempCubesCollected = 0;
+            //save these new values
+            Zero.ObjectStore.Store("Level08Data", this.DataCogLevelInfo);
+            
+            //LEVEL09
+            //connect to LEVEL09's data archetype
+            this.DataCogLevelInfo = Zero.ObjectStore.RestoreOrArchetype("Level09Data", "ARC_DataLevel", this.Space);
+            //update the serialized properties
+            this.DataCogLevelInfo.Z_LevelData.IsUnlocked = false;
+            this.DataCogLevelInfo.Z_LevelData.LevelNumber = "LEVEL09";
+            this.DataCogLevelInfo.Z_LevelData.LevelDescription = "As One";
+            this.DataCogLevelInfo.Z_LevelData.Time = 999;
+            this.DataCogLevelInfo.Z_LevelData.TempTime = 999;
+            this.DataCogLevelInfo.Z_LevelData.CubesCollected = 0;
+            this.DataCogLevelInfo.Z_LevelData.TempCubesCollected = 0;
+            //save these new values
+            Zero.ObjectStore.Store("Level09Data", this.DataCogLevelInfo);
+            
+            //LEVEL10
+            //connect to LEVEL10's data archetype
+            this.DataCogLevelInfo = Zero.ObjectStore.RestoreOrArchetype("Level10Data", "ARC_DataLevel", this.Space);
+            //update the serialized properties
+            this.DataCogLevelInfo.Z_LevelData.IsUnlocked = false;
+            this.DataCogLevelInfo.Z_LevelData.LevelNumber = "LEVEL10";
+            this.DataCogLevelInfo.Z_LevelData.LevelDescription = "Building Trust";
+            this.DataCogLevelInfo.Z_LevelData.Time = 999;
+            this.DataCogLevelInfo.Z_LevelData.TempTime = 999;
+            this.DataCogLevelInfo.Z_LevelData.CubesCollected = 0;
+            this.DataCogLevelInfo.Z_LevelData.TempCubesCollected = 0;
+            //save these new values
+            Zero.ObjectStore.Store("Level10Data", this.DataCogLevelInfo);
+            
+            //LEVEL11
+            //connect to LEVEL11's data archetype
+            this.DataCogLevelInfo = Zero.ObjectStore.RestoreOrArchetype("Level11Data", "ARC_DataLevel", this.Space);
+            //update the serialized properties
+            this.DataCogLevelInfo.Z_LevelData.IsUnlocked = false;
+            this.DataCogLevelInfo.Z_LevelData.LevelNumber = "LEVEL11";
+            this.DataCogLevelInfo.Z_LevelData.LevelDescription = "We Can";
+            this.DataCogLevelInfo.Z_LevelData.Time = 999;
+            this.DataCogLevelInfo.Z_LevelData.TempTime = 999;
+            this.DataCogLevelInfo.Z_LevelData.CubesCollected = 0;
+            this.DataCogLevelInfo.Z_LevelData.TempCubesCollected = 0;
+            //save these new values
+            Zero.ObjectStore.Store("Level11Data", this.DataCogLevelInfo);
+            
+            //LEVEL12
+            //connect to LEVEL12's data archetype
+            this.DataCogLevelInfo = Zero.ObjectStore.RestoreOrArchetype("Level12Data", "ARC_DataLevel", this.Space);
+            //update the serialized properties
+            this.DataCogLevelInfo.Z_LevelData.IsUnlocked = false;
+            this.DataCogLevelInfo.Z_LevelData.LevelNumber = "LEVEL12";
+            this.DataCogLevelInfo.Z_LevelData.LevelDescription = "Do This";
+            this.DataCogLevelInfo.Z_LevelData.Time = 999;
+            this.DataCogLevelInfo.Z_LevelData.TempTime = 999;
+            this.DataCogLevelInfo.Z_LevelData.CubesCollected = 0;
+            this.DataCogLevelInfo.Z_LevelData.TempCubesCollected = 0;
+            //save these new values
+            Zero.ObjectStore.Store("Level12Data", this.DataCogLevelInfo);
+            
+            //LEVEL13
+            //connect to LEVEL13's data archetype
+            this.DataCogLevelInfo = Zero.ObjectStore.RestoreOrArchetype("Level13Data", "ARC_DataLevel", this.Space);
+            //update the serialized properties
+            this.DataCogLevelInfo.Z_LevelData.IsUnlocked = false;
+            this.DataCogLevelInfo.Z_LevelData.LevelNumber = "LEVEL13";
+            this.DataCogLevelInfo.Z_LevelData.LevelDescription = "Together At Last";
+            this.DataCogLevelInfo.Z_LevelData.Time = 999;
+            this.DataCogLevelInfo.Z_LevelData.TempTime = 999;
+            this.DataCogLevelInfo.Z_LevelData.CubesCollected = 0;
+            this.DataCogLevelInfo.Z_LevelData.TempCubesCollected = 0;
+            //save these new values
+            Zero.ObjectStore.Store("Level13Data", this.DataCogLevelInfo);
+        }
+    }
+}

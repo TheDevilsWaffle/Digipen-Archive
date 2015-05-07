@@ -1,0 +1,17 @@
+class Z_MusicController : ZilchComponent
+{
+    var IsMusicPlaying:Boolean = false;
+    function Initialize(init : CogInitializer)
+    {
+        if(this.Space.CurrentLevel.Name == "LVL_menu_start")
+        {
+            //play the music
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("SC_Music"));
+        }
+        //Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+    }
+}

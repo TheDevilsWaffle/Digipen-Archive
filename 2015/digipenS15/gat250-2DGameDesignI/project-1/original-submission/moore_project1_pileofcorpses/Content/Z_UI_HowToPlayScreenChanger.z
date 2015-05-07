@@ -1,0 +1,78 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_HowToPlayScreenChanger.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - © 2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_HowToPlayScreenChanger:ZilchComponent
+{
+    var GamepadIndex:Integer = 0;
+    var Gamepad:Gamepad = null;
+    var BtnObjective:Cog = null;
+    var BtnFlinging:Cog = null;
+    var BtnControls:Cog = null;
+    var BtnMenuMain:Cog = null;
+    var CurrentScreen:Cog = null;
+    var StartingPosition:Real3 = Real3();
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //gamepad stuffs
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        
+        //find the buttons on the screen
+        this.BtnObjective = this.Space.FindObjectByName("BtnObjective");
+        this.BtnFlinging = this.Space.FindObjectByName("BtnFlinging");
+        this.BtnControls = this.Space.FindObjectByName("BtnControls");
+        this.BtnMenuMain = this.Space.FindObjectByName("BtnMenuMain");
+        
+        //set starting position
+        this.StartingPosition = this.Owner.Transform.Translation;
+        //get the object with the sprite source to change
+        this.CurrentScreen = this.Owner.FindChildByName("Screens");
+        
+        //logic update event listener
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-listen for buttons
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        if(!this.BtnMenuMain.Z_UI_Gamepad.Active)
+        {
+            //OBJECTIVE BTN
+            if(this.BtnObjective.Z_UI_Gamepad.Active && this.Gamepad.IsButtonPressed(Buttons.A))
+            {
+                this.ChangeScreen("scn-objective");
+            }
+            if(this.BtnFlinging.Z_UI_Gamepad.Active && this.Gamepad.IsButtonPressed(Buttons.A))
+            {
+                this.ChangeScreen("scn-flinging");
+            }
+            if(this.BtnControls.Z_UI_Gamepad.Active && this.Gamepad.IsButtonPressed(Buttons.A))
+            {
+                this.ChangeScreen("scn-gamepad");
+            }
+        }
+        
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ChangeScreen
+    //EXPLANATION-change screen
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ChangeScreen(screenType_:String):Void
+    {
+        //change screen based on the passed string
+        this.CurrentScreen.Sprite.SpriteSource = SpriteSource.Find(screenType_);
+        //DEBUG
+        //Console.WriteLine(screenType_);
+    }
+}

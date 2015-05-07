@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_Player1Controller",
+		uint64 ResourceId = 546696ed713d06c5,
+	},
+},

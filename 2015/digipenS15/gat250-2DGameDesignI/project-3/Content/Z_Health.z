@@ -1,0 +1,112 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_CharacterController.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_Health : ZilchComponent
+{
+    // The max health we can have
+    [Property]
+    var MaxHealth : Real = 50.0;
+    // How much health we currently have. Separated from MaxHealth so that we can clamp to max health.
+    var CurrentHealth : Real = 50.0;
+    
+    // If we reach zero health should we call destroy on ourself?
+    [Property]
+    var DestroyAtZeroHealth : Boolean = true;
+    
+    // Do we send the Health Modified event?
+    [Property]
+    var SendsHealthModified : Boolean = true;
+    
+    // A scalar to modify how much damage this object takes.
+    [Property]
+    var DamageScalar : Real = 1.0;
+    
+    // When we die, we sound out a death event.
+    sends Death : ZilchEvent;
+    // When our health is modified let someone know (so they can update UI, etc...)
+    sends HealthModified : ZilchEvent;
+    
+    // We don't actually send these events, but we need them to exist in the event namespace.
+    sends ApplyDamage : DamageEvent;
+    sends ApplyHealth : HealthEvent;
+    
+    function Initialize(init : CogInitializer)
+    {
+        this.CurrentHealth = this.MaxHealth;
+        Zero.Connect(this.Owner, Events.ApplyDamage, this.OnApplyDamage);
+        Zero.Connect(this.Owner, Events.ApplyHealth, this.OnApplyHealth);
+    }
+    
+    function OnApplyDamage(damageEvent : DamageEvent)
+    {
+        this.ApplyDamage(damageEvent.Damage);
+    }
+    
+    function ApplyDamage(damage : Real)
+    {
+        this.ChangeHealth(damage, 0);
+    }
+    
+    function OnApplyHealth(healthEvent : HealthEvent)
+    {
+        this.ApplyHealth(healthEvent.Health);
+    }
+    
+    function ApplyHealth(health : Real)
+    {
+        this.ChangeHealth(0, health);
+    }
+    
+    function ChangeHealth(damage : Real, health : Real)
+    {
+        // Compute the total damage based upon our damage scalar.
+        damage = damage * this.DamageScalar;
+        
+        this.CurrentHealth -= damage;
+        this.CurrentHealth += health;
+        
+        // Clamp our current health (in my case I don't want to have
+        // to heal through negative health so I clamp to 0).
+        this.CurrentHealth = Math.Clamp(this.CurrentHealth, 0.0, this.MaxHealth);
+        
+        if(this.SendsHealthModified)
+        {
+            // Let someone know that our health has been modified (to update UI, etc...)
+            var healthModifiedEvent = ZilchEvent();
+            this.Owner.DispatchEvent(Events.HealthModified, healthModifiedEvent);
+        }
+        
+        // If we have no health.
+        if(this.CurrentHealth <= 0.0)
+        {
+            // Let anyone listening know we just died.
+            var toSend = ZilchEvent();
+            this.Owner.DispatchEvent(Events.Death, toSend);
+            
+            // And if the property is set destroy ourself.
+            if(this.DestroyAtZeroHealth)
+            {
+                this.Owner.Destroy();
+            }
+        }
+    }
+}
+
+// Event structure containing information used to apply damage to an object.
+class DamageEvent : ZilchEvent
+{
+    var Damage : Real = 0.0;
+    // The contact normal towards the object that is taking damage.
+    var Normal : Real3 = Real3(0.0, 0.0, 0.0);
+    // The point in world space where the damage is being applied.
+    // Can be used to spawn effects at the point of contact.
+    var WorldPoint : Real3 = Real3(0.0, 0.0, 0.0);
+}
+
+class HealthEvent : ZilchEvent
+{
+    var Health : Real = 0.0;
+}

@@ -1,0 +1,304 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_Gamepad.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_Gamepad:ZilchComponent
+{
+    //GAMEPAD
+    [Property]
+    var GamepadIndex:Integer = 0;
+    var Gamepad:Gamepad = null;
+    [Property]
+    var UpBtn:CogPath = null;
+    [Property]
+    var DownBtn:CogPath = null;
+    [Property]
+    var LeftBtn:CogPath = null;
+    [Property]
+    var RightBtn:CogPath = null;
+    [Property]
+    var GamepadConfirm:Buttons = Buttons.A;
+    [Property]
+    var KeyboardConfirm:Keys = Keys.Enter;
+    
+    //others
+    [Property]
+    var Active:Boolean = false;         //used to check to see if this button should appear active or not
+    [Property]
+    var Timer:Real = 0;
+    [Property]
+    var LevelToLoad:Level = null;
+    [Property]
+    var DelayBetweenButtonSwitch:Real = Real(10.0);
+    [Property]
+    var SubMenuDelayForAnimation:Real = Real(40.0);
+    
+    //non-settables
+    var CurrentBtn:Cog = null;          //connect to the actual sprite holder cog for the button
+    
+    //SPACES
+    var HUDSpace:Space = null;
+    var MainSpace:Space = null;
+    var SubMenuSpace:Space = null;
+    //LEVELS
+    var LVLHUD:Level = Level.Find("LVL_HUD");
+    var LVLSubmenu:Level = Level.Find("LVL_submenu");
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initializes variables and events
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //get the spaces
+        if(this.GameSession.FindSpaceByName("HUDSpace") != null)
+        {
+            this.HUDSpace = this.GameSession.FindSpaceByName("HUDSpace");
+        }
+        this.MainSpace = this.GameSession.FindSpaceByName("Main");
+        
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        //set to button's cog that has the sprite to animate
+        this.CurrentBtn = this.Owner.FindChildByName("BtnTop");
+        //gamepad stuffs
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-Updates every frame and performs actions with button presses
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //get the main space
+        var mainSpace = this.GameSession.FindSpaceByName("Main");
+        
+        //if the button is declared active (note: one button must be active per menu or this will not work)
+        if(this.Active)
+        {
+            //press the confirm btn on the gamepad or keyboard
+            if((this.Gamepad.IsButtonPressed(this.GamepadConfirm) || Zero.Keyboard.KeyIsPressed(this.KeyboardConfirm)) && this.Timer > this.DelayBetweenButtonSwitch)
+            {
+                //play the sound for clicking a button
+                this.MainSpace.SoundSpace.PlayCue(SoundCue.Find("ui-confirm"));
+                
+                //perform the animation for pressing a button
+                this.CurrentBtn.Z_UI_Button.OnDown();
+                
+                //null check
+                if(this.LevelToLoad != null)
+                {
+                    //if paused
+                    if(mainSpace.TimeSpace.Paused)
+                    {
+                        //toggle pause, play sounds again
+                        mainSpace.TimeSpace.TogglePause();
+                        mainSpace.SoundSpace.Pause = false;
+                    }
+                }
+                
+                //--------------MAIN MENU - NEW GAME
+                if(this.Owner.Name == "BtnMenuNewGame")
+                {
+                    this.Space.SoundSpace.PlayCue(SoundCue.Find("scLevelStart"));
+                }
+                
+                //--------------MAIN MENU - QUIT CONFIRMATION
+                if(this.Owner.Name == "BtnMenuQuitGame")
+                {
+                    this.CurrentBtn.Z_UI_Button.DelayLoadSubMenu();
+                }
+                //if button is "Quit No"
+                if(this.Owner.Name == "BtnQuitNoMainMenu")
+                {
+                    if(mainSpace.FindObjectByName("BtnMenuQuitGame") != null)
+                    {
+                        this.CurrentBtn.Z_UI_Button.DelayDestroySubMenu();
+                    }
+                }
+                //if button is Quit Yes"
+                if(this.Owner.Name == "BtnQuitYesQuitGame")
+                {
+                    //destroy spaces
+                    this.DestroySpaces();
+                    //do the thing
+                    this.GameSession.Quit();
+                }
+                
+                //--------------PAUSE MENU
+                //RESUME GAME
+                if(this.Owner.Name == "BtnPauseResume")
+                {
+                    this.CurrentBtn.Z_UI_Button.DelayResumeGame();
+                }
+                //PAUSE MENU - MAIN MENU
+                if(this.Owner.Name == "BtnPauseMainMenu")
+                {
+                    this.CurrentBtn.Z_UI_Button.DelayMainMenuConfirmation();
+                }
+                //PAUSE MENU - MAIN MENU CONFIRMATION - YES
+                if(this.Owner.Name == "BtnConfirmYes")
+                {
+                    //destroy spaces
+                    this.DestroySpaces();
+                    //load the main menu
+                    this.MainSpace.LoadLevel(Level.Find("LVL_menu_main"));
+                }
+                
+                //--------------GAMEOVER MENU
+                //GAMEOVER MENU - MAIN MENU
+                if(this.Owner.Name == "BtnGameOverMainMenu")
+                {
+                    //destroy spaces
+                    this.DestroySpaces();
+                    this.MainSpace.LoadLevel(Level.Find("LVL_menu_main"));
+                }
+                //GAMEOVER MENU - MAIN MENU
+                if(this.Owner.Name == "BtnRetry")
+                {
+                    //destroy spaces
+                    this.DestroySpaces();
+                    //pause the mainspace
+                    this.MainSpace.TimeSpace.Paused = false;
+                    this.MainSpace.SoundSpace.Pause = false;
+                    this.MainSpace.ReloadLevel();
+                }
+            }
+        }
+        
+        //gamepad button traversal
+        if(this.Active && this.Timer > this.DelayBetweenButtonSwitch)
+        {
+            //up
+            if(this.Gamepad.LeftStick.Y > 0.4 || Zero.Keyboard.KeyIsPressed(Keys.Up) || this.Gamepad.IsButtonPressed(Buttons.DpadUp))
+            {
+                //null check
+                if(this.UpBtn.Cog != null)
+                {
+                    //this button is now active
+                    this.UpBtn.Cog.Z_UI_Gamepad.Active = true;
+                    //reset timer (so we do not skip past this button and on to the next one)
+                    this.UpBtn.Cog.Z_UI_Gamepad.Timer = 0;
+                    
+                    //previous timer
+                    this.Timer = 0;
+                    //previous active
+                    this.Active = false;
+                    
+                    //play the sound for selecting a button
+                    this.MainSpace.SoundSpace.PlayCue(SoundCue.Find("ui-select"));
+                }
+            }
+            //down
+            if(this.Gamepad.LeftStick.Y < -0.4 || Zero.Keyboard.KeyIsPressed(Keys.Down) || this.Gamepad.IsButtonPressed(Buttons.DpadDown))
+            {
+                //null check
+                if(this.DownBtn.Cog != null)
+                {
+                    //this button is now active
+                    this.DownBtn.Cog.Z_UI_Gamepad.Active = true;
+                    //reset timer (so we do not skip past this button and on to the next one)
+                    this.DownBtn.Cog.Z_UI_Gamepad.Timer = 0;
+                    
+                    //previous timer
+                    this.Timer = 0;
+                    //previous active
+                    this.Active = false;
+                    
+                    //play the sound for selecting a button
+                    this.MainSpace.SoundSpace.PlayCue(SoundCue.Find("ui-select"));
+                }
+            }
+            //left
+            if(this.Gamepad.LeftStick.X < -0.4 || Zero.Keyboard.KeyIsPressed(Keys.Left) || this.Gamepad.IsButtonPressed(Buttons.DpadLeft))
+            {
+                
+                //null check
+                if(this.LeftBtn.Cog != null)
+                {
+                    //this button is now active
+                    this.LeftBtn.Cog.Z_UI_Gamepad.Active = true;
+                    //reset timer (so we do not skip past this button and on to the next one)
+                    this.LeftBtn.Cog.Z_UI_Gamepad.Timer = 0;
+                    
+                    //previous timer
+                    this.Timer = 0;
+                    //previous active
+                    this.Active = false;
+                    
+                    //play the sound for selecting a button
+                    this.MainSpace.SoundSpace.PlayCue(SoundCue.Find("ui-select"));
+                }
+            }
+            //right
+            if(this.Gamepad.LeftStick.X > 0.4 || Zero.Keyboard.KeyIsPressed(Keys.Right) || this.Gamepad.IsButtonPressed(Buttons.DpadRight))
+            {
+                //null check
+                if(this.RightBtn.Cog != null)
+                {
+                    //this button is now active
+                    this.RightBtn.Cog.Z_UI_Gamepad.Active = true;
+                    //reset timer (so we do not skip past this button and on to the next one)
+                    this.RightBtn.Cog.Z_UI_Gamepad.Timer = 0;
+                    
+                    //previous timer
+                    this.Timer = 0;
+                    //previous active
+                    this.Active = false;
+                    
+                    //play the sound for selecting a button
+                    this.MainSpace.SoundSpace.PlayCue(SoundCue.Find("ui-select"));
+                }
+            }
+        }
+        
+        //hover effect for current button (only upon next logic update (Timer == 1))
+        if(this.Active && this.Timer == 1)
+        {
+            if(this.CurrentBtn != null)
+            {
+                this.CurrentBtn.Z_UI_Button.OnEnter();
+            }
+        }
+        //we left the button, make it normal again
+        else if (this.Timer == 0)
+        {
+            if(this.CurrentBtn != null)
+            {
+                this.CurrentBtn.Z_UI_Button.OnExit();
+            }
+        }
+        
+        //increment the timer so we can eventually select a new button
+        ++this.Timer;
+    }
+    
+    function DestroySpaces():Void
+    {
+        //destroy submenu
+        if(this.GameSession.FindSpaceByName("SpaceSubMenu") != null)
+        {
+            var spaceSubMenu = this.GameSession.FindSpaceByName("SpaceSubMenu");
+            spaceSubMenu.Destroy();
+        }
+        if(this.HUDSpace != null)
+        {
+            //Console.WriteLine("DOIN IT");
+            this.HUDSpace.DestroyAllFromLevel();
+            this.HUDSpace.DestroyAll();
+            this.HUDSpace.Destroy();
+        }
+        
+        Console.WriteLine("DESTROYING!");
+        this.MainSpace.DestroyAllFromLevel();
+        this.MainSpace.DestroyAll();
+        this.MainSpace.TimeSpace.Paused = false;
+        this.MainSpace.SoundSpace.Pause = false;
+        
+        //potentially crashes on game quit
+        //this.MainSpace.LevelSettings.Z_MusicController.StopMusic();
+    }
+}

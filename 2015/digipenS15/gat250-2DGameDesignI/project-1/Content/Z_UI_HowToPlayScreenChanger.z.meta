@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_UI_HowToPlayScreenChanger",
+		uint64 ResourceId = 54f0f320a17dcbb8,
+	},
+},

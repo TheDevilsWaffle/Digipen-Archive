@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_UI_AngleArrow",
+		uint64 ResourceId = 54e8dbe4d11309e1,
+	},
+},

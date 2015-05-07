@@ -1,0 +1,176 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "Player",
+	},
+	Archetyped = 
+	{
+		string Name = "5448b363b2296466:ARC_player",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [-2.57048, 3.13589, 0],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		bool Visible = true,
+		bool VisibilityCulling = true,
+		bool VisibilityEvents = false,
+		bool CastShadows = false,
+		Vec4 Color = [1, 1, 1, 1],
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+		string SpriteSource = "544f57c8f5967e41:spr_player",
+		bool RenderMask = false,
+		bool FlipX = true,
+		bool FlipY = false,
+		bool OnTop = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+	},
+	RigidBody = 
+	{
+		bool Static = false,
+		bool Asleep = false,
+		bool Kinematic = true,
+		bool RotationLocked = true,
+		bool Mode2D = true,
+		bool AllowSleep = true,
+		bool Inherit2DMode = true,
+		Vec3 Velocity = [0, 0, 0],
+		Vec3 AngularVelocity = [0, 0, 0],
+	},
+	CapsuleCollider = 
+	{
+		bool Ghost = true,
+		bool SendsMessages = true,
+		bool Seamless = true,
+		string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+		string SerializedGroupName = "544f5828fdb5ce02:CG_Player",
+		Vec3 Offset = [0.1, 0, 0],
+		float Radius = 0.5,
+		float Height = 1.5,
+		uint Direction = 1,
+	},
+	SweptController = 
+	{
+		Vec3 WorldUp = [0, 1, 0],
+		bool LockZAxis = false,
+		bool ForwardEvents = false,
+		float Gravity = 10,
+		float JumpSpeed = 5,
+		float JumpCancelFactor = 0.5,
+		float MaxMoveSpeed = 10,
+		float MaxFallSpeed = 50,
+		float GroundAcceleration = 50,
+		float AirAcceleration = 10,
+		float GroundDeceleration = 50,
+		float AirDeceleration = 10,
+		float MaxGroundSlope = 45,
+		float MaxCeilingSlope = 45,
+		float GroundSnapDistance = 0.1,
+		Vec3 ControllerVelocity = [0, 0, 0],
+		bool Grounded = false,
+		bool Jumping = false,
+		float GroundTraction = 0,
+		float AirTraction = 0,
+	},
+	CustomCollisionEventTracker = 
+	{
+	},
+	Z_CharacterController = 
+	{
+		int JumpCount = 1,
+		int MaxJumps = 1,
+	},
+	Z_AnimationController = 
+	{
+		string PlayerStand = "543e64b913088ca8:spr_player_monkey",
+		string PlayerWalk = "543e658e3ff25876:ani-monkey-walk",
+		string PlayerJump = "543e65a033fd1a73:ani-monkey-jump",
+	},
+	SoundEmitter = 
+	{
+		bool StartPlaying = false,
+		int ExtraPriority = 0,
+		string CueName = "5440ba78c62bad65:sfx_jump",
+		float Volume = 1,
+		float Pitch = 1,
+		bool Positional = true,
+	},
+	Z_SFXController = 
+	{
+	},
+	Hierarchy = 
+	{
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 2,
+			},
+			Named = 
+			{
+				string Name = "go_shovel",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [-0.469781, -0.556807, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0.21644, 0.976296],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				bool VisibilityEvents = false,
+				bool CastShadows = false,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "544f57c8f59641d6:spr_shovel",
+				bool RenderMask = false,
+				bool FlipX = true,
+				bool FlipY = false,
+				bool OnTop = false,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+			BoxCollider = 
+			{
+				bool Ghost = true,
+				bool SendsMessages = true,
+				bool Seamless = true,
+				string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+				string SerializedGroupName = "544f40b4f96f16f1:CG_Shovel",
+				Vec3 Offset = [-0.75, 0, 0],
+				Vec3 Size = [0.375, 0.375, 0.5],
+			},
+			Z_ShovelFling = 
+			{
+				Enum GamepadFlingButton = X,
+				float StrengthMax = 200,
+				float StrengthMin = 0,
+				float StrengthModifier = 500,
+				string PressXAnimation = "54ff27d2cb4cac69:ani-press-x",
+			},
+			Z_UI_AngleArrow = 
+			{
+			},
+			Z_UI_PowerMeter = 
+			{
+			},
+		},
+	},
+},

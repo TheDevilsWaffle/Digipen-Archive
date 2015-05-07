@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_UI_Gamepad",
+		uint64 ResourceId = 54252195495c94af,
+	},
+},

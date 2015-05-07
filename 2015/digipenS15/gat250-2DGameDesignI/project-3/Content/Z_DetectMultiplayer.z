@@ -1,0 +1,106 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_DetectMultiplayer.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_DetectMultiplayer:ZilchComponent
+{
+    //GAMEPAD
+    var Gamepad1Index:Integer = Integer(0);
+    var Gamepad1:Gamepad = null;
+    var Gamepad2Index:Integer = Integer(1);
+    var Gamepad2:Gamepad = null;
+    
+    //RESTART MESSAGE
+    var ARC_RestartMessage:Archetype = Archetype.Find("ARC_RestartMessage");
+    var RestartMessage:Cog = null;
+    
+    //TARGETS
+    var Player1:Cog = null;
+    var Player2:Cog = null;
+    
+    //BOOL
+    var IsPlayer2Active:Boolean = Boolean(false);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them / detect two gamepads
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //set player1 and player2
+        this.Player1 = this.Space.FindObjectByName("goPlayer1");
+        this.Player2 = this.Space.FindObjectByName("goPlayer2");
+        
+        //gamepad assignment and detection
+        this.Gamepad1 = Zero.Gamepads.GetGamePad(this.Gamepad1Index);
+        this.Gamepad2 = Zero.Gamepads.GetGamePad(this.Gamepad2Index);
+        
+        //if there is not a player 2, then map everything to the first controller
+        if(!this.Gamepad2.IsActive)
+        {
+            //DEBUG
+            //Console.WriteLine("`this.Gamepad2.GamepadIndex` is not active, mapping player2 to `this.Gamepad1.GamepadIndex`");
+            
+            //Player2 remapping controls to Player1 gamepad (0)
+            this.Player2.RemoveComponentByName("Z_Player2Controller");
+            this.Player2.AddComponentByName("Z_Player1Controller");
+            this.Player2.Z_Player1Controller.GPLeft = Buttons.DpadLeft;
+            this.Player2.Z_Player1Controller.GPRight = Buttons.DpadRight;
+            this.Player2.Z_Player1Controller.GPJump = Buttons.A;
+            this.Player2.Z_Player1Controller.IsGravityReversed = true;
+        }
+        
+        //set IsPlayer2Active to current status of gamepad2
+        this.IsPlayer2Active = this.Gamepad2.IsActive;
+        
+        //event listeners
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        //if a controller just got plugged in (player2 was previously inactive)
+        if(this.Gamepad2.IsActive && !this.IsPlayer2Active)
+        {
+            //Console.WriteLine("PLAYER2 is now ONLINE");
+            
+            //flash instructions to restart level
+            this.RestartMessage = this.Space.CreateAtPosition(this.ARC_RestartMessage, this.Space.FindObjectByName("Camera").Transform.Translation);
+            this.RestartMessage.Transform.Translation = Real3(this.RestartMessage.Transform.Translation.X, this.RestartMessage.Transform.Translation.Y, 2);
+            this.Space.LevelSettings.Z_RestartLevel.FadeOutToBlack();
+            
+            //set IsPlayer2Active to current status of gamepad2
+            this.IsPlayer2Active = this.Gamepad2.IsActive; 
+        }
+        
+        //if a controller just got plugged in (player2 was previously inactive)
+        if(!this.Gamepad2.IsActive && this.IsPlayer2Active)
+        {
+            //Console.WriteLine("PLAYER2 is now OFFLINE");
+            
+            //flash instructions to restart level
+            this.RestartMessage = this.Space.CreateAtPosition(this.ARC_RestartMessage, this.Space.FindObjectByName("Camera").Transform.Translation);
+            this.RestartMessage.Transform.Translation = Real3(this.RestartMessage.Transform.Translation.X, this.RestartMessage.Transform.Translation.Y, 2);
+            //set new message for RestartMessage
+            this.RestartMessage.SpriteText.Text = "Player 2 Gamepad Missing Restarting Level...";
+            this.Space.LevelSettings.Z_RestartLevel.FadeOutToBlack();
+            
+            //set IsPlayer2Active to current status of gamepad2
+            this.IsPlayer2Active = this.Gamepad2.IsActive; 
+        }
+        
+        
+        //if(this.Space.LevelSettings.Z_RestartLevel.AFadeOut != null)
+        //{
+        //    if(this.Space.LevelSettings.Z_RestartLevel.AFadeOut.Completed)
+        //    {
+        //        this.Space.LevelSettings.Z_RestartLevel.RestartLevel();
+        //    }
+        //}
+        
+        //set IsPlayer2Active to current status of gamepad2
+        this.IsPlayer2Active = this.Gamepad2.IsActive; 
+    }
+}

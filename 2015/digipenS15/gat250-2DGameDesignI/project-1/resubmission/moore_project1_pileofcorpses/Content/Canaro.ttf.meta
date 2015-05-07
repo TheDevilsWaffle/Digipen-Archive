@@ -1,0 +1,8 @@
+FontContent = 
+{
+	FontBuilder = 
+	{
+		string Name = "Canaro",
+		uint64 ResourceId = 5424dc7261748369,
+	},
+},

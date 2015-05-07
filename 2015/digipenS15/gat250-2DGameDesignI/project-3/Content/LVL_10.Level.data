@@ -1,0 +1,1985 @@
+Level = 
+{
+	LevelSettings = 
+	{
+		LinkId = 
+		{
+			uint Id = 1,
+		},
+		Named = 
+		{
+			string Name = "LevelSettings",
+		},
+		GravityEffect = 
+		{
+			bool Active = true,
+			bool WakeUpOnChange = false,
+			bool LocalSpaceDirection = true,
+			float Strength = 10,
+			Vec3 Direction = [0, -1, 0],
+		},
+		DragEffect = 
+		{
+			bool Active = true,
+			bool WakeUpOnChange = false,
+			float Drag = 0.7,
+		},
+		DeferredRenderer = 
+		{
+			Vec4 ClearColor = [0.0862745, 0.0862745, 0.0862745, 1],
+			bool DrawNonVisible = false,
+			bool DrawDebugObjects = true,
+			bool DrawEditorIcons = true,
+			bool EditorIconDepth = true,
+			bool Hdr = true,
+			bool Shadows = true,
+			bool AntiAliasing = false,
+			bool Refraction = true,
+			bool Reflections = true,
+			string ReflectionEnvironmentName = "4fab71e8bcb7a8ce:DefaultTexture",
+			bool GodRays = true,
+			bool RenderMasks = false,
+			bool Glow = true,
+			float GlowThreshold = 0.3,
+		},
+		CameraViewport = 
+		{
+			bool Background = true,
+			Vec2 Offset = [0, 0],
+			Vec2 Size = [1, 1],
+			int Layer = 0,
+			bool Active = true,
+			bool Blocking = true,
+			uint Renderer = 1,
+			uint Camera = 2,
+			ViewportScaling Scaling = Fill,
+			Vec2 Resolution = [1280, 720],
+			Vec4 MarginColor = [0, 0, 0, 1],
+		},
+		GridDraw = 
+		{
+			bool Active = true,
+			bool HalfCellOffset = false,
+			float CellSize = 1,
+			GridAxis Axis = ZAxis,
+			int Lines = 100,
+			bool DrawAxisOrigins = true,
+			bool AlwaysDrawInEditor = true,
+			bool DrawInGame = false,
+			Vec4 GridColor = [0.5, 0.5, 0.5, 0.4],
+			Vec4 GridHiLight = [0, 0, 0, 0.4],
+			int HilightInterval = 10,
+			bool FollowEditorCamera = false,
+		},
+		Z_UI_Mouse = 
+		{
+			float Delay = 0.5,
+		},
+		Z_VibrationController = 
+		{
+		},
+		Z_DetectMultiplayer = 
+		{
+		},
+		Z_LevelLoader = 
+		{
+			int GamepadIndex = 0,
+			string ChapterNumber = "LEVEL 10",
+			string ChapterText = "Building Trust",
+			string CongratulatoryText = "w00t!",
+			float TextYPos = -5,
+			float TextXPos = 1,
+			string NextLevel = "55288ffd51cac587:LVL_09",
+			string PreviousLevel = "55132cecce9fd484:LVL_11",
+			Enum KbCheatNextLevel = Add,
+			Enum GpCheatNextLevel = RightShoulder,
+			Enum KbCheatPreviousLevel = Minus,
+			Enum GpCheatPreviousLevel = LeftShoulder,
+		},
+		Z_RestartLevel = 
+		{
+			Enum EaseType = QuadInOut,
+			float DelayBeforeDeath = 1,
+			float DelayBeforeReload = 2.5,
+		},
+		Z_UI_MenuSpace = 
+		{
+			string LvlSubMenu = "5438f599cb2079ae:LVL_submenu",
+		},
+		Z_Pause = 
+		{
+			string LvlSubMenu = "5438f599cb2079ae:LVL_submenu",
+			Enum GamepadPauseBtn = Start,
+			Enum KeyboardPauseBtn = P,
+			Vec3 PauseMenuPos = [0, -1, 10],
+		},
+		Z_UI_MenuPopUp = 
+		{
+			float FadeInTime = 1,
+			float FadeOutTime = 0.25,
+			Vec3 ScaleOutSize = [0.75, 0.75, 0.75],
+			float ScaleOutTime = 0.2,
+			Vec3 ScaleInSize = [1, 1, 1],
+			float ScaleTime = 0.8,
+			Enum EaseType = QuadIn,
+			Vec3 OriginalPos = [0, 0, 11],
+		},
+		Z_TemporaryLevelData = 
+		{
+			string LevelDataName = "Level10Data",
+		},
+		Z_HUDCreator = 
+		{
+			string LvlHud = "5516f2b3b2d493dd:lvl_hud",
+			float DelayTimer = 2,
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 3,
+		},
+		Named = 
+		{
+			string Name = "EditorCamera",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-10.134, 0.500033, 52.6552],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [-0, -1.09278e-008, 0, 1],
+		},
+		Camera = 
+		{
+			ProjectionMode ProjectionMode = Orthographic,
+			Facing Facing = NegativeZ,
+			CameraTransparentSort TransparentSort = InheritFromSpace,
+			float FieldOfView = 45,
+			float NearPlane = 0.5,
+			float FarPlane = 500,
+			float Size = 67.032,
+		},
+		EditorCameraController = 
+		{
+			ControlMode ControlMode = ZPlane,
+			float LookDistance = 50,
+			float VerticalAngle = 0,
+			float HorizontalAngle = 0,
+			Vec3 LookTarget = [-10.134, 0.500033, 2.65522],
+			float MoveSensitivity = 1,
+		},
+		EditorRenderer = 
+		{
+			Vec4 ClearColor = [0.155, 0.155, 0.155, 1],
+			bool DrawNonVisible = true,
+			bool DrawDebugObjects = true,
+			bool DrawEditorIcons = true,
+			bool Wireframe = false,
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "5529e62dd9254a5f:ARC_GameCamera",
+		LinkId = 
+		{
+			uint Id = 2,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-25.4722, 0.570235, 50],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Camera",
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 4,
+		},
+		Named = 
+		{
+			string Name = "tmGround",
+		},
+		EditorFlags = 
+		{
+			bool Locked = true,
+			bool Hidden = false,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-2.96442, 3.93327, 1],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		MultiSprite = 
+		{
+			bool Visible = true,
+			bool VisibilityCulling = true,
+			bool VisibilityEvents = false,
+			bool CastShadows = false,
+			Vec4 Color = [1, 1, 1, 1],
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+			string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+		},
+		TileMap = 
+		{
+			string SourceName = "551332a0466dd4f8:LVL_10_TileMap00",
+			string PaletteName = "5528154d458bef1b:UpAndDownTileset",
+			float UnitsPerTile = 1,
+			float MeshThickness = 1.2,
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "547b5b81ee1865f0:ARC_Player1",
+		LinkId = 
+		{
+			uint Id = 5,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-25.5, 11, 1.1],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Area = 
+		{
+			Vec2 Size = [1, 1],
+			Location Origin = BottomCenter,
+		},
+		Named = 
+		{
+			string Name = "goPlayer1",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "54d0655d2f63c731:ARC_Player2",
+		LinkId = 
+		{
+			uint Id = 6,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-25.5, -11, 1.1],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Area = 
+		{
+			Vec2 Size = [1, 1],
+			Location Origin = TopCenter,
+		},
+		Named = 
+		{
+			string Name = "goPlayer2",
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 7,
+		},
+		Named = 
+		{
+			string Name = "goBridge",
+		},
+		Archetyped = 
+		{
+			string Name = "54d065311941c88e:ARC_Bridge",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [5.58844, 22.1971, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Hierarchy = 
+		{
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "55294e0538eb6c3f:ARC_EndLevelPortal1",
+		LinkId = 
+		{
+			uint Id = 8,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [15.5261, 5.45644, 1],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Area = 
+		{
+			Vec2 Size = [2, 2],
+			Location Origin = Center,
+		},
+		Named = 
+		{
+			string Name = "goEndPortal",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "55294e0d36b20fe3:ARC_EndLevelPortal2",
+		LinkId = 
+		{
+			uint Id = 9,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [15.5261, 1.40513, 1],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Area = 
+		{
+			Vec2 Size = [2, 2],
+			Location Origin = Center,
+		},
+		Named = 
+		{
+			string Name = "goEndPortal",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "55882f8c2b9ded65:ARC_LevelFader",
+		LinkId = 
+		{
+			uint Id = 10,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [0, 0, 1.1],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Area = 
+		{
+			Vec2 Size = [100, 100],
+			Location Origin = Center,
+		},
+		Named = 
+		{
+			string Name = "goLevelFader",
+		},
+		EditorFlags = 
+		{
+			bool Locked = true,
+			bool Hidden = true,
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 11,
+		},
+		Named = 
+		{
+			string Name = "bgBackground",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-3.31494, 0.132766, -10],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			bool Visible = true,
+			bool VisibilityCulling = true,
+			bool VisibilityEvents = false,
+			bool CastShadows = false,
+			Vec4 Color = [1, 1, 1, 1],
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+			string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+			string SpriteSource = "55801e7d46bb31cc:sprScnBlank",
+			bool RenderMask = false,
+			bool FlipX = false,
+			bool FlipY = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+		},
+		Area = 
+		{
+			Vec2 Size = [68, 36],
+			Location Origin = Center,
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 12,
+		},
+		Named = 
+		{
+			string Name = "goDeathZone",
+		},
+		Archetyped = 
+		{
+			string Name = "547b612afc640c10:ARC_DeathZone",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-4.90083, 0.466363, 1],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			bool Visible = true,
+			bool VisibilityCulling = true,
+			bool VisibilityEvents = false,
+			bool CastShadows = false,
+			Vec4 Color = [1, 1, 1, 0.5],
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+			string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+			string SpriteSource = "5580dabd68b9cf36:sprDeathZone",
+			bool RenderMask = false,
+			bool FlipX = false,
+			bool FlipY = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+		},
+		BoxCollider = 
+		{
+			bool Ghost = true,
+			bool SendsMessages = true,
+			bool Seamless = true,
+			string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0, 0],
+			Vec3 Size = [15, 0.5, 0.5],
+		},
+		Area = 
+		{
+			Vec2 Size = [30, 1],
+			Location Origin = Center,
+		},
+		Z_DeathZone = 
+		{
+		},
+		SpriteParticleSystem = 
+		{
+			bool Visible = true,
+			bool VisibilityCulling = false,
+			bool VisibilityEvents = false,
+			bool CastShadows = false,
+			SystemChildMode ChildMode = Independent,
+			SystemSpace SystemSpace = WorldSpace,
+			uint DrawOrder = 0,
+			float WarmUpTime = 0,
+			ParticleGeometry GeometryMode = Billboarded,
+			ParticleRenderMode RenderMode = Blended,
+			ParticleSortMode SortMode = Youngest,
+			ParticleAnimation ParticleAnimation = Single,
+			string Texture = "5580dabd68b9f69c:sprParticleDeath",
+			Vec4 Tint = [1, 1, 1, 1],
+			float VelocityScale = 1,
+			float LengthScale = 1,
+			float MaxParticleSize = 100,
+			Vec3 SystemSize = [4, 4, 1],
+		},
+		BoxParticleEmitter = 
+		{
+			bool Active = true,
+			uint EmitCount = 0,
+			float EmitRate = 36,
+			float EmitVariance = 6,
+			float Size = 0.35,
+			float SizeVariance = 0.15,
+			float Lifetime = 2,
+			float LifetimeVariance = 0.2,
+			float Spin = 0,
+			float SpinVariance = 0,
+			bool RandomSpin = false,
+			float Fill = 1,
+			float EmitterVelocityPercent = 0,
+			Vec3 StartVelocity = [0, 0, 0],
+			Vec3 RandomVelocity = [1, 1, 0],
+			Vec3 TangentVelocity = [0, 0, 0],
+			Vec3 EmitterSize = [30, 0, 0],
+			bool FastMovingEmitter = false,
+		},
+		LinearParticleAnimator = 
+		{
+			Vec3 Force = [0, 0, 0],
+			Vec3 RandomForce = [0, 0, 0],
+			float Torque = 0,
+			float Growth = 0,
+			float Dampening = 1,
+			Vec3 Twist = [0, 0, 0],
+		},
+		ParticleColorAnimator = 
+		{
+			Vec4 Color0 = [0, 0, 0, 0],
+			Vec4 Color1 = [0.105, 0.102375, 0.102375, 1],
+			Vec4 Color2 = [0.815, 0.802775, 0.802775, 1],
+			Vec4 Color3 = [1, 1, 1, 1],
+			Vec4 Color4 = [0, 0, 0, 0],
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "5594f09f83f6ac4d:ARC_Cube",
+		LinkId = 
+		{
+			uint Id = 13,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-17.469, 4.84598, 0.9],
+			Vec3 Scale = [0.5, 0.5, 0.5],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Area = 
+		{
+			Vec2 Size = [1, 1],
+			Location Origin = Center,
+		},
+		Named = 
+		{
+			string Name = "goCube",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "5594f09f83f6ac4d:ARC_Cube",
+		LinkId = 
+		{
+			uint Id = 14,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [14.0481, -1.93159, 0.9],
+			Vec3 Scale = [0.5, 0.5, 0.5],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Area = 
+		{
+			Vec2 Size = [1, 1],
+			Location Origin = Center,
+		},
+		Named = 
+		{
+			string Name = "goCube",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "5594f09f83f6ac4d:ARC_Cube",
+		LinkId = 
+		{
+			uint Id = 15,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [4.61613, 8.17124, 0.9],
+			Vec3 Scale = [0.5, 0.5, 0.5],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Area = 
+		{
+			Vec2 Size = [1, 1],
+			Location Origin = Center,
+		},
+		Named = 
+		{
+			string Name = "goCube",
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 16,
+		},
+		Named = 
+		{
+			string Name = "goButton",
+		},
+		Archetyped = 
+		{
+			string Name = "54d0651c1c44a1ec:ARC_Button",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-9.45229, 1.91018, 0.9],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			bool Visible = true,
+			bool VisibilityCulling = true,
+			bool VisibilityEvents = false,
+			bool CastShadows = false,
+			Vec4 Color = [1, 1, 1, 1],
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+			string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+			string SpriteSource = "55209bbfaa619ec5:sprButton",
+			bool RenderMask = false,
+			bool FlipX = false,
+			bool FlipY = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+		},
+		BoxCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = true,
+			string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0.3, 0],
+			Vec3 Size = [0.375, 0.3, 0.25],
+		},
+		Z_ButtonType = 
+		{
+			Enum ButtonTypeList = Bridge,
+			CogPath ButtonControlledObject = ":/goBridge2",
+			float ButtonDown = 0.35,
+			float ButtonTime = 0.35,
+			bool IsUpsideDown = false,
+		},
+		Area = 
+		{
+			Vec2 Size = [0.75, 0.6],
+			Location Origin = BottomCenter,
+		},
+		Hierarchy = 
+		{
+			Cog = 
+			{
+				LinkId = 
+				{
+					uint Id = 17,
+				},
+				Named = 
+				{
+					string Name = "detector",
+				},
+				Transform = 
+				{
+					Vec3 Translation = [-0.00620461, -0.486309, 0.1],
+					Vec3 Scale = [1, 1, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Sprite = 
+				{
+					bool Visible = true,
+					bool VisibilityCulling = true,
+					bool VisibilityEvents = false,
+					bool CastShadows = false,
+					Vec4 Color = [1, 1, 1, 1],
+					BlendMode BlendMode = Alpha,
+					SpriteGeometryMode GeometryMode = ZPlane,
+					string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+					string SpriteSource = "4e07948c35993095:DefaultSprite",
+					bool RenderMask = false,
+					bool FlipX = false,
+					bool FlipY = false,
+					bool AnimationActive = true,
+					float AnimationSpeed = 1,
+					uint StartFrame = 0,
+				},
+				Area = 
+				{
+					Vec2 Size = [1.05, 1.05],
+					Location Origin = Center,
+				},
+				BoxCollider = 
+				{
+					bool Ghost = true,
+					bool SendsMessages = true,
+					bool Seamless = true,
+					string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+					string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+					Vec3 Offset = [0.01, 0.85, 0],
+					Vec3 Size = [0.36, 0.3, 0.5],
+				},
+				Hierarchy = 
+				{
+				},
+			},
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 18,
+		},
+		Named = 
+		{
+			string Name = "goBridge2",
+		},
+		Archetyped = 
+		{
+			string Name = "54d065311941c88e:ARC_Bridge",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-7, -0.6, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Hierarchy = 
+		{
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 19,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [0, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 20,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [1, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 21,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [2, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 22,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [3, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 23,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [4, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 24,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [5, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 25,
+		},
+		Named = 
+		{
+			string Name = "goBouncePad1",
+		},
+		Archetyped = 
+		{
+			string Name = "547b6b2795b760e8:ARC_BouncePad",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-17.5, 2.5, 0.9],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			bool Visible = true,
+			bool VisibilityCulling = true,
+			bool VisibilityEvents = false,
+			bool CastShadows = false,
+			Vec4 Color = [1, 1, 1, 1],
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+			string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+			string SpriteSource = "5520886449e9884a:sprBouncePadInactive",
+			bool RenderMask = false,
+			bool FlipX = false,
+			bool FlipY = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+		},
+		BoxCollider = 
+		{
+			bool Ghost = true,
+			bool SendsMessages = true,
+			bool Seamless = true,
+			string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0, 0],
+			Vec3 Size = [1.25, 0.45, 0.5],
+		},
+		Z_BouncePad = 
+		{
+			float BounceForce = 2.5,
+			Vec3 BounceDirection = [0, 1, 0],
+			Vec3 BouncePadScale = [0, 2, 0],
+			bool IsActive = false,
+		},
+		Area = 
+		{
+			Vec2 Size = [2.5, 0.75],
+			Location Origin = Center,
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 26,
+		},
+		Named = 
+		{
+			string Name = "goBouncePad2",
+		},
+		Archetyped = 
+		{
+			string Name = "547b6b2795b760e8:ARC_BouncePad",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-17.5, -1.5, 0.9],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [-0, 0, 1, -4.37114e-008],
+		},
+		Sprite = 
+		{
+			bool Visible = true,
+			bool VisibilityCulling = true,
+			bool VisibilityEvents = false,
+			bool CastShadows = false,
+			Vec4 Color = [1, 1, 1, 1],
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+			string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+			string SpriteSource = "5520886449e9884a:sprBouncePadInactive",
+			bool RenderMask = false,
+			bool FlipX = false,
+			bool FlipY = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+		},
+		BoxCollider = 
+		{
+			bool Ghost = true,
+			bool SendsMessages = true,
+			bool Seamless = true,
+			string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0, 0],
+			Vec3 Size = [1.25, 0.45, 0.5],
+		},
+		Z_BouncePad = 
+		{
+			float BounceForce = 2.5,
+			Vec3 BounceDirection = [0, -1, 0],
+			Vec3 BouncePadScale = [0, 2, 0],
+			bool IsActive = false,
+		},
+		Area = 
+		{
+			Vec2 Size = [2.5, 0.75],
+			Location Origin = Center,
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 27,
+		},
+		Named = 
+		{
+			string Name = "goButton",
+		},
+		Archetyped = 
+		{
+			string Name = "54d0651c1c44a1ec:ARC_Button",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-21.4655, -1, 0.9],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [-0, 0, 1, -4.37114e-008],
+		},
+		Sprite = 
+		{
+			bool Visible = true,
+			bool VisibilityCulling = true,
+			bool VisibilityEvents = false,
+			bool CastShadows = false,
+			Vec4 Color = [1, 1, 1, 1],
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+			string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+			string SpriteSource = "55209bbfaa619ec5:sprButton",
+			bool RenderMask = false,
+			bool FlipX = false,
+			bool FlipY = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+		},
+		BoxCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = true,
+			string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0.3, 0],
+			Vec3 Size = [0.375, 0.3, 0.25],
+		},
+		Z_ButtonType = 
+		{
+			Enum ButtonTypeList = Bounce,
+			CogPath ButtonControlledObject = ":/goBouncePad1",
+			float ButtonDown = 0.35,
+			float ButtonTime = 0.35,
+			bool IsUpsideDown = true,
+		},
+		Area = 
+		{
+			Vec2 Size = [0.75, 0.6],
+			Location Origin = BottomCenter,
+		},
+		Hierarchy = 
+		{
+			Cog = 
+			{
+				LinkId = 
+				{
+					uint Id = 28,
+				},
+				Named = 
+				{
+					string Name = "detector",
+				},
+				Transform = 
+				{
+					Vec3 Translation = [-0.00620461, -0.486309, 0.1],
+					Vec3 Scale = [1, 1, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Sprite = 
+				{
+					bool Visible = true,
+					bool VisibilityCulling = true,
+					bool VisibilityEvents = false,
+					bool CastShadows = false,
+					Vec4 Color = [1, 1, 1, 1],
+					BlendMode BlendMode = Alpha,
+					SpriteGeometryMode GeometryMode = ZPlane,
+					string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+					string SpriteSource = "4e07948c35993095:DefaultSprite",
+					bool RenderMask = false,
+					bool FlipX = false,
+					bool FlipY = false,
+					bool AnimationActive = true,
+					float AnimationSpeed = 1,
+					uint StartFrame = 0,
+				},
+				Area = 
+				{
+					Vec2 Size = [1.05, 1.05],
+					Location Origin = Center,
+				},
+				BoxCollider = 
+				{
+					bool Ghost = true,
+					bool SendsMessages = true,
+					bool Seamless = true,
+					string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+					string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+					Vec3 Offset = [0.01, 0.85, 0],
+					Vec3 Size = [0.36, 0.3, 0.5],
+				},
+				Hierarchy = 
+				{
+				},
+			},
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 29,
+		},
+		Named = 
+		{
+			string Name = "goButton",
+		},
+		Archetyped = 
+		{
+			string Name = "54d0651c1c44a1ec:ARC_Button",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-13.4567, 1.91018, 0.9],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			bool Visible = true,
+			bool VisibilityCulling = true,
+			bool VisibilityEvents = false,
+			bool CastShadows = false,
+			Vec4 Color = [1, 1, 1, 1],
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+			string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+			string SpriteSource = "55209bbfaa619ec5:sprButton",
+			bool RenderMask = false,
+			bool FlipX = false,
+			bool FlipY = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+		},
+		BoxCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = true,
+			string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0.3, 0],
+			Vec3 Size = [0.375, 0.3, 0.25],
+		},
+		Z_ButtonType = 
+		{
+			Enum ButtonTypeList = Bounce,
+			CogPath ButtonControlledObject = ":/goBouncePad2",
+			float ButtonDown = 0.35,
+			float ButtonTime = 0.35,
+			bool IsUpsideDown = false,
+		},
+		Area = 
+		{
+			Vec2 Size = [0.75, 0.6],
+			Location Origin = BottomCenter,
+		},
+		Hierarchy = 
+		{
+			Cog = 
+			{
+				LinkId = 
+				{
+					uint Id = 30,
+				},
+				Named = 
+				{
+					string Name = "detector",
+				},
+				Transform = 
+				{
+					Vec3 Translation = [-0.00620461, -0.486309, 0.1],
+					Vec3 Scale = [1, 1, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Sprite = 
+				{
+					bool Visible = true,
+					bool VisibilityCulling = true,
+					bool VisibilityEvents = false,
+					bool CastShadows = false,
+					Vec4 Color = [1, 1, 1, 1],
+					BlendMode BlendMode = Alpha,
+					SpriteGeometryMode GeometryMode = ZPlane,
+					string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+					string SpriteSource = "4e07948c35993095:DefaultSprite",
+					bool RenderMask = false,
+					bool FlipX = false,
+					bool FlipY = false,
+					bool AnimationActive = true,
+					float AnimationSpeed = 1,
+					uint StartFrame = 0,
+				},
+				Area = 
+				{
+					Vec2 Size = [1.05, 1.05],
+					Location Origin = Center,
+				},
+				BoxCollider = 
+				{
+					bool Ghost = true,
+					bool SendsMessages = true,
+					bool Seamless = true,
+					string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+					string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+					Vec3 Offset = [0.01, 0.85, 0],
+					Vec3 Size = [0.36, 0.3, 0.5],
+				},
+				Hierarchy = 
+				{
+				},
+			},
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 31,
+		},
+		Named = 
+		{
+			string Name = "goButton",
+		},
+		Archetyped = 
+		{
+			string Name = "54d0651c1c44a1ec:ARC_Button",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [0.535812, -1, 0.9],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [-0, 0, 1, -4.37114e-008],
+		},
+		Sprite = 
+		{
+			bool Visible = true,
+			bool VisibilityCulling = true,
+			bool VisibilityEvents = false,
+			bool CastShadows = false,
+			Vec4 Color = [1, 1, 1, 1],
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+			string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+			string SpriteSource = "55209bbfaa619ec5:sprButton",
+			bool RenderMask = false,
+			bool FlipX = false,
+			bool FlipY = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+		},
+		BoxCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = true,
+			string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0.3, 0],
+			Vec3 Size = [0.375, 0.3, 0.25],
+		},
+		Z_ButtonType = 
+		{
+			Enum ButtonTypeList = Bridge,
+			CogPath ButtonControlledObject = ":/goBridge3",
+			float ButtonDown = 0.35,
+			float ButtonTime = 0.35,
+			bool IsUpsideDown = false,
+		},
+		Area = 
+		{
+			Vec2 Size = [0.75, 0.6],
+			Location Origin = BottomCenter,
+		},
+		Hierarchy = 
+		{
+			Cog = 
+			{
+				LinkId = 
+				{
+					uint Id = 32,
+				},
+				Named = 
+				{
+					string Name = "detector",
+				},
+				Transform = 
+				{
+					Vec3 Translation = [-0.00620461, -0.486309, 0.1],
+					Vec3 Scale = [1, 1, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Sprite = 
+				{
+					bool Visible = true,
+					bool VisibilityCulling = true,
+					bool VisibilityEvents = false,
+					bool CastShadows = false,
+					Vec4 Color = [1, 1, 1, 1],
+					BlendMode BlendMode = Alpha,
+					SpriteGeometryMode GeometryMode = ZPlane,
+					string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+					string SpriteSource = "4e07948c35993095:DefaultSprite",
+					bool RenderMask = false,
+					bool FlipX = false,
+					bool FlipY = false,
+					bool AnimationActive = true,
+					float AnimationSpeed = 1,
+					uint StartFrame = 0,
+				},
+				Area = 
+				{
+					Vec2 Size = [1.05, 1.05],
+					Location Origin = Center,
+				},
+				BoxCollider = 
+				{
+					bool Ghost = true,
+					bool SendsMessages = true,
+					bool Seamless = true,
+					string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+					string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+					Vec3 Offset = [0.01, 0.85, 0],
+					Vec3 Size = [0.36, 0.3, 0.5],
+				},
+				Hierarchy = 
+				{
+				},
+			},
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 33,
+		},
+		Named = 
+		{
+			string Name = "goBridge3",
+		},
+		Archetyped = 
+		{
+			string Name = "54d065311941c88e:ARC_Bridge",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-7.00558, 1.5, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Hierarchy = 
+		{
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 34,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [0, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 35,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [1, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 36,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [2, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 37,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [3, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 38,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [4, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 39,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [5, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 40,
+		},
+		Named = 
+		{
+			string Name = "goButton",
+		},
+		Archetyped = 
+		{
+			string Name = "54d0651c1c44a1ec:ARC_Button",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [10.5621, 7.91268, 0.9],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			bool Visible = true,
+			bool VisibilityCulling = true,
+			bool VisibilityEvents = false,
+			bool CastShadows = false,
+			Vec4 Color = [1, 1, 1, 1],
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+			string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+			string SpriteSource = "55209bbfaa619ec5:sprButton",
+			bool RenderMask = false,
+			bool FlipX = false,
+			bool FlipY = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+		},
+		BoxCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = true,
+			string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0.3, 0],
+			Vec3 Size = [0.375, 0.3, 0.25],
+		},
+		Z_ButtonType = 
+		{
+			Enum ButtonTypeList = Bridge,
+			CogPath ButtonControlledObject = ":/goBridge4",
+			float ButtonDown = 0.35,
+			float ButtonTime = 0.35,
+			bool IsUpsideDown = false,
+		},
+		Area = 
+		{
+			Vec2 Size = [0.75, 0.6],
+			Location Origin = BottomCenter,
+		},
+		Hierarchy = 
+		{
+			Cog = 
+			{
+				LinkId = 
+				{
+					uint Id = 41,
+				},
+				Named = 
+				{
+					string Name = "detector",
+				},
+				Transform = 
+				{
+					Vec3 Translation = [-0.00620461, -0.486309, 0.1],
+					Vec3 Scale = [1, 1, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Sprite = 
+				{
+					bool Visible = true,
+					bool VisibilityCulling = true,
+					bool VisibilityEvents = false,
+					bool CastShadows = false,
+					Vec4 Color = [1, 1, 1, 1],
+					BlendMode BlendMode = Alpha,
+					SpriteGeometryMode GeometryMode = ZPlane,
+					string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+					string SpriteSource = "4e07948c35993095:DefaultSprite",
+					bool RenderMask = false,
+					bool FlipX = false,
+					bool FlipY = false,
+					bool AnimationActive = true,
+					float AnimationSpeed = 1,
+					uint StartFrame = 0,
+				},
+				Area = 
+				{
+					Vec2 Size = [1.05, 1.05],
+					Location Origin = Center,
+				},
+				BoxCollider = 
+				{
+					bool Ghost = true,
+					bool SendsMessages = true,
+					bool Seamless = true,
+					string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+					string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+					Vec3 Offset = [0.01, 0.85, 0],
+					Vec3 Size = [0.36, 0.3, 0.5],
+				},
+				Hierarchy = 
+				{
+				},
+			},
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 42,
+		},
+		Named = 
+		{
+			string Name = "goBridge4",
+		},
+		Archetyped = 
+		{
+			string Name = "54d065311941c88e:ARC_Bridge",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [4.5, -0.6, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Hierarchy = 
+		{
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 43,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [0, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 44,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [1, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 45,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [2, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 46,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [3, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 47,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [4, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+			ArchetypeInstance = 
+			{
+				string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+				LinkId = 
+				{
+					uint Id = 48,
+				},
+				Transform = 
+				{
+					Vec3 Translation = [5, 0, -1],
+					Vec3 Scale = [0.5, 0.5, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Area = 
+				{
+					Vec2 Size = [1, 1],
+					Location Origin = Center,
+				},
+				Named = 
+				{
+					string Name = "go_bridgeBlock",
+				},
+			},
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 49,
+		},
+		Named = 
+		{
+			string Name = "goButton",
+		},
+		Archetyped = 
+		{
+			string Name = "54d0651c1c44a1ec:ARC_Button",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [2.52194, -1, 0.9],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [-0, 0, 1, -4.37114e-008],
+		},
+		Sprite = 
+		{
+			bool Visible = true,
+			bool VisibilityCulling = true,
+			bool VisibilityEvents = false,
+			bool CastShadows = false,
+			Vec4 Color = [1, 1, 1, 1],
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+			string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+			string SpriteSource = "55209bbfaa619ec5:sprButton",
+			bool RenderMask = false,
+			bool FlipX = false,
+			bool FlipY = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+		},
+		BoxCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = true,
+			string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0.3, 0],
+			Vec3 Size = [0.375, 0.3, 0.25],
+		},
+		Z_ButtonType = 
+		{
+			Enum ButtonTypeList = Bounce,
+			CogPath ButtonControlledObject = ":/goBouncePad3",
+			float ButtonDown = 0.35,
+			float ButtonTime = 0.35,
+			bool IsUpsideDown = false,
+		},
+		Area = 
+		{
+			Vec2 Size = [0.75, 0.6],
+			Location Origin = BottomCenter,
+		},
+		Hierarchy = 
+		{
+			Cog = 
+			{
+				LinkId = 
+				{
+					uint Id = 50,
+				},
+				Named = 
+				{
+					string Name = "detector",
+				},
+				Transform = 
+				{
+					Vec3 Translation = [-0.00620461, -0.486309, 0.1],
+					Vec3 Scale = [1, 1, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Sprite = 
+				{
+					bool Visible = true,
+					bool VisibilityCulling = true,
+					bool VisibilityEvents = false,
+					bool CastShadows = false,
+					Vec4 Color = [1, 1, 1, 1],
+					BlendMode BlendMode = Alpha,
+					SpriteGeometryMode GeometryMode = ZPlane,
+					string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+					string SpriteSource = "4e07948c35993095:DefaultSprite",
+					bool RenderMask = false,
+					bool FlipX = false,
+					bool FlipY = false,
+					bool AnimationActive = true,
+					float AnimationSpeed = 1,
+					uint StartFrame = 0,
+				},
+				Area = 
+				{
+					Vec2 Size = [1.05, 1.05],
+					Location Origin = Center,
+				},
+				BoxCollider = 
+				{
+					bool Ghost = true,
+					bool SendsMessages = true,
+					bool Seamless = true,
+					string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+					string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+					Vec3 Offset = [0.01, 0.85, 0],
+					Vec3 Size = [0.36, 0.3, 0.5],
+				},
+				Hierarchy = 
+				{
+				},
+			},
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 51,
+		},
+		Named = 
+		{
+			string Name = "goBouncePad3",
+		},
+		Archetyped = 
+		{
+			string Name = "547b6b2795b760e8:ARC_BouncePad",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [6.96198, 3.83796, 0.9],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			bool Visible = true,
+			bool VisibilityCulling = true,
+			bool VisibilityEvents = false,
+			bool CastShadows = false,
+			Vec4 Color = [1, 1, 1, 1],
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+			string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+			string SpriteSource = "5520886449e9884a:sprBouncePadInactive",
+			bool RenderMask = false,
+			bool FlipX = false,
+			bool FlipY = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+		},
+		BoxCollider = 
+		{
+			bool Ghost = true,
+			bool SendsMessages = true,
+			bool Seamless = true,
+			string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0, 0],
+			Vec3 Size = [1.25, 0.45, 0.5],
+		},
+		Z_BouncePad = 
+		{
+			float BounceForce = 2.5,
+			Vec3 BounceDirection = [0, 3.25, 0],
+			Vec3 BouncePadScale = [0, 2, 0],
+			bool IsActive = false,
+		},
+		Area = 
+		{
+			Vec2 Size = [2.5, 0.75],
+			Location Origin = Center,
+		},
+	},
+},

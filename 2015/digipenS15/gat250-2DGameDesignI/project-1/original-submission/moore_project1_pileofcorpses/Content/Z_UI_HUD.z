@@ -1,0 +1,302 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_HUD.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_HUD:ZilchComponent
+{
+    //GAME TIMER
+    [Property]
+    var BodyTimeModifier:Integer = Integer(5);
+    var TimeRemaining:Real = Real();
+    var Timer:Cog = null;
+    var TimerText:String = null;
+    
+    //SCORE/POINTS
+    [Property]
+    var PointsNormal:Integer = Integer(100);
+    [Property]
+    var PointsRich:Integer = Integer(500);
+    var TotalPoints:Integer = Integer(0);
+    var Score:Cog = null;
+    var ScoreText:String = null;
+    
+    //ANIMATION
+    [Property]
+    var AnimationSpeed:Real = Real(0.25);
+    [Property]
+    var AnimationDelay:Real = Real(1.0);
+    var ARCAddTime:Archetype = Archetype.Find("ARC_UI_AddTime");
+    var AddTime:Cog = null;
+    var ARCPoints:Archetype = Archetype.Find("ARC_Points");
+    var Points:Cog = null;
+    
+    //HUD CREATION
+    var HudLevel:Level = Level.Find("LVL_HUD");         //the level that the HUD exists within
+    var ARCSpace:Archetype = Archetype.Find("Space");
+    var HUDSpace:Space = null;                          //variable that contains our space 
+                                                        //(used for creating and destroying)
+    
+    //MAIN SPACE
+    var MainSpace:Space = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //create HUDSpace based on Space Archetype
+        this.HUDSpace = this.GameSession.CreateNamedSpace("HUDSpace", this.ARCSpace);
+        
+        //load LVL_HUD into this space
+        this.HUDSpace.LoadLevel(this.HudLevel);
+        
+        //find the mainspace
+        this.MainSpace = this.GameSession.FindSpaceByName("Main");
+        
+        //SCORE/POINTS
+        //find score cog
+        this.Score = this.HUDSpace.FindObjectByName("ui_score");
+        //set initial points to zero
+        this.TotalPoints = 0;
+        //set initial score text
+        this.ScoreText = "Score: `this.TotalPoints`";
+        //apply score text
+        this.Score.SpriteText.Text = this.ScoreText;
+        
+        //TIMER
+        //set timeremaining based on Z_GameOver's timeremaining
+        this.TimeRemaining = this.MainSpace.LevelSettings.Z_GameOver.TimeRemaining;
+        //find timer cog
+        this.Timer = this.HUDSpace.FindObjectByName("ui_timer");
+        //set initial timer text
+        this.TimerText = "Time: `this.TimeRemaining`";
+        //apply timer text
+        this.Timer.SpriteText.Text = this.TimerText;
+        
+        //monitor the mainspace's logic update
+        Zero.Connect(this.MainSpace, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-keep track of MainSpace's logic update
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //wait for game to begin before counting down the timer
+        if(!this.MainSpace.LevelSettings.Z_StartingCountdown.IsCountingDown)
+        {
+            //update time remaining based on event.Dt
+            this.TimeRemaining = this.TimeRemaining - event.Dt;
+            
+            //call UpdateTimer() and send it timeRemaining
+            this.UpdateTimer(this.TimeRemaining);
+        }
+        
+        //clean up things that are invisible
+        if(this.AddTime != null && this.AddTime.SpriteText.Color == Real4(1,1,1,0.0))
+        {
+            this.DestroyHUDText(this.AddTime);
+        }
+        if(this.Points != null && this.Points.SpriteText.Color == Real4(1,1,1,0.0))
+        {
+            this.DestroyHUDText(this.Points);
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ScorePoints(bodyType:String)
+    //EXPLANATION-Destroy the HUDSpace
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ScorePoints(bodyType_:String):Void
+    {
+        //create action sequence
+        var aScorePoints = Action.Sequence(this.Owner.Actions);
+        
+        //determine what kind of points to give the player
+        if(bodyType_ == "go_normalbody")
+        {
+            this.TotalPoints = this.TotalPoints + this.PointsNormal;
+            
+            //play the sfx
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("normal-points"));
+        }
+        if(bodyType_ == "go_richbody")
+        {
+            this.TotalPoints = this.TotalPoints + this.PointsRich;
+            
+            //play the sfx
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("rich-points"));
+        }
+        
+        //update the score by calling UpdateScore
+        this.UpdateScore();
+        
+        //Display in-game text
+        
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-UpdateScore()
+    //EXPLANATION-Refresh the score
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function UpdateScore():Void
+    {
+        //set score text
+        this.ScoreText = "Score: `this.TotalPoints`";
+        //apply score text
+        this.Score.SpriteText.Text = this.ScoreText;
+        
+        //buldge out the score
+        var aAnimate = Action.Sequence(this.Owner.Actions);
+        
+        //change color
+        Action.Property(aAnimate,
+                        @this.Score.SpriteText.Color,
+                        Real4(0.9,0.4,0.8,1.0),
+                        0.01,
+                        Ease.QuadOut);
+        
+        //scale big
+        Action.Property(aAnimate,
+                        @this.Score.Transform.Scale,
+                        Real3(1.25,1.25,1),
+                        0.25,
+                        Ease.QuadOut);
+        //delay
+        Action.Delay(aAnimate, 0.25);
+        
+        //normal color
+        Action.Property(aAnimate,
+                        @this.Score.SpriteText.Color,
+                        Real4(1,1,1,1.0),
+                        0.01,
+                        Ease.QuadOut);
+        
+        //scale normal
+        Action.Property(aAnimate,
+                        @this.Score.Transform.Scale,
+                        Real3(1,1,1),
+                        0.25,
+                        Ease.QuadOut);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-AddToTimer()
+    //EXPLANATION-add some time to the timer
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function AddToTimer(coffinPos_:Real3):Void
+    {
+        //add to timer based on BodyTimerModifier
+        this.TimeRemaining = this.TimeRemaining + this.BodyTimeModifier;
+        //set score text
+        this.TimerText = "Time: `this.TimeRemaining`";
+        //apply score text
+        this.Timer.SpriteText.Text = this.TimerText;
+        
+        //create AddTime object based off ARC_UI_AddTime
+        this.AddTime = this.MainSpace.CreateAtPosition(this.ARCAddTime, Real3(coffinPos_.X,
+                                                                              coffinPos_.Y + 2,
+                                                                              coffinPos_.Z));
+        
+        this.AddTime.Transform.Scale - Real3(10,10,10);
+        
+        //call DislayAddedTime
+        this.CreateHUDText(this.AddTime);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-CreateHUDText()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function CreateHUDText(text_:Cog):Void
+    {
+        //create action sequence
+        var aCreate = Action.Sequence(this.Owner.Actions);
+        
+        //scale
+        Action.Property(aCreate,
+                        @text_.Transform.Scale,
+                        Real3(1,1,1),
+                        this.AnimationSpeed,
+                        Ease.QuadOut);
+        
+        //delay
+        Action.Delay(aCreate, this.AnimationDelay);
+        //call fade out now
+        Action.Call(aCreate, this.FadeOutHUDText);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeOutHUDText()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeOutHUDText():Void
+    {
+        if(this.AddTime != null)
+        {
+            //create action sequence
+            var aFade = Action.Group(this.Owner.Actions);
+            
+            var textPos:Real3 = this.AddTime.Transform.Translation;
+        
+        //scale
+        Action.Property(aFade,
+                        @this.AddTime.Transform.Scale,
+                        Real3(0.25,0.25,1),
+                        this.AnimationSpeed,
+                        Ease.QuadOut);
+        //make invisible
+        Action.Property(aFade,
+                        @this.AddTime.SpriteText.Color,
+                        Real4(1,1,1,0.0),
+                        this.AnimationSpeed,
+                        Ease.QuadOut);
+        //move up
+        Action.Property(aFade,
+                        @this.AddTime.Transform.Translation,
+                        Real3(textPos.X, textPos.Y + 1, textPos.Z),
+                        this.AnimationSpeed,
+                        Ease.QuadOut);
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DestroyHUDText()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DestroyHUDText(text_:Cog):Void
+    {
+        //destroy
+        text_.Destroy();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-UpdateTimer(time_:Real)
+    //EXPLANATION-Refresh the score
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function UpdateTimer(time_:Real):Void
+    {
+        if(this.Timer != null)
+        {
+            //truncate time_
+            time_ = Math.Truncate(time_);
+            //set score text
+            this.TimerText = "Time: `time_`";
+            //apply score text
+            this.Timer.SpriteText.Text = this.TimerText;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DestroyHUDSpace()
+    //EXPLANATION-Destroy the HUDSpace
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DestroyHUDSpace():Void
+    {
+        this.HUDSpace.Destroy();
+    }
+}

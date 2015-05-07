@@ -1,0 +1,98 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_ExplosiveDeath.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_ExplosiveDeath:ZilchComponent
+{
+    //PLAYERS
+    var Player1:Cog = null;
+    var Player2:Cog = null;
+    
+    //GAMEPAD
+    var Gamepad1:Gamepad = null;
+    var Gamepad2:Gamepad = null;
+    var Gamepad1Index:Integer = Integer(0);
+    var Gamepad2Index:Integer = Integer(1);
+    
+    //DEBRIS
+    [Property]
+    var Debris:Archetype = null;
+    [Property]
+    var DebrisCount:Integer = Integer(8);
+    [Property]
+    var DebrisVariance:Integer = Integer(2);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-initialize variables
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //set player1 and player2
+        this.Player1 = this.Space.FindObjectByName("goPlayer1");
+        this.Player2 = this.Space.FindObjectByName("goPlayer2");
+            
+        //gamepad assignment and detection
+        this.Gamepad1 = Zero.Gamepads.GetGamePad(this.Gamepad1Index);
+        this.Gamepad2 = Zero.Gamepads.GetGamePad(this.Gamepad2Index);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ExplodeUponDeath()
+    //EXPLANATION-Kaboom upon dying!
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ExplodeUponDeath():Void
+    {
+        //get a new random
+        var random = new Random();
+        //determine the amount of debris
+        var numberOfDebris = random.Variance(this.DebrisCount, this.DebrisVariance);
+        //position of debris
+        var debrisPos = this.Owner.Transform.Translation;
+        
+        //create debris by looping through the amount we've determined to create
+        for(var iIndex:Integer = Integer(0); iIndex < numberOfDebris; ++iIndex)
+        {
+            //DEBUG -- who is exploding?
+            //Console.WriteLine("EXPLODING `this.Owner`!");
+            
+            //create debris
+            var debris = this.Space.CreateAtPosition(this.Debris, debrisPos);
+            //determine debris a velocity
+            var vel = random.UnitReal2() * random.Range(4, 10);
+            //set debris velocity
+            debris.RigidBody.Velocity = Real3(vel.X, vel.Y, 0);
+        }
+        
+        //destroy this thing
+        this.Owner.Destroy();
+        
+        //play a death noise
+        this.Owner.Z_SFXController.PlaySFX("death");
+        
+        //determine which controller to vibrate
+        if(this.Space.LevelSettings.Z_DetectMultiplayer.IsPlayer2Active != true)
+        {
+            this.Space.LevelSettings.Z_VibrationController.VibrateGamepad(this.Gamepad1, 0.5, 1.0,1.0);
+        }
+        else
+        {
+            if(this.Owner == this.Player1)
+            {
+                this.Space.LevelSettings.Z_VibrationController.VibrateGamepad(this.Gamepad1, 0.5, 1.0,1.0);
+            }
+            else
+            {
+                this.Space.LevelSettings.Z_VibrationController.VibrateGamepad(this.Gamepad2, 0.5, 1.0,1.0);
+            }
+        }
+        
+        //if jump particle systems exist
+        if(this.Owner.Z_JumpParticles.ParticleSystem != null)
+        {
+            this.Owner.Z_JumpParticles.DestroyParticleSystemCog();
+        }
+    }
+}

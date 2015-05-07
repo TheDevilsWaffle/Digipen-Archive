@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_UI_PowerMeter",
+		uint64 ResourceId = 54ed97894a15581c,
+	},
+},

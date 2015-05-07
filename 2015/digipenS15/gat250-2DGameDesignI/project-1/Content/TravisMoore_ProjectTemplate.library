@@ -1,0 +1,7 @@
+ContentLibrary = 
+{
+	string Name = "TravisMoore_ProjectTemplate",
+	uint64 LibraryId = 5424e9b3a6bcad43,
+	string SourceControlType = "",
+	bool ReadOnly = false,
+},

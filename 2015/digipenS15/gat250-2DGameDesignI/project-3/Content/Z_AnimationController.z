@@ -1,0 +1,76 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_AnimationController.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_AnimationController:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var PlayerStand:SpriteSource = null;
+    [Property]
+    var PlayerWalk:SpriteSource = null;
+    [Property]
+    var PlayerJump:SpriteSource = null;
+    
+    //non-settables
+    var Gamepad:Gamepad = null;
+    var GamepadIndex:Integer = Integer(0);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //gamepad stuffs
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        
+        //logic update listener
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Perform actions every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+      //standing state
+      if(this.Owner.Sprite.SpriteSource == this.PlayerStand)
+      {
+        if(Zero.Keyboard.KeyIsDown(Keys.A) || Zero.Keyboard.KeyIsDown(Keys.D) ||
+            this.Gamepad.IsButtonHeld(Buttons.StickLeft) || this.Gamepad.IsButtonHeld(Buttons.StickRight))
+        {
+            this.Owner.Sprite.SpriteSource = this.PlayerWalk;
+        }
+        
+        if(Zero.Keyboard.KeyIsPressed(Keys.Space) || this.Gamepad.IsButtonHeld(Buttons.A))
+        {
+            this.Owner.Sprite.SpriteSource = this.PlayerJump;
+        }
+      }
+      // walking state
+      else if(this.Owner.Sprite.SpriteSource == this.PlayerWalk)
+      {
+        if(Zero.Keyboard.KeyIsDown(Keys.A) == false && Zero.Keyboard.KeyIsDown(Keys.D) == false &&
+            this.Gamepad.IsButtonHeld(Buttons.StickLeft) == false && this.Gamepad.IsButtonHeld(Buttons.StickRight) == false)
+        {
+            this.Owner.Sprite.SpriteSource = this.PlayerStand;
+        }
+
+        if(Zero.Keyboard.KeyIsPressed(Keys.Space) || this.Gamepad.IsButtonHeld(Buttons.A))
+        {
+            this.Owner.Sprite.SpriteSource = this.PlayerJump;
+        }
+      }
+      // jumping state
+      else if(this.Owner.Sprite.SpriteSource == this.PlayerJump)
+      {
+        if(this.Owner.SweptController.Grounded)
+        {
+            this.Owner.Sprite.SpriteSource = this.PlayerStand;
+        }
+      }
+    }
+}

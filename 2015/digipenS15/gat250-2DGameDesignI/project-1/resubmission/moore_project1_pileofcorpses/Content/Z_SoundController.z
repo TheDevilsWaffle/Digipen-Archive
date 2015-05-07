@@ -1,0 +1,56 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_SoundController.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+class Z_SoundController:ZilchComponent
+{
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-Updates every frame and performs actions with button presses
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        // Change Volume when 1,2,3,4 is pressed.
+        if(Zero.Keyboard.KeyIsPressed(Keys.One))
+        {
+            this.Space.SoundSpace.Volume = 0.25;
+        }
+        if(Zero.Keyboard.KeyIsPressed(Keys.Two))
+        {
+            this.Space.SoundSpace.Volume = 0.5;
+        }
+        if(Zero.Keyboard.KeyIsPressed(Keys.Three))
+        {
+            this.Space.SoundSpace.Volume = 0.75;
+        }
+        if(Zero.Keyboard.KeyIsPressed(Keys.Four))
+        {
+            this.Space.SoundSpace.Volume = 1;
+        }
+        
+        // Pause sounds When Space is pressed
+        if(Zero.Keyboard.KeyIsPressed(Keys.Space))
+        {
+            if(this.Space.SoundSpace.Pause == true)
+            {
+              this.Space.SoundSpace.Pause = false;
+            }
+            else
+            {
+              this.Space.SoundSpace.Pause = true;
+            }
+        }
+    }
+}

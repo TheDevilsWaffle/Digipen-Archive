@@ -1,0 +1,68 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_HUDCreator.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_HUDCreator:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var LvlHud:Level = Level.Find("lvl_hud");
+    
+    //non-settables
+    var MainSpace:Space;
+    var HUDSpace:Space;
+    var ARC_Space:Archetype = Archetype.Find("Space");
+    
+    [Property]
+    var DelayTimer:Real = Real(2.0);
+    var IsHUDCreated:Boolean;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize variables/listners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //get the main space
+        this.MainSpace = this.GameSession.FindSpaceByName("Main");
+        
+        //event listener to run code every logical update
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-update every logical frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        if(this.DelayTimer < 0 && this.IsHUDCreated == false)
+        {
+            //create a hud by giving it the space to create and the level to load in it
+            this.CreateHUD(this.LvlHud);
+            //ensure we only do this once
+            this.IsHUDCreated = true;
+            this.Space.RemoveComponentByName("Z_HUDCreator");
+        }
+        
+        if(this.DelayTimer > 0)
+        {
+            //update DelayTimer
+            this.DelayTimer -= event.Dt;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-CreateHUD()
+    //EXPLANATION-creates the hud space and loads the hud level on it
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function CreateHUD(level_:Level):Void
+    {
+        //create the HUD space
+        this.HUDSpace = this.GameSession.CreateNamedSpace("HUDSpace", this.ARC_Space);
+        //load the HUD level into it the new space
+        this.HUDSpace.LoadLevel(level_);
+    }
+}

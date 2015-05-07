@@ -1,0 +1,203 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_ButtonGate.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_ButtonGate:ZilchComponent
+{
+    //BUTTON TARGET
+    var GateOpenSize:Real = Real(2.0);
+    var GateOpenTime:Real = Real(2.0);
+    var GateCloseTime:Real = Real(0.75);
+    var Gate:Cog = null;
+    var GatePos:Real3 = Real3();
+    var GateScale:Real3 = Real3();
+    var GateClosedSprite:SpriteSource = SpriteSource.Find("sprGateClosed");
+    var GateOpenSprite:SpriteSource = SpriteSource.Find("sprGateOpen");
+    
+    //PLAYERS
+    var Player1:Cog = null;
+    var Player2:Cog = null;
+    
+    //BUTTON
+    var Button:Cog = null;
+    
+    //BUTTON PRESSER (if needed)
+    var ButtonPresserObject:CogPath = null;
+    var ButtonPresser:Cog = null;
+    
+    //STATE
+    var IsPressed:Boolean = Boolean(false);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-initialize variables and event listeners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //get the button
+        this.Button = this.Owner.Parent;
+        
+        //set player objects
+        this.Player1 = this.Space.FindObjectByName("goPlayer1");
+        this.Player2 = this.Space.FindObjectByName("goPlayer2");
+        
+        //get the object that this button controls
+        if(this.Owner.Parent.Z_ButtonType.ButtonControlledObject != null)
+        {
+            this.Gate = this.Owner.Parent.Z_ButtonType.ButtonControlledObject.Cog;
+            this.GatePos = this.Gate.Transform.Translation;
+            this.GateScale = this.Gate.Transform.Scale;
+        }
+        
+        if(this.ButtonPresserObject != null)
+        {
+            this.ButtonPresser = this.ButtonPresserObject.Cog;
+        }
+        
+        //collision listeners
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        Zero.Connect(this.Owner, Events.CollisionPersisted, this.OnCollisionPersisted);
+        Zero.Connect(this.Owner, Events.CollisionEnded, this.OnCollisionEnded);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted()
+    //EXPLANATION- hit a button on the first contact
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event:CollisionEvent):Void
+    {
+        //if not already pressed
+        if(!this.IsPressed)
+        {
+            //ensure who touched the button
+            if(event.OtherObject == this.Player1 || event.OtherObject == this.Player2 || event.OtherObject == this.ButtonPresser)
+            {
+                //DEBUG
+                //Console.WriteLine("`event.OtherObject` hit the button!");
+                
+                //set IsPressed to true (prevent looping)
+                this.IsPressed = true;
+                
+                //call function to animate button being pressed
+                this.Button.Z_ButtonType.AnimateButtonPressed();
+                
+                //call function to open the gate
+                this.AnimateGateOpen(this.Gate);
+            }
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionPersisted()
+    //EXPLANATION-continue to hit a button past the first time
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionPersisted(event:CollisionEvent):Void
+    {
+        //if not already pressed
+        if(!this.IsPressed)
+        {
+            //ensure who touched the button
+            if(event.OtherObject == this.Player1 || event.OtherObject == this.Player2 || event.OtherObject == this.ButtonPresser)
+            {
+                //DEBUG
+                //Console.WriteLine("`event.OtherObject` ALREADY hit the button!");
+                
+                //set IsPressed to true (prevent looping)
+                this.IsPressed = true;
+                
+                //call function to animate button being pressed
+                this.Button.Z_ButtonType.AnimateButtonPressed();
+                
+                //call function to open the gate
+                this.AnimateGateOpen(this.Gate);
+            }
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionEnded()
+    //EXPLANATION-button no longer hit
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionEnded(event:CollisionEvent):Void
+    {
+        //reset IsPressedBoolean
+        this.IsPressed = false;
+        
+        //call function to animate button being depressed
+        this.Button.Z_ButtonType.AnimateButtonDepressed();
+        
+        //call function to slam the gate closed
+        this.AnimateGateClose(this.Gate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-AnimateGateOpen()
+    //EXPLANATION-open the game
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function AnimateGateOpen(gate_:Cog):Void
+    {
+        if(this.IsPressed)
+        {
+            //create action sequence
+            var aGateOpen = Action.Group(this.Owner.Actions);
+            
+            if(!this.Button.Z_ButtonType.IsUpsideDown)
+            {
+                //open up
+                Action.Property(aGateOpen,
+                                @gate_.Transform.Translation,
+                                Real3(this.GatePos.X, 
+                                      this.GatePos.Y + this.GateOpenSize, 
+                                      this.GatePos.Z),
+                                0.5,
+                                Ease.QuadInOut);
+                //swap out the closed sprite for the open one
+                this.Gate.Sprite.SpriteSource = this.GateOpenSprite;
+            }
+            else
+            {
+                //open up
+                Action.Property(aGateOpen,
+                                @gate_.Transform.Translation,
+                                Real3(this.GatePos.X, 
+                                      this.GatePos.Y - this.GateOpenSize, 
+                                      this.GatePos.Z),
+                                0.5,
+                                Ease.QuadInOut);
+                //swap out the closed sprite for the open one
+                this.Gate.Sprite.SpriteSource = this.GateOpenSprite;
+            }
+            
+            //DEBUG
+            //Console.WriteLine(gate_.Transform.Translation);
+        }
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-AnimateGateClose()
+    //EXPLANATION-open the game
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function AnimateGateClose(gate_:Cog):Void
+    {
+        if(!this.IsPressed)
+        {
+            //create action sequence
+            var aGateClose = Action.Group(this.Owner.Actions);
+            
+            //open up
+            Action.Property(aGateClose,
+                            @gate_.Transform.Translation,
+                            Real3(this.GatePos.X, 
+                                  this.GatePos.Y, 
+                                  this.GatePos.Z),
+                            this.GateCloseTime,
+                            Ease.QuadInOut);
+            
+            //swap out the open sprite for the closed one
+            this.Gate.Sprite.SpriteSource = this.GateClosedSprite;
+            //DEBUG
+            //Console.WriteLine(gate_.Transform.Translation);
+        }
+    }
+}

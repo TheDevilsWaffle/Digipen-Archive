@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_GameOverLose",
+		uint64 ResourceId = 5515ad6a3391920d,
+	},
+},

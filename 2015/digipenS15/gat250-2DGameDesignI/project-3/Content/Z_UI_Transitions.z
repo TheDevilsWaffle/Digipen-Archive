@@ -1,0 +1,273 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_Transitions.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - © 2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_Transitions:ZilchComponent
+{
+    //PROPERTIES
+    
+    //POSITIONING
+    [Property]
+    var ZPos:Real = 9.0;
+    
+    //FADE
+    [Property]
+    var FadeInTime:Real = 0.5;
+    [Property]
+    var FadeOutTime:Real = 0.25;
+    [Property]
+    var WaitTime:Real = 2.0;
+    
+    //SCALE
+    [Property]
+    var ScaleOutTime:Real = 0.2;
+    [Property]
+    var ScaleInTime:Real = 0.25;
+    [Property]
+    var ScaleBiggerSize:Real = 1.1;
+    
+    //EASE
+    [Property]
+    var EaseType:Ease = Ease.QuadInOut;
+    
+    //non-settables
+    var StartingPosition:Real3 = Real3();
+    var StartingScale:Real3 = Real3();
+    var OriginalAreaSize:Real2 = Real2();
+    var BoolFadeOut:Boolean = false;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //find out what to do with the owner of this script
+        this.DetermineTransitionType();
+        
+        //set starting position
+        this.StartingPosition = Real3(0,0,this.ZPos);
+        //apply starting position
+        this.Owner.Transform.Translation = this.StartingPosition;
+        
+        //get area attributes
+        if(this.Owner.Area != null)
+        {
+            this.OriginalAreaSize = this.Owner.Area.Size;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DetermineTransitionType
+    //EXPLANATION-what kind of background are we fading in and out?
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DetermineTransitionType():Void
+    {
+        //determine which screen this is
+        if(this.Owner.Name == "scn_fader_black")
+        {
+            //fade in from black
+            this.FadeInAndOutFromBlack();
+        }
+        
+        //determine which screen this is
+        if(this.Owner.Name == "scn_fader_menu_black")
+        {
+            if(this.BoolFadeOut)
+            {
+                //fade out to black
+                this.FadeOutToBlack();
+            }
+            else
+            {
+                //fade in from black
+                this.FadeInFromBlack();
+            }
+        }
+        
+        if(this.Owner.Name == "scn_fader_white")
+        {
+            //fade in from white
+            this.FadeInFromWhite();
+        }
+        
+        //special screen case
+        if(this.Owner.Name == "scn_studio")
+        {
+            //set starting position
+            this.StartingPosition = Real3(0,0,1);
+            //apply starting position
+            this.Owner.Transform.Translation = this.StartingPosition;
+            //scale Out
+            this.ScaleOut();
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeInScaleUp
+    //EXPLANATION-Scale a little bigger, baby
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeInScaleUp():Void
+    {
+        //create action sequence
+        var aFadeInScaleUp = Action.Group(this.Owner.Actions);
+        
+        //be invisible
+        Action.Property(aFadeInScaleUp,
+                        @this.Owner.Sprite.Color,
+                        Real4(1,1,1,0.0),
+                        0.01,
+                        this.EaseType);
+        
+        //be visible
+        Action.Property(aFadeInScaleUp,
+                        @this.Owner.Sprite.Color,
+                        Real4(1,1,1,1.0),
+                        0.01,
+                        this.EaseType);
+        
+        //scale a little bitter
+        Action.Property(aFadeInScaleUp,
+                        @this.Owner.Area.Size,
+                        Real2(this.Owner.Area.Size.X * this.ScaleBiggerSize, this.Owner.Area.Size.Y * this.ScaleBiggerSize),
+                        this.ScaleInTime,
+                        this.EaseType);
+    }
+    
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ScaleNormal
+    //EXPLANATION-Scale back to normal
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ScaleNormal():Void
+    {
+        //create action sequence
+        var aScaleNormal = Action.Sequence(this.Owner.Actions);
+        
+        //scale back down
+        Action.Property(aScaleNormal,
+                        @this.Owner.Area.Size,
+                        Real2(this.OriginalAreaSize.X, this.OriginalAreaSize.Y),
+                        this.ScaleInTime,
+                        this.EaseType);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ScaleOut
+    //EXPLANATION-Scale the Screen in from big to small
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ScaleOut():Void
+    {
+        //create action sequence
+        var aScaleOut = Action.Sequence(this.Owner.Actions);
+        
+        //scale smallest
+        Action.Property(aScaleOut,
+                        @this.Owner.Transform.Scale,
+                        Real3(1.05,1.05,1.05),
+                        this.ScaleOutTime,
+                        this.EaseType);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeOutToMainMenu
+    //EXPLANATION-Transparency 0.0 -> 1.0, Load Menu
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeOutTo(levelToLoad_:String):Void
+    {
+        //create action sequence
+        var aFadeOutToWhite = Action.Sequence(this.Owner.Actions);
+        
+        //fade in
+        Action.Property(aFadeOutToWhite,
+                        @this.Owner.Sprite.Color,
+                        Real4(1,1,1,1.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeInFromWhite
+    //EXPLANATION-Transparency 1.0 -> 0.0
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeInFromWhite():Void
+    {
+        //create action sequence
+        var aFadeInFromWhite = Action.Sequence(this.Owner.Actions);
+        
+        //wait a bit before coming in
+        Action.Delay(aFadeInFromWhite, 0.5);
+        
+        //fade in
+        Action.Property(aFadeInFromWhite,
+                        @this.Owner.Sprite.Color,
+                        Real4(1,1,1,0.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeInAndOutFromBlack
+    //EXPLANATION-Transparency 1.0 -> 0.0
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeInAndOutFromBlack():Void
+    {
+        //create action sequence
+        var aFadeInAndOutFromBlack = Action.Sequence(this.Owner.Actions);
+        
+        //fade in
+        Action.Property(aFadeInAndOutFromBlack,
+                        @this.Owner.Sprite.Color,
+                        Real4(0.1,0.1,0.1,0.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+        //wait for it
+        Action.Delay(aFadeInAndOutFromBlack, this.WaitTime);
+        
+        //fade out
+        Action.Property(aFadeInAndOutFromBlack,
+                        @this.Owner.Sprite.Color,
+                        Real4(0.1,0.1,0.1,1.0),
+                        this.FadeOutTime,
+                        Ease.Linear);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeInFromBlack
+    //EXPLANATION-Transparency 1.0 -> 0.0
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeInFromBlack():Void
+    {
+        //create action sequence
+        var aFadeInFromBlack = Action.Sequence(this.Owner.Actions);
+        
+        //fade in
+        Action.Property(aFadeInFromBlack,
+                        @this.Owner.Sprite.Color,
+                        Real4(0.1,0.1,0.1,0.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+        //set BoolFadeOut to true now
+        this.BoolFadeOut = true;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeOutToBlack
+    //EXPLANATION-Transparency 1.0 -> 0.0
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeOutToBlack():Void
+    {
+        //create action sequence
+        var aFadeOutToBlack = Action.Sequence(this.Owner.Actions);
+        
+        //fade out
+        Action.Property(aFadeOutToBlack,
+                        @this.Owner.Sprite.Color,
+                        Real4(0.1,0.1,0.1,1.0),
+                        this.FadeOutTime,
+                        Ease.Linear);
+    }
+}

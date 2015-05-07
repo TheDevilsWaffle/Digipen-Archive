@@ -1,0 +1,9 @@
+Use reference images.
+
+Start by thinking about how many verts you will need (look at top view).
+
+use edge loops to add in divisions or cut faces tool to cut a straight line through a polygon.
+
+to get a shape for indent grab the vertices and use edge loop to create the inner shape.
+
+Normals (faces) can be hardened or softened to adjust their edge quality (under normals menu). This affects the rendering but not the model itself.

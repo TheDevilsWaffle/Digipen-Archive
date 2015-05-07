@@ -1,0 +1,175 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_RestartLevel.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_RestartLevel:ZilchComponent
+{
+    //RESTART BUTTONS
+    var KbRestartBtn:Keys = Keys.R;
+    var GpRestartBtn:Buttons = Buttons.Back;
+    
+    //GAMEPAD
+    var GamepadIndex:Integer = Integer(0);
+    var Gamepad:Gamepad = null;
+    
+    //PLAYERS
+    var PlayerToKill:Cog = null;
+    var Player1:Cog = null;
+    var Player2:Cog = null;
+    
+    //CAMERA
+    var CameraPos:Real3 = Real3();
+    
+    //ACTIONS
+    var AFadeOut:ActionSet = null;
+    
+    //FADE
+    var FadeOutTime:Real = Real(1.0);
+    
+    //EASING
+    [Property]
+    var EaseType:Ease = Ease.QuadInOut;
+    
+    //DELAY TIMES
+    [Property]
+    var DelayBeforeDeath:Real = Real(1.0);
+    [Property]
+    var DelayBeforeReload:Real = Real(2.5);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables and event listeners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //gamepad
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        
+        //update every logical frame
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-listen for player pressing restart button
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        if(Zero.Keyboard.KeyIsPressed(this.KbRestartBtn) || this.Gamepad.IsButtonPressed(this.GpRestartBtn))
+        {
+            this.RestartLevel();
+        }
+        
+        if(this.AFadeOut != null && this.AFadeOut.Completed)
+        {
+            this.AFadeOut = null;
+            this.RestartLevel();
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DelayKillAndRestart()
+    //EXPLANATION-takes player that was killed, find the other player, kills them, and restarts level
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DelayKillAndRestart(playerKilled_:Cog):Void
+    {
+        //attempt to find the players
+        this.Player1 = this.Space.FindObjectByName("goPlayer1");
+        this.Player2 = this.Space.FindObjectByName("goPlayer2");
+        
+        //if Player1 was killed
+        if(playerKilled_.Name == "goPlayer1")
+        {
+            //DEBUG -- which player is being killed next
+            //Console.WriteLine("Player2 is alive, kill him!");
+            
+            //set PlayerToKill to Player2 if Player2 is not null
+            if(this.Player2 != null)
+            {
+                this.PlayerToKill = this.Player2;
+            }
+        }
+        //else Player1 was killed, kill Player1
+        else
+        {
+            //DEBUG
+            //Console.WriteLine("Player1 is alive, kill him!");
+            
+            //set PlayerToKill to Player2
+            if(this.Player1 != null)
+            {
+                this.PlayerToKill = this.Player1;
+            }
+        }
+        
+        //DEBUG
+        //Console.WriteLine("KILL `this.PlayerToKill`");
+        
+        //create action sequence
+        var aDelay = Action.Sequence(this.Owner.Actions);
+        
+        //delay killing the player
+        Action.Delay(aDelay, this.DelayBeforeDeath);
+        //kill the remaining player
+        Action.Call(aDelay, this.KillOtherPlayer);
+        
+        //start fading to black
+        Action.Call(aDelay, this.FadeOutToBlack);
+        
+        //delay reloading current level
+        Action.Delay(aDelay, this.DelayBeforeReload);
+        //reload the current level
+        Action.Call(aDelay, this.RestartLevel);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-KillOtherPlayer()
+    //EXPLANATION-Kills the other player using its ExplodeUponDeath.Z
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function KillOtherPlayer():Void
+    {
+        if(this.PlayerToKill != null)
+        {
+            this.PlayerToKill.Z_ExplosiveDeath.ExplodeUponDeath();
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-RestartLevel()
+    //EXPLANATION-restarts the level
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function RestartLevel():Void
+    {
+        this.Space.ReloadLevel();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeOutToBlack
+    //EXPLANATION-Transparency 1.0 -> 0.0
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeOutToBlack():Void
+    {
+        //find the camera position
+        this.CameraPos = this.Space.FindObjectByName("Camera").Transform.Translation;
+        
+        //create the fade object
+        var faderObj:Cog = this.Space.CreateAtPosition(Archetype.Find("ARC_LevelFader"), Real3(this.CameraPos.X, this.CameraPos.Y, 2));
+        //make it invisible to start
+        
+        faderObj.Sprite.Color = Real4(0.1,0.1,0.1, 0.0);
+        
+        //create action sequence
+        this.AFadeOut = Action.Sequence(this.Owner.Actions);
+        
+        //fade out
+        Action.Property(this.AFadeOut,
+                        @faderObj.Sprite.Color,
+                        Real4(0.1,0.1,0.1,1.0),
+                        this.FadeOutTime,
+                        Ease.Linear);
+        //delay
+        Action.Delay(this.AFadeOut, 3.0);
+    }
+}

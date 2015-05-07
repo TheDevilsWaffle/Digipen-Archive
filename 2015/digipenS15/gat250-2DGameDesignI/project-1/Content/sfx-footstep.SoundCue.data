@@ -1,0 +1,22 @@
+SoundCue = 
+{
+	SoundPlayMode PlayMode = Single,
+	float Volume = 0.05,
+	float VolumeVariation = 0,
+	float Pitch = -1.3,
+	float PitchVariation = -0.1,
+	float MinDistance = 10,
+	float MaxDistance = 10000,
+	float PositionRandomization = 1,
+	uint MaxPlaybacks = 10,
+	int Priority = 128,
+	bool LinearRollOff = false,
+	Array Sounds = 
+	[
+		{
+			string SoundName = "54ff036365958a40:sfx-footstep",
+			float Weight = 1,
+		},
+	],
+	string RolloffCurveName = "",
+},

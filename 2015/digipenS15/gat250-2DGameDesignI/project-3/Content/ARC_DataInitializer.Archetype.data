@@ -1,0 +1,18 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "DataInitializer",
+	},
+	Archetyped = 
+	{
+		string Name = "55aa564febce5113:ARC_DataInitializer",
+	},
+	Z_DataInitializer = 
+	{
+	},
+},

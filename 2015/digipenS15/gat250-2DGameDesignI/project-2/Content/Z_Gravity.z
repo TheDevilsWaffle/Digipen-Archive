@@ -1,0 +1,97 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_Gravity.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_Gravity:ZilchComponent
+{
+    //GRAVITY
+    var GravityReversed:Real3 = Real3(0,-1,0);
+    var GravityNormal:Real3 = Real3(0,1,0);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ToggleGravity()
+    //EXPLANATION- toggles between normal and reverse gravity
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ToggleGravity():Void
+    {
+        if(this.Owner.SweptController != null)
+        {
+            if(this.Owner.SweptController.WorldUp.Y == 1)
+            {
+                this.Owner.SweptController.WorldUp = this.GravityReversed;
+                if(this.Owner.Z_Player1Controller != null)
+                {
+                    this.Owner.Z_Player1Controller.IsGravityReversed = true;
+                }
+                else
+                {
+                    this.Owner.Z_Player2Controller.IsGravityReversed = true;
+                }
+            }
+            else
+            {
+                this.Owner.SweptController.WorldUp = this.GravityNormal;
+                if(this.Owner.Z_Player1Controller != null)
+                {
+                    this.Owner.Z_Player1Controller.IsGravityReversed = false;
+                }
+                else
+                {
+                    this.Owner.Z_Player2Controller.IsGravityReversed = false;
+                }
+            }
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-SetGravity()
+    //EXPLANATION- specifically set gravity for an object
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function SetGravity(player_:Cog, status_:Boolean):Void
+    {
+        if(player_ != null && this.Space.LevelSettings.Z_DetectMultiplayer.IsPlayer2Active)
+        {
+            if(this.Owner.Name == "goPlayer1")
+            {
+                if(status_)
+                {
+                    this.Owner.SweptController.WorldUp = this.GravityReversed;
+                    this.Owner.Z_Player1Controller.IsGravityReversed = true;
+                }
+                else
+                {
+                    this.Owner.SweptController.WorldUp = this.GravityNormal;
+                    this.Owner.Z_Player1Controller.IsGravityReversed = false;
+                }
+            }
+            if(this.Owner.Name == "goPlayer2")
+            {
+                if(status_)
+                {
+                    this.Owner.SweptController.WorldUp = this.GravityNormal;
+                    this.Owner.Z_Player2Controller.IsGravityReversed = false;
+                }
+                else
+                {
+                    this.Owner.SweptController.WorldUp = this.GravityReversed;
+                    this.Owner.Z_Player2Controller.IsGravityReversed = true;
+                }
+            }
+        }
+        if(player_ != null && !this.Space.LevelSettings.Z_DetectMultiplayer.IsPlayer2Active)
+        {
+            if(status_)
+            {
+                this.Owner.SweptController.WorldUp = this.GravityReversed;
+                this.Owner.Z_Player1Controller.IsGravityReversed = true;
+            }
+            else
+            {
+                this.Owner.SweptController.WorldUp = this.GravityNormal;
+                this.Owner.Z_Player1Controller.IsGravityReversed = false;
+            }
+        }
+    }
+}

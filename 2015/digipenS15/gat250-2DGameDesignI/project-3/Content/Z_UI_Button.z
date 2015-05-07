@@ -1,0 +1,473 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_Button.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - © 2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_Button:ZilchComponent
+{
+    //LEVELS
+    [Property]
+    var LevelToLoad:Level = null;
+    [Property]
+    var LoadDelay:Real = Real(0.25);
+    
+    //BUTTON
+    //top of button
+    [Property]
+    var BtnTopOriginalColor:Real4 = Real4(0,0,0,1);
+    [Property]
+    var BtnTopHoverColor:Real4 = Real4(0,0,0,1);
+    [Property]
+    var BtnTopPressedColor:Real4 = Real4(0,0,0,1);
+    //bottom of button
+    [Property]
+    var BtnBotOriginalColor:Real4 = Real4(0,0,0,1);
+    [Property]
+    var BtnBotHoverColor:Real4 = Real4(0,0,0,1);
+    //text of button
+    [Property]
+    var BtnTextOriginalColor:Real4 = Real4(0,0,0,1);
+    [Property]
+    var BtnTextHoverColor:Real4 = Real4(0,0,0,1);
+    [Property]
+    var BtnTextHoverColor2:Real4 = Real4(0,0,0,1);
+    [Property]
+    var BtnTextPressedColor:Real4 = Real4(0,0,0,1);
+    var BtnTextOriginalSize:Integer = Integer();
+    //general button
+    [Property]
+    var HoverDrop:Real = Real(0.05);
+    [Property]
+    var PressedDrop:Real = Real(0.1);
+    [Property]
+    var ChangeTime:Real = Real(0.05);
+    [Property]
+    var EaseType:Ease = Ease.QuadInOut;
+    
+    var AColorPulse:ActionSet = null;
+    var PulseTime:Real = Real(0.25);
+    
+    //non-settables
+    var CurrentLevel:Level = null;
+    var Active:Boolean = false;
+    var BtnName:String = null;
+    var BtnSprite:Sprite = null;
+    var BtnOriginalPos:Real3 = Real3();
+    var BtnBottomSprite:Sprite = null;
+    var BtnBottomPos:Real3 = Real3();
+    var BtnTextOriginalPos:Real3 = Real3();
+    var BtnText:Cog = null;
+    var MainSpace:Space = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //get the main space
+        this.MainSpace = this.GameSession.FindSpaceByName("Main");
+        
+        //get btn-bot so we can position on down's correctly
+        this.BtnBottomPos = this.Owner.Parent.FindChildByName("BtnBot").Transform.Translation;
+        this.BtnBottomSprite = this.Owner.Parent.FindChildByName("BtnBot").Sprite;
+        
+        //get btn-text so we can position on down's correctly
+        this.BtnTextOriginalPos = this.Owner.Parent.FindChildByName("BtnText").Transform.Translation;
+        this.BtnText = this.Owner.Parent.FindChildByName("BtnText");
+        
+        //set variables
+        this.BtnOriginalPos = this.Owner.Transform.Translation;
+        this.BtnName = this.Owner.Parent.Name;
+        this.BtnSprite = this.Owner.Sprite;
+        this.BtnSprite.Color = this.BtnTopOriginalColor;
+        this.BtnBottomSprite.Color = this.BtnBotOriginalColor;
+        this.BtnText.SpriteText.Color = this.BtnTextOriginalColor;
+        this.BtnTextOriginalSize = this.BtnText.SpriteText.FontSize;
+        
+        //event listener update every frame
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-perform code in sequence every logical frame update
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //button is no longer active, null the actionset and reset the button color
+        if(!this.Owner.Parent.Z_UI_Gamepad.Active)
+        {
+            this.AColorPulse.Cancel;
+            this.BtnText.SpriteText.Color = this.BtnTextOriginalColor;
+            this.BtnText.SpriteText.FontSize = this.BtnTextOriginalSize;
+            this.AColorPulse = null;
+        }
+        
+        //if this button is active
+        if(this.Owner.Parent.Z_UI_Gamepad.Active)
+        {
+            //if the actionset has not been created yet, call pulsate colors
+            if(this.AColorPulse == null)
+            {
+                this.PulsateButtonColors();
+                this.PulsateButtonSize();
+            }
+            //as long as the actionset exists and the animation is now complete, continue to pulsate colors
+            if(this.AColorPulse != null && this.AColorPulse.Completed)
+            {
+                this.PulsateButtonColors();
+                this.PulsateButtonSize();
+            }
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-PulsateButtonColors
+    //EXPLANATION-pulsate a button's text colors
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function PulsateButtonColors():Void
+    {
+        //create action sequence
+            this.AColorPulse = Action.Sequence(this.Owner.Actions);
+            
+            //change text color
+            Action.Property(this.AColorPulse,
+                            @this.BtnText.SpriteText.Color,
+                            this.BtnTextHoverColor,
+                            this.PulseTime,
+                            this.EaseType);
+            //change text color
+            Action.Property(this.AColorPulse,
+                            @this.BtnText.SpriteText.Color,
+                            this.BtnTextHoverColor2,
+                            this.PulseTime,
+                            this.EaseType);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-PulsateButtonSize
+    //EXPLANATION-pulsate a button's text colors
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function PulsateButtonSize():Void
+    {
+        //create action sequence
+        var aSizePulse:ActionSet = Action.Sequence(this.Owner.Actions);
+        
+        //change text color
+        Action.Property(aSizePulse,
+                        @this.BtnText.SpriteText.FontSize,
+                        (this.BtnTextOriginalSize * 1.75) as Integer,
+                        this.PulseTime,
+                        this.EaseType);
+        //change text color
+        Action.Property(aSizePulse,
+                        @this.BtnText.SpriteText.FontSize,
+                        (this.BtnTextOriginalSize * 1.5) as Integer,
+                        this.PulseTime,
+                        this.EaseType);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnEnter
+    //EXPLANATION-Perform sprite swap to enchance player feedback
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnEnter():Void
+    {
+        //create action group
+        var aOnHover = Action.Group(this.Owner.Actions);
+        
+        //change btn top color
+        Action.Property(aOnHover,
+                        @this.Owner.Sprite.Color,
+                        this.BtnTopHoverColor,
+                        this.ChangeTime,
+                        this.EaseType);
+        //change btn bot color
+        Action.Property(aOnHover,
+                        @this.BtnBottomSprite.Color,
+                        this.BtnBotHoverColor,
+                        this.ChangeTime,
+                        this.EaseType);
+        //drop down btn top
+        Action.Property(aOnHover,
+                        @this.Owner.Transform.Translation,
+                        Real3(this.BtnOriginalPos.X, 
+                              (this.BtnOriginalPos.Y - this.HoverDrop),
+                             this.BtnOriginalPos.Z),
+                        this.ChangeTime,
+                        this.EaseType);
+        //drop down btn text
+        Action.Property(aOnHover,
+                        @this.BtnText.Transform.Translation,
+                        Real3(this.BtnTextOriginalPos.X, 
+                              (this.BtnTextOriginalPos.Y - this.HoverDrop + 0.01),
+                             this.BtnTextOriginalPos.Z),
+                        this.ChangeTime,
+                        this.EaseType);
+        //increase button text size
+        Action.Property(aOnHover,
+                        @this.BtnText.SpriteText.FontSize,
+                        Integer(75),
+                        this.ChangeTime,
+                        this.EaseType);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnExit
+    //EXPLANATION-Perform sprite swap to enchance player feedback
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnExit():Void
+    {
+        //create action group
+        var aOnExit = Action.Group(this.Owner.Actions);
+        
+        //revert btn top color
+        Action.Property(aOnExit,
+                        @this.Owner.Sprite.Color,
+                        this.BtnTopOriginalColor,
+                        this.ChangeTime,
+                        this.EaseType);
+        //revert btn bottom color
+        Action.Property(aOnExit,
+                        @this.BtnBottomSprite.Color,
+                        this.BtnBotOriginalColor,
+                        this.ChangeTime,
+                        this.EaseType);
+        //revert text color
+        Action.Property(aOnExit,
+                        @this.BtnText.SpriteText.Color,
+                        this.BtnTextOriginalColor,
+                        this.ChangeTime,
+                        this.EaseType);
+        //original btn top position
+        Action.Property(aOnExit,
+                        @this.Owner.Transform.Translation,
+                        this.BtnOriginalPos,
+                        this.ChangeTime,
+                        this.EaseType);
+        //original btn text position
+        Action.Property(aOnExit,
+                        @this.BtnText.Transform.Translation,
+                        this.BtnTextOriginalPos,
+                        this.ChangeTime,
+                        this.EaseType);
+        //original button text size
+        Action.Property(aOnExit,
+                        @this.BtnText.SpriteText.FontSize,
+                        this.BtnTextOriginalSize,
+                        this.ChangeTime,
+                        this.EaseType);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnDown
+    //EXPLANATION-Perform sprite swap to enchance player feedback
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnDown():Void
+    {
+        this.Owner.Z_UI_Mouse.Active = false;
+        this.Owner.Z_UI_Mouse.NextMouseClick = 0.0;
+        //create action group
+        var aOnDown = Action.Group(this.Owner.Actions);
+        
+        //change btn top color
+        Action.Property(aOnDown,
+                        @this.Owner.Sprite.Color,
+                        this.BtnTopPressedColor,
+                        this.ChangeTime,
+                        this.EaseType);
+        //change btn text color
+        Action.Property(aOnDown,
+                        @this.BtnText.SpriteText.Color,
+                        this.BtnTextPressedColor,
+                        this.ChangeTime,
+                        this.EaseType);
+        //fully dropped btn top position
+        Action.Property(aOnDown,
+                        @this.Owner.Transform.Translation,
+                        Real3(this.BtnOriginalPos.X, 
+                              (this.BtnOriginalPos.Y - this.PressedDrop),
+                             this.BtnOriginalPos.Z),
+                        this.ChangeTime,
+                        this.EaseType);
+        //fully dropped btn text position
+        Action.Property(aOnDown,
+                        @this.BtnText.Transform.Translation,
+                        Real3(this.BtnTextOriginalPos.X, 
+                              (this.BtnTextOriginalPos.Y - this.PressedDrop + 0.02),
+                             this.BtnTextOriginalPos.Z),
+                        this.ChangeTime,
+                        this.EaseType);
+        //ensure we have a level to load
+        if(this.LevelToLoad != null)
+        {
+            //load whatever level is assigned to this button
+            Action.Call(aOnDown, this.DelayLoadLevel);
+        }
+        Action.Call(aOnDown, this.DelayOnEnter);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DelayOnEnter
+    //EXPLANATION-delay
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DelayOnEnter():Void
+    {
+        //create action sequence
+        var aDelayOnEnter = Action.Sequence(this.Owner.Actions);
+        
+        //wait a moment
+        Action.Delay(aDelayOnEnter, this.LoadDelay);
+        
+        //now we can load the level
+        Action.Call(aDelayOnEnter, this.OnEnter);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DelayLoadLevel
+    //EXPLANATION-delays the load level call
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DelayLoadLevel():Void
+    {
+        //create action sequence
+        var aDelayLoadLevel = Action.Sequence(this.Owner.Actions);
+        
+        //wait a moment
+        Action.Delay(aDelayLoadLevel, this.LoadDelay);
+        
+        //now we can load the level
+        Action.Call(aDelayLoadLevel, this.LoadLevel);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DelayLoadSubMenu
+    //EXPLANATION-delays the submenu load
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DelayLoadSubMenu():Void
+    {
+        //create action sequence
+        var aDelayLoadLevel = Action.Sequence(this.Owner.Actions);
+        
+        //wait a moment
+        Action.Delay(aDelayLoadLevel, this.LoadDelay);
+        
+        //now we can load the level
+        Action.Call(aDelayLoadLevel, this.LoadSubMenu);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-LoadSubMenu
+    //EXPLANATION-loads the submenu
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function LoadSubMenu():Void
+    {
+        this.Owner.Z_UI_Mouse.Active = false;
+        this.Owner.Z_UI_Mouse.NextMouseClick = 0.0;
+        //load the assigned level
+        this.MainSpace.LevelSettings.Z_UI_MenuSpace.LaunchSubMenu();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-LoadLevel
+    //EXPLANATION-loads the level attached to a button
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function LoadLevel():Void
+    {
+        //load the assigned level
+        this.Space.LoadLevel(this.LevelToLoad);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DelayQuitGame
+    //EXPLANATION-delays, then quits the game
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DelayQuitGame():Void
+    {
+        //create action sequence
+        var aDelayQuitGame = Action.Sequence(this.Owner.Actions);
+        //wait a moment
+        Action.Delay(aDelayQuitGame, this.LoadDelay);
+        //now we can load the level
+        Action.Call(aDelayQuitGame, this.QuitGame);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-QuitGame
+    //EXPLANATION-loads the level attached to a button
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function QuitGame():Void
+    {
+        this.GameSession.Quit();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DelayDestroySubMenu
+    //EXPLANATION-delays the submenu destroy
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DelayDestroySubMenu():Void
+    {
+        //create action sequence
+        var aDelayDestroySubMenu = Action.Sequence(this.Owner.Actions);
+        //wait a moment
+        Action.Delay(aDelayDestroySubMenu, this.LoadDelay);
+        //now we can load the level
+        Action.Call(aDelayDestroySubMenu, this.DestroySubMenu);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DestroySubMenu
+    //EXPLANATION-loads the submenu
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DestroySubMenu():Void
+    {
+        this.MainSpace.LevelSettings.Z_UI_MenuSpace.ReturnToGame();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DelayResumeGame
+    //EXPLANATION-delays resuming the game
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DelayResumeGame():Void
+    {
+        //create action sequence
+        var aDelayResumeGame = Action.Sequence(this.Owner.Actions);
+        //wait a moment
+        Action.Delay(aDelayResumeGame, this.LoadDelay);
+        //now we can load the level
+        Action.Call(aDelayResumeGame, this.ResumeGame);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ResumeGame
+    //EXPLANATION-resumes the game
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ResumeGame():Void
+    {
+        this.MainSpace.LevelSettings.Z_Pause.TogglePauseMenu();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DelayMainMenuConfirmation
+    //EXPLANATION-delays before bringing up a main menu confirmation
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DelayMainMenuConfirmation():Void
+    {
+        //create action sequence
+        var aDelayMainMenuConfirmation = Action.Sequence(this.Owner.Actions);
+        //wait a moment
+        Action.Delay(aDelayMainMenuConfirmation, this.LoadDelay);
+        //now we can load the level
+        Action.Call(aDelayMainMenuConfirmation, this.LaunchMainMenuConfirmation);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-LaunchMainMenuConfirmation
+    //EXPLANATION-Launches the submenu Main Menu Confirmation
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function LaunchMainMenuConfirmation():Void
+    {
+        this.MainSpace.LevelSettings.Z_Pause.ToggleMainMenuConfirmation();
+    }
+}

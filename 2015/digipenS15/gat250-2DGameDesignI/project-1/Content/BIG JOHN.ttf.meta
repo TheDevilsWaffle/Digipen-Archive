@@ -1,0 +1,8 @@
+FontContent = 
+{
+	FontBuilder = 
+	{
+		string Name = "BIG JOHN",
+		uint64 ResourceId = 5424dd83043e5277,
+	},
+},

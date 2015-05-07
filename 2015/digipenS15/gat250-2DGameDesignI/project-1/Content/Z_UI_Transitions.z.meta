@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_UI_Transitions",
+		uint64 ResourceId = 5424d7feef018d15,
+	},
+},

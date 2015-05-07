@@ -1,0 +1,8 @@
+FontContent = 
+{
+	FontBuilder = 
+	{
+		string Name = "GUBBLO",
+		uint64 ResourceId = 55803720ce6e6bd0,
+	},
+},

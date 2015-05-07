@@ -1,0 +1,75 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "HowToPlayScreens",
+	},
+	Archetyped = 
+	{
+		string Name = "54f0f316a8df26ad:ARC_HowToPlayScreens",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [-4.5, 3.5, 2],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Z_UI_HowToPlayScreenChanger = 
+	{
+		float ZPos = 9,
+		float FadeInTime = 0.5,
+		float FadeOutTime = 0.25,
+		float WaitTime = 2,
+		float ScaleOutTime = 0.2,
+		float ScaleInTime = 0.25,
+		float ScaleBiggerSize = 1.1,
+		Enum EaseType = QuadInOut,
+	},
+	Hierarchy = 
+	{
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 2,
+			},
+			Named = 
+			{
+				string Name = "Screens",
+			},
+			Archetyped = 
+			{
+				string Name = "54f0f316a8df26ad:ARC_HowToPlayScreens",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [6.86053, -2.14574, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				bool VisibilityEvents = false,
+				bool CastShadows = false,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "54f0f381847dbbdd:scn-objective",
+				bool RenderMask = false,
+				bool FlipX = false,
+				bool FlipY = false,
+				bool OnTop = false,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+		},
+	},
+},

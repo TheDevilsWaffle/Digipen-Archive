@@ -1,0 +1,58 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_CorpseTracker.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_CorpseTracker:ZilchComponent
+{
+    [Property]
+    var ScoreThreshold:Integer = Integer(1000);
+    var BodiesToDrop:Integer = Integer(1);
+    var CurrentScore:Integer = Integer();
+    var DifficultyPointsThreshold:Integer = Integer(1000);
+    var Difficulty:Real = Real(0);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //intially set CurrentScore
+        this.CurrentScore = this.Space.LevelSettings.Z_UI_HUD.TotalPoints;
+        //event listeners
+        //Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-perform actions every logic update
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //if the player scores, drop an extra body
+        
+        
+        
+        
+    }
+    
+    function DropBodies():Void
+    {
+        //update the current score to find out what the current score is
+        this.CurrentScore = this.Space.LevelSettings.Z_UI_HUD.TotalPoints;
+        
+        //assign variable difficulty to math.floor(currentscore / 1000)
+        this.Difficulty = Math.Floor(this.CurrentScore / this.DifficultyPointsThreshold);
+        
+        //determine extra bodies to drop depending on the current difficulty setting
+        this.BodiesToDrop = this.Difficulty as Integer;
+        
+        //let Z_FallingBodySpawner know to drop another body
+        this.Space.LevelSettings.Z_FallingBodySpawner.ScoreBasedBodyDrop(this.BodiesToDrop);
+        
+        //DEBUG
+        //Console.WriteLine("CURRENTSCORE = `this.CurrentScore`, DIFFICULTY = `this.Difficulty`");
+    }
+}

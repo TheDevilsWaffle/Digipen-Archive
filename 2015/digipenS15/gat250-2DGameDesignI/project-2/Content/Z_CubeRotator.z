@@ -1,0 +1,63 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_CubeRotator.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - © 2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_CubeRotator:ZilchComponent
+{
+    //SPEEDS
+    [Property]
+    var RotationSpeed:Real = Real(50.0);
+    [Property]
+    var MinAxisRotation:Real = Real(0.25);
+    [Property]
+    var MaxAxisRotation:Real = Real(1.25);
+    
+    //AXIS
+    var RandomX:Real = Real();
+    var RandomY:Real = Real();
+    var RandomZ:Real = Real();
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-initialize variables and event listeners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //assign values to axis
+        this.RandomX = this.GetRandomAxisValues();
+        this.RandomY = this.GetRandomAxisValues();
+        this.RandomZ = this.GetRandomAxisValues();
+        
+        //event listener update every logical frame
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-GetRandomAxisValues()
+    //EXPLANATION-return a random value between min and max properties
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function GetRandomAxisValues():Real
+    {
+        var random:Random = new Random();
+        return random.Range(this.MinAxisRotation, this.MaxAxisRotation);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-perform code in sequence every logical frame update
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        if(this.Owner != null)
+        {
+            //set rotation
+            var rotation = Math.ToRadians(this.RotationSpeed) * event.Dt;
+            //set quaternion
+            var localRotation = Math.ToQuaternion( Real3(this.RandomX,this.RandomY,this.RandomZ), rotation);
+            //apply rotation
+            this.Owner.Transform.RotateLocal(localRotation);
+        }
+    }
+}

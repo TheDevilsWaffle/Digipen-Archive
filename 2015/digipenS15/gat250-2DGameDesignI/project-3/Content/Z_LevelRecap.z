@@ -1,0 +1,282 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_LevelRecap.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - © 2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_LevelRecap:ZilchComponent
+{
+    //LEVEL
+    var LevelName:String;
+    var LevelNameCog:Cog;
+    var LevelDescriptionCog:Cog;
+    var LevelSelect:Level = Level.Find("LVL_menu_levelSelect");
+    
+    //TIME
+    var YourTimeCog:Cog;
+    var BestTimeCog:Cog;
+    
+    //CUBES
+    var CubesCollectedCog:Cog;
+    var Cube1:Cog;
+    var Cube2:Cog;
+    var Cube3:Cog;
+    [Property]
+    var EmptyCube:SpriteSource = SpriteSource.Find("sprCubeEmpty");
+    [Property]
+    var CollectedCube:SpriteSource = SpriteSource.Find("sprCube");
+    
+    //STATS
+    var TempCubesCollected:Integer;
+    var BestCubesCollected:Integer;
+    var TempTime:Real;
+    var BestTime:Real;
+    
+    //ANIMATION
+    [Property]
+    var PulseTime:Real = 0.5;
+    [Property]
+    var EaseType:Ease = Ease.QuadInOut;
+    [Property]
+    var Blue:Real4;
+    [Property]
+    var Red:Real4;
+    var SizeUp:Integer = Integer(120);
+    var SizeOriginal:Integer = Integer(100);
+    var AColorPulse:ActionSet;
+    
+    //DATA
+    var LevelRecapDataCog:Cog;
+    var LevelDataCog:Cog;
+    
+    //GAMEPAD
+    var Gamepad:Gamepad = null;
+    var GamepadIndex:Integer = Integer(0);
+    
+    //MUSIC
+    [Property]
+    var RecapSoundCue:SoundCue = SoundCue.Find("SC_musLevelRecap");
+    var RecapMusicEmmiter:SoundEmitter;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-initialize variables and event listeners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //stop the game music
+        this.Space.LevelSettings.Z_MusicController.StopMusic();
+        
+        //setup the recap level music
+        this.RecapMusicEmmiter = this.Space.FindObjectByName("LevelRecapMusic").SoundEmitter;
+        
+        //get the gamepad
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        
+        //get the level name from where we stored it
+        this.LevelRecapDataCog = Zero.ObjectStore.RestoreOrArchetype("DataInitializer", "ARC_DataLevel", this.Space);
+        this.LevelName = this.LevelRecapDataCog.Z_DataInitializer.LevelRecapName;
+        
+        //get the approrpriate data file based on the level name retrieved from LevelRecapDataCog
+        if(this.LevelName != null)
+        {
+            this.LevelDataCog = Zero.ObjectStore.RestoreOrArchetype(this.LevelName, "ARC_DataLevel", this.Space);
+        }
+        
+        //set all level data info on their text game objects
+        this.ApplyRecapInfo();
+        
+        //flash the appropriate text values if the player has beaten old best times / cubes
+        this.EvaluateNewTime(this.TempTime, this.BestTime, this.YourTimeCog, this.BestTimeCog);
+        
+        //event listener to update every logical frame
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        if(this.AColorPulse !=null && this.AColorPulse.Completed)
+        {
+            this.PulsateSize(this.YourTimeCog);
+            this.PulsateColors(this.YourTimeCog);
+        }
+        //NEXT LEVEL
+        if(this.Gamepad.IsButtonPressed(Buttons.X) || Zero.Keyboard.KeyIsPressed(Keys.Enter))
+        {
+            this.Space.LoadLevel(this.LevelDataCog.Z_LevelData.NextLevel);
+            this.RecapMusicEmmiter.Stop();
+        }
+        //LEVEL SELECT MENU
+        if(this.Gamepad.IsButtonPressed(Buttons.B) || Zero.Keyboard.KeyIsPressed(Keys.Enter))
+        {
+            this.Space.LoadLevel(this.LevelSelect);
+            this.RecapMusicEmmiter.Stop();
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ApplyRecapInfo()
+    //EXPLANATION-set all level data info on the text game objects
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ApplyRecapInfo():Void
+    {
+        //get all the cogs needed to display information and assign their values
+        this.LevelNameCog = this.Space.FindObjectByName("goLevelName");
+        this.LevelNameCog.SpriteText.Text = this.LevelDataCog.Z_LevelData.LevelNumber;
+        
+        this.LevelDescriptionCog = this.Space.FindObjectByName("goLevelDescription");
+        this.LevelDescriptionCog.SpriteText.Text = this.LevelDataCog.Z_LevelData.LevelDescription;
+        
+        this.YourTimeCog = this.Space.FindObjectByName("goYourTime");
+        this.YourTimeCog.SpriteText.Text = "`Math.Ceil(this.LevelDataCog.Z_LevelData.TempTime, -2)`";
+        
+        this.BestTimeCog = this.Space.FindObjectByName("goBestTime");
+        this.BestTimeCog.SpriteText.Text = "`Math.Ceil(this.LevelDataCog.Z_LevelData.Time, -2)`";
+        
+        this.CubesCollectedCog = this.Space.FindObjectByName("goCubesCollected");
+        this.Cube1 = this.Space.FindObjectByName("goCube1");
+        this.Cube2 = this.Space.FindObjectByName("goCube2");
+        this.Cube3 = this.Space.FindObjectByName("goCube3");
+        this.CubesCollectedCog.SpriteText.Text = this.DetermineCubesCollectedText(this.LevelDataCog.Z_LevelData.TempCubesCollected);
+        
+        //play music based on how many cubes collected
+        this.PlayRecapMusic(this.LevelDataCog.Z_LevelData.CubesCollected);
+        
+        //evaluation variables
+        this.BestTime = this.LevelDataCog.Z_LevelData.Time;
+        this.TempTime = this.LevelDataCog.Z_LevelData.TempTime;
+        this.TempCubesCollected = this.LevelDataCog.Z_LevelData.TempCubesCollected;
+        this.BestCubesCollected = this.LevelDataCog.Z_LevelData.CubesCollected;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DetermineCubesCollectedText()
+    //EXPLANATION-evaulates data to return the correct string
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DetermineCubesCollectedText(cubes_:Integer):String
+    {
+        if(cubes_ == 0)
+        {
+            return "0 / 3";
+        }
+        if(cubes_ == 1)
+        {
+            //make goCube1 change
+            this.Cube1.Sprite.SpriteSource = this.CollectedCube;
+            
+            return "1 / 3";
+        }
+        if(cubes_ == 2)
+        {
+            //make goCube1 change
+            this.Cube1.Sprite.SpriteSource = this.CollectedCube;
+            this.Cube2.Sprite.SpriteSource = this.CollectedCube;
+            
+            return "2 / 3";
+        }
+        if(cubes_ == 3)
+        {
+            //make goCube1 change
+            this.Cube1.Sprite.SpriteSource = this.CollectedCube;
+            this.Cube2.Sprite.SpriteSource = this.CollectedCube;
+            this.Cube3.Sprite.SpriteSource = this.CollectedCube;
+            
+            return "3 / 3";
+        }
+        else
+        {
+            return "THIS SHOULD NOT HAPPEN! =O";
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-PlayRecapMusic()
+    //EXPLANATION-changes the pitch of the level recap music based on how many cubes were collected
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function PlayRecapMusic(cubes_:Integer):Void
+    {
+        if(cubes_ == 0)
+        {
+            this.RecapSoundCue.Pitch = -0.4;
+        }
+        if(cubes_ == 1)
+        {
+            this.RecapSoundCue.Pitch = -0.2;
+        }
+        if(cubes_ == 2)
+        {
+            this.RecapSoundCue.Pitch = 0;
+        }
+        if(cubes_ == 3)
+        {
+            this.RecapSoundCue.Pitch = 0.2;
+        }
+        this.RecapMusicEmmiter.PlayCue(this.RecapSoundCue);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-EvaluateNewTime()
+    //EXPLANATION-perform code in sequence ever logical update
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function EvaluateNewTime(newTime_:Real, oldTime_:Real, yourTimeCog_:Cog, bestTimeCog_:Cog):Void
+    {
+        if(newTime_ <= oldTime_)
+        {
+            this.PulsateSize(yourTimeCog_);
+            this.PulsateColors(yourTimeCog_);
+            
+            this.PulsateSize(bestTimeCog_);
+            this.PulsateColors(bestTimeCog_);
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-PulsateColors()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function PulsateColors(obj_:Cog):Void
+    {
+        //create action sequence
+            this.AColorPulse = Action.Sequence(this.Owner.Actions);
+            
+            //change text color
+            Action.Property(this.AColorPulse,
+                            @obj_.SpriteText.Color,
+                            this.Blue,
+                            this.PulseTime,
+                            this.EaseType);
+            //change text color
+            Action.Property(this.AColorPulse,
+                            @obj_.SpriteText.Color,
+                            this.Red,
+                            this.PulseTime,
+                            this.EaseType);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-PulsateSize()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function PulsateSize(obj_:Cog):Void
+    {
+        //create action sequence
+        var aSizePulse:ActionSet = Action.Sequence(this.Owner.Actions);
+        
+        //
+        Action.Property(aSizePulse,
+                        @obj_.SpriteText.FontSize,
+                        this.SizeUp,
+                        this.PulseTime,
+                        this.EaseType);
+        //
+        Action.Property(aSizePulse,
+                        @obj_.SpriteText.FontSize,
+                        this.SizeOriginal,
+                        this.PulseTime,
+                        this.EaseType);
+    }
+}

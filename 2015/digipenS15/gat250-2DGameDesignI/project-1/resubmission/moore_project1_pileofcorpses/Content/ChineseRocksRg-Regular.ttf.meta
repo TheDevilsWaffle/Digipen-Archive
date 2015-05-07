@@ -1,0 +1,8 @@
+FontContent = 
+{
+	FontBuilder = 
+	{
+		string Name = "ChineseRocksRg-Regular",
+		uint64 ResourceId = 544fb00c969504be,
+	},
+},

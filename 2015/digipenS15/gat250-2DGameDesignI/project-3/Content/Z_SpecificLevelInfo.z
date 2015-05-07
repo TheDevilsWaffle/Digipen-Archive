@@ -1,0 +1,49 @@
+class Z_SpecificLevelInfo : ZilchComponent
+{
+    //LEVEL INFOS
+    var LevelNumber:Cog = null;
+    var DataCog:Cog = null;
+    
+    var LevelDescription:Cog = null;
+    var BestTime:Cog = null;
+    var GradeAndTime:Cog = null;
+    var Cubes:Cog = null;
+    var CubesCollected:Cog = null;
+    var CubeContainer:Cog = null;
+    var Cube1:Cog = null;
+    var Cube2:Cog = null;
+    var Cube3:Cog = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        //connect all the game objects to their variables
+        //connect to Z_Data to get current info
+        this.LevelNumber = this.Owner.FindChildByName("goLevelNumber");
+
+        //this.DataCog.Z_Data.Level02Description = "argh";
+        //Zero.ObjectStore.Store("Data", this.DataCog);
+        
+        this.LevelNumber.SpriteText.Text = "`this.DataCog.Z_LevelData.LevelDescription`";
+        
+        
+        this.LevelDescription = this.Owner.FindChildByName("goLevelDescription");
+        this.BestTime = this.Owner.FindChildByName("goBestTime");
+        //this.GradeAndTime = Zero.ObjectStore.RestoreOrArchetype("GradeAndTime", "ARC_GradeAndTime", this.Space);
+        this.Cubes = this.Owner.FindChildByName("goCubes");
+        this.CubesCollected = this.Owner.FindChildByName("goCubesCollected");
+        this.CubeContainer = this.Owner.FindChildByName("goCubeContainer");
+        this.Cube1 = this.Owner.FindChildByName("goCube1");
+        this.Cube2 = this.Owner.FindChildByName("goCube2");
+        this.Cube3 = this.Owner.FindChildByName("goCube3");
+        
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if(Zero.Keyboard.KeyIsPressed(Keys.Space))
+        {
+            this.GradeAndTime.SpriteText.Text = "pooooooooooooooo";
+        }
+    }
+}

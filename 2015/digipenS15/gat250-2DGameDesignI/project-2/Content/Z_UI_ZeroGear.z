@@ -1,0 +1,49 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_ZeroGear.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - © 2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_ZeroGear:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var RotationSpeed:Real = 30.0;
+    [Property]
+    var Clockwise:Boolean = true;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Rotate every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent)
+    {
+        //create variable
+        var localRotation:Quaternion = Quaternion(0,0,0,0);
+        //set rotation
+        var rotation = -(Math.ToRadians(this.RotationSpeed) * event.Dt);
+        //clockwise?
+        if(this.Clockwise)
+        {
+            //set quaternion
+            localRotation = Math.ToQuaternion( Real3(0,0,1), rotation);
+        }
+        else
+        {
+            //set quaternion
+            localRotation = Math.ToQuaternion( Real3(0,0,-1), rotation);
+        }
+        
+        //apply rotation
+        this.Owner.Transform.RotateLocal(localRotation);
+    }
+}

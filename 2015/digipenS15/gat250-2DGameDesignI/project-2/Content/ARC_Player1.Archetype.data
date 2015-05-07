@@ -1,0 +1,120 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "goPlayer1",
+	},
+	Archetyped = 
+	{
+		string Name = "547b5b81ee1865f0:ARC_Player1",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [0.466208, 0.0128608, 1],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		bool Visible = true,
+		bool VisibilityCulling = true,
+		bool VisibilityEvents = false,
+		bool CastShadows = false,
+		Vec4 Color = [1, 1, 1, 1],
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+		string SpriteSource = "55208e9d22cad7db:sprPlayer1",
+		bool RenderMask = false,
+		bool FlipX = false,
+		bool FlipY = false,
+		bool OnTop = true,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+	},
+	RigidBody = 
+	{
+		bool Static = false,
+		bool Asleep = false,
+		bool Kinematic = false,
+		bool RotationLocked = false,
+		bool Mode2D = true,
+		bool AllowSleep = true,
+		bool Inherit2DMode = true,
+		Vec3 Velocity = [0, 0, 0],
+		Vec3 AngularVelocity = [0, 0, 0],
+	},
+	SphereCollider = 
+	{
+		bool Ghost = false,
+		bool SendsMessages = true,
+		bool Seamless = true,
+		string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+		string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+		Vec3 Offset = [0, 0.5, 0],
+		float Radius = 0.4,
+	},
+	SweptController = 
+	{
+		Vec3 WorldUp = [0, 1, 0],
+		bool LockZAxis = true,
+		bool ForwardEvents = false,
+		float Gravity = 40,
+		float JumpSpeed = 12,
+		float JumpCancelFactor = 0.5,
+		float MaxMoveSpeed = 8,
+		float MaxFallSpeed = 96,
+		float GroundAcceleration = 24,
+		float AirAcceleration = 8,
+		float GroundDeceleration = 48,
+		float AirDeceleration = 8,
+		float MaxGroundSlope = 45,
+		float MaxCeilingSlope = 45,
+		float GroundSnapDistance = 0.1,
+		Vec3 ControllerVelocity = [0, 0, 0],
+		bool Grounded = false,
+		bool Jumping = false,
+		float GroundTraction = 0,
+		float AirTraction = 0,
+	},
+	Z_SFXController = 
+	{
+	},
+	Z_Player1Controller = 
+	{
+		Enum KBLeft = Left,
+		Enum KBRight = Right,
+		Enum KBJump = Up,
+		Enum GPLeft = StickLeft,
+		Enum GPRight = StickRight,
+		Enum GPJump = X,
+		int JumpCount = 1,
+		int MaxJumps = 1,
+		bool IsGravityReversed = false,
+	},
+	Z_ExplosiveDeath = 
+	{
+		string Debris = "547b6118fa2fd6c4:ARC_Player1Debris",
+		int DebrisCount = 8,
+		int DebrisVariance = 2,
+	},
+	Z_Gravity = 
+	{
+	},
+	Z_JumpParticles = 
+	{
+	},
+	Area = 
+	{
+		Vec2 Size = [1, 1],
+		Location Origin = BottomCenter,
+	},
+	Hierarchy = 
+	{
+	},
+},

@@ -1,0 +1,20 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_DataInitializer.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_DataInitializer:ZilchComponent
+{
+    //BOOLEAN
+    [Serialized]
+    var IsDataInitialized:Boolean;
+    [Serialized]
+    var LevelRecapName:String;
+    [Serialized]
+    var TotalTime:Real;
+    [Serialized]
+    var TotalCubes:Integer;
+    [Serialized]
+    var TotalLives:Integer;
+}

@@ -1,0 +1,412 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_HowToPlayExamples.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_HowToPlayExamples:ZilchComponent
+{
+    //BOTS
+    var Bot1:Cog = null;
+    var Bot1Pos:Real3 = Real3();
+    var Bot2:Cog = null;
+    var Bot2Pos:Real3 = Real3();
+    
+    //END PORTALS
+    var Portal1:Cog = null;
+    var Portal1Pos:Real3 = Real3();
+    var Portal2:Cog = null;
+    var Portal2Pos:Real3 = Real3();
+    
+    //ANIMATIONS
+    var AMoveBots:ActionSet = null;
+    var ALightPortal2:ActionSet = null;
+    var AMoveExampleInPlace:ActionSet = null;
+    var AMoveExampleOut:ActionSet = null;
+    var EaseType:Ease = Ease.QuadInOut;
+    var MoveToPortalTime:Real = Real(1.5);
+    
+    //BUTTONS
+    var BtnObjective:Cog = null;
+    var BtnSinglePlayer:Cog = null;
+    var BtnMultiPlayer1:Cog = null;
+    var BtnMultiPlayer2:Cog = null;
+    var BtnMenuMain:Cog = null;
+    
+    //POSITIONING
+    var ExamplePos:Real3 = Real3(0,2,2);
+    
+    //ANIMATING MODULES
+    var AnimateInPlaceTime:Real = Real(0.5);
+    var AnimateOutTime:Real = Real(0.25);
+    var IsExampleInPlace:Boolean = Boolean(false);
+    var IsDestroying:Boolean = Boolean(false);
+    
+    //OBJECTIVE
+    var ARC_ObjectiveExample:Archetype = Archetype.Find("ARC_ObjectiveExample");
+    var ObjectiveExample:Cog = null;
+    var ARC_SinglePlayerExample:Archetype = Archetype.Find("ARC_SinglePlayerExample");
+    var SinglePlayerExample:Cog = null;
+    var ARC_MultiPlayer1Example:Archetype = Archetype.Find("ARC_MultiPlayer1Example");
+    var MultiPlayer1Example:Cog = null;
+    var ARC_MultiPlayer2Example:Archetype = Archetype.Find("ARC_MultiPlayer2Example");
+    var MultiPlayer2Example:Cog = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize varaibles and event listeners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //find the buttons on the screen
+        this.BtnObjective = this.Space.FindObjectByName("BtnObjective");
+        this.BtnSinglePlayer = this.Space.FindObjectByName("BtnSinglePlayer");
+        this.BtnMultiPlayer1 = this.Space.FindObjectByName("BtnMultiPlayer1");
+        this.BtnMultiPlayer2 = this.Space.FindObjectByName("BtnMultiPlayer2");
+        this.BtnMenuMain = this.Space.FindObjectByName("BtnMenuMain");
+        
+        //event listener to update every logical frame
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        Console.WriteLine("`this.Bot1` is at `this.Bot1Pos` and `this.Portal1` is at `this.Portal1Pos`");
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-perform every logical frame update
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //--OBJECTIVE BUTTON ACTIVE
+        //if objective button is active
+        if(this.BtnObjective.Z_UI_Gamepad.Active)
+        {
+            //create the objective cog if it hasn't been made yet
+            if(this.ObjectiveExample == null)
+            {
+                this.ObjectiveExample = this.Space.CreateAtPosition(this.ARC_ObjectiveExample, this.ExamplePos);
+                //quickly make the thing small
+                this.ObjectiveExample.Transform.Scale = Real3(0.1,0.1,1);
+                //animate example in place
+                this.AnimateExampleInPlace(this.ObjectiveExample, this.AnimateInPlaceTime);
+            }
+            
+            //ensure we only play the objective animation once the Example is in place
+            if(this.AMoveBots == null && this.AMoveExampleInPlace.Completed)
+            {
+                //initialize the objects inside of ObjectiveExample
+                this.InitializeObjectiveObjects();
+                this.PlayObjectiveAnimation();
+            }
+            
+            if(this.ALightPortal2 != null && this.ALightPortal2.Completed)
+            {
+                this.ALightPortal2 = null;
+                //initialize the objects inside of ObjectiveExample
+                this.InitializeObjectiveObjects();
+                this.PlayObjectiveAnimation();
+            }
+        }
+        
+        //--OBJECTIVE BUTTON DEACTIVATED
+        //if objective button is deactivated
+        if(!this.BtnObjective.Z_UI_Gamepad.Active)
+        {
+            //if the ObjectiveExample object exists and is not currently being destroyed
+            if(this.ObjectiveExample != null && !this.IsDestroying)
+            {
+                //used to control this thing
+                this.IsDestroying = true;
+                
+                //move ObjectiveExample out of the way
+                this.AnimateExampleOut(this.ObjectiveExample, this.AnimateOutTime);
+                //null all the things that exist
+            }
+            //if the ObjectiveExample is still and done animating out
+            if(this.ObjectiveExample != null && this.AMoveExampleOut.Completed)
+            {
+                this.ObjectiveExample.Destroy();
+                this.ObjectiveExample = null;
+                this.IsDestroying = false;
+                this.AMoveBots = null;
+            }
+        }
+        
+        //--SINGLE PLAYER BUTTON ACTIVE
+        //if single player button is active
+        if(this.BtnSinglePlayer.Z_UI_Gamepad.Active)
+        {
+            //create the objective cog if it hasn't been made yet
+            if(this.SinglePlayerExample == null)
+            {
+                this.SinglePlayerExample = this.Space.CreateAtPosition(this.ARC_SinglePlayerExample, this.ExamplePos);
+                //quickly make the thing small
+                this.SinglePlayerExample.Transform.Scale = Real3(0.1,0.1,1);
+                //animate example in place
+                this.AnimateExampleInPlace(this.SinglePlayerExample, this.AnimateInPlaceTime);
+            }
+        }
+        
+        //--SINGLE PLAYER BUTTON DEACTIVATED
+        //if single player button is deactivated
+        if(!this.BtnSinglePlayer.Z_UI_Gamepad.Active)
+        {
+            //if the ObjectiveExample object exists and is not currently being destroyed
+            if(this.SinglePlayerExample != null && !this.IsDestroying)
+            {
+                //used to control this thing
+                this.IsDestroying = true;
+                
+                //move ObjectiveExample out of the way
+                this.AnimateExampleOut(this.SinglePlayerExample, this.AnimateOutTime);
+                //null all the things that exist
+            }
+            //if the ObjectiveExample is still and done animating out
+            if(this.SinglePlayerExample != null && this.AMoveExampleOut.Completed)
+            {
+                this.SinglePlayerExample.Destroy();
+                this.SinglePlayerExample = null;
+                this.IsDestroying = false;
+            }
+        }
+        
+        //--MULTI PLAYER1 BUTTON ACTIVE
+        //if multi player1 button is active
+        if(this.BtnMultiPlayer1.Z_UI_Gamepad.Active)
+        {
+            //create the objective cog if it hasn't been made yet
+            if(this.MultiPlayer1Example == null)
+            {
+                this.MultiPlayer1Example = this.Space.CreateAtPosition(this.ARC_MultiPlayer1Example, this.ExamplePos);
+                //quickly make the thing small
+                this.MultiPlayer1Example.Transform.Scale = Real3(0.1,0.1,1);
+                //animate example in place
+                this.AnimateExampleInPlace(this.MultiPlayer1Example, this.AnimateInPlaceTime);
+            }
+        }
+        
+        //--MULTI PLAYER1 BUTTON DEACTIVATED
+        //if mutli player1 button is deactivated
+        if(!this.BtnMultiPlayer1.Z_UI_Gamepad.Active)
+        {
+            //if the ObjectiveExample object exists and is not currently being destroyed
+            if(this.MultiPlayer1Example != null && !this.IsDestroying)
+            {
+                //used to control this thing
+                this.IsDestroying = true;
+                
+                //move ObjectiveExample out of the way
+                this.AnimateExampleOut(this.MultiPlayer1Example, this.AnimateOutTime);
+                //null all the things that exist
+            }
+            //if the ObjectiveExample is still and done animating out
+            if(this.MultiPlayer1Example != null && this.AMoveExampleOut.Completed)
+            {
+                this.MultiPlayer1Example.Destroy();
+                this.MultiPlayer1Example = null;
+                this.IsDestroying = false;
+            }
+        }
+        
+        //--MULTI PLAYER2 BUTTON ACTIVE
+        //if multi player1 button is active
+        if(this.BtnMultiPlayer2.Z_UI_Gamepad.Active)
+        {
+            //create the objective cog if it hasn't been made yet
+            if(this.MultiPlayer2Example == null)
+            {
+                this.MultiPlayer2Example = this.Space.CreateAtPosition(this.ARC_MultiPlayer2Example, this.ExamplePos);
+                //quickly make the thing small
+                this.MultiPlayer2Example.Transform.Scale = Real3(0.1,0.1,1);
+                //animate example in place
+                this.AnimateExampleInPlace(this.MultiPlayer2Example, this.AnimateInPlaceTime);
+            }
+        }
+        
+        //--MULTI PLAYER2 BUTTON DEACTIVATED
+        //if mutli player1 button is deactivated
+        if(!this.BtnMultiPlayer2.Z_UI_Gamepad.Active)
+        {
+            //if the ObjectiveExample object exists and is not currently being destroyed
+            if(this.MultiPlayer2Example != null && !this.IsDestroying)
+            {
+                //used to control this thing
+                this.IsDestroying = true;
+                
+                //move ObjectiveExample out of the way
+                this.AnimateExampleOut(this.MultiPlayer2Example, this.AnimateOutTime);
+                //null all the things that exist
+            }
+            //if the ObjectiveExample is still and done animating out
+            if(this.MultiPlayer2Example != null && this.AMoveExampleOut.Completed)
+            {
+                this.MultiPlayer2Example.Destroy();
+                this.MultiPlayer2Example = null;
+                this.IsDestroying = false;
+            }
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-InitializeObjectiveObjects()
+    //EXPLANATION-Initialize varaibles specifically for the ObjectiveExample object
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function InitializeObjectiveObjects():Void
+    {
+        if(this.Bot1 == null && this.Bot2 == null)
+        {
+            //get the bots
+            this.Bot1 = this.Space.FindObjectByName("goPlayer1BOT");
+            this.Bot2 = this.Space.FindObjectByName("goPlayer2BOT");
+            //get bot original position
+            this.Bot1Pos = this.Bot1.Transform.Translation;
+            this.Bot2Pos = this.Bot2.Transform.Translation;
+            
+            //get the end portals
+            this.Portal1 = this.Space.FindObjectByName("goEndPortalEXAMPLE1");
+            this.Portal2 = this.Space.FindObjectByName("goEndPortalEXAMPLE2");
+            //get the end portal position
+            this.Portal1Pos = this.Portal1.Transform.Translation;
+            this.Portal2Pos = this.Portal2.Transform.Translation;
+        
+            //reset IsExampleInPlace
+            this.IsExampleInPlace = false;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-PlayObjectiveAnimation()
+    //EXPLANATION-animation for the bots to move to their portals
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function PlayObjectiveAnimation():Void
+    {
+        //create the action sets
+        this.AMoveBots = Actions.Group(this.Owner.Actions);
+        
+        //reset bot positions (for looping)
+        if(this.Bot1 != null && this.Bot2 != null)
+        {
+            this.Bot1.Transform.Translation = this.Bot1Pos;
+            this.Bot2.Transform.Translation = this.Bot2Pos;
+        }
+        
+        //move Bot1 -> Portal1Pos
+        Action.Property(this.AMoveBots,
+                        @this.Bot1.Transform.Translation,
+                        Real3(this.Portal1Pos.X, this.Bot1Pos.Y, this.Bot1Pos.Z),
+                        this.MoveToPortalTime,
+                        this.EaseType);
+        //move Bot2 -> Portal2Pos
+        Action.Property(this.AMoveBots,
+                        @this.Bot2.Transform.Translation,
+                        Real3(this.Portal2Pos.X, this.Bot2Pos.Y, this.Bot2Pos.Z),
+                        this.MoveToPortalTime,
+                        this.EaseType);
+        //call LoopPortalAnimation
+        Action.Call(this.AMoveBots, this.LoopPortalAnimation);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-LoopPortalAnimation()
+    //EXPLANATION-Loops the portals flashing.
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function LoopPortalAnimation():Void
+    {
+        //create the action sets
+        var aLightPortal1:ActionSet = Actions.Sequence(this.Owner.Actions);
+        this.ALightPortal2 = Actions.Sequence(this.Owner.Actions);
+        
+        //delay a moment
+        Action.Delay(aLightPortal1, this.MoveToPortalTime);
+        Action.Delay(this.ALightPortal2, this.MoveToPortalTime);
+        
+        //loop through these actions for portal1
+        for(var iIndex1:Integer = 0; iIndex1 < 3; ++iIndex1)
+        {
+            //flash Portal1Pos white
+            Action.Property(aLightPortal1,
+                            @this.Portal1.Sprite.Color,
+                            Real4(1,1,1,1.0),
+                            0.5,
+                            this.EaseType);
+                            
+            //flash Portal1Pos black
+            Action.Property(aLightPortal1,
+                            @this.Portal1.Sprite.Color,
+                            Real4(0.2,0.2,0.2,1.0),
+                            0.5,
+                            this.EaseType);
+            //on the last flash
+            if(iIndex1 == 2)
+            {
+                //keep Portal1Pos white
+                Action.Property(aLightPortal1,
+                                @this.Portal1.Sprite.Color,
+                                Real4(1,1,1,1.0),
+                                0.5,
+                                this.EaseType);
+            }
+        }
+        //loop through these actions for portal2
+        for(var iIndex2:Integer = 0; iIndex2 < 3; ++iIndex2)
+        {
+            //flash Portal1Pos white
+            Action.Property(this.ALightPortal2,
+                            @this.Portal2.Sprite.Color,
+                            Real4(1,1,1,1.0),
+                            0.5,
+                            this.EaseType);
+                            
+            //flash Portal1Pos black
+            Action.Property(this.ALightPortal2,
+                            @this.Portal2.Sprite.Color,
+                            Real4(0.2,0.2,0.2,1.0),
+                            0.5,
+                            this.EaseType);
+            //on the last flash
+            if(iIndex2 == 2)
+            {
+                //keep Portal1Pos white
+                Action.Property(this.ALightPortal2,
+                                @this.Portal2.Sprite.Color,
+                                Real4(1,1,1,1.0),
+                                0.5,
+                                this.EaseType);
+            }
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-AnimateExampleInPlace()
+    //EXPLANATION-Animates the objective, single player, and both multiplayer examples into place
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function AnimateExampleInPlace(exampleObj_:Cog, time_:Real):Void
+    {
+        //create the action set
+        this.AMoveExampleInPlace = Actions.Group(this.Owner.Actions);
+        
+        //move the thing in place
+        Action.Property(this.AMoveExampleInPlace,
+                        @exampleObj_.Transform.Scale,
+                        Real3(1,1,1),
+                        time_,
+                        this.EaseType);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-AnimateExampleOut()
+    //EXPLANATION-Animates the objective, single player, and both multiplayer examples out of place
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function AnimateExampleOut(exampleObj_:Cog, time_:Real):Void
+    {
+        //create the action set
+        this.AMoveExampleOut = Actions.Group(this.Owner.Actions);
+        
+        //move the thing in place
+        Action.Property(this.AMoveExampleOut,
+                        @exampleObj_.Transform.Scale,
+                        Real3(0.1,0.11,1),
+                        time_,
+                        this.EaseType);
+    }
+}

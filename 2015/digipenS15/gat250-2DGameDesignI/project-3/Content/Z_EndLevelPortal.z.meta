@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_EndLevelPortal",
+		uint64 ResourceId = 5477c295d0379ab1,
+	},
+},

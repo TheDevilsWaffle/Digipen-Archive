@@ -1,0 +1,297 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "goObjectiveExample",
+	},
+	Archetyped = 
+	{
+		string Name = "552cbb52dfa26050:ARC_ObjectiveExample",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [31.4386, 12.0631, 0.499504],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Hierarchy = 
+	{
+		ArchetypeInstance = 
+		{
+			string Name = "558166f6367809d9:ARC_Player2BOT",
+			LinkId = 
+			{
+				uint Id = 2,
+			},
+			Transform = 
+			{
+				Vec3 Translation = [2.55845, -4.38067, -1.49012e-007],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Area = 
+			{
+				Vec2 Size = [1, 1],
+				Location Origin = TopCenter,
+			},
+			Named = 
+			{
+				string Name = "goPlayer2BOT",
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 3,
+			},
+			Named = 
+			{
+				string Name = "goObjectiveDescription",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [-0.0293274, -1.03415, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			SpriteText = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				bool VisibilityEvents = false,
+				bool CastShadows = false,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				TextPositionMode Position = Centered,
+				string FontName = "55803720ce6e6bd0:GUBBLO",
+				uint FontSize = 60,
+				string Text = "GET TO THE PORTALS",
+				bool OnTop = false,
+				Vec2 Size = [0, 0],
+				TextAlign Align = Center,
+				float PixelsPerUnit = 64,
+				bool Smoothing = true,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 4,
+			},
+			Named = 
+			{
+				string Name = "goObjectiveText",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [-0.0293274, 0.266254, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			SpriteText = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				bool VisibilityEvents = false,
+				bool CastShadows = false,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				TextPositionMode Position = Centered,
+				string FontName = "55803720ce6e6bd0:GUBBLO",
+				uint FontSize = 100,
+				string Text = "OBJECTIVE:",
+				bool OnTop = false,
+				Vec2 Size = [0, 0],
+				TextAlign Align = Center,
+				float PixelsPerUnit = 64,
+				bool Smoothing = true,
+			},
+		},
+		ArchetypeInstance = 
+		{
+			string Name = "5581669f3a1b82a0:ARC_Player1_BOT",
+			LinkId = 
+			{
+				uint Id = 5,
+			},
+			Transform = 
+			{
+				Vec3 Translation = [-2.42619, -3.54101, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Area = 
+			{
+				Vec2 Size = [1, 1],
+				Location Origin = BottomCenter,
+			},
+			Named = 
+			{
+				string Name = "goPlayer1BOT",
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 6,
+			},
+			Named = 
+			{
+				string Name = "goEndPortalEXAMPLE1",
+			},
+			Archetyped = 
+			{
+				string Name = "5477c27cdfeeb369:ARC_EndLevelPortal",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [3.51052, -3.03886, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				bool VisibilityEvents = false,
+				bool CastShadows = false,
+				Vec4 Color = [0, 0, 0, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "5580ca8e514f69aa:sprPortalExit",
+				bool RenderMask = false,
+				bool FlipX = false,
+				bool FlipY = false,
+				bool OnTop = false,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+			BoxCollider = 
+			{
+				bool Ghost = true,
+				bool SendsMessages = true,
+				bool Seamless = true,
+				string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+				string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+				Vec3 Offset = [0, 0, 0],
+				Vec3 Size = [0.25, 0.25, 0.5],
+			},
+			Z_EndLevelPortal = 
+			{
+				CogPath Target = ":/goPlayer1BOT",
+			},
+			Area = 
+			{
+				Vec2 Size = [2, 2],
+				Location Origin = Center,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 7,
+			},
+			Named = 
+			{
+				string Name = "tmGroundHowToPlay",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0.0198441, -3.45375, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			MultiSprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				bool VisibilityEvents = false,
+				bool CastShadows = false,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+			},
+			TileMap = 
+			{
+				string SourceName = "558166d632242eca:LVL_menu_controls_TileMap00",
+				string PaletteName = "5580c25a4e3a9fe1:jellyTiles",
+				float UnitsPerTile = 1,
+				float MeshThickness = 1.2,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 8,
+			},
+			Named = 
+			{
+				string Name = "goEndPortalEXAMPLE2",
+			},
+			Archetyped = 
+			{
+				string Name = "5477c27cdfeeb369:ARC_EndLevelPortal",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [-3.49875, -4.87321, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				bool VisibilityEvents = false,
+				bool CastShadows = false,
+				Vec4 Color = [0, 0, 0, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "5580ca8e514f69aa:sprPortalExit",
+				bool RenderMask = false,
+				bool FlipX = false,
+				bool FlipY = true,
+				bool OnTop = false,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+			BoxCollider = 
+			{
+				bool Ghost = true,
+				bool SendsMessages = true,
+				bool Seamless = true,
+				string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+				string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+				Vec3 Offset = [0, 0, 0],
+				Vec3 Size = [0.25, 0.25, 0.5],
+			},
+			Z_EndLevelPortal = 
+			{
+				CogPath Target = ":/goPlayer2",
+			},
+			Area = 
+			{
+				Vec2 Size = [2, 2],
+				Location Origin = Center,
+			},
+		},
+	},
+},

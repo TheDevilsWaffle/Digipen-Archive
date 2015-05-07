@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_CreditsScroll",
+		uint64 ResourceId = 543e72837a2fcf37,
+	},
+},

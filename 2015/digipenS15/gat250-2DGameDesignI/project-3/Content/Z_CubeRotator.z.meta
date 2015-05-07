@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_CubeRotator",
+		uint64 ResourceId = 55948aca6ae77e91,
+	},
+},

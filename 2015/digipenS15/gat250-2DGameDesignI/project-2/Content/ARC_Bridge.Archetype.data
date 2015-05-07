@@ -1,0 +1,116 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "goBridge",
+	},
+	Archetyped = 
+	{
+		string Name = "54d065311941c88e:ARC_Bridge",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [-10.0208, -4.52569, 0],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Hierarchy = 
+	{
+		ArchetypeInstance = 
+		{
+			string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+			LinkId = 
+			{
+				uint Id = 2,
+			},
+			Transform = 
+			{
+				Vec3 Translation = [2, 0, -1],
+				Vec3 Scale = [0.5, 0.5, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Area = 
+			{
+				Vec2 Size = [1, 1],
+				Location Origin = Center,
+			},
+			Named = 
+			{
+				string Name = "go_bridgeBlock",
+			},
+		},
+		ArchetypeInstance = 
+		{
+			string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+			LinkId = 
+			{
+				uint Id = 3,
+			},
+			Transform = 
+			{
+				Vec3 Translation = [3, 0, -1],
+				Vec3 Scale = [0.5, 0.5, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Area = 
+			{
+				Vec2 Size = [1, 1],
+				Location Origin = Center,
+			},
+			Named = 
+			{
+				string Name = "go_bridgeBlock",
+			},
+		},
+		ArchetypeInstance = 
+		{
+			string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+			LinkId = 
+			{
+				uint Id = 4,
+			},
+			Transform = 
+			{
+				Vec3 Translation = [1, 0, -1],
+				Vec3 Scale = [0.5, 0.5, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Area = 
+			{
+				Vec2 Size = [1, 1],
+				Location Origin = Center,
+			},
+			Named = 
+			{
+				string Name = "go_bridgeBlock",
+			},
+		},
+		ArchetypeInstance = 
+		{
+			string Name = "5478badf8c563b3a:ARC_BridgeBlock",
+			LinkId = 
+			{
+				uint Id = 5,
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0, 0, -1],
+				Vec3 Scale = [0.5, 0.5, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Area = 
+			{
+				Vec2 Size = [1, 1],
+				Location Origin = Center,
+			},
+			Named = 
+			{
+				string Name = "go_bridgeBlock",
+			},
+		},
+	},
+},

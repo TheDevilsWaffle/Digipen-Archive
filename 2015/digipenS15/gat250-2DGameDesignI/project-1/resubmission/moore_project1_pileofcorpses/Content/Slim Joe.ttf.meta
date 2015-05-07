@@ -1,0 +1,8 @@
+FontContent = 
+{
+	FontBuilder = 
+	{
+		string Name = "Slim Joe",
+		uint64 ResourceId = 5424dd83043e8529,
+	},
+},

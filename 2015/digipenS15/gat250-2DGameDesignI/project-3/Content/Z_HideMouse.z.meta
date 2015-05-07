@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_HideMouse",
+		uint64 ResourceId = 54ff42c3e03d66e0,
+	},
+},

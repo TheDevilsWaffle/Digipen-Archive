@@ -1,0 +1,40 @@
+class Z_Restart : ZilchComponent
+{
+    
+    //GAMEPAD
+    [Property]
+    var GamepadIndex:Integer = 0;
+    var Gamepad:Gamepad = null;
+    
+    var HudLevel:Level = Level.Find("LVL_HUD");         //the level that the HUD exists within
+    var LvlCurrentLevel:Level = Level.Find("LVL_01");
+    var HUDSpace:Space = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        this.HUDSpace = this.GameSession.FindSpaceByName("HUDSpace");
+        
+        //gamepad stuffs
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        //press the confirm btn on the gamepad or keyboard
+        if(this.Gamepad.IsButtonPressed(Buttons.Back) || Zero.Keyboard.KeyIsPressed(Keys.R))
+        {
+            this.Space.LoadLevel(this.LvlCurrentLevel);
+            this.HUDSpace.LoadLevel(this.HudLevel);
+        }
+        
+        if(Zero.Keyboard.KeyIsPressed(Keys.LeftBracket))
+        {
+            this.Space.Z_UI_HUD.ScorePoints("go_normalbody");
+        }
+        if(Zero.Keyboard.KeyIsPressed(Keys.RightBracket))
+        {
+            this.Space.Z_UI_HUD.ScorePoints("go_richbody");
+        }
+    }
+}

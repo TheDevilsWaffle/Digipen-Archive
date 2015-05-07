@@ -1,0 +1,104 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_PowerMeter.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_PowerMeter:ZilchComponent
+{
+    //ARCs
+    var ARCPowerBar:Archetype = Archetype.Find("ARC_UI_PowerBar");
+    //COGs
+    var Player:Cog = null;
+    var Shovel:Cog = null;
+    var PowerMeter:Cog = null;
+    //POS
+    var PowerMeterPos:Real3 = Real3();
+    var PowerMeterPosModifier:Real = Real(2.0);
+    //SIZE
+    var PowerBarArea:Area = null;
+    var XModifier:Real = Real(0.0);
+    var YModifier:Real = Real(-5.0);
+    var CurrentShovelStrength:Real = Real();
+    var CurrentPowerBarXSize:Real = Real();
+    var ShovelStrength:Real = Real();
+    var ShovelStrengthMax:Real = Real();
+    var PowerBarXSize:Real = Real();
+    var PowerBarXMax:Real = Real();
+    //BOOLEANS
+    var IsShovelPlanted:Boolean = Boolean(false);
+    var IsPowerMeterCreated:Boolean = Boolean(false);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //get the player
+        this.Player = this.Space.FindObjectByName("Player");
+        //static set the max area.x size of the powerbar
+        this.PowerBarXMax = 5.6;
+        //get the current strength
+        this.Shovel = this.Space.FindObjectByName("go_shovel");
+        //get the max strength
+        this.ShovelStrengthMax = this.Space.FindObjectByName("go_shovel").Z_ShovelFling.StrengthMax;
+        //logic update listener
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-update every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //update IsShovelPlanted bool
+        this.IsShovelPlanted = this.Shovel.Z_ShovelFling.ShovelPlanted;
+        
+        //proceed if shovel is planted
+        if(this.IsShovelPlanted)
+        {
+            //does the power meter exist? if not, create it
+            if(!this.IsPowerMeterCreated)
+            {
+                //get the location of the shovel and body contact
+                this.PowerMeterPos = Real3(this.Player.Transform.Translation.X,
+                                            this.Player.Transform.Translation.Y + this.PowerMeterPosModifier,
+                                            this.Player.Transform.Translation.Z);
+                
+                //create and assign an instance of ARC_UI_AngleArrow and give it the location of the shovel
+                this.PowerMeter = this.Space.CreateAtPosition(this.ARCPowerBar, this.PowerMeterPos);
+                
+                //get the power bar Area
+                this.PowerBarArea = this.PowerMeter.FindChildByName("ui-power-bar").Area;
+                
+                //set IsPowerMeterCreated to true
+                this.IsPowerMeterCreated = true;
+            }
+            
+            //ensure we have the latest value of shovel strength
+            this.ShovelStrength = this.Shovel.Z_ShovelFling.Strength;
+            //set PowerBarSize equal to the percentage of strength compared to it's max
+            this.CurrentShovelStrength = this.ShovelStrength / this.ShovelStrengthMax;
+            //multiply max power bar x size by the shovel strength to get the size it should be
+            this.CurrentPowerBarXSize = this.PowerBarXMax * this.CurrentShovelStrength;
+            //make the power bar the appropriate size
+            this.PowerBarArea.Size = Real2(this.CurrentPowerBarXSize, 1);
+        }
+        
+        //shovel is not planted
+        else
+        {
+            //if power meter still exists then destroy it and null its variable
+            if(this.PowerMeter != null)
+            {
+                this.PowerMeter.Destroy();
+                this.PowerMeter = null;
+            }
+            
+            //ensure IsPowerMeterCreated is false
+            this.IsPowerMeterCreated = false;
+        }
+    }
+}

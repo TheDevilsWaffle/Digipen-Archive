@@ -1,0 +1,80 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_EndLevelPortal.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_EndLevelPortal:ZilchComponent
+{
+    [Property]
+    var Target:CogPath = null;
+    
+    var InactiveColor:Real4 = Real4(0,0,0,1.0);
+    var ActiveColor:Real4 = Real4(1,1,1,1.0);
+    
+    var IsTargetReady:Boolean = Boolean(false);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables and event listeners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        if(this.Owner.Name != "goEndPortalEXAMPLE1" && this.Owner.Name != "goEndPortalEXAMPLE2")
+        {
+            //determine what the name of this should be based on which target it is for
+            if(this.Target.Cog.Name == "goPlayer1")
+            {
+                this.Owner.Name = "goPlayer1Portal";
+            }
+            else
+            {
+                this.Owner.Name = "goPlayer2Portal";
+            }
+        }
+        
+        //event listner for collision
+        Zero.Connect(this.Owner, Events.CollisionPersisted, this.OnCollisionPersisted);
+        Zero.Connect(this.Owner, Events.CollisionEnded, this.OnCollisionEnded);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionPersisted()
+    //EXPLANATION-let Z_LevelLoader know if target is ready for next level
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionPersisted(event:CollisionEvent):Void
+    {
+        //only do these actions if the target has hit this portal
+        if(event.OtherObject == this.Target.Cog)
+        {
+            //target is in portal and ready for next level
+            this.IsTargetReady = true;
+            
+            //change to active color
+            this.Owner.Sprite.Color = this.ActiveColor;
+            
+            //DEBUG
+            //Console.WriteLine("event.OtherObject has reached `this.Owner.Name`");
+        }
+        //target is not in place, not ready for next level
+        else
+        {
+            this.IsTargetReady = false;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionEnded()
+    //EXPLANATION-let Z_LevelLoader know the target is not ready
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionEnded(event:CollisionEvent):Void
+    {
+        if(event.OtherObject == this.Target.Cog)
+        {
+            this.IsTargetReady = false;
+            
+            //change to inactive color
+            this.Owner.Sprite.Color = this.InactiveColor;
+        }
+    }
+}

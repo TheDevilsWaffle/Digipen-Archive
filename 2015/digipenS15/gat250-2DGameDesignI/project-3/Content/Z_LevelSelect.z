@@ -1,0 +1,379 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_LevelData.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_LevelSelect:ZilchComponent
+{
+    //DATA
+    var LevelDataCog:Cog;
+    var Data01:Cog;
+    var Data02:Cog;
+    var Data03:Cog;
+    var Data04:Cog;
+    var Data05:Cog;
+    var Data06:Cog;
+    var Data07:Cog;
+    var Data08:Cog;
+    var Data09:Cog;
+    var Data10:Cog;
+    var Data11:Cog;
+    var Data12:Cog;
+    var Data13:Cog;
+    var DataInitializerCog:Cog;
+    
+    //BUTTON BOT SPRITES
+    var Btn01:Cog;
+    var Btn02:Cog;
+    var Btn03:Cog;
+    var Btn04:Cog;
+    var Btn05:Cog;
+    var Btn06:Cog;
+    var Btn07:Cog;
+    var Btn08:Cog;
+    var Btn09:Cog;
+    var Btn10:Cog;
+    var Btn11:Cog;
+    var Btn12:Cog;
+    var Btn13:Cog;
+    var LockSprite:SpriteSource = SpriteSource.Find("sprLevelLocked");
+    
+    
+    //LEVELINFO
+    var LevelName:Cog;
+    var LevelDescription:Cog;
+    var BestTime:Cog;
+    var CubesCollected:Cog;
+    var Cube1:Cog;
+    var Cube2:Cog;
+    var Cube3:Cog;
+    [Property]
+    var EmptyCube:SpriteSource = SpriteSource.Find("sprCubeEmpty");
+    [Property]
+    var CollectedCube:SpriteSource = SpriteSource.Find("sprCube");
+    
+    //LEVEL
+    var CurrentLevelSelected:String;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize variables/event listeners so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //get the data initializer cog
+        this.DataInitializerCog = Zero.ObjectStore.RestoreOrArchetype("DataInitializer", "ARC_DataInitializer", this.Space);
+        
+        //get the goLevelInfo objects
+        this.GetLevelInfoObjects();
+        this.InitialLockCheck();
+        //Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-InitialLockCheck()
+    //EXPLANATION-checks to see if levels are locked and if so, replaces the sprites to a lock
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function InitialLockCheck():Void
+    {
+        //initialize every data
+        this.Data01 = Zero.ObjectStore.RestoreOrArchetype("LEVEL01Data", "ARC_DataLevel", this.Space);
+        if(!this.Data01.Z_LevelData.IsUnlocked)
+        {
+            this.Btn01 = this.Space.FindObjectByName("btn01");
+            this.Btn01.FindChildByName("BtnBot").Sprite.SpriteSource = this.LockSprite;
+            this.Btn01.FindChildByName("BtnTop").Sprite.Visible = false;
+            this.Btn01.FindChildByName("BtnText").SpriteText.Visible = false;
+        }
+        this.Data02 = Zero.ObjectStore.RestoreOrArchetype("LEVEL02Data", "ARC_DataLevel", this.Space);
+        if(!this.Data02.Z_LevelData.IsUnlocked)
+        {
+            this.Btn02 = this.Space.FindObjectByName("btn02");
+            this.Btn02.FindChildByName("BtnBot").Sprite.SpriteSource = this.LockSprite;
+            this.Btn02.FindChildByName("BtnTop").Sprite.Visible = false;
+            this.Btn02.FindChildByName("BtnText").SpriteText.Visible = false;
+        }
+        this.Data03 = Zero.ObjectStore.RestoreOrArchetype("LEVEL03Data", "ARC_DataLevel", this.Space);
+        if(!this.Data03.Z_LevelData.IsUnlocked)
+        {
+            this.Btn03 = this.Space.FindObjectByName("btn03");
+            this.Btn03.FindChildByName("BtnBot").Sprite.SpriteSource = this.LockSprite;
+            this.Btn03.FindChildByName("BtnTop").Sprite.Visible = false;
+            this.Btn03.FindChildByName("BtnText").SpriteText.Visible = false;
+        }
+        this.Data04 = Zero.ObjectStore.RestoreOrArchetype("LEVEL04Data", "ARC_DataLevel", this.Space);
+        if(!this.Data04.Z_LevelData.IsUnlocked)
+        {
+            this.Btn04 = this.Space.FindObjectByName("btn04");
+            this.Btn04.FindChildByName("BtnBot").Sprite.SpriteSource = this.LockSprite;
+            this.Btn04.FindChildByName("BtnTop").Sprite.Visible = false;
+            this.Btn04.FindChildByName("BtnText").SpriteText.Visible = false;
+        }
+        this.Data05 = Zero.ObjectStore.RestoreOrArchetype("LEVEL05Data", "ARC_DataLevel", this.Space);
+        if(!this.Data05.Z_LevelData.IsUnlocked)
+        {
+            this.Btn05 = this.Space.FindObjectByName("btn05");
+            this.Btn05.FindChildByName("BtnBot").Sprite.SpriteSource = this.LockSprite;
+            this.Btn05.FindChildByName("BtnTop").Sprite.Visible = false;
+            this.Btn05.FindChildByName("BtnText").SpriteText.Visible = false;
+        }
+        this.Data06 = Zero.ObjectStore.RestoreOrArchetype("LEVEL06Data", "ARC_DataLevel", this.Space);
+        if(!this.Data06.Z_LevelData.IsUnlocked)
+        {
+            this.Btn06 = this.Space.FindObjectByName("btn06");
+            this.Btn06.FindChildByName("BtnBot").Sprite.SpriteSource = this.LockSprite;
+            this.Btn06.FindChildByName("BtnTop").Sprite.Visible = false;
+            this.Btn06.FindChildByName("BtnText").SpriteText.Visible = false;
+        }
+        this.Data07 = Zero.ObjectStore.RestoreOrArchetype("LEVEL07Data", "ARC_DataLevel", this.Space);
+        if(!this.Data07.Z_LevelData.IsUnlocked)
+        {
+            this.Btn07 = this.Space.FindObjectByName("btn07");
+            this.Btn07.FindChildByName("BtnBot").Sprite.SpriteSource = this.LockSprite;
+            this.Btn07.FindChildByName("BtnTop").Sprite.Visible = false;
+            this.Btn07.FindChildByName("BtnText").SpriteText.Visible = false;
+        }
+        this.Data08 = Zero.ObjectStore.RestoreOrArchetype("LEVEL08Data", "ARC_DataLevel", this.Space);
+        if(!this.Data08.Z_LevelData.IsUnlocked)
+        {
+            this.Btn08 = this.Space.FindObjectByName("btn08");
+            this.Btn08.FindChildByName("BtnBot").Sprite.SpriteSource = this.LockSprite;
+            this.Btn08.FindChildByName("BtnTop").Sprite.Visible = false;
+            this.Btn08.FindChildByName("BtnText").SpriteText.Visible = false;
+        }
+        this.Data09 = Zero.ObjectStore.RestoreOrArchetype("LEVEL09Data", "ARC_DataLevel", this.Space);
+        if(!this.Data09.Z_LevelData.IsUnlocked)
+        {
+            this.Btn09 = this.Space.FindObjectByName("btn09");
+            this.Btn09.FindChildByName("BtnBot").Sprite.SpriteSource = this.LockSprite;
+            this.Btn09.FindChildByName("BtnTop").Sprite.Visible = false;
+            this.Btn09.FindChildByName("BtnText").SpriteText.Visible = false;
+        }
+        this.Data10 = Zero.ObjectStore.RestoreOrArchetype("LEVEL10Data", "ARC_DataLevel", this.Space);
+        if(!this.Data10.Z_LevelData.IsUnlocked)
+        {
+            this.Btn10 = this.Space.FindObjectByName("btn10");
+            this.Btn10.FindChildByName("BtnBot").Sprite.SpriteSource = this.LockSprite;
+            this.Btn10.FindChildByName("BtnTop").Sprite.Visible = false;
+            this.Btn10.FindChildByName("BtnText").SpriteText.Visible = false;
+        }
+        this.Data11 = Zero.ObjectStore.RestoreOrArchetype("LEVEL11Data", "ARC_DataLevel", this.Space);
+        if(!this.Data11.Z_LevelData.IsUnlocked)
+        {
+            this.Btn11 = this.Space.FindObjectByName("btn11");
+            this.Btn11.FindChildByName("BtnBot").Sprite.SpriteSource = this.LockSprite;
+            this.Btn11.FindChildByName("BtnTop").Sprite.Visible = false;
+            this.Btn11.FindChildByName("BtnText").SpriteText.Visible = false;
+        }
+        this.Data12 = Zero.ObjectStore.RestoreOrArchetype("LEVEL12Data", "ARC_DataLevel", this.Space);
+        if(!this.Data12.Z_LevelData.IsUnlocked)
+        {
+            this.Btn12 = this.Space.FindObjectByName("btn12");
+            this.Btn12.FindChildByName("BtnBot").Sprite.SpriteSource = this.LockSprite;
+            this.Btn12.FindChildByName("BtnTop").Sprite.Visible = false;
+            this.Btn12.FindChildByName("BtnText").SpriteText.Visible = false;
+        }
+        this.Data13 = Zero.ObjectStore.RestoreOrArchetype("LEVEL13Data", "ARC_DataLevel", this.Space);
+        if(!this.Data13.Z_LevelData.IsUnlocked)
+        {
+            this.Btn13 = this.Space.FindObjectByName("btn13");
+            this.Btn13.FindChildByName("BtnBot").Sprite.SpriteSource = this.LockSprite;
+            this.Btn13.FindChildByName("BtnTop").Sprite.Visible = false;
+            this.Btn13.FindChildByName("BtnText").SpriteText.Visible = false;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-LockCheck()
+    //EXPLANATION-checks a passed level (string) to see if it is locked or not
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function LockCheck(name_:String):Boolean
+    {
+        return this.LevelDataCog.Z_LevelData.IsUnlocked;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-GetLevelInfoObjects()
+    //EXPLANATION-Gets all objects in space related to goLevelInfo
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function GetLevelInfoObjects():Void
+    {
+        //get all the game objects needed to display information
+        this.LevelName = this.Space.FindObjectByName("goLevelName");
+        this.LevelDescription = this.Space.FindObjectByName("goLevelDescription");
+        this.BestTime = this.Space.FindObjectByName("goBestTime");
+        this.CubesCollected = this.Space.FindObjectByName("goCubesCollected");
+        this.Cube1 = this.Space.FindObjectByName("goLevelCube1");
+        this.Cube2 = this.Space.FindObjectByName("goLevelCube2");
+        this.Cube3 = this.Space.FindObjectByName("goLevelCube3");
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-UpdateLevelSelected()
+    //EXPLANATION-gets the correct level data and based on the passed level (string)
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function UpdateLevelSelected(btnName_:String):Void
+    {
+        if(btnName_ == "btn01")
+        {
+            this.CurrentLevelSelected = "LEVEL01Data";
+        }
+        if(btnName_ == "btn02")
+        {
+            this.CurrentLevelSelected = "LEVEL02Data";
+        }
+        if(btnName_ == "btn03")
+        {
+            this.CurrentLevelSelected = "LEVEL03Data";
+        }
+        if(btnName_ == "btn04")
+        {
+            this.CurrentLevelSelected = "LEVEL04Data";
+        }
+        if(btnName_ == "btn05")
+        {
+            this.CurrentLevelSelected = "LEVEL05Data";
+        }
+        if(btnName_ == "btn06")
+        {
+            this.CurrentLevelSelected = "LEVEL06Data";
+        }
+        if(btnName_ == "btn07")
+        {
+            this.CurrentLevelSelected = "LEVEL07Data";
+        }
+        if(btnName_ == "btn08")
+        {
+            this.CurrentLevelSelected = "LEVEL08Data";
+        }
+        if(btnName_ == "btn09")
+        {
+            this.CurrentLevelSelected = "LEVEL09Data";
+        }
+        if(btnName_ == "btn10")
+        {
+            this.CurrentLevelSelected = "LEVEL10Data";
+        }
+        if(btnName_ == "btn11")
+        {
+            this.CurrentLevelSelected = "LEVEL11Data";
+        }
+        if(btnName_ == "btn12")
+        {
+            this.CurrentLevelSelected = "LEVEL12Data";
+        }
+        if(btnName_ == "btn13")
+        {
+            this.CurrentLevelSelected = "LEVEL13Data";
+        }
+        
+        //set the LevelDataCog to the right level to extract info
+        if(this.CurrentLevelSelected != null)
+        {
+            this.LevelDataCog = Zero.ObjectStore.RestoreOrArchetype(this.CurrentLevelSelected, "ARC_DataLevel", this.Space);
+        }
+        if(this.CurrentLevelSelected != "LEVEL16Data")
+        {
+            //call UpdateLevelInfo to set info on goLevelInfo
+            this.UpdateLevelInfo();
+        }
+        else
+        {
+            this.LevelName.SpriteText.Text = "GAME STATS";
+            this.LevelDescription.SpriteText.Text = "combined time/cubes";
+            this.BestTime.SpriteText.Text = "`this.DataInitializerCog.Z_DataInitializer.TotalTime`";
+            this.CubesCollected.SpriteText.Text = "`this.DataInitializerCog.Z_DataInitializer.TotalCubes` / 39";
+            if(this.DataInitializerCog.Z_DataInitializer.TotalCubes < 13)
+            {
+                this.Cube1.Sprite.SpriteSource = this.EmptyCube;
+                this.Cube2.Sprite.SpriteSource = this.EmptyCube;
+                this.Cube3.Sprite.SpriteSource = this.EmptyCube;
+            }
+            if(this.DataInitializerCog.Z_DataInitializer.TotalCubes >= 13 && this.DataInitializerCog.Z_DataInitializer.TotalCubes < 26)
+            {
+                //set cube 1
+                this.Cube1.Sprite.SpriteSource = this.CollectedCube;
+                //reset cubes
+                this.Cube2.Sprite.SpriteSource = this.EmptyCube;
+                this.Cube3.Sprite.SpriteSource = this.EmptyCube;
+            }
+            if(this.DataInitializerCog.Z_DataInitializer.TotalCubes >= 26 && this.DataInitializerCog.Z_DataInitializer.TotalCubes < 39)
+            {
+                //set cube 1 & 2
+                this.Cube1.Sprite.SpriteSource = this.CollectedCube;
+                this.Cube2.Sprite.SpriteSource = this.CollectedCube;
+                //reset cubes
+                this.Cube3.Sprite.SpriteSource = this.EmptyCube;
+            }
+            if(this.DataInitializerCog.Z_DataInitializer.TotalCubes == 39)
+            {
+                //set all cubes
+                this.Cube1.Sprite.SpriteSource = this.CollectedCube;
+                this.Cube2.Sprite.SpriteSource = this.CollectedCube;
+                this.Cube3.Sprite.SpriteSource = this.CollectedCube;
+            }
+        }
+    }
+
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-UpdateLevelInfo()
+    //EXPLANATION-applies the information from the data object to the goLevelInfo objects
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function UpdateLevelInfo()
+    {
+        //assign info from data to goLevelInfo
+        this.LevelName.SpriteText.Text = this.LevelDataCog.Z_LevelData.LevelNumber;
+        this.LevelDescription.SpriteText.Text = this.LevelDataCog.Z_LevelData.LevelDescription;
+        if(this.LevelDataCog.Z_LevelData.Time == 999)
+        {
+            this.BestTime.SpriteText.Text = "No Best Time Yet";
+        }
+        else
+        {
+            this.BestTime.SpriteText.Text = "`this.LevelDataCog.Z_LevelData.Time`";
+        }
+        
+        var cubes:Integer = this.LevelDataCog.Z_LevelData.CubesCollected;
+        if(cubes == 0)
+        {
+            //reset cubes
+            this.Cube1.Sprite.SpriteSource = this.EmptyCube;
+            this.Cube2.Sprite.SpriteSource = this.EmptyCube;
+            this.Cube3.Sprite.SpriteSource = this.EmptyCube;
+            //set text
+            this.CubesCollected.SpriteText.Text = "0 / 3";
+        }
+        if(cubes == 1)
+        {
+            //set cube 1
+            this.Cube1.Sprite.SpriteSource = this.CollectedCube;
+            //reset cubes
+            this.Cube2.Sprite.SpriteSource = this.EmptyCube;
+            this.Cube3.Sprite.SpriteSource = this.EmptyCube;
+            //set text
+            this.CubesCollected.SpriteText.Text = "1 / 3";
+        }
+        if(cubes == 2)
+        {
+            //set cubes 1 and 2
+            this.Cube1.Sprite.SpriteSource = this.CollectedCube;
+            this.Cube2.Sprite.SpriteSource = this.CollectedCube;
+            //reset cubes
+            this.Cube3.Sprite.SpriteSource = this.EmptyCube;
+            //set text
+            this.CubesCollected.SpriteText.Text = "2 / 3";
+        }
+        if(cubes == 3)
+        {
+            //set all cubes
+            this.Cube1.Sprite.SpriteSource = this.CollectedCube;
+            this.Cube2.Sprite.SpriteSource = this.CollectedCube;
+            this.Cube3.Sprite.SpriteSource = this.CollectedCube;
+            //set text
+            this.CubesCollected.SpriteText.Text = "3 / 3";
+        }
+    }
+}

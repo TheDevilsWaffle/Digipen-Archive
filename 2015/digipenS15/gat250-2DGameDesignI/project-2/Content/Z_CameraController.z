@@ -1,0 +1,90 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_CameraController.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_CameraController:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var Target1:CogPath = null;
+    [Property]
+    var Target2:CogPath = null;
+    [Property]
+    var LerpSpeed:Real = 3.0;
+    [Property]
+    var CameraZPos:Real = Real(5.0);
+    [Property]
+    var CameraSize:Real = 15.0;
+    [Property]
+    var CameraZoom:Real = 5.0;
+    //non-settables
+    var Zooming:Boolean = false;
+    var GamepadIndex:Integer = 0;
+    var Gamepad:Gamepad = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //update event listener
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        //zoom out from beginning
+        this.ZoomOut();
+        
+        //gamepad stuffs
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Perform actions every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //used to modifier camera position based on if player is moving
+        var cameraPos:Real3 = Real3(0,0,this.CameraZPos);
+        //make sure camera has a target
+        if(this.Target1.Cog != null && this.Target2.Cog != null)
+        {
+            //update the distance between target 1 and target 2
+            var target1Pos:Real3 = this.Target1.Cog.Transform.Translation;
+            var target2Pos:Real3 = this.Target2.Cog.Transform.Translation;
+            
+            //lerp based on camera's location and both target's location * speed to lerp at + z offset
+            this.Owner.Transform.LocalTranslation = Math.Lerp(this.Owner.Transform.Translation, 
+                                                              Real3(((target1Pos.X + target2Pos.X) / 2), ((target1Pos.Y + target2Pos.Y) / 2), target1Pos.Z), 
+                                                              this.LerpSpeed * event.Dt) + 
+                                                              cameraPos;
+            
+            //DEBUG - CAMERA POS vs PLAYER POS
+            //Console.WriteLine("CAMERA POS = `this.Owner.Transform.Translation`");
+            //Console.WriteLine("RED POS = `target1Pos`");
+            //Console.WriteLine("BLUE POS = `target2Pos`");
+            //Console.WriteLine("RED+BLUE/2 = `(target1Pos.X + target2Pos.X) / 2`");
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ZoomOut
+    //EXPLANATION-Zoom the Camera in and out
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ZoomOut():Void
+    {
+        //create action sequence
+        var aZoomOut = Action.Sequence(this.Owner.Actions);
+        
+        //zoom out
+        Action.Property(aZoomOut,
+                        @this.Owner.Camera.Size,
+                        this.CameraSize,
+                        1.0,
+                        Ease.QuadOut);
+        //set zooming to false
+        this.Zooming = false;
+    }
+}

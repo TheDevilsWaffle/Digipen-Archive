@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_StartingCountdown",
+		uint64 ResourceId = 54f70eee5b0ba2e7,
+	},
+},

@@ -1,0 +1,65 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "goLevelNumber",
+	},
+	Archetyped = 
+	{
+		string Name = "553ef4dd667eb5e0:ARC_LeverNumber",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [-0.0206566, 0.372591, 0],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	SpriteText = 
+	{
+		bool Visible = true,
+		bool VisibilityCulling = true,
+		bool VisibilityEvents = false,
+		bool CastShadows = false,
+		Vec4 Color = [1, 1, 1, 1],
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+		TextPositionMode Position = UpperLeft,
+		string FontName = "55803720ce6e6bd0:GUBBLO",
+		uint FontSize = 80,
+		string Text = "LEVEL ##",
+		bool OnTop = false,
+		Vec2 Size = [0, 0],
+		TextAlign Align = Left,
+		float PixelsPerUnit = 64,
+		bool Smoothing = true,
+	},
+	Z_Data = 
+	{
+		bool Level02Unlocked = false,
+		string Level02Number = "",
+		string Level02Description = "",
+		string Level02GradeAndTime = "",
+		int Level02CubesCollected = 0,
+		bool Level03Unlocked = false,
+		bool Level04Unlocked = false,
+		bool Level05Unlocked = false,
+		bool Level06Unlocked = false,
+		bool Level07Unlocked = false,
+		bool Level08Unlocked = false,
+		bool Level09Unlocked = false,
+		bool Level10Unlocked = false,
+		bool Level11Unlocked = false,
+		bool Level12Unlocked = false,
+		bool Level13Unlocked = false,
+		bool Level14Unlocked = false,
+		bool Level15Unlocked = false,
+		bool Level16Unlocked = false,
+		bool Level17Unlocked = false,
+		bool Level18Unlocked = false,
+	},
+},

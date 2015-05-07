@@ -1,0 +1,174 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_Gamepad.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_MenuPopUp:ZilchComponent
+{
+    //FADE
+    [Property]
+    var FadeInTime:Real = 1.0;
+    [Property]
+    var FadeOutTime:Real = 0.25;
+    
+    //SCALE
+    [Property]
+    var ScaleOutSize:Real3 = Real3(0.75, 0.75, 0.75);
+    [Property]
+    var ScaleOutTime:Real = 0.2;
+    [Property]
+    var ScaleInSize:Real3 = Real3(1,1,1);
+    [Property]
+    var ScaleTime:Real = 0.8;
+    
+    //EASE
+    [Property]
+    var EaseType:Ease = Ease.QuadIn;
+    
+    //POSITION
+    [Property]
+    var OriginalPos:Real3 = Real3(0,0,11);
+    
+    //non-settables
+    var OriginalScale:Real3 = Real3();
+    var Focus:Cog = null;
+    var Btn1:Cog = null;
+    var Btn2:Cog = null;
+    var DialogBox:Cog = null;
+    var FocusBg:Cog = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DetermineDialogBox()
+    //EXPLANATION-receives a dialog box type to display, makes the correct call for the things it will need
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DetermineDialogBox(dialogType_:String):Void
+    {
+        if(dialogType_ == "QuitConfirmation")
+        {
+            
+            this.OriginalPos = Real3(0,0,11);
+            //assign dialogbox to quit confirmation arc type
+            this.LevelSettings.Z_UI_MenuSpace.LaunchSubMenu();
+            //this.DialogBox = this.Space.CreateAtPosition(Archetype.Find("ARC_SubMenu"), this.OriginalPos);
+            //find parts of this dialog box
+            //this.FocusBg = this.DialogBox.FindChildByName("scn-focus");
+            //this.Btn1 = this.DialogBox.FindChildByName("BtnYes");
+            //this.Btn2 = this.DialogBox.FindChildByName("BtnNo");
+            
+            //call fadein
+            //this.FadeIn();
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeIn()
+    //EXPLANATION-Transparency 0.0 -> 1.0
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeIn():Void
+    {
+        //create action sequence
+        var aFadeIn = Action.Group(this.Owner.Actions);
+        
+        //move into position
+        Action.Property(aFadeIn,
+                        @this.DialogBox.Transform.Translation,
+                        this.OriginalPos,
+                        0.1,
+                        Ease.Linear);
+                        
+        //fade in quit dialog
+        Action.Property(aFadeIn,
+                        @this.DialogBox.Sprite.Color,
+                        Real4(1,1,1,1.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //fade in focus
+        Action.Property(aFadeIn,
+                        @this.FocusBg.Sprite.Color,
+                        Real4(1,1,1,1.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //fade in Btn1
+        Action.Property(aFadeIn,
+                        @this.Btn1.Sprite.Color,
+                        Real4(1,1,1,1.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //fade in Btn2
+        Action.Property(aFadeIn,
+                        @this.Btn2.Sprite.Color,
+                        Real4(1,1,1,1.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeOut
+    //EXPLANATION-Transparency 1.0 -> 0.0
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeOut():Void
+    {
+        //create action sequence
+        var aFadeOut = Action.Group(this.Owner.Actions);
+        
+        //fade in quit dialog
+        Action.Property(aFadeOut,
+                        @this.DialogBox.Sprite.Color,
+                        Real4(1,1,1,0.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //fade in focus
+        Action.Property(aFadeOut,
+                        @this.FocusBg.Sprite.Color,
+                        Real4(1,1,1,0.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //fade in Btn1
+        Action.Property(aFadeOut,
+                        @this.Btn1.Sprite.Color,
+                        Real4(1,1,1,0.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //fade in Btn2
+        Action.Property(aFadeOut,
+                        @this.Btn2.Sprite.Color,
+                        Real4(1,1,1,0.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //bit of a delay
+        Action.Delay(aFadeOut, 1.0);
+        
+        //move out position
+        Action.Call(aFadeOut, this.MoveAway);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-MoveAway
+    //EXPLANATION-Wait,then move away so we don't accidentally click the yes or no buttons
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function MoveAway():Void
+    {
+        var aWaitThenMove = Action.Sequence(this.Owner.Actions);
+        
+        //wait
+        Action.Delay(aWaitThenMove, 1.5);
+        if(this.DialogBox == null)
+        {
+            this.DetermineDialogBox("PauseMenu");
+        }
+            //move out position
+            Action.Property(aWaitThenMove,
+                            @this.DialogBox.Transform.Translation,
+                            Real3(this.OriginalPos.X, -50, this.OriginalPos.Z),
+                            0.1,
+                            Ease.Linear);
+    }
+}

@@ -1,0 +1,26 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_LevelData.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_LevelData:ZilchComponent
+{
+    //LEVEL 01 DATA
+    [Serialized]
+    var IsUnlocked:Boolean;
+    [Serialized]
+    var LevelNumber:String;
+    [Serialized]
+    var LevelDescription:String;
+    [Serialized]
+    var Time:Real;
+    [Serialized]
+    var TempTime:Real;
+    [Serialized]
+    var CubesCollected:Integer;
+    [Serialized]
+    var TempCubesCollected:Integer;
+    [Serialized]
+    var NextLevel:Level;
+}

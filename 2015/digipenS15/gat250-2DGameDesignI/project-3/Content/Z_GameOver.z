@@ -1,0 +1,400 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_GameOver.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - © 2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_GameOver:ZilchComponent
+{
+    //DATA
+    var Data01:Cog;
+    var Data02:Cog;
+    var Data03:Cog;
+    var Data04:Cog;
+    var Data05:Cog;
+    var Data06:Cog;
+    var Data07:Cog;
+    var Data08:Cog;
+    var Data09:Cog;
+    var Data10:Cog;
+    var Data11:Cog;
+    var Data12:Cog;
+    var Data13:Cog;
+    var DataInitializerCog:Cog;
+    
+    //TIME
+    var TotalTime:Cog;
+    
+    //CUBES
+    var TotalCubes:Cog;
+    var Cube1:Cog;
+    var Cube2:Cog;
+    var Cube3:Cog;
+    [Property]
+    var EmptyCube:SpriteSource = SpriteSource.Find("sprCubeEmpty");
+    [Property]
+    var CollectedCube:SpriteSource = SpriteSource.Find("sprCube");
+    
+    //STATS
+    var TotalCubesNumber:Integer;
+    var TotalTimeNumber:Real;
+    
+    //ANIMATION
+    [Property]
+    var PulseTime:Real = 0.5;
+    [Property]
+    var EaseType:Ease = Ease.QuadInOut;
+    [Property]
+    var Blue:Real4;
+    [Property]
+    var Red:Real4;
+    [Property]
+    var Purple:Real4;
+    var SizeUp:Integer = Integer(110);
+    var SizeOriginal:Integer = Integer(100);
+    var AColorPulse:ActionSet;
+    
+    //DATA
+    var LevelRecapDataCog:Cog;
+    var LevelDataCog:Cog;
+    
+    //GAMEPAD
+    var Gamepad:Gamepad = null;
+    var GamepadIndex:Integer = Integer(0);
+    
+    //YOU WIN
+    var YouWin:Cog;
+    
+    //MUSIC
+    [Property]
+    var GameOverSoundCue:SoundCue = SoundCue.Find("SC_GameOver");
+    var GameOverMusicEmitter:SoundEmitter;
+    
+    //LEVELS
+    var Credits:Level = Level.Find("LVL_menu_credits");
+    var MainMenu:Level = Level.Find("LVL_menu_main");
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-initialize variables and event listeners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //stop the game music
+        this.Space.LevelSettings.Z_MusicController.StopMusic();
+        
+        //get the data initializer
+        this.DataInitializerCog = Zero.ObjectStore.RestoreOrArchetype("DataInitializer", "ARC_DataInitializer", this.Space);
+        
+        //get the YouWinCog
+        this.TotalTime = this.Space.FindObjectByName("goTotalTime");
+        this.TotalCubes = this.Space.FindObjectByName("goTotalCubes");
+        
+        //setup the recap level music
+        this.GameOverMusicEmitter = this.Space.FindObjectByName("goMusicEmitter").SoundEmitter;
+        
+        //get the gamepad
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        
+        //calculate the total time and cubes
+        this.GetGameTotals();
+        
+        //set all level data info on their text game objects
+        this.ApplyGameOverData();
+        
+        if(this.GameSession.FindSpaceByName("HUDSpace") != null)
+        {
+            this.GameSession.FindSpaceByName("HUDSpace").Destroy();
+        }
+        
+        //event listener to update every logical frame
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+        /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        if(this.AColorPulse == null)
+        {
+            this.PulsateSize(this.TotalTime);
+            this.PulsateColors(this.TotalTime);
+            this.PulsateSize(this.TotalCubes);
+            this.PulsateColors(this.TotalCubes);
+        }
+        if(this.AColorPulse != null && this.AColorPulse.Completed)
+        {
+            this.PulsateSize(this.TotalTime);
+            this.PulsateColors(this.TotalTime);
+            this.PulsateSize(this.TotalCubes);
+            this.PulsateColors(this.TotalCubes);
+        }
+        //NEXT LEVEL
+        if(this.Gamepad.IsButtonPressed(Buttons.X) || Zero.Keyboard.KeyIsPressed(Keys.Enter))
+        {
+            this.Space.LoadLevel(this.Credits);
+            this.GameOverMusicEmitter.Stop();
+        }
+        //LEVEL SELECT MENU
+        if(this.Gamepad.IsButtonPressed(Buttons.B) || Zero.Keyboard.KeyIsPressed(Keys.Enter))
+        {
+            this.Space.LoadLevel(this.MainMenu);
+            this.GameOverMusicEmitter.Stop();
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-GetGameTotals()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function GetGameTotals():Void
+    {
+        //initialize every data
+        this.Data01 = Zero.ObjectStore.RestoreOrArchetype("LEVEL01Data", "ARC_DataLevel", this.Space);
+        //add the level's best time to TotalTimeNumber
+        this.TotalTimeNumber = this.TotalTimeNumber + this.Data01.Z_LevelData.Time;
+        //add up the total cubes collected to TotalCubesNumber
+        this.TotalCubesNumber = this.TotalCubesNumber + this.Data01.Z_LevelData.CubesCollected;
+        
+        this.Data02 = Zero.ObjectStore.RestoreOrArchetype("LEVEL02Data", "ARC_DataLevel", this.Space);
+        //add the level's best time to TotalTimeNumber
+        this.TotalTimeNumber = this.TotalTimeNumber + this.Data02.Z_LevelData.Time;
+        //add up the total cubes collected to TotalCubesNumber
+        this.TotalCubesNumber = this.TotalCubesNumber + this.Data02.Z_LevelData.CubesCollected;
+        
+        this.Data03 = Zero.ObjectStore.RestoreOrArchetype("LEVEL03Data", "ARC_DataLevel", this.Space);
+        //add the level's best time to TotalTimeNumber
+        this.TotalTimeNumber = this.TotalTimeNumber + this.Data03.Z_LevelData.Time;
+        //add up the total cubes collected to TotalCubesNumber
+        this.TotalCubesNumber = this.TotalCubesNumber + this.Data03.Z_LevelData.CubesCollected;
+        
+        this.Data04 = Zero.ObjectStore.RestoreOrArchetype("LEVEL04Data", "ARC_DataLevel", this.Space);
+        //add the level's best time to TotalTimeNumber
+        this.TotalTimeNumber = this.TotalTimeNumber + this.Data04.Z_LevelData.Time;
+        //add up the total cubes collected to TotalCubesNumber
+        this.TotalCubesNumber = this.TotalCubesNumber + this.Data04.Z_LevelData.CubesCollected;
+        
+        this.Data05 = Zero.ObjectStore.RestoreOrArchetype("LEVEL05Data", "ARC_DataLevel", this.Space);
+        //add the level's best time to TotalTimeNumber
+        this.TotalTimeNumber = this.TotalTimeNumber + this.Data05.Z_LevelData.Time;
+        //add up the total cubes collected to TotalCubesNumber
+        this.TotalCubesNumber = this.TotalCubesNumber + this.Data05.Z_LevelData.CubesCollected;
+        
+        this.Data06 = Zero.ObjectStore.RestoreOrArchetype("LEVEL06Data", "ARC_DataLevel", this.Space);
+        //add the level's best time to TotalTimeNumber
+        this.TotalTimeNumber = this.TotalTimeNumber + this.Data06.Z_LevelData.Time;
+        //add up the total cubes collected to TotalCubesNumber
+        this.TotalCubesNumber = this.TotalCubesNumber + this.Data06.Z_LevelData.CubesCollected;
+        
+        this.Data07 = Zero.ObjectStore.RestoreOrArchetype("LEVEL07Data", "ARC_DataLevel", this.Space);
+        //add the level's best time to TotalTimeNumber
+        this.TotalTimeNumber = this.TotalTimeNumber + this.Data07.Z_LevelData.Time;
+        //add up the total cubes collected to TotalCubesNumber
+        this.TotalCubesNumber = this.TotalCubesNumber + this.Data07.Z_LevelData.CubesCollected;
+        
+        this.Data08 = Zero.ObjectStore.RestoreOrArchetype("LEVEL08Data", "ARC_DataLevel", this.Space);
+        //add the level's best time to TotalTimeNumber
+        this.TotalTimeNumber = this.TotalTimeNumber + this.Data08.Z_LevelData.Time;
+        //add up the total cubes collected to TotalCubesNumber
+        this.TotalCubesNumber = this.TotalCubesNumber + this.Data08.Z_LevelData.CubesCollected;
+        
+        this.Data09 = Zero.ObjectStore.RestoreOrArchetype("LEVEL09Data", "ARC_DataLevel", this.Space);
+        //add the level's best time to TotalTimeNumber
+        this.TotalTimeNumber = this.TotalTimeNumber + this.Data09.Z_LevelData.Time;
+        //add up the total cubes collected to TotalCubesNumber
+        this.TotalCubesNumber = this.TotalCubesNumber + this.Data09.Z_LevelData.CubesCollected;
+        
+        this.Data10 = Zero.ObjectStore.RestoreOrArchetype("LEVEL10Data", "ARC_DataLevel", this.Space);
+        //add the level's best time to TotalTimeNumber
+        this.TotalTimeNumber = this.TotalTimeNumber + this.Data10.Z_LevelData.Time;
+        //add up the total cubes collected to TotalCubesNumber
+        this.TotalCubesNumber = this.TotalCubesNumber + this.Data10.Z_LevelData.CubesCollected;
+        
+        this.Data11 = Zero.ObjectStore.RestoreOrArchetype("LEVEL11Data", "ARC_DataLevel", this.Space);
+        //add the level's best time to TotalTimeNumber
+        this.TotalTimeNumber = this.TotalTimeNumber + this.Data11.Z_LevelData.Time;
+        //add up the total cubes collected to TotalCubesNumber
+        this.TotalCubesNumber = this.TotalCubesNumber + this.Data11.Z_LevelData.CubesCollected;
+        
+        this.Data12 = Zero.ObjectStore.RestoreOrArchetype("LEVEL12Data", "ARC_DataLevel", this.Space);
+        //add the level's best time to TotalTimeNumber
+        this.TotalTimeNumber = this.TotalTimeNumber + this.Data12.Z_LevelData.Time;
+        //add up the total cubes collected to TotalCubesNumber
+        this.TotalCubesNumber = this.TotalCubesNumber + this.Data12.Z_LevelData.CubesCollected;
+        
+        this.Data13 = Zero.ObjectStore.RestoreOrArchetype("LEVEL13Data", "ARC_DataLevel", this.Space);
+        //add the level's best time to TotalTimeNumber
+        this.TotalTimeNumber = this.TotalTimeNumber + this.Data13.Z_LevelData.Time;
+        //add up the total cubes collected to TotalCubesNumber
+        this.TotalCubesNumber = this.TotalCubesNumber + this.Data13.Z_LevelData.CubesCollected;
+        
+        //update totals in data initializer cog
+        this.DataInitializerCog.Z_DataInitializer.TotalTime = Math.Ceil(this.TotalTimeNumber, -2);
+        this.DataInitializerCog.Z_DataInitializer.TotalCubes = this.TotalCubesNumber;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ApplyGameOverData()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ApplyGameOverData():Void
+    {
+        //get all the cogs needed to display information and assign their values
+        
+        this.TotalTime = this.Space.FindObjectByName("goTotalTime");
+        this.TotalTime.SpriteText.Text = "`this.TotalTimeNumber`";
+        
+        this.TotalCubes = this.Space.FindObjectByName("goTotalCubes");
+        this.Cube1 = this.Space.FindObjectByName("goCube1");
+        this.Cube2 = this.Space.FindObjectByName("goCube2");
+        this.Cube3 = this.Space.FindObjectByName("goCube3");
+        this.TotalCubes.SpriteText.Text = "`this.TotalCubesNumber` / 39";
+        
+        //play music based on how many cubes collected
+        this.PlayGameOverMusic(this.TotalCubesNumber);
+        this.UpdateCubesCollected(this.TotalCubesNumber);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-PlayGameOverMusic()
+    //EXPLANATION-changes the pitch of the gameover music based on how many cubes were collected
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function PlayGameOverMusic(cubes_:Integer):Void
+    {
+        if(cubes_ >= 0 && cubes_ < 13)
+        {
+            this.GameOverMusicEmitter.Pitch += -0.3;
+        }
+        if(cubes_ >= 13 && cubes_ < 26)
+        {
+            this.GameOverMusicEmitter.Pitch += -0.1;
+        }
+        if(cubes_ >= 26 && cubes_ < 39)
+        {
+            this.GameOverMusicEmitter.Pitch += 0.1;
+        }
+        if(cubes_ == 39)
+        {
+            this.GameOverMusicEmitter.Pitch += 0.3;
+        }
+        this.GameOverMusicEmitter.Play();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-UpdateCubesCollected()
+    //EXPLANATION-swap out sprites of cubes based on the amount collected
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function UpdateCubesCollected(cubes_:Integer):Void
+    {
+        if(cubes_ >= 13 && cubes_ < 26)
+        {
+            this.Cube1.Sprite.SpriteSource = this.CollectedCube;
+            this.PulsateSize(this.Cube1);
+            this.PulsateColors(this.Cube1);
+        }
+        if(cubes_ >= 26 && cubes_ < 39)
+        {
+            this.Cube1.Sprite.SpriteSource = this.CollectedCube;
+            this.PulsateSize(this.Cube1);
+            this.PulsateColors(this.Cube1);
+            this.Cube2.Sprite.SpriteSource = this.CollectedCube;
+            this.PulsateSize(this.Cube2);
+            this.PulsateColors(this.Cube2);
+        }
+        if(cubes_ == 39)
+        {
+            this.Cube1.Sprite.SpriteSource = this.CollectedCube;
+            this.PulsateSize(this.Cube1);
+            this.PulsateColors(this.Cube1);
+            this.Cube2.Sprite.SpriteSource = this.CollectedCube;
+            this.PulsateSize(this.Cube2);
+            this.PulsateColors(this.Cube2);
+            this.Cube3.Sprite.SpriteSource = this.CollectedCube;
+            this.PulsateSize(this.Cube3);
+            this.PulsateColors(this.Cube3);
+        }
+        this.GameOverMusicEmitter.Play();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-PulsateColors()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function PulsateColors(obj_:Cog):Void
+    {
+        //create action sequence
+        this.AColorPulse = Action.Sequence(this.Owner.Actions);
+        if(obj_.SpriteText == null)
+        {
+            //
+            Action.Property(this.AColorPulse,
+                            @obj_.Sprite.Color,
+                            this.Purple,
+                            this.PulseTime,
+                            this.EaseType);
+            //
+            Action.Property(this.AColorPulse,
+                            @obj_.Sprite.Color,
+                            Real4(1,1,1,1),
+                            this.PulseTime,
+                            this.EaseType);
+        }
+        else
+        {
+            //change text color
+            Action.Property(this.AColorPulse,
+                            @obj_.SpriteText.Color,
+                            this.Blue,
+                            this.PulseTime,
+                            this.EaseType);
+            //change text color
+            Action.Property(this.AColorPulse,
+                            @obj_.SpriteText.Color,
+                            this.Red,
+                            this.PulseTime,
+                            this.EaseType);
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-PulsateSize()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function PulsateSize(obj_:Cog):Void
+    {
+        //create action sequence
+        var aSizePulse:ActionSet = Action.Sequence(this.Owner.Actions);
+        if(obj_.SpriteText == null)
+        {
+            //
+            Action.Property(aSizePulse,
+                            @obj_.Transform.Scale,
+                            Real3(1.1,1.1,1),
+                            this.PulseTime,
+                            this.EaseType);
+            //
+            Action.Property(aSizePulse,
+                            @obj_.Transform.Scale,
+                            Real3(1,1,1),
+                            this.PulseTime,
+                            this.EaseType);
+        }
+        else
+        {
+            //
+            Action.Property(aSizePulse,
+                            @obj_.SpriteText.FontSize,
+                            this.SizeUp,
+                            this.PulseTime,
+                            this.EaseType);
+            //
+            Action.Property(aSizePulse,
+                            @obj_.SpriteText.FontSize,
+                            this.SizeOriginal,
+                            this.PulseTime,
+                            this.EaseType);
+        }
+    }
+}

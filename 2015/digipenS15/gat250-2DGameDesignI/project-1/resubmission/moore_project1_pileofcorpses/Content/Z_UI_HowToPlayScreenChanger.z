@@ -1,0 +1,116 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_HowToPlayScreenChanger.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - © 2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_HowToPlayScreenChanger:ZilchComponent
+{
+    //IMAGES TO SWAP
+    [Property]
+    var ObjectiveSprite:SpriteSource = SpriteSource.Find("scn-objective");
+    [Property]
+    var GamepadFlingingSprite:SpriteSource = SpriteSource.Find("scn-flinging");
+    [Property]
+    var KeyboardFlingingSprite:SpriteSource = SpriteSource.Find("scn-flinging-keyboard");
+    [Property]
+    var GamepadControlsSprite:SpriteSource = SpriteSource.Find("scn-gamepad");
+    [Property]
+    var KeyboardControlsSprite:SpriteSource = SpriteSource.Find("scn-keyboard-controls");
+    //GAMEPAD
+    var GamepadIndex:Integer = 0;
+    var Gamepad:Gamepad = null;
+    //BUTTONS
+    var BtnObjective:Cog = null;
+    var BtnFlinging:Cog = null;
+    var BtnControls:Cog = null;
+    var BtnMenuMain:Cog = null;
+    //CURRENT SCREEN
+    var CurrentScreen:Cog = null;
+    var StartingPosition:Real3 = Real3();
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //gamepad stuffs
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        
+        //find the buttons on the screen
+        this.BtnObjective = this.Space.FindObjectByName("BtnObjective");
+        this.BtnFlinging = this.Space.FindObjectByName("BtnFlinging");
+        this.BtnControls = this.Space.FindObjectByName("BtnControls");
+        this.BtnMenuMain = this.Space.FindObjectByName("BtnMenuMain");
+        
+        //set starting position
+        this.StartingPosition = this.Owner.Transform.Translation;
+        
+        //logic update event listener
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-listen for buttons, swap out images, reposition images
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //if this is not the Main Menu button
+        if(!this.BtnMenuMain.Z_UI_Gamepad.Active)
+        {
+            /* NOTES:
+                currently these image swaps have to be manually adjusted to appear at the right
+                height. The images are the same size, so it's confusing why this needs to be
+                hard coded in.
+            */
+            //OBJECTIVE BTN
+            if(this.BtnObjective.Z_UI_Gamepad.Active)
+            {
+                //change sprite
+                this.Owner.Sprite.SpriteSource = this.ObjectiveSprite;
+                //update position
+                this.Owner.Transform.Translation = Real3(this.StartingPosition.X,
+                                                         (this.StartingPosition.Y +0.05),
+                                                         this.StartingPosition.Z);
+            }
+            //FLINGING
+            if(this.BtnFlinging.Z_UI_Gamepad.Active)
+            {
+                if(this.Gamepad.IsActive)
+                {
+                    //change gamepad sprite
+                    this.Owner.Sprite.SpriteSource = this.GamepadFlingingSprite;
+                }
+                else
+                {
+                    //change to keyboard sprite
+                    this.Owner.Sprite.SpriteSource = this.KeyboardFlingingSprite;
+                }
+                //update position
+                this.Owner.Transform.Translation = Real3(this.StartingPosition.X,
+                                                         (this.StartingPosition.Y - 0.25),
+                                                         this.StartingPosition.Z);
+            }
+            //CONTROLS
+            if(this.BtnControls.Z_UI_Gamepad.Active)
+            {
+                if(this.Gamepad.IsActive)
+                {
+                    //change gamepad sprite
+                    this.Owner.Sprite.SpriteSource = this.GamepadControlsSprite;
+                }
+                else
+                {
+                    //change to keyboard sprite
+                    this.Owner.Sprite.SpriteSource = this.KeyboardControlsSprite;
+                }
+                //update position
+                this.Owner.Transform.Translation = Real3(this.StartingPosition.X,
+                                                         (this.StartingPosition.Y - 0.85),
+                                                         this.StartingPosition.Z);
+            }
+        }
+    }
+}

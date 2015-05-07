@@ -1,0 +1,473 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_ShovelFling.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_ShovelFling:ZilchComponent
+{
+    //KEYBOARD
+    [Property]
+    var KbMoveLeft:Keys = Keys.Left;
+    [Property]
+    var KbMoveRight:Keys = Keys.Right;
+    [Property]
+    var KbShovelDown:Keys = Keys.Down;
+    [Property]
+    var KbShovelUp:Keys = Keys.Up;
+    
+    //GAMEPAD
+    [Property]
+    var GpMoveLeft:Buttons = Buttons.StickLeft;
+    [Property]
+    var GpMoveRight:Buttons = Buttons.StickRight;
+    [Property]
+    var GpShovel:Buttons = Buttons.X;
+    var GamepadIndex:Integer = Integer(0);
+    var Gamepad:Gamepad = null;
+    
+    //STRENGTH
+    [Property]
+    var StrengthMax:Real = Real(25.0);
+    [Property]
+    var StrengthMin:Real = Real(0.0);
+    [Property]
+    var MinStrengthAdd:Real = Real(100);
+    var Strength:Real = Real();
+    var IsStrengthIncreasing:Boolean = Boolean(true);
+    
+    //DIRECTION
+    var FlingDirection:Real3 = Real3();
+    var FlingArrowPos:Real3 = Real3();
+    var KeyboardArrowPos:Real = Real(0);
+    
+    //UI (POWER BAR/PRESS X)
+    [Property]
+    var SpeedOfPowerBar:Real = Real(500);
+    [Property]
+    var PressXAnimation:SpriteSource = SpriteSource.Find("ani-press-x");
+    [Property]
+    var PressXPosModifier:Real = Real(1.0);
+    var PressXArc:Archetype = Archetype.Find("ARC_PressX");
+    var PressX:Cog = null;
+    var IsPressX:Boolean = Boolean(false);
+    
+    //PLAYER
+    var Player:Cog = null;
+    
+    //BODIES
+    var Body:Cog = null;
+    var BodyPos:Real3 = Real3();
+    var Highlight:Cog = null;
+    var CurrentBody:Cog = null;
+    
+    //SHOVEL
+    var ShovelPlanted:Boolean = false;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //gamepad stuffs
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        
+        //set the parent of the shovel
+        this.Player = this.Owner.Parent;
+        
+        //logic update listener
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        //collision listeners
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        Zero.Connect(this.Owner, Events.CollisionPersisted, this.OnCollisionPersisted);
+        Zero.Connect(this.Owner, Events.CollisionEnded, this.OnCollisionEnded);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        
+        if(this.Gamepad.IsActive)
+        {
+            if(this.Gamepad.IsButtonHeld(this.GpShovel) && this.ShovelPlanted)
+            {
+                //DIRECTION TRACKER
+                var leftStickPos:Real2 = this.Gamepad.LeftStick;
+                this.FlingDirection = Real3(leftStickPos.X, leftStickPos.Y, 1.0);
+                
+                //DEBUG
+                //Console.WriteLine("LeftStick = `this.FlingDirection`");
+                
+                //STRENGTH TRACKER
+                //add strength as long as strength is less than the strength max
+                if(this.Strength < this.StrengthMax && this.IsStrengthIncreasing)
+                {
+                    this.Strength = this.Strength + (this.SpeedOfPowerBar * event.Dt);
+                    
+                    if(this.Strength >= this.StrengthMax)
+                    {
+                        this.IsStrengthIncreasing = false;
+                    }
+                }
+                //decrement strength until it reaches the strength min
+                if(this.Strength > this.StrengthMin && !this.IsStrengthIncreasing)
+                {
+                    this.Strength = this.Strength - (this.SpeedOfPowerBar * event.Dt);
+                    
+                    if(this.Strength <= this.StrengthMin)
+                    {
+                        this.IsStrengthIncreasing = true;
+                    }
+                }
+            }
+        }
+        if(!this.Gamepad.IsActive && this.ShovelPlanted)
+        {
+            if(this.KeyboardArrowPos <= 1)
+            {
+                if(Zero.Keyboard.KeyIsDown(this.KbMoveLeft))
+                {
+                    this.KeyboardArrowPos = (this.KeyboardArrowPos - 0.1);
+                }
+            }
+            else
+            {
+                this.KeyboardArrowPos = 1.0;
+            }
+            if(this.KeyboardArrowPos >= -1.0)
+            {
+                if(Zero.Keyboard.KeyIsDown(this.KbMoveRight))
+                {
+                    this.KeyboardArrowPos = (this.KeyboardArrowPos + 0.1);
+                }
+            }
+            else
+            {
+                this.KeyboardArrowPos = -1.0;
+            }
+            //DEBUG
+            //Console.WriteLine(this.KeyboardArrowPos);
+            
+            this.FlingDirection = Real3(this.KeyboardArrowPos, 0.75, 1.0);
+            
+            //STRENGTH TRACKER
+            //add strength as long as strength is less than the strength max
+            if(this.Strength < this.StrengthMax && this.IsStrengthIncreasing)
+            {
+                this.Strength = this.Strength + (this.SpeedOfPowerBar * event.Dt);
+                
+                if(this.Strength >= this.StrengthMax)
+                {
+                    this.IsStrengthIncreasing = false;
+                }
+            }
+            //decrement strength until it reaches the strength min
+            if(this.Strength > this.StrengthMin && !this.IsStrengthIncreasing)
+            {
+                this.Strength = this.Strength - (this.SpeedOfPowerBar * event.Dt);
+                
+                if(this.Strength <= this.StrengthMin)
+                {
+                    this.IsStrengthIncreasing = true;
+                }
+            }
+        }
+        
+        //shovel not planted, reset strength back to strength minimum
+        if(!this.ShovelPlanted)
+        {
+            this.IsStrengthIncreasing = true;
+            this.FlingDirection = Real3();
+            this.Strength = this.StrengthMin;
+        }
+        
+        //update the corpse highlight if it exists
+        if(this.Highlight != null && this.Body != null)
+        {
+            this.Highlight.Transform.Translation = this.Body.Transform.Translation;
+            this.Highlight.Transform.Rotation = this.Body.Transform.Rotation;
+        }
+        
+        //did the body decay on the player while shovel planted?
+        if(this.ShovelPlanted && this.Body == null)
+        {
+            //unplant the player's shovel
+            this.ShovelPlanted = false;
+            //destroy the highlight
+            this.Highlight.Destroy();
+            this.Highlight = null;
+            
+            //if pressX exists, destroy/null it
+            if(this.PressX != null)
+            {
+                this.PressX.Destroy();
+                this.PressX = null;
+            }
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event:CollisionEvent):Void
+    {
+        //check to see if the object we hit is flingable
+        if(event.OtherObject.Z_Flingable != null)
+        {
+            //animation to have the player lower shovel a bit?
+            
+            //future code for player feedback to come
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionPersisted
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionPersisted(event:CollisionEvent):Void
+    {
+        //make sure we can actually fling this thing
+        if(event.OtherObject.Z_Flingable != null)
+        {
+            //get the object we are going to fling
+            this.Body = event.OtherObject;
+            
+            //update BodyPos
+            this.BodyPos = event.OtherObject.Transform.LocalTranslation;
+            
+            if(!this.IsPressX && this.Space.LevelSettings.Z_UI_HUD.TotalPoints == 0)
+            {
+                //PressX exists now
+                this.IsPressX = true;
+                //create the press x animation
+                this.PressX = this.Space.CreateAtPosition(this.PressXArc, 
+                                                          Real3(this.BodyPos.X, 
+                                                                (this.BodyPos.Y + this.PressXPosModifier),
+                                                                (this.BodyPos.Z + this.PressXPosModifier)));
+                //DEBUG-Where is PressX?
+                //Console.WriteLine("PressXPos: `this.PressX.Transform.Translation`");
+            }
+            
+            //if fling button is held
+            if(!this.ShovelPlanted)
+            {
+                //GAMEPAD CONTROLS if available
+                if(this.Gamepad.IsActive)
+                {
+                    //gamepad button is still held down
+                    if(this.Gamepad.IsButtonHeld(this.GpShovel))
+                    {
+                        //set ShovelPlanted to true so we do not move during button press
+                        this.ShovelPlanted = true;
+                        //set the position for the fling direction arrow to exist
+                        this.FlingArrowPos = event.FirstPoint.WorldPoint;
+                        
+                        //create highlight around this body
+                        this.HighlightShovelTarget(event.OtherObject);
+                        
+                        //PressX exists
+                        if(this.PressX != null)
+                        {
+                            //destroy PressX
+                            this.DestroyCog(this.PressX);
+                        }
+                        
+                        //DEBUG
+                        //Console.WriteLine("X BEING HELD DOWN");
+                    }
+                }
+                //KEYBOARD CONTROLS (if no gamepad present)
+                else
+                {
+                    //keyboard button is pressed
+                    if(Zero.Keyboard.KeyIsPressed(this.KbShovelDown))
+                    {
+                        //set ShovelPlanted to true so we do not move during button press
+                        this.ShovelPlanted = true;
+                        //set the position for the fling direction arrow to exist
+                        this.FlingArrowPos = event.FirstPoint.WorldPoint;
+                        
+                        //create highlight around this body
+                        this.HighlightShovelTarget(event.OtherObject);
+                        
+                        //PressX exists
+                        if(this.PressX != null)
+                        {
+                            //destroy PressX
+                            this.DestroyCog(this.PressX);
+                        }
+                        
+                        //DEBUG
+                        //Console.WriteLine("KEYBOARD SHOVEL Pressed");
+                    }
+                }
+            }
+            //once fling button is released
+            if(this.ShovelPlanted)
+            {
+                if(this.Gamepad.IsActive)
+                {
+                    if(this.Gamepad.IsButtonReleased(this.GpShovel))
+                    {
+                        //release the player so they can move again
+                        this.ShovelPlanted = false;
+                        //get the world normal towards other to send to FlingBody()
+                        var contactVector:Real3 = event.FirstPoint.WorldNormalTowardsOther;
+                        //let's fling this body
+                        this.FlingBody(event.OtherObject);
+                        
+                        //DEBUG
+                        //Console.WriteLine("X Released");
+                    }
+                }
+                
+                //KEYBOARD CONTROLS (if gamepad doesn't exist)
+                else
+                {
+                    if(Zero.Keyboard.KeyIsPressed(this.KbShovelUp))
+                    {
+                        //release the player so they can move again
+                        this.ShovelPlanted = false;
+                        //get the world normal towards other to send to FlingBody()
+                        var contactVector:Real3 = event.FirstPoint.WorldNormalTowardsOther;
+                        //let's fling this body
+                        this.FlingBody(event.OtherObject);
+                        
+                        //DEBUG
+                        //Console.WriteLine("Keyboard Shovel Up Pressed");
+                    }
+                }
+            }
+            
+            //destroy the highlight around the body
+            this.DestroyHighlightShovelTarget();
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-HighlightShovelTarget()
+    //EXPLANATION-create a highlight over the targeted body
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function HighlightShovelTarget(body_:Cog):Void
+    {
+        this.Highlight = this.Space.CreateAtPosition(body_.Z_CorpseDecay.ARC_Highlight, body_.Transform.Translation);
+        this.Highlight.Transform.Rotation = body_.Transform.Rotation;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DestroyHighlightShovelTarget()
+    //EXPLANATION-Destroy the highlight over the targeted body
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DestroyHighlightShovelTarget():Void
+    {
+        if(this.Highlight != null && !this.ShovelPlanted)
+        {
+            this.Highlight.Destroy();
+            this.Highlight = null;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionEnded()
+    //EXPLANATION-set ShovelPlanted to false, destroy any helpful ui graphics
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionEnded(event:CollisionEvent):Void
+    {
+        //check to see if the object we hit is flingable
+        if(event.OtherObject.Z_Flingable != null)
+        {
+            //stop shovel plant
+            this.ShovelPlanted = false;
+            //destroy the ui graphic
+            this.DestroyCog(this.PressX);
+        }
+        
+        if(this.Highlight != null)
+        {
+            this.Highlight.Destroy();
+            this.Highlight = null;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FlingBody()
+    //EXPLANATION-fling the body based upon the strength and direction
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FlingBody(body_:Cog):Void
+    {
+        //make sure the body is now dynamic so we can fling it
+        body_.RigidBody.Kinematic = false;
+        //make the body a ghost for a brief time
+        this.GhostCorpse(body_);
+        
+        //if the strength is less than the max - min, add the min to the the strength
+        if(this.Strength < (this.StrengthMax - this.MinStrengthAdd))
+        {
+            this.Strength = this.MinStrengthAdd;
+        }
+        
+        //now we can fling dat corpse
+        this.Body.RigidBody.ApplyLinearImpulse(this.FlingDirection * this.Strength);
+        
+        //give player feedback in the form of vibration
+        this.Space.LevelSettings.Z_VibrationController.VibrateGamepad(0.33, this.Strength, this.Strength);
+        
+        //DEBUG
+        //Console.WriteLine("FLINGING! Fling Direction = `this.FlingDirection`");
+        //Console.WriteLine("Strength of Fling = `this.Strength`");
+        
+        //SFX - player grunt and shovel noise
+        this.Space.SoundSpace.PlayCue(SoundCue.Find("SC_Grunt"));
+        this.Space.SoundSpace.PlayCue(SoundCue.Find("SC_Shovel"));
+        
+        //DEBUG
+        //Console.WriteLine(body_.RigidBody.DynamicState);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-GhostCorpse()
+    //EXPLANATION-briefly ghost the corpse
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function GhostCorpse(body_:Cog):Void
+    {
+        //create action sequence
+        var aGhost = Action.Sequence (this.Owner.Actions);
+        //be ghost
+        Action.Property(aGhost,
+                        @body_.CapsuleCollider.Ghost,
+                        true,
+                        0.25,
+                        Ease.Linear);
+        //undo ghost
+        Action.Property(aGhost,
+                        @body_.CapsuleCollider.Ghost,
+                        false,
+                        0.25,
+                        Ease.Linear);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DestroyCog()
+    //EXPLANATION-destroys ui elements like the "press x" ui graphic on the screen
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DestroyCog(obj_:Cog):Void
+    {
+        //DEBUG
+        //Console.WriteLine(obj_);
+        
+        //make sure the object exists
+        if(obj_ != null)
+        {
+            obj_.Destroy();
+            obj_ = null;
+            //set its bool to false
+            this.IsPressX = false;
+        }
+    }
+}

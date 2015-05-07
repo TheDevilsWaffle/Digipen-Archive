@@ -1,0 +1,188 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_CharacterController.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_CharacterController:ZilchComponent
+{
+    //DEPENDENCIES
+    [Dependency]
+    var SweptController:SweptController = null;
+    
+    //PROPERTIES
+    [Property]
+    var JumpCount:Integer = Integer(1);
+    [Property]
+    var MaxJumps:Integer = Integer(1);
+    
+    //non-settables
+    var StartPos:Real3 = Real3();
+    var GamepadIndex:Integer = Integer(0);
+    var Gamepad:Gamepad = null;
+    var WallCount:Integer = Integer();
+    var WallTimer:Real = Real();
+    var WallNormal:Real3 = Real3();
+    var Movement:Real3 = Real3();
+    var Shovel:Cog = null;
+    var ShovelPos:Real3 = Real3();
+    var ShovelRot:Real = Real();
+    var IsStunned:Boolean = false;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //gamepad stuffs
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        
+        //get the shovel
+        this.Shovel = this.Owner.FindChildByName("go_shovel");
+        this.ShovelPos = this.Shovel.Transform.LocalTranslation;
+        this.ShovelRot = -this.Shovel.Transform.LocalRotation.Z;
+        
+        //logic update listener
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        //collision listeners
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        Zero.Connect(this.Owner, Events.CollisionPersisted, this.OnCollisionPersisted);
+        Zero.Connect(this.Owner, Events.CollisionEnded, this.OnCollisionEnded);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Perform actions every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //JUMPING
+        //if player is on ground reset jump count.
+        if(this.SweptController.Grounded)
+        {
+            this.JumpCount = this.MaxJumps;
+        }
+        
+        //WALLJUMPING
+        //used for leeway to let player jump off of wall
+        this.WallTimer -= event.Dt;
+        
+        //if we are touching a wall affect gravity
+        if(this.WallCount > 0)
+        {
+            this.SweptController.Gravity = 4;
+        }
+        else
+        {
+            this.SweptController.Gravity = 10;
+        }
+        
+        //MOVEMENT
+        //variable to store movement direction
+        this.Movement = Real3(0,0,0);
+        
+        //--left
+        //make sure we aren't planting a shovel
+        if(!this.Shovel.Z_ShovelFling.ShovelPlanted && !this.IsStunned)
+        {
+            if(Zero.Keyboard.KeyIsDown(Keys.A) || this.Gamepad.IsButtonHeld(Buttons.StickLeft))
+            {
+                //set movement direction
+                this.Movement = Real3(-1,0,0);
+                //flip the owner's sprite to the left
+                this.Owner.Sprite.FlipX = true;
+                
+                //ensure the shovel is flipped to the left
+                this.Shovel.Transform.LocalTranslation = Real3(this.ShovelPos.X, this.ShovelPos.Y, this.ShovelPos.Z);
+                //apply rotation
+                this.Shovel.Transform.LocalRotation = Quaternion(Real3(0,0,1), 5);
+            }
+            
+            //--right
+            if(Zero.Keyboard.KeyIsDown(Keys.D) || this.Gamepad.IsButtonHeld(Buttons.StickRight))
+            {
+                //set movement direction
+                this.Movement = Real3(1,0,0);
+                //flip the owner's sprite to the right
+                this.Owner.Sprite.FlipX = false;
+                
+                //ensure the shovel is flipped to the right
+                this.Shovel.Transform.LocalTranslation = Real3(-this.ShovelPos.X, this.ShovelPos.Y, this.ShovelPos.Z);
+                //apply rotation
+                this.Shovel.Transform.LocalRotation = Quaternion(Real3(0,0,1), -this.ShovelRot);
+            }
+            //--jump
+            if(Zero.Keyboard.KeyIsPressed(Keys.Space) || this.Gamepad.IsButtonHeld(Buttons.A))
+            {
+                //ensure we can jump
+                if(this.SweptController.Grounded || this.JumpCount > 0)
+                {
+                    //decrement jumping
+                    --this.JumpCount;
+                    //unconditional jump allows for double jumping
+                    this.SweptController.JumpUnconditionally();
+                    
+                    //play the appropriate sound with this character's sfx controller
+                    this.Owner.Z_SFXController.PlaySFX("jump");
+                }
+                //if walljump is possible
+                else if(this.WallCount > 0 || this.WallTimer > 0)
+                {
+                    //decrement jumpcount
+                    --this.JumpCount;
+                    //jump directionally based off of wall normal
+                    this.SweptController.JumpDirectionally( this.WallNormal * 10 );
+                }
+            }
+        }
+        
+        
+        //apply movement
+        this.SweptController.Update(this.Movement, event.Dt);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event:CollisionEvent):Void
+    {
+        //WALLJUMPING
+        //wall must have wall script
+        if(event.OtherObject.Z_Wall != null)
+        {
+            //increment wallcount
+            ++this.WallCount;
+            //establish normal
+            this.WallNormal = -event.FirstPoint.WorldNormalTowardsOther;
+        }
+        
+        //OBJECTS
+        if(event.OtherObject.Z_Flingable != null)
+        {
+            
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionPersisted
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionPersisted(event:CollisionEvent):Void
+    {
+        if(event.OtherObject.Z_Flingable != null)
+        {
+            
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionEnded
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionEnded(event:CollisionEvent):Void
+    {
+        
+    }
+}

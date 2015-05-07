@@ -1,0 +1,221 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_HUD.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_HUD:ZilchComponent
+{
+    //SPACES
+    var MainSpace:Space;
+    var HUDSpace:Space;
+    
+    //TIMERS
+    var DelayTimer:Real = Real(2.0);
+    var LevelTimer:Real;
+    var HUDTimer:Cog;
+    
+    //CUBES
+    var CubesCollected:Integer = Integer(0);
+    var CubeText:Cog;
+    var Cube1:Cog;
+    var Cube2:Cog;
+    var Cube3:Cog;
+    [Property]
+    var CubeCollectedSprite:SpriteSource = SpriteSource.Find("sprHUDCube");
+    
+    //LIVES
+    var HUDLivesText:Cog;
+    var HUDLivesGroup:Cog;
+    
+    //ANIMATION
+    [Property]
+    var CubeScaleUp:Real = Real(1.25);
+    [Property]
+    var CubeRotation:Quaternion = Quaternion(0,0,540,0);
+    [Property]
+    var AnimateTime:Real = Real(0.5);
+    [Property]
+    var EaseType:Ease = Ease.QuadInOut;
+    
+    //DATA
+    var DataCogInitializer:Cog;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize variables/listners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //get the main space
+        this.MainSpace = this.GameSession.FindSpaceByName("Main");
+        this.HUDSpace = this.GameSession.FindSpaceByName("HUDSpace");
+        
+        //get the hud timer
+        this.HUDTimer = this.Space.FindObjectByName("goTimer");
+        Console.WriteLine(this.HUDTimer);
+        
+        //create the data initializer
+        this.DataCogInitializer = Zero.ObjectStore.RestoreOrArchetype("DataInitializer", "ARC_DataInitializer", this.Space);
+        
+        //get the cubes
+        this.CubeText = this.Space.FindObjectByName("txtCubes");
+        this.Cube1 = this.Space.FindObjectByName("goCube1");
+        this.Cube2 = this.Space.FindObjectByName("goCube2");
+        this.Cube3 = this.Space.FindObjectByName("goCube3");
+        
+        //get the lives
+        this.HUDLivesGroup = this.Space.FindObjectByName("goLivesContainer");
+        this.HUDLivesText = this.Space.FindObjectByName("goLives");
+        //update the total lives available
+        this.UpdateTotalLives();
+        
+        //event listener to run code every logical update
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        //custom event
+        Zero.Connect(this.GameSession, "CubeCollected", this.OnCubeCollected);
+        Zero.Connect(this.GameSession, "PlayerDead", this.SubtractALife);
+        Zero.Connect(this.GameSession, "DestroyTheHUD", this.DestroyHUD);
+        
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-update every logical frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        if(this.HUDTimer != null)
+        {
+            //update the hud timer
+            this.HUDTimer.SpriteText.Text = "`Math.Ceil(this.MainSpace.LevelSettings.Z_TemporaryLevelData.Time, -2)`";
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-UpdateTotalLives()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function UpdateTotalLives():Void
+    {
+        this.HUDLivesText.SpriteText.Text = "`this.DataCogInitializer.Z_DataInitializer.TotalLives`";
+        Console.WriteLine("LIVES TOTAL `this.DataCogInitializer.Z_DataInitializer.TotalLives`");
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-AddALife()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function AddALife(lives_:Integer):Void
+    {
+        this.DataCogInitializer.Z_DataInitializer.TotalLives += lives_;
+        //save
+        Zero.ObjectStore.Store("DataInitializer", this.DataCogInitializer);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-SubtractALife()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function SubtractALife(livesToSubtractEvent:PlayerDead):Void
+    {
+        this.DataCogInitializer.Z_DataInitializer.TotalLives -= livesToSubtractEvent.LivesToSubtract;
+        //make sure we don't go negative, reset lives
+        if(this.DataCogInitializer.Z_DataInitializer.TotalLives <= 0)
+        {
+            this.DataCogInitializer.Z_DataInitializer.TotalLives = 5;
+            this.HUDSpace.Destroy();
+            this.MainSpace.LoadLevel(Level.Find("LVL_GameOverLose"));
+        }
+        
+        //save
+        Zero.ObjectStore.Store("DataInitializer", this.DataCogInitializer);
+        
+        //destroy this space
+        this.Space.Destroy();
+        
+    }
+    
+    function DestroyHUD(destroy:DestroyTheHUD):Void
+    {
+        Console.WriteLine("DESTROYING THE HUD");
+        //destroy this space
+        this.Space.Destroy();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-UpdateHUDCubes()
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCubeCollected(cubesCollectedEvent:CubeCollected):Void
+    {
+        this.CubesCollected += cubesCollectedEvent.NumberOfCubes;
+        
+        Console.WriteLine(this.Cube1);
+        
+        if(this.CubesCollected == 1)
+        {
+            this.Cube1.Sprite.SpriteSource = this.CubeCollectedSprite;
+            this.AnimateHUDCube(this.Cube1);
+        }
+        if(this.CubesCollected == 2)
+        {
+            this.Cube2.Sprite.SpriteSource = this.CubeCollectedSprite;
+            this.AnimateHUDCube(this.Cube2);
+        }
+        if(this.CubesCollected == 3)
+        {
+            this.Cube3.Sprite.SpriteSource = this.CubeCollectedSprite;
+            this.AnimateHUDCube(this.Cube3);
+            
+            //update data with 1 more life
+            this.AddALife(1);
+            this.UpdateTotalLives();
+            this.AnimateHUDLives();
+        }
+    }
+    
+    function AnimateHUDCube(cube_:Cog):Void
+    {
+        var aCube:ActionSet = Actions.Group(this.Owner.Actions);
+        var aCubeText:ActionSet = Actions.Sequence(this.Owner.Actions);
+        
+        Action.Property(aCube,
+                        @cube_.Transform.Scale,
+                        cube_.Transform.Scale * this.CubeScaleUp,
+                        this.AnimateTime,
+                        this.EaseType);
+        Action.Property(aCube,
+                        @cube_.Transform.Rotation,
+                        this.CubeRotation,
+                        (this.AnimateTime * 3),
+                        this.EaseType);
+                        
+        Action.Property(aCubeText,
+                        @this.CubeText.Transform.Scale,
+                        Real3(1.25, 1.25, 1),
+                        this.AnimateTime,
+                        this.EaseType);
+        Action.Property(aCubeText,
+                        @this.CubeText.Transform.Scale,
+                        Real3(1, 1, 1),
+                        this.AnimateTime,
+                        this.EaseType);
+    }
+    
+    function AnimateHUDLives():Void
+    {
+        var aLivesSeq:ActionSet = Actions.Sequence(this.Owner.Actions);
+        
+        Action.Property(aLivesSeq,
+                        @this.HUDLivesGroup.Transform.Scale,
+                        Real3(1, 1, 1),
+                        this.AnimateTime,
+                        this.EaseType);
+        Action.Property(aLivesSeq,
+                        @this.HUDLivesGroup.Transform.Scale,
+                        Real3(0.5, 0.5, 0.5),
+                        this.AnimateTime,
+                        this.EaseType);
+    }
+}

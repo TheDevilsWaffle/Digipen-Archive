@@ -1,0 +1,45 @@
+class Z_GameOverLose : ZilchComponent
+{
+    var Gamepad:Gamepad;
+    
+    //LEVELS
+    var Credits:Level = Level.Find("LVL_menu_credits");
+    var MainMenu:Level = Level.Find("LVL_menu_main");
+    
+    var GameOverMusicEmitter:SoundEmitter;
+    
+    function Initialize(init : CogInitializer)
+    {
+        this.Gamepad = Zero.Gamepads.GetGamePad(0);
+        //setup the recap level music
+        this.GameOverMusicEmitter = this.Space.FindObjectByName("goMusicEmitter").SoundEmitter;
+        this.GameOverMusicEmitter.Pitch += -0.3;
+        this.GameOverMusicEmitter.Play();
+        
+        if(this.GameSession.FindSpaceByName("HUDSpace") != null)
+        {
+            this.GameSession.FindSpaceByName("HUDSpace").Destroy();
+        }
+        
+        
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        //NEXT LEVEL
+        if(this.Gamepad.IsButtonPressed(Buttons.X) || Zero.Keyboard.KeyIsPressed(Keys.Enter))
+        {
+            this.Space.LoadLevel(this.Credits);
+            this.GameOverMusicEmitter.Stop();
+        }
+        //LEVEL SELECT MENU
+        if(this.Gamepad.IsButtonPressed(Buttons.B) || Zero.Keyboard.KeyIsPressed(Keys.Enter))
+        {
+            this.Space.LoadLevel(this.MainMenu);
+            this.GameOverMusicEmitter.Stop();
+            
+            
+        }
+    }
+}

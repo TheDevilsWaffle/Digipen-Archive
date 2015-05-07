@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_Coffin",
+		uint64 ResourceId = 5440b1e4fe5d2474,
+	},
+},

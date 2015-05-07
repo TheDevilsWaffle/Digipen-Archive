@@ -1,0 +1,42 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_DeathZone.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_DeathZone:ZilchComponent
+{
+    //PLAYERS
+    var Player1:Cog = null;
+    var Player2:Cog = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize variables and event listeners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //find the players
+        this.Player1 = this.Space.FindObjectByName("Player1");
+        this.Player2 = this.Space.FindObjectByName("Player2");
+        
+        //event listener logic update
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted()
+    //EXPLANATION-Kill all things that touch the death zone!
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event:CollisionEvent):Void
+    {
+        //if this object can explode on death
+        if(event.OtherObject.Z_ExplosiveDeath != null)
+        {
+            //explode w/ Z_ExplosiveDeath sprites
+            event.OtherObject.Z_ExplosiveDeath.ExplodeUponDeath();
+            
+            this.Space.LevelSettings.Z_RestartLevel.DelayKillAndRestart(event.OtherObject);
+        }
+    }
+}

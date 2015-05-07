@@ -1,0 +1,12 @@
+BinaryContent = 
+{
+	BinaryBuilder = 
+	{
+		string Name = "LVL_TEMPLATE_TileMap00",
+		uint64 ResourceId = 552812c06b3fac69,
+		string LoaderType = "TileMapSource",
+		uint Version = 0,
+		string FilterTag = "",
+		string ResourceOwner = "552812d36c1cac0d:LVL_TEMPLATE",
+	},
+},

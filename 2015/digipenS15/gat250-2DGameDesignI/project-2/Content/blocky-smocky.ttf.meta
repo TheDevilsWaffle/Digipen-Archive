@@ -1,0 +1,8 @@
+FontContent = 
+{
+	FontBuilder = 
+	{
+		string Name = "blocky-smocky",
+		uint64 ResourceId = 55206125d0245c45,
+	},
+},

@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_ExplosiveDeath",
+		uint64 ResourceId = 547b622899fff052,
+	},
+},

@@ -1,0 +1,7 @@
+class Z_HideMouse : ZilchComponent
+{
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Mouse.Cursor = Cursor.Invisible;
+    }
+}

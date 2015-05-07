@@ -1,0 +1,17 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_Flingable.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_Flingable:ZilchComponent
+{
+    //DEPENDENCIES
+    [Dependency]
+    var RigidBody:RigidBody = null;
+    
+    function Initialize(init:CogInitializer)
+    {
+        
+    }
+}

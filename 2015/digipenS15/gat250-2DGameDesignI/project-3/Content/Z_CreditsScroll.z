@@ -1,0 +1,42 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_CreditsScroll.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_CreditsScroll:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var ScrollTime:Real = 10.0;
+    [Property]
+    var EndingYPosition:Real = 9;
+    [Property]
+    var EaseType:Ease = Ease.Linear;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //start scrolling
+        this.Scroll();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Scroll
+    //EXPLANATION-Scrolls  the credits upward
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Scroll():Void
+    {
+        //create action sequence
+        var aCreditsSequence = Action.Sequence(this.Owner.Actions);
+        
+        //start scrolling up
+        Action.Property(aCreditsSequence,
+                        @this.Owner.Transform.Translation, Real3(this.Owner.Transform.Translation.X, this.EndingYPosition, 1),
+                        this.ScrollTime,
+                        this.EaseType);
+    }
+}

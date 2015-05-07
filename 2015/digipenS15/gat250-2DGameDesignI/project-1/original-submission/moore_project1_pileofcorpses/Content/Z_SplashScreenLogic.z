@@ -1,0 +1,62 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_SplashScreenLogic.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - © 2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_SplashScreenLogic:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var SplashScreenDelayTimer:Real = 4;
+    [Property]
+    var NextLevel:Level = null;
+    
+    //CURRENT LEVEL
+    var LvlCurrentLevel:Level = null;
+    
+    //TIMER
+    //timer variabe
+    var Timer:Real = 0; //used to sequence through splash screen
+    
+    var GamepadIndex:Integer = 0;
+    var Gamepad:Gamepad = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer)
+    {
+        //variable to hook to current level
+        this.LvlCurrentLevel = this.Space.CurrentLevel;
+        
+        //gamepad stuffs
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        
+        //connect to LogicUpdate event
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Update every frame, perform actions and listen for keyboard
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent)
+    {
+        //keep track of the Timer
+        this.Timer += event.Dt;
+        
+        //continue to next level
+        if(this.Timer >= this.SplashScreenDelayTimer)
+        {
+            this.Space.LoadLevel(this.NextLevel);
+        }
+        
+        //press the confirm btn on the gamepad or keyboard
+        if(this.Gamepad.IsButtonPressed(Buttons.AnyButton) || Zero.Keyboard.KeyIsPressed(Keys.Enter))
+        {
+            this.Space.LoadLevel(this.NextLevel);
+        }
+    }
+}

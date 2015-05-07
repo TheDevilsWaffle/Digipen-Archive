@@ -1,0 +1,317 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_LevelLoader.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_LevelLoader:ZilchComponent
+{
+    //GAMEPAD
+    [Property]
+    var GamepadIndex:Integer = 0;
+    var Gamepad:Gamepad = null;
+    
+    //PLAYERS
+    var Player1:Cog = null;
+    var Player2:Cog = null;
+    
+    //PORTALS
+    var Portal1:Cog = null;
+    var Portal2:Cog = null;
+    
+    //TEXT
+    [Property]
+    var ChapterNumber:String = null;
+    [Property]
+    var ChapterText:String = null;
+    [Property]
+    var CongratulatoryText:String = null;
+    var ARC_LevelIntro:Archetype = Archetype.Find("ARC_LevelIntro");
+    var LevelIntroObj:Cog = null;
+    var LevelIntroSubText:Cog = null;
+    var CongratulatoryTextObj:Cog = null;
+    [Property]
+    var TextYPos:Real = Real(0.0);
+    [Property]
+    var TextXPos:Real = Real(0.0);
+    
+    //FADER
+    var ARC_LevelFader:Archetype = Archetype.Find("ARC_LevelFader");
+    var FaderObj:Cog = null;
+    
+    //ACTIONS
+    var FadeInTime:Real = Real(2.0);
+    var FadeOutTime:Real = Real(0.5);
+    var LoadLevelDelay:Real = Real(2.0);
+    var EaseType:Ease = Ease.QuadIn;
+    var AFadeOut:ActionSet = null;
+    var AFadeInLevel:ActionSet = null;
+    var AFadeOutLevel:ActionSet = null;
+    
+    //LEVEL
+    [Property]
+    var NextLevel:Level = null;
+    [Property]
+    var PreviousLevel:Level = null;
+    
+    //CHEATS
+    [Property]
+    var KbCheatNextLevel:Keys = Keys.Add;
+    [Property]
+    var GpCheatNextLevel:Buttons = Buttons.RightShoulder;
+    [Property]
+    var KbCheatPreviousLevel:Keys = Keys.Minus;
+    [Property]
+    var GpCheatPreviousLevel:Buttons = Buttons.LeftShoulder;
+    
+    //BOOLEANS
+    var IsPlayer1Ready:Boolean = Boolean(false);
+    var IsPlayer2Ready:Boolean = Boolean(false);
+    var IsEndingLevel:Boolean = Boolean(false);
+    var IsStartingLevel:Boolean = Boolean(true);
+    
+    //ANIMATION
+    var ALevelText:ActionSet = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables and event listeners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //gamepad player 1
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        
+        //get the players
+        this.Player1 = this.Space.FindObjectByName("goPlayer1");
+        this.Player2 = this.Space.FindObjectByName("goPlayer2");
+        
+        //fade in the level
+        this.FadeInLevel();
+        
+        //call IntroduceLevel()
+        if(this.ChapterNumber != null && this.ChapterText != null && this.LevelIntroObj == null)
+        {
+            this.DisplayText(this.LevelIntroObj, this.ChapterNumber, this.ChapterText);
+            Console.WriteLine("DISPLAYING TEXT");
+        }
+        
+        //event listener for logic update
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate()
+    //EXPLANATION-Update every logic frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //get the two player portal statuses
+        this.IsPlayer1Ready = this.Space.FindObjectByName("goPlayer1Portal").Z_EndLevelPortal.IsTargetReady;
+        this.IsPlayer2Ready = this.Space.FindObjectByName("goPlayer2Portal").Z_EndLevelPortal.IsTargetReady;
+        
+        //if both players reach their portals, load next level
+        if(this.IsPlayer1Ready && this.IsPlayer2Ready)
+        {
+            //do this thing once
+            if(!this.IsEndingLevel)
+            {
+                //set boolean, so we do not do this over and over again
+                this.IsEndingLevel = true;
+                
+                //get portals and change their sprites;
+                this.Portal1 = this.Space.FindObjectByName("goPlayer1Portal");
+                this.Portal1.Sprite.SpriteSource = SpriteSource.Find("sprPortalExitRed");
+                this.Portal2 = this.Space.FindObjectByName("goPlayer2Portal");
+                this.Portal2.Sprite.SpriteSource = SpriteSource.Find("sprPortalExitBlue");
+                
+                //zero out all movement speed from player 1 and player 2
+                this.Player1.Z_Player1Controller.SweptController.MaxMoveSpeed = Real(0.0);
+                this.Player1.Sprite.Visible = false;
+                if(this.Space.LevelSettings.Z_DetectMultiplayer.IsPlayer2Active)
+                {
+                    this.Player2.Z_Player2Controller.SweptController.MaxMoveSpeed = Real(0.0);
+                    this.Player2.Sprite.Visible = false;
+                }
+                else
+                {
+                    this.Player2.Z_Player1Controller.SweptController.MaxMoveSpeed = Real(0.0);
+                    this.Player2.Sprite.Visible = false;
+                }
+                
+                //play the end portal noise
+                this.Player1.Z_SFXController.PlaySFX("victory");
+                
+                //create and display congratulatory text
+                this.DisplayText(this.CongratulatoryTextObj, "", this.CongratulatoryText);
+                
+                //fade out screen
+                this.FadeOutLevel();
+            }
+        }
+        
+        //if the level fade out animation exists and is done animation, load the next level
+        if(this.AFadeOutLevel != null && this.AFadeOutLevel.Completed)
+        {
+            //destroy all things from memory
+            this.Space.DestroyAllFromLevel();
+            this.Space.DestroyAll();
+            //load the next level
+            this.Space.LoadLevel(this.NextLevel);
+        }
+        
+        //destroy and null FaderObj when it is done
+        if(this.AFadeInLevel != null && this.AFadeInLevel.Completed)
+        {
+            this.DestroyCog(this.FaderObj);
+            this.FaderObj = null;
+        }
+        
+        //null animation set for level text when it is done.
+        if(this.ALevelText != null && this.ALevelText.Completed)
+        {
+            this.ALevelText = null;
+            this.LevelIntroObj = null;
+            this.CongratulatoryTextObj = null;
+        }
+        
+        //--CHEATS
+        if(Zero.Keyboard.KeyIsPressed(this.KbCheatNextLevel) || this.Gamepad.IsButtonPressed(this.GpCheatNextLevel))
+        {
+            this.Space.LoadLevel(this.NextLevel);
+        }
+        if(Zero.Keyboard.KeyIsPressed(this.KbCheatPreviousLevel) || this.Gamepad.IsButtonPressed(this.GpCheatPreviousLevel))
+        {
+            this.Space.LoadLevel(this.PreviousLevel);
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeInLevel()
+    //EXPLANATION-creates a fader object and fades it out to reveal the level
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeInLevel():Void
+    {
+        //create the fader object
+        this.FaderObj = this.Space.FindObjectByName("goLevelFader");
+        
+        //create action sequence
+        this.AFadeInLevel = Action.Sequence(this.Owner.Actions);
+        
+        //delay before loading in the level
+        Action.Delay(this.AFadeInLevel, this.FadeInTime);
+        
+        //be invisible
+        Action.Property(this.AFadeInLevel,
+                        @this.FaderObj.Sprite.Color,
+                        Real4(0.1,0.1,0.1,0.0),
+                        this.FadeOutTime,
+                        this.EaseType);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeInLevel()
+    //EXPLANATION-creates a fader object and fades it out to reveal the level
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeOutLevel():Void
+    {
+        //create fader object
+        this.FaderObj = this.Space.CreateAtPosition(this.ARC_LevelFader, Real3(0,0,10));
+        //make it transparent to begin with
+        this.FaderObj.Sprite.Color = Real4(0.1,0.1,0.1,0.0);
+        //create action sequence
+        this.AFadeOutLevel = Action.Sequence(this.Owner.Actions);
+        
+        //delay before loading in the level
+        Action.Delay(this.AFadeOutLevel, this.LoadLevelDelay);
+        
+        //be visible
+        Action.Property(this.AFadeOutLevel,
+                        @this.FaderObj.Sprite.Color,
+                        Real4(0.1,0.1,0.1,1.0),
+                        this.FadeOutTime,
+                        this.EaseType);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DisplayText()
+    //EXPLANATION-creates text object, positions it, and then animates it before fading out and destroying
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DisplayText(textObj_:Cog, chNum_:String, chTxt_:String):Void
+    {
+        //find camera so we can get a good location for the LevelIntro text
+        var pos:Real3 = this.Space.FindObjectByName("Camera").Transform.Translation;
+        pos = Real3(pos.X, pos.Y + 1, 6);
+        
+        //create the object that is our level intro
+        textObj_ = this.Space.CreateAtPosition(this.ARC_LevelIntro, pos);
+        this.LevelIntroSubText = textObj_.FindChildByName("goLevelIntroSubText");
+        this.LevelIntroSubText.Transform.WorldTranslation = Real3(textObj_.Transform.Translation.X, textObj_.Transform.Translation.Y - 2, textObj_.Transform.Translation.Z);
+        //set the text for this
+        textObj_.SpriteText.Text = "`chNum_`";
+        textObj_.SpriteText.Color = Real4(1,1,1,0.0);
+        this.LevelIntroSubText.SpriteText.Text = "`chTxt_`";
+        this.LevelIntroSubText.SpriteText.Color = Real4(1,1,1,0.0);
+        
+        if(this.IsEndingLevel)
+        {
+            var textObjPos:Real3 = textObj_.Transform.Translation;
+            textObj_.Transform.Translation = Real3(textObjPos.X + this.TextXPos, textObjPos.Y - this.TextYPos, textObjPos.Z);
+        }
+        
+        //DEBUG
+        //create action group and action sequence
+        this.ALevelText = Action.Group(this.Owner.Actions);
+        var aInvis:ActionSet = Action.Sequence(this.Owner.Actions);
+        
+        //be visible
+        Action.Property(this.ALevelText,
+                        @textObj_.SpriteText.Color,
+                        Real4(1,1,1,1.0),
+                        this.FadeInTime,
+                        this.EaseType);
+                        //be visible
+        Action.Property(this.ALevelText,
+                        @this.LevelIntroSubText.SpriteText.Color,
+                        Real4(1,1,1,1.0),
+                        this.FadeInTime,
+                        this.EaseType);
+        //move up
+        Action.Property(this.ALevelText,
+                        @textObj_.Transform.Translation,
+                        Real3(textObj_.Transform.Translation.X,
+                              textObj_.Transform.Translation.Y + 0.25,
+                              textObj_.Transform.Translation.Z),
+                        this.FadeInTime,
+                        this.EaseType);
+        //delay
+        Action.Delay(aInvis, this.FadeInTime);
+        //be invisible
+        Action.Property(aInvis,
+                        @textObj_.SpriteText.Color,
+                        Real4(1,1,1,0.0),
+                        0.01,
+                        this.EaseType);
+        //be invisible
+        Action.Property(aInvis,
+                        @this.LevelIntroSubText.SpriteText.Color,
+                        Real4(1,1,1,0.0),
+                        0.01,
+                        this.EaseType);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DestroyCog()
+    //EXPLANATION-Destroy a passed cog and nulls it, too.
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DestroyCog(obj_:Cog):Void
+    {
+        if(obj_ != null)
+        {
+            obj_.Destroy();
+            obj_ = null;
+            //DEBUG - Ensure Object is Destroyed
+            //Console.WriteLine("Object is Destroyed and is `obj_`");
+        }
+    }
+}

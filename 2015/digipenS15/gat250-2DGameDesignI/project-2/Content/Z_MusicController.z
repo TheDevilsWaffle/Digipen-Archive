@@ -1,0 +1,32 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_MusicController.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_MusicController:ZilchComponent
+{
+    [Property]
+    var PlayMusicUponInitialize:Boolean = Boolean(true);
+    [Property]
+    var Music:SoundCue = SoundCue.Find("scMusic");
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //if component PlayMusicUponInitialize is true
+        if(this.PlayMusicUponInitialize)
+        {
+            //play the music selected
+            this.Space.SoundSpace.PlayCue(this.Music);
+        }
+    }
+    
+    function StopMusic()
+    {
+        //need to stop music here
+    }
+}

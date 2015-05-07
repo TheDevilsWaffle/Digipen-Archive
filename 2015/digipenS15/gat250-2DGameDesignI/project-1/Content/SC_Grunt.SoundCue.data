@@ -1,0 +1,26 @@
+SoundCue = 
+{
+	SoundPlayMode PlayMode = Single,
+	float Volume = 0.25,
+	float VolumeVariation = 0,
+	float Pitch = 0,
+	float PitchVariation = -0.2,
+	float MinDistance = 10,
+	float MaxDistance = 10000,
+	float PositionRandomization = 0,
+	uint MaxPlaybacks = 10,
+	int Priority = 128,
+	bool LinearRollOff = true,
+	Array Sounds = 
+	[
+		{
+			string SoundName = "54ff0d91d18d96f3:grunt-1",
+			float Weight = 1,
+		},
+		{
+			string SoundName = "54ff0d91d18db9f7:grunt-2",
+			float Weight = 1,
+		},
+	],
+	string RolloffCurveName = "",
+},

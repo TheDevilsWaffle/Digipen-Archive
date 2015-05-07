@@ -1,0 +1,73 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_JumpParticles.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_JumpParticles:ZilchComponent
+{
+    //PLAYERS
+    var Player1:Cog = null;
+    var Player2:Cog = null;
+    
+    //PARTICLES
+    var ARC_ParticleSystem:Archetype = Archetype.Find("ARC_ParSys_Jump");
+    var ParticleSystem:Cog = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-initialize variables and event listeners
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //set player objects
+        this.Player1 = this.Space.FindObjectByName("goPlayer1");
+        this.Player2 = this.Space.FindObjectByName("goPlayer2");
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-CreateJumpParticles()
+    //EXPLANATION-Creates jump particles and then quickly destroys them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function CreateJumpParticles(pos_:Real3, owner_:Cog):Void
+    {
+        if(owner_ == this.Player1)
+        {
+            //create a particle system based on player's last known position
+            this.ParticleSystem = this.Space.CreateAtPosition(this.ARC_ParticleSystem, Real3(pos_.X, pos_.Y + 0.2, pos_.Z));
+        }
+        if(owner_ == this.Player2)
+        {
+            //create a particle system based on player's last known position
+            this.ParticleSystem = this.Space.CreateAtPosition(this.ARC_ParticleSystem, Real3(pos_.X, pos_.Y - 0.2, pos_.Z));
+        }
+        
+        //create an action sequence for jump particles
+        var aJumpParticles = Action.Sequence(this.Owner.Actions);
+        //particles on
+        Action.Property(aJumpParticles,
+                        @this.ParticleSystem.BoxParticleEmitter.Active,
+                        true,
+                        0.15,
+                        Ease.QuadOut);
+        //start to fade out
+        Action.Property(aJumpParticles,
+                        @this.ParticleSystem.SpriteParticleSystem.Tint,
+                        Real4(1,1,1,0.0),
+                        0.5,
+                        Ease.QuadOut);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DestroyParticleSystemCog()
+    //EXPLANATION-Destroy old particle systems
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DestroyParticleSystemCog():Void
+    {
+        if(this.ParticleSystem != null)
+        {
+            this.ParticleSystem.Destroy();
+            this.ParticleSystem = null;
+        }
+    }
+}

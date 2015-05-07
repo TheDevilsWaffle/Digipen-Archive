@@ -1,0 +1,48 @@
+class Z_GameOver : ZilchComponent
+{
+    //TIMER
+    [Property]
+    var TimeRemaining:Real = Real(101.0);
+    var GameTimer:Real = Real();
+    
+    //SPACES
+    var HUDSpace:Space = null;
+    var MainSpace:Space = null;
+    var IsGameOver:Boolean = Boolean(false);
+    
+    function Initialize(init : CogInitializer)
+    {
+        //get the spaces
+        this.HUDSpace = this.Space.LevelSettings.Z_UI_HUD.HUDSpace;
+        this.MainSpace = this.Space.LevelSettings.Z_UI_HUD.MainSpace;
+        
+        this.GameTimer = this.MainSpace.LevelSettings.Z_UI_HUD.TimeRemaining;
+        
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        //check the gametimer
+        this.GameTimer = this.MainSpace.LevelSettings.Z_UI_HUD.TimeRemaining;
+        
+        if(this.GameTimer < 0)
+        {
+            if(!this.IsGameOver)
+            {
+                this.IsGameOver = true;
+                //bring up the pause menu
+                this.MainSpace.LevelSettings.Z_Pause.GameoverMenu();
+                
+                //pause the mainspace
+                this.MainSpace.TimeSpace.Paused = true;
+                this.MainSpace.SoundSpace.Pause = false;
+                this.HUDSpace.CreateAtPosition(Archetype.Find("ARC_UI_Gameover"), Real3(0,5.5,1));
+            }
+            else
+            {
+                
+            }
+        }
+    }
+}

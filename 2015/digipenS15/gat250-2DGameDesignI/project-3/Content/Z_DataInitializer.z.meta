@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_DataInitializer",
+		uint64 ResourceId = 55aa523b7ba2922c,
+	},
+},

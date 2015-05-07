@@ -1,0 +1,84 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT    - Z_UI_MenuSpace.z
+//AUTHOR    - Travis Moore
+//COURSE    - GAM250
+//COPYRIGHT - ©2015 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_MenuSpace:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var LvlSubMenu:Level = null;                        //the level contains the sub menus
+    var SubMenuPos:Real3 = Real3(0,0,20);
+    
+    //non-settables
+    var MainSpace:Space = null;
+    var SpaceArc:Archetype = Archetype.Find("Space");   //the archetype of space
+    var SpaceSubMenu:Space = null;                      //the space where our menus exist
+    var QuitConfirmation:Cog = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize()
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //get the main space
+        this.MainSpace = this.GameSession.FindSpaceByName("Main");
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-LaunchSubMenu
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function LaunchSubMenu():Void
+    {
+        if(!this.MainSpace.TimeSpace.Paused)
+        {
+            //pause the main space
+            this.MainSpace.TimeSpace.TogglePause();
+        }
+        //create the menu space
+        this.SpaceSubMenu = this.GameSession.CreateNamedSpace("SpaceSubMenu", this.SpaceArc);
+        //load our LvlSubMenu level into it
+        this.SpaceSubMenu.LoadLevel(this.LvlSubMenu);
+        
+        this.QuitConfirmation = this.SpaceSubMenu.CreateAtPosition(Archetype.Find("ARC_SubMenu"), this.SubMenuPos);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-TogglePause
+    //EXPLANATION-
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function TogglePause():Void
+    {
+        //pause the previous space
+        this.Space.TimeSpace.TogglePause();
+        //stop all sounds in the previous space.
+        this.Space.SoundSpace.Pause = !this.Space.SoundSpace.Pause;
+        //if(this.Space.SoundSpace.Pause)
+        //{
+        //    //noise for openning this submenu
+        //}
+        //Console.WriteLine(this.Space.TimeSpace.Paused);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ReturnToGame
+    //EXPLANATION-Ensures that mainspace is no longer paused, destroys submenus
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ReturnToGame():Void
+    {
+        if(this.MainSpace.LevelSettings.Z_UI_MenuSpace.SpaceSubMenu != null)
+        {
+            if(this.QuitConfirmation != null)
+            {
+                this.QuitConfirmation.Destroy();
+            }
+        }
+        if(this.MainSpace.TimeSpace.Paused)
+        {
+            this.MainSpace.LevelSettings.Z_UI_MenuSpace.TogglePause();
+            this.MainSpace.SoundSpace.Pause = false;
+        }
+    }
+}

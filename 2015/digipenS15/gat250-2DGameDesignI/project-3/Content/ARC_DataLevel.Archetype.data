@@ -1,0 +1,23 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "LevelData",
+	},
+	Archetyped = 
+	{
+		string Name = "55aa44a706625dbc:ARC_DataLevel",
+	},
+	Z_LevelData = 
+	{
+		bool IsUnlocked = false,
+		string LevelNumber = "",
+		string LevelDescription = "",
+		string GradeAndTime = "",
+		int CubesCollected = 0,
+	},
+},
