@@ -1,0 +1,45 @@
+class FollowCamera : ZilchComponent
+{
+    [Property]
+    var Target : CogPath = CogPath();
+    
+    [Property]
+    var MaxDistance : Real3 = Real3(10, 10, 0);
+    
+    [Property]
+    var ViewOffset : Real3 = Real3(0, 0, 10);    
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    function SetTarget(target : Cog)
+    {
+        this.Target.Cog = target;
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        var currentTarget = this.Target.Cog;
+        
+        if(currentTarget == null)
+        {
+          return;
+        }
+        
+        var lookPosition = this.Owner.Transform.WorldTranslation;
+        
+        var targetPosition = currentTarget.Transform.WorldTranslation;
+        
+        lookPosition.Z = targetPosition.Z;            
+        
+        var delta = targetPosition - lookPosition;
+        
+        var limitedDelta =  Math.Max(Real3(0,0,0), delta - this.MaxDistance) + Math.Min(Real3(0,0,0), delta + this.MaxDistance);
+        
+        var adjustedPosition = lookPosition + limitedDelta + this.ViewOffset;
+        
+        this.Owner.Transform.WorldTranslation = adjustedPosition;
+    }
+}

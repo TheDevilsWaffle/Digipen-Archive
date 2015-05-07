@@ -1,0 +1,28 @@
+class Z_FadeOut : ZilchComponent
+{
+    [Property]
+    var FadeOutTime:Real = 5.0;
+    var EaseType:Ease = Ease.QuadInOut;
+    
+    function Initialize(init : CogInitializer)
+    {
+        //Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+    }
+    
+    function FadeOut()
+    {
+        //create action sequence
+        var aFadeOut = Action.Group(this.Owner.Actions);
+        
+        //fade out
+        Action.Property(aFadeOut,
+                        @this.Owner.Sprite.Visible,
+                        false,
+                        this.FadeOutTime,
+                        this.EaseType);
+    }
+}

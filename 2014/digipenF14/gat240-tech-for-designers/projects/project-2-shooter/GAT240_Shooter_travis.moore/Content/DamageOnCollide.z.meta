@@ -1,0 +1,15 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "DamageOnCollide",
+		uint64 ResourceId = 532e2ab87b17a81c,
+	},
+	ContentTags = 
+	{
+		Array Tags = 
+		[
+			"BasicGameplay",
+		],
+	},
+},

@@ -1,0 +1,21 @@
+class FadeOut : ZilchComponent
+{
+    // The amount of time to fade to zero alpha.
+    [Property]
+    var FadeOutTime : Real = 1.0;
+    
+    function Initialize(init : CogInitializer)
+    {
+        var seq = Action.Sequence(this.Owner.Actions);
+        
+        var sprite = this.Owner.Sprite;
+        if(sprite != null)
+        {
+            var endColor = sprite.Color;
+            endColor.W = 0.0;
+            
+            // Create a property to animate the color from its current value to one with zero alpha
+            Action.Property(seq, @sprite.Color, endColor, this.FadeOutTime, Ease.Linear);
+        }
+    }
+}

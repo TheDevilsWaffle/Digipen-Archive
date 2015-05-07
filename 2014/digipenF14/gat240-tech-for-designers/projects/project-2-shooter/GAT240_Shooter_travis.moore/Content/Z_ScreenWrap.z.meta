@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_ScreenWrap",
+		uint64 ResourceId = 5486ebf5c50a74c2,
+	},
+},

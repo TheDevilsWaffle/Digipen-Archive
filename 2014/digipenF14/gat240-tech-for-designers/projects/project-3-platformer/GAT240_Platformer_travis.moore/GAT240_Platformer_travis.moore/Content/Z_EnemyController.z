@@ -1,0 +1,93 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_EnemyController.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_EnemyController:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var TargetObjectPath:CogPath = null;
+    [Property]
+    var TargetDetectionRange:Real = 30.0;
+    [Property]
+    var MaxAttackRange:Real = 15.0;
+    [Property]
+    var MaxAttacks:Integer = 1;
+    [Property]
+    var AttackTimeout:Real = 300.0;         //millseconds
+    [Property]
+    var DamageToPlayer:Real = 2.0;
+    //non-settable properties
+    var TargetObject:Cog = null;
+    var TargetDirection:Real3 = Real3();
+    var TargetDistance:Real = Real();
+    var OriginalPosition:Real3 = Real3();
+    var AttackTimer:Real = 0.0;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //set the target of the enemy
+        this.TargetObject = this.TargetObjectPath.Cog;
+        
+        //set the OriginalPosition of this object
+        this.OriginalPosition = this.Owner.Transform.Translation;
+        
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event:CollisionEvent):Void
+    {
+        if(event.OtherObject == this.TargetObject)
+        {
+            if(event.OtherObject.Transform.Translation.Y > event.Object.Transform.Translation.Y)
+            {
+                //do nothing
+            }
+            else
+            {
+                event.OtherObject.Z_Health.ApplyDamage(this.DamageToPlayer);
+                //play ow noise
+                this.Space.SoundSpace.PlayCue(SoundCue.Find("FSXOw"));
+                //check to see if player is dead
+                if(event.OtherObject.Z_Health.CurrentHealth <= 0.0)
+                {
+                    this.Space.LevelSettings.Z_LevelLogic.LoadLoseLevel();
+                }
+            }
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Update every frame, perform actions of the enemy
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //do we have a target?
+        if(this.TargetObject != null)
+        {
+            //code here for an attacking enemy
+        }
+        //do we have a swept controller?
+        if(this.Owner.SweptController != null)
+        {
+            //if this enemy has a patrol component
+            if(this.Owner.Z_EnemyPatrol != null)
+            {
+                //call this enemy's patrol script component
+                this.Owner.Z_EnemyPatrol.Patrol(event);
+            }
+        }
+    }
+}

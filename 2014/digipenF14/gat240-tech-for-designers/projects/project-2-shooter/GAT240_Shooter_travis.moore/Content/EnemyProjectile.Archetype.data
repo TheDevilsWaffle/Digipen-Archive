@@ -1,0 +1,74 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "Projectile",
+	},
+	Archetyped = 
+	{
+		string Name = "54c11e899c6977a2:EnemyProjectile",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [2.77194, 2.6613, 0],
+		Vec3 Scale = [0.5, 0.5, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "5274db4c2e7c11f9:Circle",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [0.925, 0.30525, 0, 1],
+		bool Visible = true,
+		bool OnTop = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+	},
+	RigidBody = 
+	{
+		bool Static = false,
+		bool Asleep = false,
+		bool Kinematic = false,
+		bool RotationLocked = false,
+		bool Mode2D = true,
+		bool AllowSleep = true,
+		bool Inherit2DMode = true,
+		Vec3 Velocity = [0, 0, 0],
+		Vec3 AngularVelocity = [0, 0, 0],
+	},
+	Orientation = 
+	{
+		Vec3 GlobalUp = [0, 0, 1],
+		Vec3 UpVector = [0, 0, 1],
+		Vec3 ForwardVector = [0, 1, 0],
+		OrientationBases DefaultBases = ForwardYUpZ,
+	},
+	SphereCollider = 
+	{
+		bool Ghost = true,
+		bool SendsMessages = true,
+		bool Seamless = true,
+		string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+		string SerializedGroupName = "54c11c8ad171620b:CG_Enemies",
+		Vec3 Offset = [0, 0, 0],
+		float Radius = 0.25,
+	},
+	Z_Projectile = 
+	{
+	},
+	DamageOnCollide = 
+	{
+		float Damage = 10,
+		bool SendsDeathEvent = true,
+		bool DieOnCollide = true,
+	},
+},

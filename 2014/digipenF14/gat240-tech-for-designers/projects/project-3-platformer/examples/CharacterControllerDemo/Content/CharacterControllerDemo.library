@@ -1,0 +1,7 @@
+ContentLibrary = 
+{
+	string Name = "CharacterControllerDemo",
+	uint64 LibraryId = 54ee003d4bdc0b99,
+	string SourceControlType = "",
+	bool ReadOnly = false,
+},

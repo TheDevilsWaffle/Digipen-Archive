@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_GamepadButtonController",
+		uint64 ResourceId = 540e99c997eccee4,
+	},
+},

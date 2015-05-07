@@ -1,0 +1,134 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_SpecialGun:ZilchComponent
+{
+    [Dependency]
+    var Transform:Transform = null;
+    [Dependency]
+    var Orientation:Orientation = null;
+    [Property]
+    var Powerup:Archetype = null;
+    [Property]
+    var MountedGunOffset:Real3 = Real3(0,3,0);
+    [Property]
+    var MuzzleSpeed:Real = 10;
+    [Property]
+    var FireSpeed:Real = 1;
+    [Property]
+    var TimeSinceFire:Real = 0;
+    [Property]
+    var RotationSpeed:Real = 300;
+    
+    var TurretTranslation:Real3 = Real3();
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/event listeners for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer)
+    {
+        this.TimeSinceFire = this.FireSpeed;
+        Zero.Connect(this.Space, Events.MouseDown, this.OnMouseDown);
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        //set powerup right away
+        this.Powerup = Archetype.Find("Projectile");
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnMouseDown
+    //EXPLANATION-Fire shots at player forward
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnMouseDown(event:ViewportMouseEvent)
+    {
+        //update the worldOffset
+        var worldOffset = this.Transform.TransformPoint(this.MountedGunOffset);
+        
+        if(this.Powerup.Name == "Projectile")
+        {
+            if(this.TimeSinceFire > this.FireSpeed)
+            {
+                //reset the TimeSinceFire
+                this.TimeSinceFire = 0;
+                
+                //find out what kind of projectile we are going to fire
+                var projectile  = this.Space.CreateAtPosition(this.Powerup, worldOffset);
+                projectile.RigidBody.Velocity =  this.Orientation.WorldForward * this.MuzzleSpeed;
+                projectile.Orientation.LookAtDirection(this.Orientation.WorldForward);
+            }
+        }
+        
+        if(this.Powerup.Name == "SpreadShot")
+        {
+            if(this.TimeSinceFire > this.FireSpeed)
+            {
+                //reset the TimeSinceFire
+                this.TimeSinceFire = 0;
+                
+                for(var i:Integer = 0; i < 3; ++i)
+                {
+                    //find out what kind of projectile we are going to fire
+                    var spreadshot  = this.Space.CreateAtPosition(this.Powerup, worldOffset);
+                    //left shot
+                    if(i % 1 == 0)
+                    {
+                        spreadshot.RigidBody.Velocity = (this.Orientation.WorldForward + Real3(-1,0,0)) * this.MuzzleSpeed;
+                        //used to point the projectile in the correct direction
+                        spreadshot.Orientation.LookAtDirection(this.Orientation.WorldForward);
+                    }
+                    //center shot
+                    if(i % 2 == 0)
+                    {
+                        spreadshot.RigidBody.Velocity = this.Orientation.WorldForward * this.MuzzleSpeed;
+                        //used to point the projectile in the correct direction
+                        spreadshot.Orientation.LookAtDirection(this.Orientation.WorldForward);
+                    }
+                    if(i % 3 == 0)
+                    {
+                        spreadshot.RigidBody.Velocity =  (this.Orientation.WorldForward + Real3(1,0,0)) * this.MuzzleSpeed;
+                        //used to point the projectile in the correct direction
+                        spreadshot.Orientation.LookAtDirection(this.Orientation.WorldForward);
+                    }
+                }
+            }
+        }
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Things!
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        this.TimeSinceFire += event.Dt;
+        
+        //rotate towards the mouse
+        //this.TurretTranslation = this.Owner.Transform.WorldTranslation;
+        this.RotateTowardsMouse(event);
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-RotateTowardsMouse
+    //EXPLANATION-Grabs mouse location and orients player towards it.
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function RotateTowardsMouse(event:UpdateEvent):Void
+    {
+        // Get the mouse position on the screen
+        var mouseScreenPosition = Zero.Mouse.ScreenPosition;
+        
+        // Convert the mouse position from screen coordinate to world coordinates
+        // use the main viewport for the level
+        var worldMousePosition = this.LevelSettings.CameraViewport.ScreenToWorldZPlane(mouseScreenPosition, 0);
+        
+        // Get the rotation need to look at the point
+        var targetRotation = this.Owner.Orientation.GetLookAtPointRotation(worldMousePosition);
+        
+        var currentRotation = this.Owner.Transform.Rotation;
+        
+        // Move towards the needed rotation at RotationSpeed
+        var partialRotation = Math.RotateTowards(currentRotation, targetRotation, Math.ToRadians(this.RotationSpeed) * event.Dt);
+        this.Owner.Transform.Rotation = partialRotation;
+    }
+}

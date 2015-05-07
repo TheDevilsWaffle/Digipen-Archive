@@ -1,0 +1,142 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_FallingPlatform.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_FallingPlatform:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var FallTime:Real = 0.5;
+    [Property]
+    var FallDirection:Real3 = Real3(0,-10,0); //set to fall straight down
+    [Property]
+    var StartingPosition:Real3 = Real3(0,0,0);
+    [Property]
+    var ShakeAmount:Real3 = Real3(0.5,0,0);
+    [Property]
+    var Target:CogPath = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        this.StartingPosition = this.Owner.Transform.Translation;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event:CollisionEvent):Void
+    {
+        if(event.OtherObject == this.Target.Cog)
+        {
+            this.DelayedCollapse();
+        }
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DelayedCollapse
+    //EXPLANATION-Performs collapsing actions before killing itself
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DelayedCollapse():Void
+    {
+        //create action sequence
+        var aCollapse = Action.Sequence(this.Owner.Actions);
+        
+        //make noise
+        Action.Call(aCollapse, this.RumbleNoise);
+        //shake left
+        Action.Property(aCollapse,
+                        @this.Owner.Transform.Translation,
+                        this.StartingPosition - this.ShakeAmount,
+                        0.2,
+                        Ease.QuadInOut);
+        //shake right
+        Action.Property(aCollapse,
+                        @this.Owner.Transform.Translation,
+                        this.StartingPosition + this.ShakeAmount,
+                        0.2,
+                        Ease.QuadInOut);
+        //shake left
+        Action.Property(aCollapse,
+                        @this.Owner.Transform.Translation,
+                        this.StartingPosition - this.ShakeAmount,
+                        0.2,
+                        Ease.QuadInOut);
+        //shake right
+        Action.Property(aCollapse,
+                        @this.Owner.Transform.Translation,
+                        this.StartingPosition + this.ShakeAmount,
+                        0.2,
+                        Ease.QuadInOut);
+        //shake left
+        Action.Property(aCollapse,
+                        @this.Owner.Transform.Translation,
+                        this.StartingPosition - this.ShakeAmount,
+                        0.2,
+                        Ease.QuadInOut);
+        //shake right
+        Action.Property(aCollapse,
+                        @this.Owner.Transform.Translation,
+                        this.StartingPosition + this.ShakeAmount,
+                        0.2,
+                        Ease.QuadInOut);
+        //make noise
+        Action.Call(aCollapse, this.FallNoise);
+        //re-center
+        Action.Property(aCollapse,
+                        @this.Owner.Transform.Translation,
+                        this.StartingPosition,
+                        0.1,
+                        Ease.QuadInOut);
+        //finally fall
+        Action.Property(aCollapse,
+                        @this.Owner.Transform.Translation,
+                        this.StartingPosition + (this.FallDirection),
+                        this.FallTime,
+                        Ease.QuadInOut);
+        //go invisible
+        Action.Property(aCollapse,
+                        @this.Owner.Sprite.Visible,
+                        false,
+                        0.5,
+                        Ease.QuadInOut);
+        //call DestroySelf()
+        Action.Call(aCollapse, this.DestroySelf);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DestroySelf
+    //EXPLANATION-Kills this falling platform
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DestroySelf():Void
+    {
+        //buh bye
+        this.Owner.Destroy();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-RumbleNoise
+    //EXPLANATION-Play a sound
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function RumbleNoise():Void
+    {
+        //buh bye
+        this.Space.SoundSpace.PlayCue(SoundCue.Find("SFXRumble"));
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FallNoise
+    //EXPLANATION-Play a sound
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FallNoise():Void
+    {
+        //buh bye
+        this.Space.SoundSpace.PlayCue(SoundCue.Find("SFXFall"));
+    }
+}

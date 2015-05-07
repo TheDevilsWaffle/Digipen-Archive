@@ -1,0 +1,15 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "FadeOut",
+		uint64 ResourceId = 53e79429fa3ec2aa,
+	},
+	ContentTags = 
+	{
+		Array Tags = 
+		[
+			"BasicGameplay",
+		],
+	},
+},

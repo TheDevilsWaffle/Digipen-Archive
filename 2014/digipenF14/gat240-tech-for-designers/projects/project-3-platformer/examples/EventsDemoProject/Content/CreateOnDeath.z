@@ -1,0 +1,19 @@
+class CreateOnDeath : ZilchComponent
+{
+    // The archetype to create when we're destroyed.
+    [Property]
+    var ArchetypeToCreate : Archetype = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        // Listen for an event on ourself that says we died.
+        Zero.Connect(this.Owner, Events.Death, this.OnDeath);
+    }
+    
+    function OnDeath(e : Event)
+    {
+        // Create an object at our position.
+        var pos = this.Owner.Transform.Translation;
+        this.Space.CreateAtPosition(this.ArchetypeToCreate, pos);
+    }
+}

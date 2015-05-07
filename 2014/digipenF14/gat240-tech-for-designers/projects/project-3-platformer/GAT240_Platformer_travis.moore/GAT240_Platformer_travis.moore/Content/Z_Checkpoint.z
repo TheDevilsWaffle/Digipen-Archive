@@ -1,0 +1,79 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_Checkpoint.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_Checkpoint:ZilchComponent
+{
+    //non-settables
+    var Target:Cog = null;
+    var Checked:Boolean = false;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //set target to player
+        this.Target = this.Space.FindObjectByName("Player");
+        
+        //ensure that checkpoint is not checked yet
+        this.Checked = false;
+        
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        Zero.Connect(this.Owner, Events.CollisionEnded, this.OnCollisionEnded);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionSEnded
+    //EXPLANATION-turn off animation, end on last frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionEnded(event : CollisionEvent)
+    {
+        //make sure we have a target
+        if(this.Target != null)
+        {
+            //if it is our target
+            if(event.OtherObject == this.Target)
+            {
+                //turn off the animation
+                this.Owner.Sprite.AnimationActive = false;
+                //leave it on the final frame
+                this.Owner.Sprite.CurrentFrame = 7;
+            }
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted
+    //EXPLANATION-play animation, play sound
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event : CollisionEvent)
+    {
+        //make sure that checkpoint is not checked yet
+        if(!this.Checked)
+        {
+            //make sure we have a target
+            if(this.Target != null)
+            {
+                //if it is our target
+                if(event.OtherObject == this.Target)
+                {
+                    if(this.Owner.Name == "Checkpoint-Win")
+                    {
+                        this.Space.LevelSettings.Z_LevelLogic.LoadWinLevel();
+                    }
+                    //animation, woo!
+                    this.Owner.Sprite.AnimationActive = true;
+                    //play checkpoint sound
+                    this.Space.SoundSpace.PlayCue(SoundCue.Find("SFXCheckpoint"));
+                    //change checked to true
+                    this.Checked = true;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+Cog = 
+{
+	Project = 
+	{
+		string ProjectName = "learning_actions",
+		string ProjectOwner = "",
+		string DefaultLevel = "Level",
+		string ProjectSpace = "Space",
+		uint ProjectEngineRevision = 9979,
+	},
+	EditorSettings = 
+	{
+		EditorMode EditorMode = Mode3D,
+		float DefaultPixelsPerUnit = 64,
+		bool SpriteSmoothing = true,
+		float DefaultImportScale = 1,
+	},
+},

@@ -1,0 +1,167 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+//**********************REMOVE TEMP PLACEHOLDERS ON BTN SPRITES****************************************************
+
+class Z_UI_Button:ZilchComponent
+{
+    //levels
+    var LvlMenuMain:Level = Level.Find("lvl_menu_main");
+    var LvlMenuControls: Level = Level.Find("lvl_menu_controls");
+    var LvlLose:Level = Level.Find("lvl_gameover_lose");
+    var LvlWin:Level = Level.Find("lvl_gameover_win");
+    var LvlSplashDigipen:Level = Level.Find("lvl_splash_digipen");
+    var LvlSplashStart:Level = Level.Find("lvl_splash_start");
+    var Lvl01:Level = Level.Find("lvl_01");
+    var LvlCredits:Level = Level.Find("lvl_menu_credits");
+    var CurrentLevel:Level = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        //mouse related functions
+        Zero.Connect(this.Owner, Events.MouseEnter, this.OnMouseEnter);
+        Zero.Connect(this.Owner, Events.MouseExit, this.OnMouseExit);
+        Zero.Connect(this.Owner, Events.MouseDown, this.OnMouseDown);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnMouseEnter
+    //EXPLANATION-Perform sprite swap to enchance player feedback
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnMouseEnter(event:ViewportMouseEvent):Void
+    {
+        //check to see what button we are by getting name
+        var currentBtn:String = this.Owner.Name;
+        
+        //Next, if checks to swap out correct ACTIVE sprites
+        
+        //GAME BUTTONS
+        //if button is "Start Game"
+        if(currentBtn == "btn-game-start")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("temp-btn-start-active");
+        }
+        //if button is "New Game"
+        if(currentBtn == "btn-game-new")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("temp-btn-game-new-active");
+        }
+        //if button is "Quit Game"
+        if(currentBtn == "btn-game-quit")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("temp-btn-game-quit-active");
+        }
+        
+        //MENU BUTTONS
+        //if button is "Main Menu"
+        if(currentBtn == "btn-menu-main")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("temp-btn-menu-main-active");
+        }
+        //if button is "Menu Controls"
+        if(currentBtn == "btn-menu-controls")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("temp-btn-menu-controls-active");
+        }
+        //if button is "Menu Credits"
+        if(currentBtn == "btn-menu-credits")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("temp-btn-menu-credits-active");
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnMouseExit
+    //EXPLANATION-Undo original sprite swap to enhance player feedback
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnMouseExit(event:ViewportMouseEvent):Void
+    {
+        //check to see what button we are by getting name
+        var currentBtn:String = this.Owner.Name;
+        
+        //Next, if checks to swap out correct INACTIVE sprites
+        
+        //GAME BUTTONS
+        //if button is "Start Game"
+        if(currentBtn == "btn-game-start")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("temp-btn-start-inactive");
+        }
+        //if button is "New Game"
+        if(currentBtn == "btn-game-new")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("temp-btn-game-new-inactive");
+        }
+        //if button is "Quit Game"
+        if(currentBtn == "btn-game-quit")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("temp-btn-game-quit-inactive");
+        }
+        
+        //MENU BUTTONS
+        //if button is "Main Menu"
+        if(currentBtn == "btn-menu-main")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("temp-btn-menu-main-inactive");
+        }
+        //if button is "Menu Controls"
+        if(currentBtn == "btn-menu-controls")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("temp-btn-menu-controls-inactive");
+        }
+        //if button is "Menu Credits"
+        if(currentBtn == "btn-menu-credits")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("temp-btn-menu-credits-inactive");
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnMouseDown
+    //EXPLANATION-Perform level loading
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnMouseDown(event:ViewportMouseEvent):Void
+    {
+        //GAME BUTTONS
+        //if button is "Start Game"
+        if(this.Owner.Name == "btn-game-start")
+        {
+            this.Space.LoadLevel(this.LvlMenuMain);
+        }
+        //if button is "New Game"
+        if(this.Owner.Name == "btn-game-new")
+        {
+            this.Space.LoadLevel(this.Lvl01);
+        }
+        //if button is "Quit Game"
+        if(this.Owner.Name == "btn-game-quit")
+        {
+            this.GameSession.Quit();
+        }
+        
+        //MENU BUTTONS
+        //if button is "Main Menu"
+        if(this.Owner.Name == "btn-menu-main")
+        {
+            this.Space.LoadLevel(this.LvlMenuMain);
+        }
+        //if button is "Menu Controls"
+        if(this.Owner.Name == "btn-menu-controls")
+        {
+            this.Space.LoadLevel(this.LvlMenuControls);
+        }
+        //if button is "Menu Credits"
+        if(this.Owner.Name == "btn-menu-credits")
+        {
+            this.Space.LoadLevel(this.LvlCredits);
+        }
+    }
+}

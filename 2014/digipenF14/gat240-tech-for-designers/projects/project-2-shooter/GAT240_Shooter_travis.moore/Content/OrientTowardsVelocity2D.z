@@ -1,0 +1,31 @@
+class OrientTowardsVelocity2D : ZilchComponent
+{
+    // An offset for the object's rotation in degrees.
+    [Property]
+    var DegreeOffset : Real = 0.0;
+    
+    // The orientation component is used to align the object's forward with it's velocity.
+    [Dependency]
+    var Orientation : Orientation = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    function OnLogicUpdate(updateEvent : UpdateEvent)
+    {
+        var vel = this.Owner.RigidBody.Velocity;
+        
+        // If we don't do this check and for some reason get a zero velocity
+        // vector then our object will snap to 0 degrees. This would cause a
+        // non moving object with a rotation of 90 degrees to snap to 0 degrees all of a sudden.
+        if(Math.Length(vel) < 0.0001)
+        {
+            return;
+        }
+        
+        var up = Real3(0, 0, 1);
+        this.Orientation.LookAtDirectionWithUp(vel, up);
+    }
+}

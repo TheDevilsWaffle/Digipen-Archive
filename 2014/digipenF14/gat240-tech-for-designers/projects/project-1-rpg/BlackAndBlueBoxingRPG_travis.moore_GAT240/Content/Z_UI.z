@@ -1,0 +1,339 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+class Z_UI:ZilchComponent
+{
+    var CurrentBoxer:Boxer = null;
+    var BoxerHP:Integer = 0;
+    var BoxerStanima:Real = 0;
+    var P1HPBar:Cog = null;
+    var P2HPBar:Cog = null;
+    var P1StanimaBar:Cog = null;
+    var P2StanimaBar:Cog = null;
+    //initial scale
+    var BarFull:Real = 0;
+    var BarY:Real = 0;
+    var BarZ:Real = 0;
+    
+    function Initialize(init : CogInitializer)
+    {
+        //initialize variables by finding them on the space
+        this.P1HPBar = this.Space.FindObjectByName("p1-hp-bar");
+        this.P2HPBar = this.Space.FindObjectByName("p2-hp-bar");
+        this.P1StanimaBar = this.Space.FindObjectByName("p1-stan-bar");
+        this.P2StanimaBar = this.Space.FindObjectByName("p2-stan-bar");
+        
+        //set values to variables
+        this.BarFull = 7.83865;
+        this.BarY = 0.635578;
+        this.BarZ = 1;
+    }
+    
+    function UpdatePlayerHP(currentHealth_:Real):Void
+    {
+        //get player's health
+        var health:Integer = this.Space.FindObjectByName("Player").Boxer.Health as Integer;
+        //create standin for new health
+        var newHP:Real = 0;
+        //get current values for hp and stanima
+        var hpBarCurrent:Real = this.P1HPBar.Transform.Scale.X;
+        
+        //shrink Player's HPBar with decreasing health.
+        //HP 90%
+        if(health <= 9)
+        {
+            newHP = this.BarFull * 0.9;
+            this.P1HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 80%
+        if(health <= 8)
+        {
+            newHP = this.BarFull * 0.8;
+            this.P1HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 70%
+        if(health <= 7)
+        {
+            newHP = this.BarFull * 0.7;
+            this.P1HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 60%
+        if(health <= 6)
+        {
+            newHP = this.BarFull * 0.6;
+            this.P1HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 50%
+        if(health <= 5)
+        {
+            newHP = this.BarFull * 0.5;
+            this.P1HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 40%
+        if(health <= 4)
+        {
+            newHP = this.BarFull * 0.4;
+            this.P1HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 30%
+        if(health <= 3)
+        {
+            newHP = this.BarFull * 0.3;
+            this.P1HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 20%
+        if(health <= 2)
+        {
+            newHP = this.BarFull * 0.2;
+            this.P1HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 10%
+        if(health <= 1)
+        {
+            newHP = this.BarFull * 0.1;
+            this.P1HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 0%
+        if(health <= 0)
+        {
+            newHP = this.BarFull * 0;
+            this.P1HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+         //Console.WriteLine("Players'S HP IS `health`");
+    }
+        
+    function UpdatePlayerStanima(currentStanima_:Real)
+    {
+        //get player's stanima
+        var stanima:Integer = this.Space.FindObjectByName("Player").Boxer.Stanima as Integer;
+        //create standin for new health
+        var newStanima:Real = 0;
+        //get current values for hp and stanima
+        var stanimaBarCurrent:Real = this.P1StanimaBar.Transform.Scale.X;
+        
+        //shrink Player's StanimaBar with decreasing stanima.
+        //S 100%
+        if(stanima >= 10)
+        {
+            newStanima = this.BarFull;
+            this.P1StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 90%
+        if(stanima <= 9)
+        {
+            newStanima = this.BarFull * 0.9;
+            this.P1StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 80%
+        if(stanima <= 8)
+        {
+            newStanima = this.BarFull * 0.8;
+            this.P1StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 70%
+        if(stanima <= 7)
+        {
+            newStanima = this.BarFull * 0.7;
+            this.P1StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 60%
+        if(stanima <= 6)
+        {
+            newStanima = this.BarFull * 0.6;
+            this.P1StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 50%
+        if(stanima <= 5)
+        {
+            newStanima = this.BarFull * 0.5;
+            this.P1StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 40%
+        if(stanima <= 4)
+        {
+            newStanima = this.BarFull * 0.4;
+            this.P1StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 30%
+        if(stanima <= 3)
+        {
+            newStanima = this.BarFull * 0.3;
+            this.P1StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 20%
+        if(stanima <= 2)
+        {
+            newStanima = this.BarFull * 0.2;
+            this.P1StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 10%
+        if(stanima <= 1)
+        {
+            newStanima = this.BarFull * 0.1;
+            this.P1StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 0%
+        if(stanima <= 0)
+        {
+            newStanima = this.BarFull * 0;
+            this.P1StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        
+        //Console.WriteLine("PLAYER'S STANIMA IS `stanima`");
+    }
+    function UpdateEnemyHP(currentHealth_:Real):Void
+    {
+        //get enemy's health
+        var health:Integer = this.Space.FindObjectByName("Enemy").Boxer.Health as Integer;
+        //create standin for new health
+        var newHP:Real = 0;
+        //get current values for hp and stanima
+        var hpBarCurrent:Real = this.P2HPBar.Transform.Scale.X;
+        
+        //shrink Player's HPBar with decreasing health.
+        //HP 90%
+        if(health <= 9)
+        {
+            newHP = this.BarFull * 0.9;
+            this.P2HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 80%
+        if(health <= 8)
+        {
+            newHP = this.BarFull * 0.8;
+            this.P2HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 70%
+        if(health <= 7)
+        {
+            newHP = this.BarFull * 0.7;
+            this.P2HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 60%
+        if(health <= 6)
+        {
+            newHP = this.BarFull * 0.6;
+            this.P2HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 50%
+        if(health <= 5)
+        {
+            newHP = this.BarFull * 0.5;
+            this.P2HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 40%
+        if(health <= 4)
+        {
+            newHP = this.BarFull * 0.4;
+            this.P2HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 30%
+        if(health <= 3)
+        {
+            newHP = this.BarFull * 0.3;
+            this.P2HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 20%
+        if(health <= 2)
+        {
+            newHP = this.BarFull * 0.2;
+            this.P2HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 10%
+        if(health <= 1)
+        {
+            newHP = this.BarFull * 0.1;
+            this.P2HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //HP 0%
+        if(health <= 0)
+        {
+            newHP = this.BarFull * 0;
+            this.P2HPBar.Transform.Scale = Real3(newHP, this.BarY, this.BarZ);
+        }
+        //Console.WriteLine("ENEMY'S HP IS `health`");
+    }
+        
+    function UpdateEnemyStanima(currentStanima_:Real)
+    {
+        //get enemy's stanima
+        var stanima:Integer = this.Space.FindObjectByName("Enemy").Boxer.Stanima as Integer;
+        //create standin for new health
+        var newStanima:Real = 0;
+        //get current values for hp and stanima
+        var stanimaBarCurrent:Real = this.P2StanimaBar.Transform.Scale.X;
+        
+        //shrink Enemy's StanimaBar with decreasing stanima.
+        //S 100%
+        if(stanima >= 10)
+        {
+            newStanima = this.BarFull;
+            this.P2StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 90%
+        if(stanima <= 9)
+        {
+            newStanima = this.BarFull * 0.9;
+            this.P2StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 80%
+        if(stanima <= 8)
+        {
+            newStanima = this.BarFull * 0.8;
+            this.P2StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 70%
+        if(stanima <= 7)
+        {
+            newStanima = this.BarFull * 0.7;
+            this.P2StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 60%
+        if(stanima <= 6)
+        {
+            newStanima = this.BarFull * 0.6;
+            this.P2StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 50%
+        if(stanima <= 5)
+        {
+            newStanima = this.BarFull * 0.5;
+            this.P2StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 40%
+        if(stanima <= 4)
+        {
+            newStanima = this.BarFull * 0.4;
+            this.P2StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 30%
+        if(stanima <= 3)
+        {
+            newStanima = this.BarFull * 0.3;
+            this.P2StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 20%
+        if(stanima <= 2)
+        {
+            newStanima = this.BarFull * 0.2;
+            this.P2StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 10%
+        if(stanima <= 1)
+        {
+            newStanima = this.BarFull * 0.1;
+            this.P2StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //S 0%
+        if(stanima <= 0)
+        {
+            newStanima = this.BarFull * 0;
+            this.P2StanimaBar.Transform.Scale = Real3(newStanima, this.BarY, this.BarZ);
+        }
+        //Console.WriteLine("ENEMY'S STANIMA IS `stanima`");
+    }
+}

@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_Gun",
+		uint64 ResourceId = 5486f32a8722189c,
+	},
+},

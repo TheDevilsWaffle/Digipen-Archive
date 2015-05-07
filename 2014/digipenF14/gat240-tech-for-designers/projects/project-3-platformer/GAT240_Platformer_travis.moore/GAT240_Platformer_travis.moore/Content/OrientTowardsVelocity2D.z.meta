@@ -1,0 +1,15 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "OrientTowardsVelocity2D",
+		uint64 ResourceId = 532e2ab87b2a00d0,
+	},
+	ContentTags = 
+	{
+		Array Tags = 
+		[
+			"BasicGameplay",
+		],
+	},
+},

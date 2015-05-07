@@ -1,0 +1,174 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_GameLogic:ZilchComponent
+{
+    //user generated ratios
+    [Property]
+    var Real_ChaserEnemiesPercentage:Real = 0.3; //% of total enemies that are chasers
+    [Property]
+    var Real_ShooterEnemiesPercentage:Real = 0.2; //% of total enemies that are shooters
+    [Property]
+    var MinEnemiesToSpawn:Real = 15;
+    [Property]
+    var MaxEnemiesToSpawn:Real = 25;
+    
+    //enemy numbers
+    var Int_EnemiesToSpawn:Integer = 0;
+    var Int_CurrentNumberOfEnemies:Integer = 0;
+    var Int_TotalEnemies:Integer = 0;
+    var Int_ChaserEnemies:Integer = 0;
+    var Int_ShooterEnemies:Integer = 0;
+    var Int_Asteroids:Integer = 0;
+    
+    //map bounds
+    var Int_MapMinX:Integer = 0;
+    var Int_MapMinY:Integer = 0;
+    var Int_MapMaxX:Integer = 0;
+    var Int_MapMaxY:Integer = 0;
+    
+    //array of enemies
+    var Arr_Enemies:Array[Cog] = new Array[Cog]();
+    
+    //boss
+    var TheBoss:Archetype = null;
+    var BossTimer:Real = 300; // 300/60framerate = 5 seconds
+    
+    //game timer
+    var GameTimer:Real = 0.0;
+    var BossExists:Boolean = false;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/event listeners for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        //get the boss
+        this.TheBoss = Archetype.Find("Boss");
+        
+        //initialize map bounds
+        this.Int_MapMinX = (this.Space.FindObjectByName("Wrapper-Left").Transform.Translation.X) as Integer;
+        this.Int_MapMinY = (this.Space.FindObjectByName("Wrapper-Down").Transform.Translation.Y) as Integer;
+        this.Int_MapMaxX = (this.Space.FindObjectByName("Wrapper-Right").Transform.Translation.X) as Integer;
+        this.Int_MapMaxY = (this.Space.FindObjectByName("Wrapper-Up").Transform.Translation.Y) as Integer;
+        
+        //determine amount of each type of enemy
+        this.GenerateEnemies();
+        //spawn in dem enemies
+        this.SpawnEnemies();
+        
+        //initialize the game timer
+        this.GameTimer = 0.0;
+        
+        var bossExists:Boolean = false;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Generate the amount of enemies to use for the game
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function GenerateEnemies():Void
+    {
+        //determine a range of enemies to spawn in
+        this.Int_EnemiesToSpawn = (new Random().Range(this.MinEnemiesToSpawn, this.MaxEnemiesToSpawn)) as Integer;
+        //set Total Enemies
+        this.Int_TotalEnemies = this.Int_EnemiesToSpawn;
+        //set current enemies
+        this.Int_CurrentNumberOfEnemies = this.Int_TotalEnemies;
+        
+        //set percentage of Chasers
+        this.Int_ChaserEnemies = (this.Int_TotalEnemies * this.Real_ChaserEnemiesPercentage) as Integer;
+        //set percentage of Shooters
+        this.Int_ShooterEnemies = (this.Int_TotalEnemies * this.Real_ShooterEnemiesPercentage) as Integer;
+        //determine number of plain asteroids
+        this.Int_Asteroids = (this.Int_TotalEnemies - (this.Int_ChaserEnemies + this.Int_ShooterEnemies));
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-SpawnEnemies
+    //EXPLANATION-Place enemies on the map
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function SpawnEnemies():Void
+    {
+        //spawn in dem chaser enemies
+        for(var i:Integer = 0; i <= this.Int_ChaserEnemies; ++i)
+        {
+            var enemy = this.Space.CreateAtPosition(Archetype.Find("ChaserEnemy"),
+                                        Real3(new Random().Range(this.Int_MapMinX, this.Int_MapMaxX),
+                                              new Random().Range(this.Int_MapMinY, this.Int_MapMaxY),
+                                              0.0));
+            //put this guy into the array
+            this.Arr_Enemies.Push(enemy);
+        }
+        //spawn in dem shooter enemies
+        for(var i:Integer = 0; i <= this.Int_ShooterEnemies; ++i)
+        {
+            var enemy = this.Space.CreateAtPosition(Archetype.Find("ShooterEnemy"),
+                                        Real3(new Random().Range(this.Int_MapMinX, this.Int_MapMaxX),
+                                              new Random().Range(this.Int_MapMinY, this.Int_MapMaxY),
+                                              0.0));
+            //put this guy into the array
+            this.Arr_Enemies.Push(enemy);
+        }
+        //spawn in dem plain ol' asteroids
+        for(var i:Integer = 0; i <= this.Int_Asteroids; ++i)
+        {
+            var enemy = this.Space.CreateAtPosition(Archetype.Find("Asteroid"),
+                                        Real3(new Random().Range(this.Int_MapMinX, this.Int_MapMaxX),
+                                              new Random().Range(this.Int_MapMinY, this.Int_MapMaxY),
+                                              0.0));
+            //put this guy into the array
+            this.Arr_Enemies.Push(enemy);
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Performs actions/functions every logical frame update
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        var boss:Cog = null;
+        this.Int_CurrentNumberOfEnemies = this.Arr_Enemies.Count;
+        //Console.WriteLine(this.Int_CurrentNumberOfEnemies);
+        //keep track of the number of enemies left
+        if(this.Int_CurrentNumberOfEnemies == 0)
+        {
+            this.Space.LevelSettings.Z_LevelLogic.LoadWinLevel();
+        }
+        
+        //Console.WriteLine(this.GameTimer);
+        
+        if(this.GameTimer == this.BossTimer)
+        {
+            this.Space.CreateAtPosition(this.TheBoss, 
+                                        Real3(17,17,0));
+            this.BossExists = true;
+            boss = this.Space.FindObjectByName("boss");
+        }
+        
+        //if the player has died
+        if(this.Space.FindObjectByName("Player").Z_Health.CurrentHealth == 0)
+        {
+            this.Space.LevelSettings.Z_LevelLogic.LoadLoseLevel();
+        }
+        //make sure boss exists first
+        if(this.BossExists)
+        {
+            //if the boss has died
+            if(this.Space.FindObjectByName("boss") == null)
+            {
+                this.Space.LevelSettings.Z_LevelLogic.LoadWinLevel();
+            }
+        }
+        
+        //update the gameTimer
+        this.GameTimer += 1;
+    }
+}

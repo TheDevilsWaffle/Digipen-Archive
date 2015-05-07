@@ -1,0 +1,40 @@
+class Z_PlayerController : ZilchComponent
+{
+    [Property]
+    var JumpForce:Integer = 1;
+    function Initialize(init : CogInitializer)
+    {
+        // we want to update our player's position each game loop
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        // check if we pressed on the left key
+        if(Zero.Keyboard.KeyIsDown(Keys.Left))
+        {
+            // create a new temporary variable to hold our player's position
+            var playerPos = this.Owner.Transform.LocalTranslation;
+            // update the position one unit
+            playerPos.X -= 0.1;
+            // set the player's transform to our new position
+            this.Owner.Transform.LocalTranslation = playerPos;
+        }
+
+        // check if we pressed on the right key
+        if(Zero.Keyboard.KeyIsDown(Keys.Right))
+        {
+            // create a new temporary variable to hold our player's position
+            var playerPos = this.Owner.Transform.LocalTranslation;
+            // update the position one unit
+            playerPos.X += 0.1;
+            // set the camera's transform to our new position
+            this.Owner.Transform.LocalTranslation = playerPos;
+        }
+        if(Zero.Keyboard.KeyIsPressed(Keys.Up))
+        {
+            // set the player's transform to our new position
+            this.Owner.RigidBody.ApplyLinearVelocity(Real3(0,this.JumpForce,0));
+        }
+    }
+}

@@ -1,0 +1,46 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore / Digipen Stock Script
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+class ExplodeWhenDead : ZilchComponent
+{
+    [Property]
+    var Debris : Archetype = null; 
+    
+    [Property]
+    var DebrisCount : Integer = 5;
+    
+    [Property]
+    var DebrisVariance : Integer = 1;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Owner, "Death", this.OnDeath);
+    }
+
+    function OnDeath(event : Event)
+    {
+        this.Explode();
+    }
+    
+    
+    function Explode()
+    {
+        
+        var random = new Random();
+        
+        var numberOfChunks = random.Variance(this.DebrisCount, this.DebrisVariance);
+        
+        var position = this.Owner.Transform.Translation;
+        
+        for(var i = 0;i<numberOfChunks;++i)
+        {
+            var chunk = this.Space.CreateAtPosition(this.Debris, position);
+            var vel = random.UnitReal2() * random.Range(4, 10);
+            chunk.RigidBody.Velocity = Real3(vel.X, vel.Y, 0);
+        }
+    }
+}

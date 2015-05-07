@@ -1,0 +1,52 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "SpecialGun",
+	},
+	Archetyped = 
+	{
+		string Name = "5462f17345d68388:SpecialGun",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [7.15256e-007, -0.584831, 0],
+		Vec3 Scale = [0.8, 0.8, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "548b74b2645f9811:spr-specialgun-normal",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = true,
+		bool OnTop = true,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+	},
+	Orientation = 
+	{
+		Vec3 GlobalUp = [0, 0, 1],
+		Vec3 UpVector = [0, 0, 1],
+		Vec3 ForwardVector = [0, 1, 0],
+		OrientationBases DefaultBases = ForwardYUpZ,
+	},
+	Z_SpecialGun = 
+	{
+		string Powerup = "5486f19537e6d89c:Projectile",
+		Vec3 MountedGunOffset = [0, 3, 0],
+		float MuzzleSpeed = 10,
+		float FireSpeed = 1,
+		float TimeSinceFire = 0,
+		float RotationSpeed = 300,
+	},
+},

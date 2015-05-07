@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_GroundFrozen",
+		uint64 ResourceId = 5449721e8ae3944b,
+	},
+},

@@ -1,0 +1,22 @@
+files:
+SoundObject.as
+SoundChannelObject.as
+SoundManager.as
+
+
+SoundManager.as
+-load
+-play
+-pause
+-destroy
+vector of soundobjects
+
+SoundChannelObject.as
+-play
+-pause
+-loop
+istatus->playing, paused, free(ready to be used)
+
+SoundManager -> soundobject -> soundchannelobject
+
+sound manager gives a soundobject to the soundchannel to play it

@@ -1,0 +1,292 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_UI_MenuPopUp.z
+//AUTHOR-Travis Moore
+//COURSE-GAM240
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_MenuPopUp:ZilchComponent
+{
+    //PROPERTIES
+    //FADE
+    [Property]
+    var FadeInTime:Real = 1.0;
+    [Property]
+    var FadeOutTime:Real = 0.25;
+    
+    //SCALE
+    [Property]
+    var ScaleOutSize:Real3 = Real3(0.75, 0.75, 0.75);
+    [Property]
+    var ScaleOutTime:Real = 0.2;
+    [Property]
+    var ScaleInSize:Real3 = Real3(1,1,1);
+    [Property]
+    var ScaleInTime:Real = 0.8;
+    
+    //EASE
+    [Property]
+    var EaseType:Ease = Ease.QuadIn;
+    
+    //POSITION
+    [Property]
+    var StartingPosition:Real3 = Real3(0,0,20);
+    
+    //non-settables
+    var StartingScale:Real3 = Real3();
+    var Focus:Cog = null;
+    var Btn1:Cog = null;
+    var Btn2:Cog = null;
+    var DialogBox:Cog = null;
+    var FocusBg:Cog = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DetermineDialogBox()
+    //EXPLANATION-receives a dialog box type to display, makes the correct call for the things it will need
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DetermineDialogBox(dialogType_:String):Void
+    {
+        if(dialogType_ == "PauseMenu")
+        {
+            //assign dialogbox to thank you arc type
+            this.StartingPosition = Real3(0,0,1);
+            this.DialogBox = this.Space.CreateAtPosition(Archetype.Find("arc_ui_pause_menu"), this.StartingPosition);
+            this.DialogBox.Sprite.Color = Real4(0,0,0,0.0);
+            //find parts of this dialog box
+            this.FocusBg = this.DialogBox.FindChildByName("ui-focus");
+            this.Btn1 = this.DialogBox.FindChildByName("BtnGameResume");
+            this.Btn2 = this.DialogBox.FindChildByName("BtnMenuMain");
+            
+            //call fadein
+            this.FadeIn();
+        }
+        if(dialogType_ == "PauseMainMenu")
+        {
+            //assign dialogbox to thank you arc type
+            //set to higher than original pause menu
+            this.StartingPosition = Real3(0,0,1);
+            this.DialogBox = this.Space.CreateAtPosition(Archetype.Find("arc_ui_are_you_sure_pause"), this.StartingPosition);
+            this.DialogBox.Sprite.Color = Real4(0,0,0,0.0);
+            //find parts of this dialog box
+            this.FocusBg = this.DialogBox.FindChildByName("ui-focus");
+            this.Btn1 = this.DialogBox.FindChildByName("BtnYesMenu");
+            this.Btn2 = this.DialogBox.FindChildByName("BtnNo");
+            
+            //call fadein
+            this.FadeIn();
+        }
+        
+        if(dialogType_ == "EraseGameData")
+        {
+            //assign dialogbox to thank you arc type
+            this.DialogBox = this.Space.CreateAtPosition(Archetype.Find("arc_ui_are_you_sure"), this.StartingPosition);
+            this.DialogBox.Sprite.Color = Real4(0,0,0,0.0);
+            //find parts of this dialog box
+            this.FocusBg = this.DialogBox.FindChildByName("snc-focus");
+            this.Btn1 = this.DialogBox.FindChildByName("BtnYesErase");
+            this.Btn2 = this.DialogBox.FindChildByName("BtnNo");
+            
+            //call fadein
+            this.FadeIn();
+        }
+        if(dialogType_ == "ThankYou")
+        {
+            //assign dialogbox to thank you arc type
+            this.DialogBox = this.LevelSettings.HudCreator.HudSpace.CreateAtPosition(Archetype.Find("arc_ui_thank_you"), this.StartingPosition);
+            this.DialogBox.Sprite.Color = Real4(0,0,0,0.0);
+            //find parts of this dialog box
+            this.FocusBg = this.DialogBox.FindChildByName("scn-focus");
+            this.Btn1 = this.DialogBox.FindChildByName("BtnMainMenu");
+            this.Btn2 = this.DialogBox.FindChildByName("BtnGameQuitWhite");
+        }
+        if(dialogType_ == "ThankYouTryAgain")
+        {
+            //assign dialogbox to thank you arc type
+            this.DialogBox = this.LevelSettings.HudCreator.HudSpace.CreateAtPosition(Archetype.Find("arc_ui_thank_you_try_again"), this.StartingPosition);
+            this.DialogBox.Sprite.Color = Real4(0,0,0,0.0);
+            //find parts of this dialog box
+            this.FocusBg = this.DialogBox.FindChildByName("scn-focus");
+            this.Btn1 = this.DialogBox.FindChildByName("BtnMainMenu");
+            this.Btn2 = this.DialogBox.FindChildByName("BtnTryAgain");
+        }
+        if(dialogType_ == "PauseQuitConfirmation")
+        {
+            Console.WriteLine("here");
+            this.StartingPosition = Real3(0,0,10);
+            //assign dialogbox to quit confirmation arc type
+            this.DialogBox = this.Space.CreateAtPosition(Archetype.Find("arc_pausemenu_quit"), this.StartingPosition);
+            this.DialogBox.Sprite.Color = Real4(0,0,0,0.0);
+            //find parts of this dialog box
+            this.FocusBg = this.DialogBox.FindChildByName("scn-focus");
+            this.Btn1 = this.DialogBox.FindChildByName("BtnYesMainMenu");
+            this.Btn2 = this.DialogBox.FindChildByName("BtnNo");
+            
+            //call fadein
+            this.FadeIn();
+        }
+        if(dialogType_ == "PauseControls")
+        {
+            this.StartingPosition = Real3(0,0,10);
+            //assign dialogbox to quit confirmation arc type
+            this.DialogBox = this.Space.CreateAtPosition(Archetype.Find("arc_pausecontrols"), this.StartingPosition);
+            this.DialogBox.Sprite.Color = Real4(0,0,0,0.0);
+            this.FocusBg = this.DialogBox.FindChildByName("scn-focus");
+            this.Btn1 = this.DialogBox.FindChildByName("BtnYes");
+            this.Btn2 = this.DialogBox.FindChildByName("BtnNo");
+            
+            //call fadein
+            this.FadeIn();
+        }
+        if(dialogType_ == "PauseCredits")
+        {
+            this.StartingPosition = Real3(0,0,10);
+            //assign dialogbox to quit confirmation arc type
+            this.DialogBox = this.Space.CreateAtPosition(Archetype.Find("arc_pausecredits"), this.StartingPosition);
+            this.DialogBox.Sprite.Color = Real4(0,0,0,0.0);
+            this.FocusBg = this.DialogBox.FindChildByName("scn-focus");
+            this.Btn1 = this.DialogBox.FindChildByName("BtnYes");
+            this.Btn2 = this.DialogBox.FindChildByName("BtnNo");
+            
+            //call fadein
+            this.FadeIn();
+        }
+        if(dialogType_ == "QuitConfirmation")
+        {
+            this.StartingPosition = Real3(0,0,10);
+            //assign dialogbox to quit confirmation arc type
+            this.DialogBox = this.Space.CreateAtPosition(Archetype.Find("arc_submenu_quit"), this.StartingPosition);
+            this.DialogBox.Sprite.Color = Real4(0,0,0,0.0);
+            //find parts of this dialog box
+            this.FocusBg = this.DialogBox.FindChildByName("scn-focus");
+            this.Btn1 = this.DialogBox.FindChildByName("BtnYes");
+            this.Btn2 = this.DialogBox.FindChildByName("BtnNo");
+            
+            //call fadein
+            this.FadeIn();
+        }
+        if(dialogType_ == "ThankYouQuitConfirmation")
+        {
+            //assign dialogbox to quit confirmation arc type
+            this.StartingPosition = Real3(0,0,26);
+            this.DialogBox = this.Space.CreateAtPosition(Archetype.Find("arc_ui_quit"), this.StartingPosition);
+            this.DialogBox.Sprite.Color = Real4(0,0,0,0.0);
+            //find parts of this dialog box
+            this.FocusBg = this.DialogBox.FindChildByName("scn-focus");
+            this.Btn1 = this.DialogBox.FindChildByName("BtnYes");
+            this.Btn2 = this.DialogBox.FindChildByName("BtnNo");
+            
+            //call fadein
+            this.FadeIn();
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeIn()
+    //EXPLANATION-Transparency 0.0 -> 1.0
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeIn():Void
+    {
+        //create action sequence
+        var aFadeIn = Action.Group(this.Owner.Actions);
+        
+        //move into position
+        Action.Property(aFadeIn,
+                        @this.DialogBox.Transform.Translation,
+                        this.StartingPosition,
+                        0.1,
+                        Ease.Linear);
+                        
+        //fade in quit dialog
+        Action.Property(aFadeIn,
+                        @this.DialogBox.Sprite.Color,
+                        Real4(1,1,1,1.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //fade in focus
+        Action.Property(aFadeIn,
+                        @this.FocusBg.Sprite.Color,
+                        Real4(1,1,1,1.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //fade in Btn1
+        Action.Property(aFadeIn,
+                        @this.Btn1.Sprite.Color,
+                        Real4(1,1,1,1.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //fade in Btn2
+        Action.Property(aFadeIn,
+                        @this.Btn2.Sprite.Color,
+                        Real4(1,1,1,1.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FadeOut
+    //EXPLANATION-Transparency 1.0 -> 0.0
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FadeOut():Void
+    {
+        //create action sequence
+        var aFadeOut = Action.Group(this.Owner.Actions);
+        
+        //fade in quit dialog
+        Action.Property(aFadeOut,
+                        @this.DialogBox.Sprite.Color,
+                        Real4(1,1,1,0.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //fade in focus
+        Action.Property(aFadeOut,
+                        @this.FocusBg.Sprite.Color,
+                        Real4(1,1,1,0.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //fade in Btn1
+        Action.Property(aFadeOut,
+                        @this.Btn1.Sprite.Color,
+                        Real4(1,1,1,0.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //fade in Btn2
+        Action.Property(aFadeOut,
+                        @this.Btn2.Sprite.Color,
+                        Real4(1,1,1,0.0),
+                        this.FadeInTime,
+                        Ease.Linear);
+                        
+        //bit of a delay
+        Action.Delay(aFadeOut, 1.0);
+        
+        //move out position
+        Action.Call(aFadeOut, this.MoveAway);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-MoveAway
+    //EXPLANATION-Wait,then move away so we don't accidentally click the yes or no buttons
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function MoveAway():Void
+    {
+        var aWaitThenMove = Action.Sequence(this.Owner.Actions);
+        
+        //wait
+        Action.Delay(aWaitThenMove, 1.5);
+        if(this.DialogBox == null)
+        {
+            this.DetermineDialogBox("PauseMenu");
+        }
+            //move out position
+            Action.Property(aWaitThenMove,
+                            @this.DialogBox.Transform.Translation,
+                            Real3(this.StartingPosition.X, -50, this.StartingPosition.Z),
+                            0.1,
+                            Ease.Linear);
+    }
+}

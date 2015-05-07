@@ -1,0 +1,38 @@
+class MovingObject : ZilchComponent
+{
+    var Starting : Real3 = Real3(0,0,0);
+    
+    [Property]
+    var Movement : Real3 = Real3(3,0,0);
+    
+    [Property]
+    var Speed : Real = 10;
+    
+    [Property]
+    var Ease : Ease = Ease.Linear;
+    
+    function Initialize(init : CogInitializer)
+    {
+        this.Starting = this.Owner.Transform.Translation;
+        
+        this.MoveAround();
+    }
+    
+    function MoveAround()
+    {
+        var seq = Action.Sequence(this.Owner.Actions);
+        
+        var length = Math.Length(this.Movement);
+        
+        var time = length / this.Speed;
+          
+        Action.Property(seq, @this.Owner.Transform.Translation, 
+        this.Starting + this.Movement, time, this.Ease);
+        
+        Action.Property(seq, @this.Owner.Transform.Translation, 
+        this.Starting , time, this.Ease);
+        
+        Action.Call(seq, this.MoveAround);
+    }
+
+}

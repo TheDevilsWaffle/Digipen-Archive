@@ -1,0 +1,68 @@
+class Gun : ZilchComponent
+{
+    [Dependency]
+    var Transform : Transform = null;
+
+    [Dependency]
+    var Orientation : Orientation = null;
+    
+        
+    [Property]
+    var Projectile : Archetype = null;
+    
+    [Property]
+    var Offset : Real3 = Real3(0,0.5,0);
+    
+    [Property]
+    var MuzzleSpeed : Real = 10;
+    
+    [Property]
+    var FireSpeed : Real = 1;
+    
+    var TimeSinceFire : Real = 0;
+    
+    function Initialize(init : CogInitializer)
+    {
+        this.TimeSinceFire = this.FireSpeed;
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        
+        var mouseScreen = Zero.Mouse.ScreenPosition;
+        
+        var mouseWorld = this.LevelSettings.CameraViewport.ScreenToWorldZPlane(mouseScreen, 0);
+      
+        this.Orientation.LookAtDirection(mouseWorld - this.Transform.WorldTranslation);
+        
+        if(Zero.Keyboard.KeyIsDown(Keys.Space))
+        {
+            if(this.TimeSinceFire > this.FireSpeed)
+            {
+                this.TimeSinceFire = 0;
+                
+                var worldOffset = this.Transform.TransformPoint(this.Offset);
+
+                var projectile  = this.Space.CreateAtPosition( this.Projectile,
+                 worldOffset);
+                 
+                 projectile.Orientation.LookAtDirection(this.Orientation.WorldForward);
+                 
+                 
+                if(projectile.RigidBody != null)
+                {
+                    projectile.RigidBody.Velocity =  
+                this.Orientation.WorldForward
+                 * this.MuzzleSpeed;
+                }
+   
+            }
+            
+
+        }   
+        
+        this.TimeSinceFire += event.Dt;    
+        
+    }
+}

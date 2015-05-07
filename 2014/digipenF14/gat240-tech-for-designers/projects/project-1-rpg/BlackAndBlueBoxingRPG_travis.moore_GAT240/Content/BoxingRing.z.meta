@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "BoxingRing",
+		uint64 ResourceId = 54acc8d18daa9607,
+	},
+},

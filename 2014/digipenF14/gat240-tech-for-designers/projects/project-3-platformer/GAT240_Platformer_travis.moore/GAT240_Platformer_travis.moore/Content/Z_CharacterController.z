@@ -1,0 +1,192 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_CharacterController.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_CharacterController:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var JumpCount:Integer = 1;
+    [Property]
+    var MaxJumps:Integer = 1;
+    //non-settables
+    var WallCount:Integer = 0;
+    var WallTimer:Real = 0;
+    var WallNormal:Real3 = Real3();
+    var StartPosition:Real3 = Real3();
+    
+    //DEPENDENCIES
+    [Dependency]
+    var SweptController:SweptController = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        Zero.Connect(this.Owner, Events.CollisionEnded, this.OnCollisionEnded);
+        
+        //set start position
+        this.StartPosition = this.Space.LevelSettings.Z_LevelVariables.PlayerPosition;
+        this.Owner.Transform.Translation = this.StartPosition;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionEnded
+    //EXPLANATION-decrement wallcount and give player leeway to jump off of wall
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionEnded(event:CollisionEvent):Void
+    {
+        //wall must have wall script
+        if(event.OtherObject.Z_Wall != null)
+        {
+            //decrement wallcount
+            --this.WallCount;
+            //set walltimer to give player leeway to jump
+            this.WallTimer = 0.2;
+        }
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted
+    //EXPLANATION-enable walljumping by adding to wallcount, establish wall normal
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event:CollisionEvent):Void
+    {
+        //wall must have wall script
+        if(event.OtherObject.Z_Wall != null)
+        {
+            //increment wallcount
+            ++this.WallCount;
+            //establish normal
+            this.WallNormal = -event.FirstPoint.WorldNormalTowardsOther;
+        }
+        
+        //when hitting a checkpoint, save this position in the level
+        if(event.OtherObject.Z_Checkpoint != null)
+        {
+            var checkpointPosition = event.OtherObject.Transform.Translation;
+            
+            checkpointPosition.Y = this.Owner.Transform.Translation.Y;
+            
+            this.Space.LevelSettings.Z_LevelVariables.PlayerPosition = checkpointPosition;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Perform actions every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //JUMPING
+        //if player is on ground reset jump count.
+        if(this.SweptController.Grounded)
+        {
+            this.JumpCount = this.MaxJumps;
+        }
+        
+        //WALLJUMPING
+        //used for leeway to let player jump off of wall
+        this.WallTimer -= event.Dt;
+        
+        //if we are touching a wall affect gravity
+        if(this.WallCount > 0)
+        {
+            this.SweptController.Gravity = 4;
+        }
+        else
+        {
+            this.SweptController.Gravity = 10;
+        }
+        
+        //MOVEMENT
+        //variable to store movement direction
+        var movement = Real3(0,0,0);
+        
+        //if moving left
+        if(Zero.Keyboard.KeyIsDown(Keys.A))
+        {
+            //set movement direction
+            movement = Real3(-1,0,0);
+            //flip the monkey the left direction
+            this.Owner.Sprite.FlipX = false;
+        }
+        
+        //if moving right
+        if(Zero.Keyboard.KeyIsDown(Keys.D))
+        {
+            //set movement direction
+            movement = Real3(1,0,0);
+            
+            //flip the monkey the right direction
+            this.Owner.Sprite.FlipX = true;
+        }
+        
+        if(Zero.Keyboard.KeyIsPressed(Keys.S))
+        {
+            this.MonkeyScreech();
+        }
+        
+        //opposite gravity
+        if(Zero.Keyboard.KeyIsPressed(Keys.G))
+        {
+            this.SweptController.WorldUp = -this.SweptController.WorldUp;
+        }
+        
+        //if jumping
+        if(Zero.Keyboard.KeyIsPressed(Keys.Space))
+        {
+            //ensure we can jump
+            if(this.SweptController.Grounded || this.JumpCount > 0)
+            {
+                //decrement jumping
+                --this.JumpCount;
+                //unconditional jump allows for double jumping
+                this.SweptController.JumpUnconditionally();
+                //play jump sound
+                this.Space.SoundSpace.PlayCue(SoundCue.Find("SFXJump"));
+            }
+            //if walljump is possible
+            else if(this.WallCount > 0 || this.WallTimer > 0)
+            {
+                //decrement jumpcount
+                --this.JumpCount;
+                //jump directionally based off of wall normal
+                this.SweptController.JumpDirectionally( this.WallNormal * 10 );
+                //play wall jump sound
+                this.Space.SoundSpace.PlayCue(SoundCue.Find("SFXWallJump"));
+            }
+        }
+        
+        //apply movement
+        this.SweptController.Update(movement, event.Dt);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-MonkeyScreech
+    //EXPLANATION-randomly choose a monkey screech to play
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function MonkeyScreech():Void
+    {
+        //random for random die roll
+        var random = new Random();
+        var result:Integer = random.DieRoll(2);
+        
+        if(result == 1)
+        {
+            //play monkey screech sound
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("SFXMonkeyScreech"));
+        }
+        if(result == 2)
+        {
+            //play different monkey screech sound
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("SFXMonkeyHowl"));
+        }
+    }
+}

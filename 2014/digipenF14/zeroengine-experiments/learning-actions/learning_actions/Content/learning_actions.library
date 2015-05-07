@@ -1,0 +1,7 @@
+ContentLibrary = 
+{
+	string Name = "learning_actions",
+	uint64 LibraryId = 5409236828897523,
+	string SourceControlType = "",
+	bool ReadOnly = false,
+},

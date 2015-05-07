@@ -1,0 +1,107 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+class Z_EnemyGun:ZilchComponent
+{
+    [Dependency]
+    var Transform:Transform = null;
+    [Dependency]
+    var Orientation:Orientation = null;
+    [Property]
+    var Projectile:Archetype = null;
+    [Property]
+    var Offset:Real3 = Real3(0,2.0,0);
+    [Property]
+    var MuzzleSpeed:Real = 10;
+    [Property]
+    var FireSpeed:Real = 1;
+    [Property]
+    var TimeSinceFire:Real = 1.0;
+    [Property]
+    var RotationSpeed:Real = 700;
+    [Property]
+    var ScanningRotationSpeed:Real = 100;
+    
+    //Enemy this is firing the gun
+    var Enemy:Cog = null;
+    //Target we are shooting at
+    var Target:Cog = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/event listeners for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        this.TimeSinceFire = this.FireSpeed;
+        //assign the enemy that is firing it
+        this.Enemy = this.Owner.Parent;
+        //assign the target we are shooting at
+        this.Target = this.Enemy.Z_EnemyController.Target.Cog;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Shoot
+    //EXPLANATION-Shoot at the Player
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Shoot(event:UpdateEvent):Void
+    {
+        //make the turret track the target
+        this.RotateTowardsTarget(event);
+        
+        if(this.TimeSinceFire > this.FireSpeed)
+        {
+            //reset the TimeSinceFire
+            this.TimeSinceFire = 0;
+            
+            //update the worldOffset
+            var worldOffset = this.Transform.TransformPoint(this.Offset);
+            
+            //create projectile at location
+            var projectile  = this.Space.CreateAtPosition(this.Projectile, worldOffset);
+            // Shoot in the direction of the target (which is the same as the chase Direction)
+            var projectileDirection = this.Enemy.Z_EnemyController.ChaseDirection;
+            // Make sure projectile moves faster than the target
+            projectile.RigidBody.Velocity =  projectileDirection * this.MuzzleSpeed;
+        }
+        //update TimeSinceFire
+        this.TimeSinceFire += event.Dt;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-RotateTowardsTarget
+    //EXPLANATION-Grabs target location and orients turret towards it.
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function RotateTowardsTarget(event:UpdateEvent):Void
+    {
+        // get the target's location
+        var targetLocation = this.Target.Transform.Translation;
+        
+        // Get the rotation need to look at the point
+        var targetRotation = this.Owner.Orientation.GetLookAtPointRotation(targetLocation);
+        //get our current rotation
+        var currentRotation = this.Owner.Transform.Rotation;
+        
+        // Move towards the needed rotation at RotationSpeed
+        var partialRotation = Math.RotateTowards(currentRotation, targetRotation, Math.ToRadians(this.RotationSpeed) * event.Dt);
+        this.Owner.Transform.Rotation = partialRotation;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ScanningRotation
+    //EXPLANATION-Grabs target location and orients turret towards it.
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ScanningRotation(event:UpdateEvent):Void
+    {
+        //set rotation
+        var rotation = Math.ToRadians(this.ScanningRotationSpeed) * event.Dt;
+        //set quaternion
+        var localRotation = Math.ToQuaternion( Real3(0,0,1), rotation);
+        //apply rotation
+        this.Transform.RotateLocal(localRotation);
+    }
+}

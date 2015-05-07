@@ -1,0 +1,28 @@
+<SpriteData>
+			
+  <Columns> 15 </Columns>
+  <Rows> 11 </Rows>
+  <TileWidth> 50 </TileWidth>
+  <TileHeight> 50 </TileHeight>
+					
+  <TileIDs>
+    <tile id="4" name="Coin" class_name="GamePlay.Level2.CoinSP" class_type="gameobject"> </tile>
+    <tile id="5" name="Hero" class_name="GamePlay.Level2.HeroSP" class_type="gameobject"> </tile>
+    <tile id="6" name="Door" class_name="Door" class_type="displayobject"> </tile>
+  </TileIDs>
+					
+  <TileMap>
+    <Row> -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 </Row>
+    <Row> -1, 6,-1,-1,-1,-1,-1,-1,-1,-1,-1, 4, 4, 4,-1 </Row>
+    <Row> -1,-1,-1,-1, 4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 </Row>
+    <Row> -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 </Row>
+    <Row> -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 </Row>
+    <Row> -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 </Row>
+    <Row> -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 4,-1 </Row>
+    <Row> -1,-1,-1,-1,-1, 4,-1,-1,-1,-1,-1,-1, 4,-1,-1 </Row>
+    <Row> -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 4,-1,-1,-1 </Row>
+    <Row> -1, 5,-1,-1,-1,-1,-1,-1,-1,-1, 4,-1,-1,-1,-1 </Row>
+    <Row> -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1 </Row>
+  </TileMap>
+			
+</SpriteData>

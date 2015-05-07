@@ -1,0 +1,99 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+class Z_ScreenWrap : ZilchComponent
+{
+    [Property]
+    var WrapperOffset:Real = 1;
+    
+    //Standin for the player
+    var Player:Cog = null;
+    
+    //player's real3 location
+    var PlayerLocation:Real3 = Real3(0,0,0);
+    
+    //name of current wrapper
+    var WrapperID:String = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/event listeners for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        
+        //get which wrapper this is
+        this.WrapperID = this.Owner.Name;
+        //make sure this object's alpha is set to zero
+        //this.Owner.Sprite.Color = Real4(0,0,0,0.0);
+        //set player object
+        this.Player = this.Space.FindObjectByName("Player");
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted
+    //EXPLANATION-When things come into contact with the screen wrap regions
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event : CollisionEvent)
+    {
+        //if the player ran into these zones
+        if(event.OtherObject.Name == this.Player.Name)
+        {
+            //get the player's location in Real3
+            this.PlayerLocation = Real3(this.Player.Transform.Translation.X,
+                                        this.Player.Transform.Translation.Y,
+                                        this.Player.Transform.Translation.Z);
+            //if the wrapper is the left wrapper
+            if(this.WrapperID == "Wrapper-Left")
+            {
+                //get the opposite wrapper
+                var oppositeWrapper = this.Space.FindObjectByName("Wrapper-Right").Transform.Translation.X;
+                //move the player appropriately
+                this.Player.Transform.Translation = Real3((oppositeWrapper - this.WrapperOffset),
+                                                          this.PlayerLocation.Y,
+                                                          this.PlayerLocation.Z);
+            }
+            //if the wrapper is the right wrapper
+            if(this.WrapperID == "Wrapper-Right")
+            {
+                //get the opposite wrapper
+                var oppositeWrapper = this.Space.FindObjectByName("Wrapper-Left").Transform.Translation.X;
+                //move the player appropriately
+                this.Player.Transform.Translation = Real3((oppositeWrapper + this.WrapperOffset),
+                                                          this.PlayerLocation.Y,
+                                                          this.PlayerLocation.Z);
+            }
+            //if the wrapper is the up wrapper
+            if(this.WrapperID == "Wrapper-Up")
+            {
+                //get the opposite wrapper
+                var oppositeWrapper = this.Space.FindObjectByName("Wrapper-Down").Transform.Translation.Y;
+                //move the player appropriately
+                this.Player.Transform.Translation = Real3(this.PlayerLocation.X,
+                                                          (oppositeWrapper + this.WrapperOffset),
+                                                          this.PlayerLocation.Z);
+            }
+            //if the wrapper is the down wrapper
+            if(this.WrapperID == "Wrapper-Down")
+            {
+                //get the opposite wrapper
+                var oppositeWrapper = this.Space.FindObjectByName("Wrapper-Up").Transform.Translation.Y;
+                //move the player appropriately
+                this.Player.Transform.Translation = Real3(this.PlayerLocation.X,
+                                                          (oppositeWrapper - this.WrapperOffset),
+                                                          this.PlayerLocation.Z);
+            }
+        }
+        //object is not the player, destroy it
+        else
+        {
+            //kill it! KILL IT NAO!
+            event.OtherObject.Destroy();
+        }
+    }
+}

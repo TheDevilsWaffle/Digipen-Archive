@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "DynamicCharacterController",
+		uint64 ResourceId = 5423d8829febd4be,
+	},
+},

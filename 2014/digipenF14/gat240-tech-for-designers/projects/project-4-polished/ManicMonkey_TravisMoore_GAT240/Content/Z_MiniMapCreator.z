@@ -1,0 +1,24 @@
+class Z_MiniMapCreator:ZilchComponent
+{
+    // The level that our Hud is contained within
+    [Property]
+    var MiniMapLevel : Level = null;
+    [Property]
+    var SpaceArchetype : Archetype = Archetype.Find("Space");
+    
+    // Store the space where our Hud is so that we can access and destroy it
+    var MiniMapSpace : Space = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        // Create the hud space and then load our hud level into it
+        this.MiniMapSpace = this.GameSession.CreateNamedSpace("MiniMapSpace", this.SpaceArchetype);
+        this.MiniMapSpace.LoadLevel(this.MiniMapLevel);
+    }
+    
+    function Destroyed()
+    {
+        // Make sure to clean up the Hud space when we get destroyed
+        this.MiniMapSpace.Destroy();
+    }
+}

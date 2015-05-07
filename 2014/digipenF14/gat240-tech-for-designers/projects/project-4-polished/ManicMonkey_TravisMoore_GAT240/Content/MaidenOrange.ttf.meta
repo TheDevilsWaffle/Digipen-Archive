@@ -1,0 +1,8 @@
+FontContent = 
+{
+	FontBuilder = 
+	{
+		string Name = "MaidenOrange",
+		uint64 ResourceId = 54bd4ab22827011a,
+	},
+},

@@ -1,0 +1,380 @@
+<!doctype html>
+    <!--[if lt IE 7 ]><html dir="ltr" lang="en-US" class="no-js ie ie6 lte7 lte8 lte9"><![endif]-->
+    <!--[if IE 7 ]><html dir="ltr" lang="en-US" class="no-js ie ie7 lte7 lte8 lte9"><![endif]-->
+    <!--[if IE 8 ]><html dir="ltr" lang="en-US" class="no-js ie ie8 lte8 lte9"><![endif]-->
+    <!--[if IE 9 ]><html dir="ltr" lang="en-US" class="no-js ie ie9 lte9"><![endif]-->
+    <!--[if (gt IE 9)|!(IE)]><!--><html dir="ltr" lang="en-US"> <!--<![endif]-->
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CS116 | Lecture Notes</title>
+        <link rel="stylesheet" type="text/css" href="foundation-5.4.0\css\foundation.min.css">
+
+        <style type="text/css">
+            html, 
+            html a {
+                    -webkit-font-smoothing: antialiased;
+                    text-shadow: 0.1em 0.1em 0.1em rgba(0,0,0,0.004);
+            }
+            h3 {
+            	padding: 0.25em 0 0 0;
+                color: rgb(10,120,180);
+            }
+            i {
+                font-style: normal;
+            }
+            .pTrue,
+            .pFalse {
+                color: rgb(80,100,180);
+                font-style: normal;
+            }
+            .pFalse {
+                color: rgb(180,100,80);
+            }
+            .indent-1tab{
+                margin-left: 2em;
+            }
+            pre {
+            	background: #eee;
+            	border: 0.25em solid #ccc;
+            }
+            code {  
+                border: none;
+                font-size: 0.95em;
+                font-weight: lighter;
+                line-height: 1.35em;
+                background: none;
+                white-space: pre-wrap;        
+            }
+            .comments {
+                color: rgb(100,100,100);
+            }
+            .keyword {
+                color: rgb(200,80,60);
+            }
+            .identifier {
+                color: rgb(80, 120, 200);
+            }
+            .string {
+                color: rgb(180, 120, 10);
+            }
+            .row-shading,
+                            .row-noshading {
+                padding: 1em 1.5em;
+                margin: 1em 0;
+                border: 0.25em solid rgb(200,200,200);
+                border-top-width: 0;
+                margin: 0;
+            }
+            .row-shading {
+                 background-color: rgb(220,220,220);
+            }
+            .add-top-border {
+                border-top-width:  0.25em;
+            }
+            .top-bar {
+            	background-color: #222;
+            }
+            hr {
+            	margin-top: 2.5em;
+            	margin-bottom: 2.5em;
+            }
+            .highlight {
+                background-color: rgba(20,110,250,0.2);
+            }
+        </style>
+        <script src="foundation-5.4.0/js/vendor/modernizr.js"></script>    
+    </head>
+    <body>
+    	<div class="row">
+    		<div class="large-12 small-12">
+    			<div class="fixed">
+  					<nav class="top-bar" data-topbar role="navigation">
+						<ul class="title-area">
+						    <li class="name">
+						      <h1><a href="#">CS176 Notes</a></h1>
+						    </li>
+						     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+						    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+						  </ul>
+
+						  <section class="top-bar-section">
+						    <!-- Right Nav Section -->
+						    <ul class="right">
+						      <li class="has-dropdown">
+						        <a href="#">Menu</a>
+						        <ul class="dropdown">
+						          <li><a href="#Classes">Classes</a></li>
+						          <li><a href="#XML">XML</a></li>
+                                  <li><a href="#TileMaps">Tile Maps</a></li>
+                                  <li><a href="#BitWiseOperators">Bitwise Operators</a></li>
+                                  <li><a href="#TileBasedCollision">Tile Based Collision</a></li>
+						          <li><a href="#Vectors">Vectors</a></li>
+						        </ul>
+						      </li>
+						    </ul>
+  					</nav>
+				</div>
+    		</div>
+    	</div>
+        <div class="row">
+            <div class="large-10 small-10 small-centered large-centered columns">
+                <h1>CS-176 Recap Notes</h1>
+                <a href="#" name="Classes"></a>
+                <hr>
+                <h2>Classes</h2>
+                <p>In a nutshell, classes represent objects. They store information in the form of <em>functions</em> and <em>variables.</em></p>
+                <h3>Class Structure</h3>
+                <p>Generally this is the makeup of an <strong>AS3</strong> class:</p>
+	<pre><code>
+	package
+	{
+
+	    public class Poop
+	    {
+	        //properties belonging to the class
+	        public var nThing1:String;
+	        public var sThing2:String;
+	        
+	        //the constructor is a type of method
+	        public function Poop(nThing_:Number, sThing2_:String)
+	        {
+	            nThing1 = 2;
+	            sThing2 = "hello";
+	        }
+
+	        //other methods belonging to the class
+	        public function doThings()
+	        {
+	            trace(sThing2 + "! I like " + nThing1 + ".");
+	        }
+	    }
+	}
+	</pre></code>
+                
+                <h3>Class Constructor</h3>
+                <p>The class constructor is called at the creation of an object that uses this class. It is called <strong>ONLY</strong> at the creation of the object, and is usually used to initialize the properties of a class. For example, upon creation you could initialize the properties uniquely per object creation:</p>
+                <pre><code>
+    <i class="comments">//create new Poop class object
+    //set number = 3, 
+    //set string = yikes</i>
+    var crapCharacter:Poop = new Poop(3, "yikes");
+                </pre></code>
+                
+                <h3>Creating an Instance of the Class</h3>
+                <p>Creating an instance involves making a new variable object that is set to the class you made, then calling it a new class object.</p>
+                <pre><code>
+    var crapCharacter:Poop = new Poop();
+                </code></pre>
+                
+                <h3>Accessing Class Attributes</h3>
+                <p>Accessing properties and methods within a class uses the "." operator</p>
+                <pre><code>
+    var crapCharacter:Poop = new Poop();
+
+    <i class="comments">//accessing a property</i>
+    trace(crapCharacter.something); //this would trace out "2"
+
+    <i class="comments">//accessing a method</i>
+    crapCharacter.doThings(); //this runs the doThings function
+                </pre></code>
+				
+				<a href="#" name="XML"></a>
+				<hr>
+                <h2>XML</h2>
+                <sub>
+                    <a href="week-3-XML.pdf">full lecture pdf</a>
+                </sub>
+                <h3>Elements</h3>
+                <p>XML is a <strong>non-functional</strong> data storage file. XML data is formatted into <em>elements</em>. They use a hierarchical structure. Every XML document has a single element as the top level or main item, inside this element there is a piece, or pieces, of infomration. Elments are also known as <em>nodes.</em> Do not use XML as a database, it is a dumb/non-checked file and provides no security.</p>
+                <p>Elements are distinguishable by <em>tags</em>. There is an openning tag, &lt; &gt;, followed by a closing tag, &lt;/ &gt;. Attributes are tucked in tags, but should honestly just be separate elements within the heirarchial structure. <strong>When accessing elements in an XML file, ignore the first element, it is the root and not needed when traversing.</strong></p>
+                <h3>Common XML Tasks</h3>
+                <p>When you work with XML in ActionScript, you are likely to do the following tasks:
+                <ul>
+                    <li>Constructing XML documents</li>
+                    <li>Accessing XML elements, values, and attributes</li>
+                    <li>Filtering (searching in) XML elements</li>
+                    <li>Looping over a set of XML elements</li>
+                    <li>Converting data between XML classes and the String class</li>
+                    <li>working with XML namespaces</li>
+                    <li>Loading external</li>
+                </ul>
+                </p>
+                <h3>Actionscript and XML</h3>
+                <p><strong>XML</strong> reads a single XML element but parses its hierarchy. Use this one more than anything else.</p>
+                <p><strong>XMLList</strong> reads only the top-most XML elmenets in a hierarchical structure and returns all elements at the top.</p>
+
+                <p class="keyword"><strong>IMPORTANT: </strong><em>Look at <a href="week-3-XML.pdf#page=13">XML</a> slide 13 and 14, super important information on how the classes URLLoader and URLRequest works.</em></p>
+
+                <h3>Creating an XML Manager</h3>
+                <p>Steps:</p>
+                <ol>
+                	<li>Vector of XMLs</li>
+                	<li>Initialize / Destroy</li>
+                	<li>Get XML(name)</li>
+                	<li>Remove XML(name)</li>
+                	<li>ALL</li>
+                	<li>ALL</li>
+                	<li>Load XML</li>
+                </ol>
+
+				<a href="#" name="TileMaps"></a>
+				<hr>
+                <h2>Tile Maps</h2>
+                <sub>
+                    <a href="week-4-tile-maps.pdf">full lecture pdf</a>
+                </sub>
+                <h3>Benefits</h3>
+                <p>Tile based games are special in many ways:
+				<ul>
+					<li>Easy object creation</li>
+					<li>Fast collision checking using a binary map (or an enhanced binary map)</li>
+					<li>Enchanced rendering by only updating the tiles that changed</li>
+				</ul>
+                </p>
+
+                <h3>Object Creation</h3>
+                <p>A tile map is just another array with numbers where every number represents a certain tile or object. Knowing the width and height of a tile helps us place all the objects. Knowing the length of hte array (rows and columns) is enough information to be able to place the objects on the screen.</p>
+                <p>You can also use an array for dynamic objects to keep track of negative space (-1) and objects (4's or anything else really) Then you read both XML files and create 1 array that shows what is on the screen (and also only change what has changed on the screen instead of updating EVERYTHING.</p>
+
+                <h3>Tile Maps & Our Engine</h3>
+                <p>Two XML files will be used:
+				<ul>
+					<li><strong>BackgroundData.xml</strong>: Contains all background info</li>
+					<li><strong>SpriteData.xml</strong>: Contains all dynamic sprite info</li>
+				</ul>
+                </p>
+
+                <h3>Data in the XML</h3>
+                <p>1&mdash;Start by <strong>getting how many rows and columns are in the tile map</strong>. This information is needed so we know the limits of how many tiles we have and how we will parse it.</p>
+                <p>2&mdash;Next, <strong>get the tile's dimension</strong> since that will be important when we are placing tiles.</p>
+                <p>3&mdash;Thirdly, <strong>get the tile information</strong>, specifically:
+					<ul>
+						<li><code>id=" ":</code> the tile map will be made up of individual ids. When parsing the tile map we need to know which tile to add from the unique ids.</li>
+						<li><code>name=" ":</code> every game object in our engine has to have a name when we add an object to the <em>ObjectManager</em>.</li>
+						<li><code>class_name=" ":</code> This is the <em>most important</em> part of the tile's information. Every tile will have a class in our system, that class can be a shape (displayobject, sprite, MovieClip, etc&hellip;) or it can be a class that we implement that extends from <em>GameObject</em>. We need the class_name to specify the class we need in order to instantiate one of that specific tile.</li>
+						<li><code>class_type=" ":</code> The class_type will specify to us if the previously provided class_name is a displayobject or a class that extends from <em>GameObject</em>.</li>
+					</ul>
+                </p>
+
+                <h3>Parsing the XML</h3>
+                <p>We have methods of obtaining information within the XML files:</p>
+                <ul>
+                	<li class="[warning alert secondary] label">IMPORTANT&mdash;<code>getDefinitionByName:</code> Used to get a class object from the class_name and instantiate as many instances as we want.</li>
+                </ul>
+
+                <a href="#" name="BitWiseOperators"></a>
+                <hr>
+                <h2>Bitwise Operators</h2>
+                <sub>
+                    <a href="week-5-bitwise-operators.pdf">full lecture pdf</a>
+                </sub>
+
+
+                <a href="#" name="TileBasedCollision"></a>
+                <hr>
+                <h2>Tile Based Collision</h2>
+                <sub>
+                    <a href="week-6-tile-based-collision.pdf">full lecture pdf</a>
+                </sub>
+                <h3>Binary Maps</h3>
+                <p>Instead of checking for collision against every bounding rectangle on each tile, we can use a <strong>Binary Map</strong> of ones and zeros (ones are collision areas, zeros are non-collision areas).</p>
+                <blockquote>
+                    <h5>How it works:</h5>
+                    <ul>
+                        <li>Binary map collision relies on the world behaving like a grid</li>
+                        <li>Game object instances are able to access a new cell depending on that cell's value.</li>
+                        <li class="highlight">Uses a 2-Dimensional array of booleans to represent the 2D grid, performs a check against this array to see if the player can move there</li>
+                    </ul>
+                </blockquote>
+                <h3>Point Collision</h3>
+                <p>Use the 2D array to check to see if a point is in a solid cell</p>
+                <div class="large-10 small-10 large-centerd small-centered columns">   
+                    <img src="resources/tbc-example-1.png" alt="Point Collision">
+                </div>
+                <h3>Hot Spots</h3>
+                <p>But our character is not just a point, he has a mass. So we use <strong>Hot Spots</strong> to check for collision using multiple points.</p>
+                <div class="large-10 small-10 large-centerd small-centered columns">   
+                    <img src="resources/tbc-example-2.png" alt="Hot Spots">
+                </div>
+                <h3>Snapping</h3>
+                <p>If at least one hot spot is inside a collision area, we should snap the spirte back to the center of the cell outside of the collision.</p>
+                <div class="large-10 small-10 large-centerd small-centered columns">   
+                    <img src="resources/tbc-example-3.png" alt="Hot Spots">
+                </div>
+
+                 <a href="#" name="Vectors"></a>
+                <hr>
+                <h2>Vectors</h2>
+                <sub>
+                    <a href="week-7-vectors.pdf">full lecture pdf</a>
+                </sub>
+                <h3>2D Cartesian Coordinate System</h3>
+                <p>a 2D Cartesian coordinate system is a system of reference for positions. It psistions, <em>or locates</em>, objects ina 2D space. It consists of an <strong>origin</strong> and <strong>two perpendicular axes</strong> coupled with a length unit such as meter, foot, or pixel. Any point in a 2D Vartesian coordinate system is described by a couple of numbers called <strong>components (x,y)</strong> that specify the distances from the axes.</p>
+                <p>A vector is <strong>not a point</strong>, it is a <strong>direction and magnitude</strong>.</p>
+                <h3>Getting the vector between two objects</h3>
+                <p>Having two objects A and B with position (x1, y1) and (x2, y2) respectively, we can get the vector from A to B by doing the folllowing:
+                <blockquote>
+                    x = x<sub>2</sub> - x<sub>1</sub><br />
+                    y = y<sub>2</sub> - y<sub>1</sub><br />
+                </blockquote>
+                </p>
+
+                <h3>Vector Magnitude</h3>
+                <p>The magnitude of a vector having x and y as its components is dtermined by plugging the components into the following formula (the distance formula):
+                    <blockquote>
+                        <h5>distance formula</h5>
+                        &radic;x<sup>2</sup> + y<sup>2</sup>
+                    </blockquote>
+                The answer gives you the magnitude and is represented as an absolute value as <sup>-></sup>AB or ||AB||.</p>
+                <h3>Translating an object using a vector</h3>
+                <p>Using the distance or vector will always put an enemy right on top of a character, so we need to create a way for the enemy to get there over some time.</p>
+                <p>We use the enemy's x and y and add the vector to every point:
+                    <blockquote>
+                        <h5>Translating using a vector</h5>
+                        x<sub>new</sub> = x<sub>enemy</sub> + x<sub>vector</sub><br />
+                        y<sub>new</sub> = y<sub>enemy</sub> + y<sub>vector</sub><br />
+                    </blockquote>
+                </p>
+                <h3>Unit Vector</h3>
+                <p>A unit vector, <em>or normalized vector</em>, is any vector with a length of one. <strong>Unit vectors are used to simply indicate direction</strong>. A vector of any arbitrary length can be divided by its length to create a unit vector. The unti vector is often indicated with a hat: &acirc;. 99% of the time you should use unit vectors when determining direction.</p>
+                <blockquote>
+                    <h5>Example: Normalizing a Vector</h5>
+                    <p>Just take a vector and divide it by its magnitude.</p>
+                    <p>V(4,3)
+                    Magnitude = ||V|| = &radic;4<sup>2</sup> + 3<sup>2</sup> =  &radic;25 = 5
+                    V.x = 4/5 and V.y = 3/5 = &acirc;(0.8, 0.6)</p>
+                </blockquote>
+                <h3>Angle to Unit Vector</h3>
+                <p>Use the angle to get the direction:
+                <blockquote>
+                    &acirc; = (cos &alpha;,sin &alpha;)
+                    <h5>Example:</h5>
+                    <p>If the object is rotated 30 degrees, we compute the vector that represents its direction by doing the following (you have to convert to radians from degrees to make it work in a game engine/scripting language):</p>
+                    &acirc;.x = cos(30) = 0.866&hellip;
+                    &acirc;.y = sin(30) = 0.5
+                </blockquote>
+                </p>
+
+
+
+
+
+
+
+
+            </div><!--END COLUMNS-->
+        </div><!--END ROW-->
+    </body>
+
+	<!--Javascript -->
+	<script src="foundation-5.4.0/js/vendor/jquery.js"></script>
+	<script src="foundation-5.4.0/js/foundation.min.js"></script>
+	<script src="foundation-5.4.0/js/foundation/foundation.js"></script>
+  	<script src="foundation-5.4.0/js/foundation/foundation.topbar.js"></script>
+	<script>
+  		$(document).foundation();
+	</script>
+
+</html>

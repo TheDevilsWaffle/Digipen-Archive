@@ -1,0 +1,24 @@
+class HudCreator : ZilchComponent
+{
+    // The level that our Hud is contained within
+    [Property]
+    var HudLevel : Level = null;
+    [Property]
+    var SpaceArchetype : Archetype = Archetype.Find("Space");
+    
+    // Store the space where our Hud is so that we can access and destroy it
+    var HudSpace : Space = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        // Create the hud space and then load our hud level into it
+        this.HudSpace = this.GameSession.CreateNamedSpace("HudSpace", this.SpaceArchetype);
+        this.HudSpace.LoadLevel(this.HudLevel);
+    }
+    
+    function Destroyed()
+    {
+        // Make sure to clean up the Hud space when we get destroyed
+        this.HudSpace.Destroy();
+    }
+}

@@ -1,0 +1,75 @@
+class PlayerController : ZilchComponent
+{
+    [Property]
+    var Speed : Real = 0;
+    
+    [Dependency]
+    var Transform : Transform = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        var movement = Real3(0,0,0);
+        var rotation = 0.0;
+        
+        
+        if(Zero.Keyboard.KeyIsDown(Keys.A))
+        {
+            movement += Real3(-1,0,0);
+        }
+        
+        if(Zero.Keyboard.KeyIsDown(Keys.D))
+        {
+            movement += Real3(1,0,0);
+        }
+        
+        if(Zero.Keyboard.KeyIsDown(Keys.W))
+        {
+            movement += Real3(0,1,0);
+        }  
+        
+        if(Zero.Keyboard.KeyIsDown(Keys.S))
+        {
+            movement += Real3(0,-1,0);
+        }  
+        
+        
+        if(Zero.Keyboard.KeyIsDown(Keys.E))
+        {
+            rotation = Math.ToRadians(600) * event.Dt;
+        }
+        
+        movement = Math.Normalize(movement);   
+        
+        
+        movement = this.Transform.TransformNormal(movement);
+        
+        
+        var localRotation = Math.ToQuaternion( Real3(0,0,1), rotation);
+
+        this.Transform.RotateLocal(localRotation);        
+        
+        //if(Zero.Keyboard.KeyIsDown(Keys.Space))
+        //{
+        //    var projArchetype = Archetype.Find("Blast");
+        //    var projectile  = this.Space.CreateAtPosition( projArchetype, this.Transform.Translation );
+        //    projectile.RigidBody.Velocity = Real3(0,10,0);
+        //}
+        
+       // var current = this.Transform.EulerAngles.Z;        
+        
+        //current += rotation;        
+        
+        //this.Transform.EulerAngles.Z = current;
+        
+        //this.Transform.EulerAngles = Real3(0, 0, current );
+        
+        this.Transform.Translation += movement * event.Dt * this.Speed;       
+        
+        
+    }
+}

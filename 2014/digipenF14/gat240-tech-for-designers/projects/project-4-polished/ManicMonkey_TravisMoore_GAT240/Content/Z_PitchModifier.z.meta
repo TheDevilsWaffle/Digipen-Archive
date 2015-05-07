@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_PitchModifier",
+		uint64 ResourceId = 54aced966b306b26,
+	},
+},

@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_CheatCodes",
+		uint64 ResourceId = 546a740dcaec2ab7,
+	},
+},

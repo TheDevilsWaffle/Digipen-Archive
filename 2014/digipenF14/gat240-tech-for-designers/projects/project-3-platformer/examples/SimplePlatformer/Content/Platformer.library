@@ -1,0 +1,7 @@
+ContentLibrary = 
+{
+	string Name = "Platformer",
+	uint64 LibraryId = 53fb7f4679ac94ea,
+	string SourceControlType = "",
+	bool ReadOnly = false,
+},

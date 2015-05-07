@@ -1,0 +1,82 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_CheatCodes : ZilchComponent
+{
+    //standin for the player
+    var Player:Cog = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        //set Player to our player
+        this.Player = this.Space.FindObjectByName("Player");
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Perform cheat related key presses
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        //LEVEL RELATED CHEATS
+        //reload level
+        if(Zero.Keyboard.KeyIsPressed(Keys.R))
+        {
+            this.Space.LevelSettings.Z_LevelLogic.ReloadCurrentLevel();
+        }
+        //instant win
+        if(Zero.Keyboard.KeyIsPressed(Keys.P))
+        {
+            this.Space.LevelSettings.Z_LevelLogic.LoadWinLevel();
+        }
+        //instant lose
+        if(Zero.Keyboard.KeyIsPressed(Keys.O))
+        {
+            this.Space.LevelSettings.Z_LevelLogic.LoadLoseLevel();
+        }
+        //load main menu
+        if(Zero.Keyboard.KeyIsPressed(Keys.M))
+        {
+            this.Space.LevelSettings.Z_LevelLogic.LoadMainMenu();
+        }
+        //reset game
+        if(Zero.Keyboard.KeyIsPressed(Keys.N))
+        {
+            this.Space.LevelSettings.Z_LevelLogic.ResetGame();
+        }
+        
+        //PLAYER RELATED CHEATS
+        //Hurt Player
+        if(Zero.Keyboard.KeyIsPressed(Keys.Minus))
+        {
+           this.Player.Z_Health.ApplyDamage(10);
+           //Console.WriteLine(this.Player.Z_Health.CurrentHealth);
+        }
+        
+        //ENEMY RELATED CHEATS
+        //Kill all Enemies
+        if(Zero.Keyboard.KeyIsPressed(Keys.Backslash))
+        {
+            //find all asteroids
+            //var asteroid = this.Space.FindAllObjectsByName("Asteroid").All;
+            //Console.WriteLine(asteroid);
+            
+            //find all chasers
+            //var chaser = this.Space.FindAllObjectsByName("ChaserEnemy");
+            //chaser.Destroy();
+            
+            //find all asteroids
+            //var shooter = this.Space.FindAllObjectsByName("ShooterEnemy");
+            //shooter.Destroy();
+        }
+    }
+}

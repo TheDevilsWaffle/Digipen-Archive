@@ -1,0 +1,107 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_CameraController.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_CameraController:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var Target:CogPath = null;
+    [Property]
+    var LerpSpeed:Real = 3.0;
+    [Property]
+    var CameraSize:Real = 15.0;
+    [Property]
+    var CameraZoom:Real = 5.0;
+    [Property]
+    var IdleTimer:Real = 0.0;
+    [Property]
+    var StartIdleAfter:Real = 40.0;
+    //non-settables
+    var Zooming:Boolean = false;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        //zoom out from beginning
+        this.ZoomOut();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Perform actions every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //make sure camera has a target
+        if(this.Target != null)
+        {
+            //lerp based on camera's location and target's location * speed to lerp at + z offset
+            this.Owner.Transform.LocalTranslation = Math.Lerp(this.Owner.Transform.Translation, 
+                                                              this.Target.Cog.Transform.Translation, 
+                                                              this.LerpSpeed * event.Dt) + Real3(0,0,5);
+        }
+        if(this.Target.Cog.RigidBody.Velocity.X == 0.0)
+        {
+            this.IdleTimer += 0.1;
+            if(this.IdleTimer >= this.StartIdleAfter && this.Zooming == false)
+            {
+                this.Zooming = true;
+                this.ZoomIn();
+            }
+        }
+        if(Math.Abs(this.Target.Cog.RigidBody.Velocity.X) != 0.0 && this.Zooming)
+        {
+            this.ZoomOut();
+            this.IdleTimer = 0.0;
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ZoomOut
+    //EXPLANATION-Zoom the Camera in and out
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ZoomOut():Void
+    {
+        //create action sequence
+        var aZoomOut = Action.Sequence(this.Owner.Actions);
+        
+        //zoom out
+        Action.Property(aZoomOut,
+                        @this.Owner.Camera.Size,
+                        this.CameraSize,
+                        0.5,
+                        Ease.QuadInOut);
+        //set zooming to false
+        this.Zooming = false;
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ZoomIn
+    //EXPLANATION-Zoom the camera in if the player is idle
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ZoomIn():Void
+    {
+        //create action sequence
+        var aZoomIn = Action.Group(this.Owner.Actions);
+        
+        //zoom in
+        Action.Property(aZoomIn,
+                        @this.Owner.Camera.Size,
+                        this.CameraZoom,
+                        0.5,
+                        Ease.QuadInOut);
+        //recenter
+        Action.Property(aZoomIn,
+                        @this.Owner.Transform.Translation,
+                        this.Target.Cog.Transform.Translation + Real3(0,0,5),
+                        0.1,
+                        Ease.QuadInOut);
+    }
+}

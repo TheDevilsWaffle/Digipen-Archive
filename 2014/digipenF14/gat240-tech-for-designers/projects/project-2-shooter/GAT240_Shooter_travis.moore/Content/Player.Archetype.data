@@ -1,0 +1,178 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "Player",
+	},
+	Archetyped = 
+	{
+		string Name = "5486fd88cc9217ac:Player",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [0, -5.96858, 0],
+		Vec3 Scale = [0.2, 0.2, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "548b7459481cbe35:spr_player",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = true,
+		bool OnTop = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+	},
+	Orientation = 
+	{
+		Vec3 GlobalUp = [0, 0, 1],
+		Vec3 UpVector = [0, 0, 1],
+		Vec3 ForwardVector = [0, 1, 0],
+		OrientationBases DefaultBases = ForwardYUpZ,
+	},
+	RigidBody = 
+	{
+		bool Static = false,
+		bool Asleep = false,
+		bool Kinematic = false,
+		bool RotationLocked = false,
+		bool Mode2D = true,
+		bool AllowSleep = true,
+		bool Inherit2DMode = true,
+		Vec3 Velocity = [0, 0, 0],
+		Vec3 AngularVelocity = [0, 0, 0],
+	},
+	Z_MovementController = 
+	{
+		float Speed = 30,
+		float RotationSpeed = 100,
+		float RotationSpeedOverride = 500,
+		int GamepadIndex = 0,
+	},
+	SphereCollider = 
+	{
+		bool Ghost = false,
+		bool SendsMessages = true,
+		bool Seamless = true,
+		string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+		string SerializedGroupName = "54c11c65d2f04a20:CG_Player",
+		Vec3 Offset = [0, 0, 0],
+		float Radius = 0.75,
+	},
+	Z_Health = 
+	{
+		float MaxHealth = 50,
+		bool DestroyAtZeroHealth = true,
+		bool SendsHealthModified = true,
+		float DamageScalar = 1,
+	},
+	Z_Invulnerability = 
+	{
+		float InvulnerabilityTimer = 4,
+	},
+	Hierarchy = 
+	{
+		ArchetypeInstance = 
+		{
+			string Name = "5486fce5ef41e3e8:GunBarrel_01",
+			LinkId = 
+			{
+				uint Id = 2,
+			},
+			Transform = 
+			{
+				Vec3 Translation = [-2.18662, 3.0231, 0],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Named = 
+			{
+				string Name = "GunBarrel_Left",
+			},
+		},
+		ArchetypeInstance = 
+		{
+			string Name = "5486fce5ef41e3e8:GunBarrel_01",
+			LinkId = 
+			{
+				uint Id = 3,
+			},
+			Transform = 
+			{
+				Vec3 Translation = [2.22367, 3.02309, 0],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Named = 
+			{
+				string Name = "GunBarrel_Right",
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 4,
+			},
+			Named = 
+			{
+				string Name = "SpecialGun",
+			},
+			Archetyped = 
+			{
+				string Name = "5462f17345d68388:SpecialGun",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [7.15256e-007, -1.73862, 0],
+				Vec3 Scale = [0.8, 0.8, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				string SpriteSource = "548b74b2645f9811:spr-specialgun-normal",
+				bool FlipX = false,
+				bool FlipY = false,
+				Vec4 Color = [1, 1, 1, 1],
+				bool Visible = true,
+				bool OnTop = true,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+			},
+			Orientation = 
+			{
+				Vec3 GlobalUp = [0, 0, 1],
+				Vec3 UpVector = [0, 0, 1],
+				Vec3 ForwardVector = [0, 1, 0],
+				OrientationBases DefaultBases = ForwardYUpZ,
+			},
+			Z_SpecialGun = 
+			{
+				string Powerup = "54c11e35e0ef0701:PlayerProjectile",
+				Vec3 MountedGunOffset = [0, 10, 0],
+				float MuzzleSpeed = 10,
+				float FireSpeed = 1,
+				float TimeSinceFire = 0,
+				float RotationSpeed = 300,
+			},
+			Z_Invulnerability = 
+			{
+				float InvulnerabilityTimer = 4,
+			},
+		},
+	},
+},

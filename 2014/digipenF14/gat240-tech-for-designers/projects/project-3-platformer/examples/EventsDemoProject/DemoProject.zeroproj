@@ -1,0 +1,18 @@
+Cog = 
+{
+	Project = 
+	{
+		string ProjectName = "DemoProject",
+		string ProjectOwner = "",
+		string DefaultLevel = "Level",
+		string ProjectSpace = "Space",
+		uint ProjectEngineRevision = 9923,
+	},
+	EditorSettings = 
+	{
+		EditorMode EditorMode = Mode3D,
+		float DefaultPixelsPerUnit = 64,
+		bool SpriteSmoothing = true,
+		float DefaultImportScale = 1,
+	},
+},

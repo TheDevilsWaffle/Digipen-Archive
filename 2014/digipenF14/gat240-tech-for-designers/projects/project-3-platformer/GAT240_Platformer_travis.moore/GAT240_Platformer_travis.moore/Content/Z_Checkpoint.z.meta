@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_Checkpoint",
+		uint64 ResourceId = 54ace5f08cccd726,
+	},
+},

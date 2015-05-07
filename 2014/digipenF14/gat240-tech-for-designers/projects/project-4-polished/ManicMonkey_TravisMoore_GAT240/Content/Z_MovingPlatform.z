@@ -1,0 +1,60 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_MovingPlatform.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_MovingPlatform:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var Movement:Real3 = Real3(3,0,0);
+    [Property]
+    var Speed:Real = 5;
+    [Property]
+    var Ease:Ease = Ease.Linear;
+    //non-settables
+    var StartingPosition:Real3 = Real3(0,0,0);
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer)
+    {
+        //establish start position
+        this.StartingPosition = this.Owner.Transform.Translation;
+        //perform moving around
+        this.MoveAround();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-MoveAround
+    //EXPLANATION-Moves the platform back and forth based on starting location
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function MoveAround()
+    {
+        //create an action sequence
+        var aBackAndForth = Action.Sequence(this.Owner.Actions);
+        
+        //vars
+        var length:Real = Math.Length(this.Movement);
+        var time:Real = length / this.Speed;
+        
+        //move one way
+        Action.Property(aBackAndForth,
+                        @this.Owner.Transform.Translation, 
+                        this.StartingPosition + this.Movement, 
+                        time,
+                        this.Ease);
+        //return back to start
+        Action.Property(aBackAndForth,
+                        @this.Owner.Transform.Translation, 
+                        this.StartingPosition, 
+                        time, 
+                        this.Ease);
+        //call itself, keep doing this
+        Action.Call(aBackAndForth, this.MoveAround);
+    }
+}

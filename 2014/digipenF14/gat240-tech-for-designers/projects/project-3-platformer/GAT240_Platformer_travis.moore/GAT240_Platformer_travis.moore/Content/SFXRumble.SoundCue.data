@@ -1,0 +1,22 @@
+SoundCue = 
+{
+	SoundPlayMode PlayMode = Single,
+	float Volume = 0.45,
+	float VolumeVariation = 0,
+	float Pitch = -0.1,
+	float PitchVariation = 0,
+	float MinDistance = 10,
+	float MaxDistance = 10000,
+	float PositionRandomization = 0,
+	uint MaxPlaybacks = 10,
+	int Priority = 128,
+	bool LinearRollOff = false,
+	Array Sounds = 
+	[
+		{
+			string SoundName = "5456bf1a6eb246c2:sfx-rumble",
+			float Weight = 1,
+		},
+	],
+	string RolloffCurveName = "",
+},

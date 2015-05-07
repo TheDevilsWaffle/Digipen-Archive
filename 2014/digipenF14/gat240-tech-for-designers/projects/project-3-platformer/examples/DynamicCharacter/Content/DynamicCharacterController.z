@@ -1,0 +1,390 @@
+enum CharacterState {Idle, Walking, Falling, Jumping}
+
+class DynamicCharacterController : ZilchComponent
+{
+    [Property]
+    var Active : Boolean = true;
+    //The up vector of the character. You will jump in this direction
+    [Property]
+    var Up : Real3 = local Real3(0.0, 1.0, 0.0);
+    //------------------------------------------------------------------ Movement
+    // The maximum speed the character can achieve on its own
+    [Property]
+    var MaxSpeed : Real = 7.0;
+    // Determines the max force you can apply to get to your target speed (acceleration)
+    // Also determines how much you can push or pull objects (strength)
+    // Like horsepower
+    // NOTE* This does not increase the max speed of the character
+    [Property]
+    var MovePower : Real = 2.0;
+    // A scalar for the amount of force the player can apply to move
+    // while not on the ground
+    // Value should be between 0-1
+    // 0: No control while in the air
+    // 1: Full control while in the air
+    [Property]
+    var InAirControl : Real = 0.2;
+    
+    //-------------------------------------------------------------------- Ground
+    // Used to determine whether or not the objects we're in contact with are
+    // considered to be walkable (you're on ground and can jump).  If the
+    // angle (degrees) between the normal of the surface and the players up
+    // vector is less than this value, it is walkable
+    [Property]
+    var WalkableSlopeAngle : Real = 40.0;
+    //------------------------------------------------------------------- Jumping
+    // The velocity applied when a jump is started (in the up direction)
+    // This is applied only once, immediately when a jump is started
+    [Property]
+    var InitialJumpVelocity : Real = 6.0;
+    // Extra velocity upward that is applied after a jump is initiated, every frame
+    // for a specified amount of time (AdditiveJumpTime)
+    [Property]
+    var AdditiveJumpVelocity : Real = 150.0;
+    // The amount of time (seconds) that the AdditiveJumpVelocity will be applied
+    // while the Jump action is still held
+    [Property]
+    var AdditiveJumpTime : Real = 0.0;
+    // Sometimes you may leave the surface just slightly (micro hops) or have just 
+    // barely run off an edge, and we still want to be able to jump for a short 
+    // amount of time after
+    [Property]
+    var LateJumpTimer : Real = 0.23;
+    
+    
+    // A scalar for the amount of force the player can apply to move
+    // Should be between 0-1
+    // 0: No control while on the ground
+    // 1: Full control while on the ground
+    // NOTE: This value will be updated based on specified traction of the
+    // surface it is standing on (through the Traction component)
+    var Traction : Real = 1.0;
+    // Wether or not we're currently in the middle of a jump
+    var Jumping : Boolean = false;
+    var InAirFromJump : Boolean = false;
+    // Whether or not we're considered to be on the ground
+    // This is used to determine how much control the player has
+    // If we're on the ground, our control is dependant on the traction of the surface
+    // If we're in the air, our control is dependant on the InAirControl property
+    // It's set in the UpdateGroundState function
+    var OnGround : Boolean = false;
+    // The time since we were in last direct contact with the ground
+    // See the LateJumpTimer property description
+    var TimeSinceLastDirectContact : Real = 0.0;
+    // The velocity of the ground we're standing on
+    // This is used for to maintain velocity when jumping off of moving ground
+    var VelocityOfGround : Real3 = local Real3(0.0, 0.0, 0.0);
+    var CharacterState : Integer = CharacterState.Idle;
+    var JumpTimer : Real = 0.0;
+    
+    // The direction that we're moving. This is set from
+    // another script that is updated every frame.
+    var MoveDirection : Real3 = local Real3(0.0, 0.0, 0.0);
+    
+    constructor() : base()
+    {
+    }
+
+    function Initialize(init : CogInitializer)
+    {
+        // We need to update the character's movement every logic update
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(updateEvent : UpdateEvent)
+    {
+        if(this.Active == false)
+        {
+            return;
+        }
+        
+        // Send this event to update our input. Whoever listens to this should update
+        // the MoveDirection vector that on us. The reason we send an event out here
+        //is to reduce character lag. The receiver of the event will be able
+        //to immediately update our state.
+        var toSend = new Event();
+        this.Owner.DispatchEvent("UpdateCharacterInput", toSend);
+        
+        // Update whether or not we are on ground, as well as getting 
+        // the traction (slipperyness) of the surface we're on
+        this.UpdateGroundState(updateEvent.Dt);
+        
+        // All logic for jumping is contained in this function
+        this.UpdateJumpState(updateEvent.Dt);
+        
+        // Get our current control (value between 0-1)
+        var controlScalar = this.GetCurrentControlScalar();
+        
+        // We want to set the amount of force we can apply to reach our desired maximum speed
+        // We're multiplying by the object's mass so that the character can easily be scaled
+        // without having to re-adjust MovePower
+        var moveForce = this.MovePower * this.Owner.RigidBody.Mass;
+        // Apply the control scalar (air control / traction / etc...)
+        moveForce *= controlScalar;
+        // Set the final force
+        this.Owner.DynamicMotor.MaxMoveForce = moveForce;
+        
+        // Get our current max speed
+        var maxSpeed = this.GetMaxSpeed();
+        
+        // Move in the given direction with our current max speed
+        this.Owner.DynamicMotor.MoveInDirection(this.MoveDirection * maxSpeed, this.Up);
+        
+        this.UpdateCurrentState(this.MoveDirection);
+    }
+    
+    function UpdateCurrentState(movement : Real3)
+    {
+        if(this.OnGround)
+        {
+            if(this.Jumping)
+            {
+                this.CharacterState = CharacterState.Jumping;
+            }
+            else
+            {
+                var speed = Math.Length(movement);
+                if(speed == 0.0)
+                {
+                    this.CharacterState = CharacterState.Idle;
+                }
+                else
+                {
+                    this.CharacterState = CharacterState.Walking;
+                }
+            }
+        }
+        else
+        {
+            if(this.Jumping)
+            {
+                this.CharacterState = CharacterState.Jumping;
+            }
+            else
+            {
+                this.CharacterState = CharacterState.Falling;
+            }
+        }
+    }
+    
+    function GetCurrentControlScalar() : Real
+    {
+        // Use our current traction if we're on the ground
+        if(this.OnGround)
+        {
+            return this.Traction;
+        }
+        // Otherwise, use the air control
+        return this.InAirControl;
+    }
+    
+    function GetMaxSpeed() : Real
+    {
+        var speed = this.MaxSpeed;
+        
+        // If we're on the ground simply use the default max speed
+        if(this.OnGround)
+        {
+            return speed;
+        }
+        
+        // If we're in the air, we want to be able to move faster than the
+        // specified MaxSpeed.  This allows objects to hit us and accelerate
+        // us to faster speeds than the specified max
+        // To accomplish this, we want to set our current maximum speed
+        // to the maximum of the specified MaxSpeed and our current velocity
+        // This way, the DynamicMotor will not try and slow us down to the max
+        // specified speed while in the air, we will simply remain at whatever
+        // speed we're currently at
+        
+        // Get our current velocity
+        var vel = this.Owner.RigidBody.Velocity;
+        
+        // Project out the up vector (we only want velocity on our plane of movement)
+        // In 2D, this could simply be: abs(self.Owner.RigidBody.Velocity.x)
+        vel = vel - this.Up * Math.Dot(vel, this.Up);
+        var currSpeed = Math.Length(vel);
+        
+        // Return whichever is greater
+        return Math.Max(speed, currSpeed);
+    }
+    
+    //-------------------------------------------------------------- Ground State
+    function UpdateGroundState(dt : Real)
+    {
+        // Update the timer for late jumps
+        this.TimeSinceLastDirectContact += dt;
+        
+        // We want to iterate through all objects we're in contact with in order
+        // to determine whether or not we have any objects under us (ground)
+        foreach(var contactHolder in this.Owner.Collider.Contacts)
+        {
+            // Ignore ghost objects
+            if(contactHolder.IsGhost)
+            {
+                continue;
+            }
+            
+            // Get the object we're in contact with
+            var objectHit = contactHolder.OtherObject;
+            
+            // We need the normal of the surface (the normal that points from
+            // the object hit to us) to determine whether or not it's walkable
+            var contactPoint = contactHolder.FirstPoint;
+            var surfaceNormal = -contactPoint.WorldNormalTowardsOther;
+            
+            // If the object is considered walkable
+            if(this.IsGround(surfaceNormal))
+            {
+                // Contact is valid ground
+                this.OnGround = true;
+                if(this.Jumping == false)
+                {
+                    this.InAirFromJump = false;
+                }
+                
+                this.TimeSinceLastDirectContact = 0.0;
+                
+                // Set the reference frame to the object if it's valid
+                if(this.ShouldChangeReferenceFrame(objectHit))
+                {
+                    this.Owner.DynamicMotor.SetReferenceFrameToObject(objectHit);
+                }
+                
+                // We want to store the object's velocity so that we can
+                // jump with the object's velocity taken into account
+                if(objectHit.RigidBody != null)
+                {
+                    this.VelocityOfGround = objectHit.RigidBody.Velocity;
+                }
+                
+                // As an example, we read the traction from a 'Traction' component
+                // This can be done in any way you want it
+                if(objectHit.Traction != null)
+                {
+                    this.Traction = objectHit.Traction.Traction;
+                }
+                else
+                {
+                    this.Traction = 1.0;
+                }
+            }
+        }
+        
+        if(this.TimeSinceLastDirectContact > this.LateJumpTimer)
+        {
+            // Reset all values
+            this.OnGround = false;
+            this.VelocityOfGround = local Real3(0.0, 0.0, 0.0);
+            
+            // By default, always set our reference frame to the world
+            // If we're in contact with another object that is considered walkable, 
+            // we can change to its reference frame (see loop below)
+            this.Owner.DynamicMotor.SetReferenceFrameToWorld();
+        }
+    }
+    
+    function ShouldChangeReferenceFrame(object : Cog) : Boolean
+    {
+        // For now, all objects are valid
+        // You could only accept kinematic objects
+        // You could only accept objects with a specific component (e.g. a Platform component)
+        return true;
+    }
+    
+    function GetDegreeDifference(surfaceNormal : Real3) : Real
+    {
+        // Returns the angle between the surface normal and the up vector of the character
+        var cosTheta = Math.Dot(surfaceNormal, this.Up);
+        var radians = Math.ACos(cosTheta);
+        var degrees = Math.ToDegrees(radians);
+        return degrees;
+    }
+    
+    function IsGround(surfaceNormal : Real3) : Boolean
+    {
+        // If the angle of the surface's normal is less than the specified value,
+        // we're considered to be on ground
+        var degrees = this.GetDegreeDifference(surfaceNormal);
+        return degrees < this.WalkableSlopeAngle;
+    }
+    
+    //------------------------------------------------------------------- Jumping
+    function BeginJump()
+    {
+        // Start jumping if we can
+        if(this.CanJump())
+        {
+            this.Jump();
+        }
+    }
+    
+    function EndJump()
+    {
+        this.Jumping = false;
+    }
+    
+    function UpdateJumpState(dt : Real)
+    {
+        // If we're currently jumping, we want to continue adding an upward velocity while
+        // they still have the jump action held down
+        // This allows the player to hold the jump button longer to jump higher
+        if(this.Jumping)
+        {
+            // Keep adding the additive jump velocity while Jump is still held and until we
+            // have reached the additive jump timer
+            if(this.JumpTimer < this.AdditiveJumpTime)
+            {
+                // Increment the timer
+                this.JumpTimer += dt;
+                // Add to our velocity
+                this.Owner.RigidBody.Velocity += this.Up * this.AdditiveJumpVelocity * dt;
+            }
+            // Otherwise jump is not still held (or we rand out of time)
+            else
+            {
+                // If the player has released the jump button or we've reached the
+                // end of the timer, we're no longer jumping
+                this.Jumping = false;
+            }
+        }
+    }
+    
+    function CanJump() : Boolean
+    {
+        // We need to be on the ground to be allowed to jump
+        // We could also add logic for jumping if we're holding
+        // onto something like a rope or ledge
+        return this.OnGround;
+    }
+    
+    function Jump()
+    {
+        // Get only horizontal element of our velocity (none in the direction of our Up vector)
+        var currVelocity = this.Owner.RigidBody.Velocity;
+        var newVelocity = currVelocity - this.Up * Math.Dot(currVelocity, this.Up);
+        
+        // Add velocity upward by the initial jump strength
+        newVelocity += this.Up * this.InitialJumpVelocity;
+        
+        // We want to add the velocity of the surface we're currently on
+        // This allows us to get an extra boost from jumping off moving objects (e.g. platforms moving upwards)
+        newVelocity += this.Up * this.VelocityOfGround;
+        
+        // Set the velocity
+        this.Owner.RigidBody.Velocity = newVelocity;
+        
+        // We're no longer on the ground
+        this.OnGround = false;
+        
+        // We're now jumping (used for the additive jump)
+        this.Jumping = true;
+        this.InAirFromJump = true;
+        
+        // Set the additive jump timer to 0
+        this.JumpTimer = 0.0;
+        
+        // Because we're now off the ground, we want to attach ourselves back to the world
+        this.Owner.DynamicMotor.SetReferenceFrameToWorld();
+    }
+}

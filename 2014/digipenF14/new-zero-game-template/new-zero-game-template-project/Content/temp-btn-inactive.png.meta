@@ -1,0 +1,28 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "temp-btn-inactive",
+		uint64 ResourceId = 546a70c92c311e7d,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 300,
+		uint FrameSizeY = 75,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 150,
+		float OriginY = 37,
+		float PixelsPerUnit = 64,
+		bool Smoothing = true,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+		SpriteFill Fill = Stretch,
+	},
+	ContentTags = 
+	{
+		Array Tags = 
+		[
+			"temp",
+			"btn",
+		],
+	},
+},

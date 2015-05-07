@@ -1,0 +1,15 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "MaintainVelocity",
+		uint64 ResourceId = 532e2ab87b298117,
+	},
+	ContentTags = 
+	{
+		Array Tags = 
+		[
+			"BasicGameplay",
+		],
+	},
+},

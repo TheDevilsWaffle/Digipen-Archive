@@ -1,0 +1,40 @@
+class CharacterController : ZilchComponent
+{
+    [Dependency]
+    var Orientation : Orientation = null;    
+    
+    [Dependency]
+    var SweptController : SweptController = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        this.MovementUpdate(event);
+    }
+    
+    function MovementUpdate(event : UpdateEvent)
+    {
+        var movement = Real3(0,0,0);
+        if(Zero.Keyboard.KeyIsDown(Keys.A))
+        {
+            movement += -this.Orientation.WorldForward;
+        }
+        
+        if(Zero.Keyboard.KeyIsDown(Keys.D))
+        {
+            movement += this.Orientation.WorldForward;
+        }
+        
+        if(Zero.Keyboard.KeyIsPressed(Keys.Space))
+        {
+            this.SweptController.Jump();
+        }
+
+        this.SweptController.Update(movement, event.Dt);
+    }
+    
+}

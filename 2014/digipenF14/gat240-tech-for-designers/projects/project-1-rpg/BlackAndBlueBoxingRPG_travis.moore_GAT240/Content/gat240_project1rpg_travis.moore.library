@@ -1,0 +1,7 @@
+ContentLibrary = 
+{
+	string Name = "gat240_project1rpg_travis.moore",
+	uint64 LibraryId = 54a965cb896b86ba,
+	string SourceControlType = "",
+	bool ReadOnly = false,
+},

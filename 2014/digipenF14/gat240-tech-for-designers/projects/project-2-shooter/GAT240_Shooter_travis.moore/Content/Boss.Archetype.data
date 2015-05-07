@@ -1,0 +1,100 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "boss",
+	},
+	Archetyped = 
+	{
+		string Name = "5489ffc103b530a1:Boss",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [47.1405, 20.5798, 0],
+		Vec3 Scale = [0.75, 0.75, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "5489f88b6a1b1240:spr_boss",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = true,
+		bool OnTop = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+	},
+	RigidBody = 
+	{
+		bool Static = false,
+		bool Asleep = false,
+		bool Kinematic = false,
+		bool RotationLocked = false,
+		bool Mode2D = true,
+		bool AllowSleep = true,
+		bool Inherit2DMode = true,
+		Vec3 Velocity = [0, 0, 0],
+		Vec3 AngularVelocity = [0, 0, 0],
+	},
+	Orientation = 
+	{
+		Vec3 GlobalUp = [0, 0, 1],
+		Vec3 UpVector = [0, 0, 1],
+		Vec3 ForwardVector = [0, 1, 0],
+		OrientationBases DefaultBases = ForwardYUpZ,
+	},
+	BoxCollider = 
+	{
+		bool Ghost = false,
+		bool SendsMessages = true,
+		bool Seamless = true,
+		string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+		string SerializedGroupName = "54c11c8ad171620b:CG_Enemies",
+		Vec3 Offset = [0, 0, 0],
+		Vec3 Size = [3.5, 4, 0.5],
+	},
+	Z_EnemyController = 
+	{
+		bool Active = true,
+		float Speed = 20,
+		float RotationSpeed = 200,
+		float MaxPaceDistance = 0,
+		Vec3 CurrentDirection = [1, 0, 0],
+		Vec3 StartPosition = [0, 0, 0],
+		CogPath Target = ":/Player",
+		float TriggerDistance = 100,
+		float ChaseSpeed = 3,
+		Vec4 ChaseColor = [1, 1, 1, 1],
+		Vec4 OriginalColor = [1, 1, 1, 1],
+		string Projectile = "",
+		Vec3 Offset = [0, 0, 2],
+		float TimeSinceLastFire = 1,
+		float MuzzleSpeed = 15,
+		float FireSpeed = 3,
+	},
+	DamageOnCollide = 
+	{
+		float Damage = 50,
+		bool SendsDeathEvent = true,
+		bool DieOnCollide = false,
+	},
+	Z_Health = 
+	{
+		float MaxHealth = 100,
+		bool DestroyAtZeroHealth = true,
+		bool SendsHealthModified = true,
+		float DamageScalar = 1,
+	},
+	Hierarchy = 
+	{
+	},
+},

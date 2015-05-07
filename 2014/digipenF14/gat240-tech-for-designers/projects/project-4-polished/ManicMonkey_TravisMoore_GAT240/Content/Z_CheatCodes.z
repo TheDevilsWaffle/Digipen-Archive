@@ -1,0 +1,102 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_CheatCodes.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_CheatCodes:ZilchComponent
+{
+    [Property]
+    var DamagePerButtonPress:Real = 1.0;
+    //standin for the player
+    var Player:Cog = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        //set Player to our player
+        this.Player = this.Space.FindObjectByName("Player");
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Perform cheat related key presses
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //LEVEL RELATED CHEATS
+        //reload level
+        if(Zero.Keyboard.KeyIsPressed(Keys.R))
+        {
+            this.Space.LevelSettings.Z_LevelLogic.ReloadCurrentLevel();
+        }
+        //instant win
+        if(Zero.Keyboard.KeyIsPressed(Keys.LeftBracket))
+        {
+            this.Space.LevelSettings.Z_LevelLogic.LoadWinLevel();
+        }
+        //instant lose
+        if(Zero.Keyboard.KeyIsPressed(Keys.RightBracket))
+        {
+            this.Space.LevelSettings.Z_LevelLogic.LoadLoseLevel();
+        }
+        //load main menu
+        if(Zero.Keyboard.KeyIsPressed(Keys.M))
+        {
+            this.Space.LevelSettings.Z_LevelLogic.LoadMainMenu();
+        }
+        //reset game
+        if(Zero.Keyboard.KeyIsPressed(Keys.N))
+        {
+            this.Space.LevelSettings.Z_LevelLogic.ResetGame();
+        }
+        
+        //PLAYER RELATED CHEATS
+        //hurt player
+        if(Zero.Keyboard.KeyIsPressed(Keys.Subtract))
+        {
+            //if player exists
+            if(this.Player != null)
+            {
+                this.Player.Z_Health.ApplyDamage(this.DamagePerButtonPress);
+            }
+        }
+        
+        //kill player
+        if(Zero.Keyboard.KeyIsPressed(Keys.Add))
+        {
+            //if player exists
+            if(this.Player != null)
+            {
+                //get player's max health
+                var playerTotalHealth = this.Player.Z_Health.MaxHealth;
+                //apply the damage
+                this.Player.Z_Health.ApplyDamage(playerTotalHealth);
+                //player is dead, so send us to lose level
+                this.Space.LevelSettings.Z_LevelLogic.LoadLoseLevel();
+            }
+        }
+        
+        //ENEMY RELATED CHEATS
+        //Kill all Enemies
+        if(Zero.Keyboard.KeyIsPressed(Keys.Divide))
+        {
+            //get all enemies on stage
+            var allEnemies = this.Space.FindAllObjectsByName("Enemy");
+            //loop through all enemy in range of allEnemies
+            foreach(var enemy in allEnemies)
+            {
+                //get specific enemy health
+                var enemyMaxHealth = enemy.Z_Health.MaxHealth;
+                //kill dem enemies
+                enemy.Z_Health.ApplyDamage(enemyMaxHealth);
+            }
+        }
+    }
+}

@@ -1,0 +1,7 @@
+ContentLibrary = 
+{
+	string Name = "Learning_Parallax_Camera",
+	uint64 LibraryId = 54b535739193d1e7,
+	string SourceControlType = "",
+	bool ReadOnly = false,
+},

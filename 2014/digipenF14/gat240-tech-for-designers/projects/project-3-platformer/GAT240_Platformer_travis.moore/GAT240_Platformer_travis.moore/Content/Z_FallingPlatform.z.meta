@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_FallingPlatform",
+		uint64 ResourceId = 54496c7b7118cfb2,
+	},
+},

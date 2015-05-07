@@ -1,0 +1,39 @@
+class Missile : ZilchComponent
+{
+    [Dependency]
+    var Transform : Transform = null;
+
+    [Dependency]
+    var Orientation : Orientation = null;
+    
+    [Property]
+    var Speed : Real = 1;
+    
+    [Property]
+    var MaxTurn : Real = 1;
+    
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        var mouseScreen = Zero.Mouse.ScreenPosition;
+        
+        var mouseWorld = this.LevelSettings.CameraViewport.ScreenToWorldZPlane(mouseScreen, 0);
+      
+      
+        var targetRot = this.Orientation.GetLookAtDirectionRotation(mouseWorld - this.Transform.WorldTranslation);
+        
+        
+        var maxRadsPerFrame = Math.ToRadians(this.MaxTurn) * event.Dt;
+        
+        this.Transform.Translation += this.Orientation.WorldForward * this.Speed * event.Dt;
+        this.Transform.Rotation = Math.RotateTowards(this.Transform.Rotation, targetRot, maxRadsPerFrame);
+        
+    }
+}

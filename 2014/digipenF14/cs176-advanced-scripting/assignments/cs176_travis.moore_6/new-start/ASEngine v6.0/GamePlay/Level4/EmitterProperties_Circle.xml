@@ -1,0 +1,12 @@
+<Emitter>
+  <Type> Circle </Type>
+  <InnerRadius> 200 </InnerRadius>
+  <OuterRadius> 200 </OuterRadius>
+  <InnerAngle> 0 </InnerAngle>
+  <OuterAngle> 360 </OuterAngle>
+  <EmissionRate> 500 </EmissionRate>
+  <EmissionDelay> 0.5 </EmissionDelay>
+  
+  <Forces>
+  </Forces>
+</Emitter>

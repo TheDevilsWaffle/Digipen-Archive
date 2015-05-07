@@ -1,0 +1,96 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+class Z_Projectile : ZilchComponent
+{
+    var StartLocation:Real3 = Real3();
+    
+    var Player:Cog = null;
+    var Asteroid:Cog = null;
+    var Chaser:Cog = null;
+    var Shooter:String = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/event listeners for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        //Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        //Zero.Connect(this.Owner, Events.CollisionEnded, this.OnCollisionEnded);
+        //set CurrentLocation
+        this.StartLocation = this.Owner.Transform.Translation;
+        
+        //establish things that can be hit with a projectile
+        //this.Player = this.Space.FindObjectByName("Player");
+        //this.Asteroid = this.Space.FindObjectByName("Asteroid");
+        //this.Chaser = this.Space.FindObjectByName("ChaserEnemy");
+        //this.Shooter = this.Space.FindObjectByName("ShooterEnemy").Name;
+    }
+
+    //function OnCollisionEnded(event : CollisionEvent)
+    //{
+    //    if(event.OtherObject.Name == this.Shooter)
+    //    {
+    //       event.Object.Z_Projectile.GhostOff();
+    //    }
+    //}
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted
+    //EXPLANATION-Every logical frame update perform the following actions
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    //function OnCollisionStarted(event : CollisionEvent):Void
+    //{
+    //   if(event.OtherObject.Name == this.Shooter)
+    //   {
+    //       event.Object.Z_Projectile.GhostOn();
+    //   }
+    //}
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Every logical frame update perform the following actions
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event : UpdateEvent):Void
+    {
+        /* discarded idea
+        var currentLocation = this.Owner.Transform.Translation;
+        if(currentLocation != this.StartLocation)
+        {
+            this.RemoveRigidBody();
+        }
+        */
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-GhostOn
+    //EXPLANATION-Turns Ghosting on
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function GhostOn():Void
+    {
+        this.Owner.SphereCollider.Ghost = true;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-GhostOff
+    //EXPLANATION-Turns Ghosting off
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function GhostOff():Void
+    {
+        this.Owner.SphereCollider.Ghost = false;
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-RemoveRigidBody
+    //EXPLANATION-Takes away RigidBody component
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function RemoveRigidBody():Void
+    {
+        this.Owner.RemoveComponentByName("RigidBody");
+    }
+}

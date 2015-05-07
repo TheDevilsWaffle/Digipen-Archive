@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Traction",
+		uint64 ResourceId = 5423d8e385f0ecbb,
+	},
+},

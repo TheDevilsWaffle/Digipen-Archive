@@ -1,0 +1,20 @@
+<Emitter>
+  <Type> Circle </Type>
+  <InnerRadius> 0 </InnerRadius>
+  <OuterRadius> 0 </OuterRadius>
+  <InnerAngle> 0 </InnerAngle>
+  <OuterAngle> 360 </OuterAngle>
+  <EmissionRate> 0 </EmissionRate>
+  <EmissionDelay> 0 </EmissionDelay>
+  
+  <Forces>
+    <Force>
+      <LowerAngle> 0 </LowerAngle>
+      <UpperAngle> 360 </UpperAngle>
+      <MinMagnitude> 500 </MinMagnitude>
+      <MaxMagnitude> 1000 </MaxMagnitude>
+      <MinTime> 0.016 </MinTime>
+      <MaxTime> 0.016 </MaxTime>
+    </Force>
+  </Forces>
+</Emitter>

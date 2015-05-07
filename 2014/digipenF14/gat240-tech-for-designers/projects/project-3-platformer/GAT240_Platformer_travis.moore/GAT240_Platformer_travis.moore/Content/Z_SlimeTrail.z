@@ -1,0 +1,46 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_SlimeTrail.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_SlimeTrail:ZilchComponent
+{
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Perform actions every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //if this thing is alive
+        if(this.Owner.Z_Health.CurrentHealth <= 0.0)
+        {
+            //create an action sequence for headbutting
+            var aSlimeTrail = Action.Sequence(this.Owner.Actions);
+            
+            //apply slime trail particles
+            //particles on
+            Action.Property(aSlimeTrail,
+                            @this.Owner.FindChildByName("slime-trail-particle-system").BoxParticleEmitter.Active,
+                            true,
+                            0.5,
+                            Ease.QuadOut);
+            //particles off
+            Action.Property(aSlimeTrail,
+                            @this.Owner.FindChildByName("slime-trail-particle-system").BoxParticleEmitter.Active,
+                            false,
+                            0.25,
+                            Ease.QuadOut);
+        }
+    }
+}

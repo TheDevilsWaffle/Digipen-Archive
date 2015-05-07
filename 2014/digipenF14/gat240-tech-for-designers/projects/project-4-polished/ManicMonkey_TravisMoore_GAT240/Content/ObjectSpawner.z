@@ -1,0 +1,60 @@
+class ObjectSpawner : ZilchComponent
+{
+    // How many of the specified archetypes to spawn.
+    [Property]
+    var Count : Integer = 1;
+    // How long to wait before spawning the first and all subsequent objects.
+    [Property]
+    var Delay : Real = 1.0;
+    // The initial velocity to give each object we spawn. If it has no rigid body then don't do anything.
+    [Property]
+    var Velocity : Real3 = Real3(0.0, 0.0, 0.0);
+    // The Archetype to spawn.
+    [Property]
+    var ArchetypeToSpawn : Archetype = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        this.QueueActions();
+    }
+    
+    function QueueActions()
+    {
+        // Queue a delay then a call to spawn objects.
+        var sequence = Action.Sequence(this.Owner.Actions);
+        Action.Delay(sequence, this.Delay);
+        Action.Call(sequence, this.CheckForSpawn);
+    }
+    
+    function CheckForSpawn()
+    {
+        // If there's no more objects to spawn then just end now.
+        if(this.Count == 0)
+        {
+            return;
+        }
+        
+        this.SpawnObject();
+        this.Count -= 1;
+        
+        // Now queue up the next set of actions that will call
+        // this function again after our delay.
+        this.QueueActions();
+    }
+    
+    // This can be called by another script to forcibly spawn one object. If manually
+    // called, this doesn't update the object count to spawn or the delay timer.
+    function SpawnObject()
+    {
+        var obj = this.Space.CreateAtPosition(this.ArchetypeToSpawn, this.Owner.Transform.Translation);
+        // If we didn't have a valid archetype don't do anything.
+        if(obj != null)
+        {
+            // If we have a rigid body then set its velocity.
+            if(obj.RigidBody != null)
+            {
+                obj.RigidBody.Velocity = this.Velocity;
+            }
+        }
+    }
+}

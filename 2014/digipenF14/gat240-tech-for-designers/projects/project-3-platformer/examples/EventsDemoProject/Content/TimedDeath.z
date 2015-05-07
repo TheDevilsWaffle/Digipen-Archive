@@ -1,0 +1,40 @@
+class TimedDeath : ZilchComponent
+{
+    // The amount of time before this object will be destroyed.
+    [Property]
+    var Lifetime : Real = 1.0;
+    
+    // Do we send the death event when the timer runs out?
+    [Property]
+    var SendsDeathEvent : Boolean = true;
+    // Do we destroy ourself when the timer runs out?
+    [Property]
+    var AutoDestroy : Boolean = true;
+    
+    // When we die, we sound out a death event.
+    sends Death : ZilchEvent;
+    
+    function Initialize(init : CogInitializer)
+    {
+        // Queue up a delay for our lifetime, after that much
+        // time call the function that kills us.
+        var sequence = Action.Sequence(this.Owner.Actions);
+        Action.Delay(sequence, this.Lifetime);
+        Action.Call(sequence, this.OnDeath);
+    }
+    
+    function OnDeath()
+    {
+        if(this.SendsDeathEvent)
+        {
+            // Let anyone listening know we just died.
+            var toSend = ZilchEvent();
+            this.Owner.DispatchEvent(Events.Death, toSend);
+        }
+        
+        if(this.AutoDestroy)
+        {
+            this.Owner.Destroy();
+        }
+    }
+}

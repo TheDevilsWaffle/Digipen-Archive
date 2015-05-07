@@ -1,0 +1,43 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+//powerup enums
+enum Powerups {Spreadshot, Laser, Missile}
+class Z_PowerUps : ZilchComponent
+{
+    var Player:String = null;
+    function Initialize(init : CogInitializer)
+    {
+        //Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        this.Player = this.Space.FindObjectByName("Player").Name;
+    }
+
+    function OnCollisionStarted(event : CollisionEvent)
+    {
+        if(event.OtherObject.Name == this.Player)
+        {
+            if(event.Object.Name == "SpreadShot")
+            {
+                //connect to the child Special Gun
+                var specialGun:Cog = event.OtherObject.FindChildByName("SpecialGun");
+                
+                //set gun to spreadshot
+                specialGun.Z_SpecialGun.Powerup = Archetype.Find("SpreadShot");
+                
+                //change gun sprite
+                specialGun.Sprite.SpriteSource = SpriteSource.Find("spr-spreadshotturret");
+            }
+            if(event.Object.Name == "Health")
+            {
+                //give the player extra health
+                event.OtherObject.Z_Health.ApplyHealth(50);
+            }
+            //destroy the powerup
+            event.Object.Destroy();
+        }
+    }
+}

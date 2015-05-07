@@ -1,0 +1,20 @@
+class MaintainVelocity : ZilchComponent
+{
+    // The speed to maintain
+    [Property]
+    var Speed : Real = 10.0;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    function OnLogicUpdate(updateEvent : UpdateEvent)
+    {
+        // Get our current (normalized) velocity direction and
+        // then scale it to have our desired speed
+        var rigidBody = this.Owner.RigidBody;
+        var vel = Math.Normalize(rigidBody.Velocity);
+        rigidBody.Velocity = vel * this.Speed;
+    }
+}

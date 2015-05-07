@@ -1,0 +1,211 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+//enums
+enum EnemyWeapon {Cannon, SpreadShot, Missile}
+
+class Z_EnemyController : ZilchComponent
+{
+    //is enemy active or stunned?
+    [Property]
+    var Active:Boolean = true;
+    
+    //enemy properties
+    [Property]
+    var Speed:Real = 7.0;
+    [Property]
+    var RotationSpeed:Real = 200;
+    
+    //patrolling properties
+    [Property]
+    var MaxPaceDistance:Real = 0.0;
+    [Property]
+    var CurrentDirection:Real3 = Real3(1.0, 0.0, 0.0);
+    [Property]
+    var StartPosition:Real3 = Real3();
+    
+    //chasing properties
+    [Property]
+    var Target:CogPath = null;
+    [Property]
+    var TriggerDistance:Real = 3.0;
+    [Property]
+    var ChaseSpeed:Real = 5.0;
+    [Property]
+    var ChaseColor:Real4 = Real4(1.0, 0.0, 0.0, 1.0);
+    [Property]
+    var OriginalColor:Real4 = Real4();
+    
+    var ChaseDirection:Real3 = Real3();
+    var DistanceFromTarget:Real = 0.0;
+    var TargetInRange:Boolean = false;
+    
+    //shooting properties
+    [Property]
+    var Projectile:Archetype = null;
+    [Property]
+    var Offset:Real3 = Real3(0.0, 0.0, 0.5);
+    [Property]
+    var TimeSinceLastFire:Real = 0.0;
+    [Property]
+    var MuzzleSpeed : Real = 10;
+    [Property]
+    var FireSpeed : Real = 1;
+
+    var Turret:Cog = null;
+    var HasWeapon:Boolean = false;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/event listeners for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        //set this enemy's starting position
+        this.StartPosition = this.Owner.Transform.Translation;
+        //get player's original color
+        this.OriginalColor = this.Owner.Sprite.Color;
+        
+        //check if the enemy has a weapon
+        if(this.Owner.FindChildByName("Turret") != null)
+        {
+            //if it does, set boolean to true
+            this.HasWeapon = true;
+            //attach to a standin variable
+            this.Turret = this.Owner.FindChildByName("Turret");
+        }
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Performs actions/functions every logical frame update
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //don't do the update loop if this enemy is not active
+        if(!this.Active)
+        {
+            return;
+        }
+        //reset TargetInRange
+        this.TargetInRange = false;
+        
+        //check to see if our target is in range
+        //first make sure target is not null
+        if(this.Target.Cog != null)
+        {
+            //check the direction and distance of target
+            this.DirectionAndDistanceToTarget();
+            //check to see if target is in range
+            this.TargetInRange = (this.DistanceFromTarget <= this.TriggerDistance);
+            
+            //if the enemy has spotted its target
+            if(this.TargetInRange)
+            {
+                //if this enemy has a gun
+                if(this.HasWeapon)
+                {
+                    //shoot at target
+                    this.Turret.Z_EnemyGun.Shoot(event);
+                }
+                
+                //chase enemy
+                else
+                {
+                    //perform chase function
+                    this.Chase(event);
+                }
+                
+            }
+            //patrol if not
+            else
+            {
+                //revert color
+                this.Owner.Sprite.Color = this.OriginalColor;
+                
+                //if this enemy has a gun
+                if(this.HasWeapon)
+                {
+                    //sit still, rotate turret
+                    this.Turret.Z_EnemyGun.ScanningRotation(event);
+                }
+                
+                //patrol in place
+                else
+                {
+                    //patrol the enemy
+                    this.Patroling(event);
+                }
+            }
+        }
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DirectionAndDistanceToTarget
+    //EXPLANATION-Calcuates direction, gets magnitude, and normalizes vector to target
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DirectionAndDistanceToTarget():Void
+    {
+        //get direction to target
+        this.ChaseDirection = this.Target.Cog.Transform.Translation - this.Owner.Transform.Translation;
+        //find magnitude of ChaseDirection
+        this.DistanceFromTarget = Math.Length(this.ChaseDirection);
+        //normalize the direction
+        this.ChaseDirection = Math.Normalize(this.ChaseDirection);
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Chase
+    //EXPLANATION-Chases the target
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Chase(event:UpdateEvent):Void
+    {
+        //rotate towards the target
+        this.RotateTowardsTarget(event);
+        //apply movement towards the target
+        this.Owner.Transform.Translation += this.ChaseDirection * event.Dt * this.ChaseSpeed;
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-RotateTowardsTarget
+    //EXPLANATION-Grabs target location and orients turret towards it.
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function RotateTowardsTarget(event:UpdateEvent):Void
+    {
+        // get the target's location
+        var targetLocation = this.Target.Cog.Transform.Translation;
+        
+        // Get the rotation need to look at the point
+        var targetRotation = this.Owner.Orientation.GetLookAtPointRotation(targetLocation);
+        //get our current rotation
+        var currentRotation = this.Owner.Transform.Rotation;
+        
+        // Move towards the needed rotation at RotationSpeed
+        var partialRotation = Math.RotateTowards(currentRotation, targetRotation, Math.ToRadians(this.RotationSpeed) * event.Dt);
+        this.Owner.Transform.Rotation = partialRotation;
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Patroling
+    //EXPLANATION-Paces enemy back and forth
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Patroling(event:UpdateEvent):Void
+    {
+        //keep track of how far from the starting position the enemy has gone
+        var displacement = this.Owner.Transform.Translation - this.StartPosition;
+        //length of displacement from the start
+        var distanceFromStartPosition:Real = Math.Length(displacement);
+        
+        //if we've passed our max distance
+        if(distanceFromStartPosition >= this.MaxPaceDistance)
+        {
+            //change direction
+            this.CurrentDirection = -displacement;
+        }
+        //normalize the direction
+        this.CurrentDirection = Math.Normalize(this.CurrentDirection);
+        //apply movement
+        this.Owner.Transform.Translation += this.CurrentDirection * event.Dt * this.Speed;
+    }
+}

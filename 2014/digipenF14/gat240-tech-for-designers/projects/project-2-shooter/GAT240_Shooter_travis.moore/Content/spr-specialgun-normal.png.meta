@@ -1,0 +1,20 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "spr-specialgun-normal",
+		uint64 ResourceId = 548b74b2645f9811,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 264,
+		uint FrameSizeY = 353,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 132,
+		float OriginY = 275,
+		float PixelsPerUnit = 64,
+		bool Smoothing = true,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+		SpriteFill Fill = Stretch,
+	},
+},

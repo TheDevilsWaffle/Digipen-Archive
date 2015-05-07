@@ -1,0 +1,12 @@
+<Emitter>
+  <Type> Rectangle </Type>
+  <InnerHalfWidth> 0 </InnerHalfWidth>
+  <OuterHalfWidth> 300 </OuterHalfWidth>
+  <InnerHalfHeight> 0 </InnerHalfHeight>
+  <OuterHalfHeight> 200 </OuterHalfHeight>
+  <EmissionRate> 0 </EmissionRate>
+  <EmissionDelay> 0 </EmissionDelay>
+  
+  <Forces>
+  </Forces>
+</Emitter>

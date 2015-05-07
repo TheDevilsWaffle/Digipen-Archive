@@ -1,0 +1,55 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "GunBarrel_Left",
+	},
+	Archetyped = 
+	{
+		string Name = "5486fce5ef41e3e8:GunBarrel_01",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [-2.18662, 3.0231, 0],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "548b6ae6ce6bb002:spr_gun",
+		bool FlipX = true,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = true,
+		bool OnTop = true,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+	},
+	Orientation = 
+	{
+		Vec3 GlobalUp = [0, 0, 1],
+		Vec3 UpVector = [0, 0, 1],
+		Vec3 ForwardVector = [0, 1, 0],
+		OrientationBases DefaultBases = ForwardYUpZ,
+	},
+	Z_Gun = 
+	{
+		string Projectile = "54c11e35e0ef0701:PlayerProjectile",
+		Vec3 Offset = [0, 2, 0],
+		float MuzzleSpeed = 10,
+		float FireSpeed = 1,
+		float TimeSinceFire = 0,
+	},
+	Z_Invulnerability = 
+	{
+		float InvulnerabilityTimer = 4,
+	},
+},

@@ -1,0 +1,118 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "ShooterEnemy",
+	},
+	Archetyped = 
+	{
+		string Name = "548b3960e07bd439:ShooterEnemy",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [12.2064, 19.2365, 0],
+		Vec3 Scale = [0.25, 0.25, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "546f914febf2bab1:spr_shooter",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = true,
+		bool OnTop = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+	},
+	RigidBody = 
+	{
+		bool Static = false,
+		bool Asleep = false,
+		bool Kinematic = false,
+		bool RotationLocked = false,
+		bool Mode2D = true,
+		bool AllowSleep = true,
+		bool Inherit2DMode = true,
+		Vec3 Velocity = [0, 0, 0],
+		Vec3 AngularVelocity = [0, 0, 0],
+	},
+	SphereCollider = 
+	{
+		bool Ghost = false,
+		bool SendsMessages = true,
+		bool Seamless = true,
+		string MaterialName = "4de020863e872da8:DefaultPhysicsMaterial",
+		string SerializedGroupName = "54c11c8ad171620b:CG_Enemies",
+		Vec3 Offset = [0, 0, 0],
+		float Radius = 1,
+	},
+	Z_EnemyController = 
+	{
+		bool Active = true,
+		float Speed = 1,
+		float RotationSpeed = 200,
+		float MaxPaceDistance = 2,
+		Vec3 CurrentDirection = [1, 0, 0],
+		Vec3 StartPosition = [0, 0, 0],
+		CogPath Target = ":/Player",
+		float TriggerDistance = 5,
+		float ChaseSpeed = 5,
+		Vec4 ChaseColor = [1, 0, 0, 0.9999],
+		Vec4 OriginalColor = [1, 1, 1, 0.9999],
+		string Projectile = "",
+		Vec3 Offset = [0, 0, 0.5],
+		float TimeSinceLastFire = 0,
+		float MuzzleSpeed = 10,
+		float FireSpeed = 1,
+	},
+	Orientation = 
+	{
+		Vec3 GlobalUp = [0, 0, 1],
+		Vec3 UpVector = [0, 0, 1],
+		Vec3 ForwardVector = [0, 1, 0],
+		OrientationBases DefaultBases = ForwardYUpZ,
+	},
+	Z_Health = 
+	{
+		float MaxHealth = 20,
+		bool DestroyAtZeroHealth = true,
+		bool SendsHealthModified = true,
+		float DamageScalar = 1,
+	},
+	DamageOnCollide = 
+	{
+		float Damage = 10,
+		bool SendsDeathEvent = true,
+		bool DieOnCollide = true,
+	},
+	Hierarchy = 
+	{
+		ArchetypeInstance = 
+		{
+			string Name = "548b4c6d3730d43e:EnemyGun",
+			LinkId = 
+			{
+				uint Id = 2,
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0.705919, -1.12574, 0],
+				Vec3 Scale = [0.75, 0.75, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Named = 
+			{
+				string Name = "Turret",
+			},
+		},
+	},
+},

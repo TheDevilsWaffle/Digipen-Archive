@@ -1,0 +1,60 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_AsteroidController : ZilchComponent
+{
+    //asteroid properties
+    [Property]
+    var Bool_RotationDirection:Boolean = false;
+    [Property]
+    var MinRotationSpeed:Real = 10.0;
+    [Property]
+    var MaxRotationSpeed:Real = 25.0;
+    
+    //end result speed
+    var Int_RotationSpeed:Integer = 0;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/event listeners for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        //get a rotation direction
+        this.Bool_RotationDirection = (new Random().CoinFlip());
+        
+        //get a random rotation speed using min and max properties
+        this.Int_RotationSpeed = (new Random().Range(this.MinRotationSpeed, 
+                                                     this.MaxRotationSpeed)) as Integer;
+        
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Performs actions/functions every logical frame update
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        var rotation:Real = 0.0;
+        //if true, turn clockwise
+        if(this.Bool_RotationDirection)
+        {
+            rotation = Math.ToRadians(this.Int_RotationSpeed) * event.Dt;
+        }
+        //else, counterclockwise
+        else
+        {
+            rotation = Math.ToRadians(-this.Int_RotationSpeed) * event.Dt;
+        }
+        
+        //set rotation
+        var localRotation = Math.ToQuaternion( Real3(0,0,1), rotation);
+        //apply rotation
+        this.Owner.Transform.RotateLocal(localRotation);
+    }
+}

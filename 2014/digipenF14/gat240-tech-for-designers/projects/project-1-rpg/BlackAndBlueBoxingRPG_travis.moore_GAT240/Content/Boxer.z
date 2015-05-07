@@ -1,0 +1,322 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+class Boxer:ZilchComponent
+{
+    //Properties of a boxer
+    [Property]
+    var Health:Real = 0;
+    [Property]
+    var Defense:Real = 0;
+    [Property]
+    var Attack:Real = 0;
+    [Property]
+    var Stanima:Real = 0;
+    [Property]
+    var Speed:Real = 0;
+    
+    [Property]
+    var PunchCost:Integer = 0;
+    [Property]
+    var JabCost:Integer = 0;
+    [Property]
+    var SpecialCost:Integer = 0;
+    [Property]
+    var GrowlCost:Integer = 0;
+    
+    var LvlLose:Level = Level.Find("lvl_player_lose");
+    var LvlWin:Level = Level.Find("lvl_player_win");
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initializes the things we will need
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init_:CogInitializer)
+    {
+        //add this boxer to our ArrayBoxers in the BoxingRing zilchscript
+        this.LevelSettings.BoxingRing.AddBoxer(this);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Destroyed
+    //EXPLANATION-Remove this boxer from ArrayBoxer in the BoxingRing zilchscript
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Destroyed()
+    {
+        //as long as the level exists?
+        if(this.LevelSettings != null)
+        {
+            this.LevelSettings.BoxingRing.RemoveBoxer(this);
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Say
+    //EXPLANATION-Give the player feedback as to what is happening
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Say(whattoSay_:String)
+    {
+        //variable to attach speechbubble archtype to our bubble variable
+        var bubbleArchetype = Archetype.Find("SpeechBubble") ;
+        //stand-in variable for this specific bubble
+        var bubble = this.Space.Create(bubbleArchetype);
+        //stand-in variable for what the text in the bubble actually reads as
+        var speechText = bubble.FindChildByName("SpeechText");
+        
+        //attach string of text that is initially passed into this function
+        speechText.SpriteText.Text = whattoSay_;        
+        
+        //place the speech bubble somewhere by the owner
+        bubble.Transform.Translation = this.Owner.Transform.Translation + Real3(0,3,0);  
+        
+        //animate the speech bubble
+        var seq = Action.Group(this.Owner.Actions);
+        Action.Property(seq, @bubble.Sprite.Color, Real4(1,1,1,0), 1, Ease.Linear);
+        Action.Property(seq, @speechText.SpriteText.Color, Real4(0,0,0,0), 0.3, Ease.Linear);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-TakeTurn
+    //EXPLANATION-Process of picking a target and attacking the target
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function TakeTurn(attackType_:String):Void
+    {
+        //variable to represent the BoxingRing zilchscript
+        var boxingRing = this.LevelSettings.BoxingRing;
+        //varaible to represent target (returned from BoxingRing.FindTarget)
+        var target = boxingRing.FindTarget(this);
+        
+        //as long as we have a target
+        if(target != null)
+        {
+            //call AttackTarget, give it the target to act upon
+            this.AttackTarget(target, attackType_);
+        }
+        //no more targets left
+        else
+        {
+            //load winscreen
+            this.Space.LevelSettings.Z_LevelLogic.Win();
+        } 
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Damage
+    //EXPLANATION-Performs damage calculations
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Damage(damage_:Real, stanima_:Real):Void
+    {
+        //calculating damage scale against defense
+        var defenseDamageScale =  (100 / (this.Defense + 100));
+        var weaknessScale = 1;
+        var enemy = this.Space.FindObjectByName("Enemy").Boxer;
+        //affect health based upon previous calculations
+        enemy.Health -= damage_ * defenseDamageScale * weaknessScale;
+        
+        //affect stanima based upon attack use
+        this.Stanima -= stanima_;
+        
+        //make sure that stanima cannot go above ten
+        if(this.Stanima > 10)
+        {
+            this.Stanima = 10;
+        }
+        //Console.WriteLine("Player SCRIPT STANIMA = `this.Stanima`");
+        //Console.WriteLine("Player SCRIPT HEALTH = `this.Health`");
+        
+        //give current health to Z_UI to update health/stanima bars
+        this.Space.LevelSettings.Z_UI.UpdateEnemyHP(this.Health);
+        this.Space.LevelSettings.Z_UI.UpdatePlayerStanima(this.Stanima);
+        
+        //if health is 0, destroy boxer
+        if(this.Health <= 0)
+        {
+            this.Owner.Destroy();
+            //feedback for player
+            this.Space.LoadLevel(this.LvlWin);
+        }
+        
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-DamagePlayer
+    //EXPLANATION-Performs damage calculations
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function DamagePlayer(damage_:Real, stanima_:Real):Void
+    {
+        var player = this.Space.FindObjectByName("Player").Boxer;
+        
+        //calculating damage scale against defense
+        var defenseDamageScale =  (100 / (player.Defense + 100));
+        //?
+        var weaknessScale = 1;
+        //affect health based upon previous calculations
+        player.Health -= damage_ * defenseDamageScale * weaknessScale;
+        
+        //affect stanima based upon attack use
+        this.Stanima -= stanima_;
+        
+        //make sure that stanima cannot go above ten
+        if(this.Stanima > 10)
+        {
+            this.Stanima = 10;
+        }
+        
+        //Console.WriteLine("Enemy SCRIPT STANIMA = `this.Stanima`");
+        //Console.WriteLine("Enemy SCRIPT HEALTH = `this.Health`");
+        
+        //give current health to Z_UI to update health/stanima bars
+        this.Space.LevelSettings.Z_UI.UpdatePlayerHP(player.Health);
+        this.Space.LevelSettings.Z_UI.UpdateEnemyStanima(this.Stanima);
+        
+        //if health is 0, destroy boxer
+        if(player.Health <= 0)
+        {
+            this.Owner.Destroy();
+            //feedback for player
+            this.Space.LoadLevel(this.LvlLose);
+        }
+        
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-AIAttackTarget
+    //EXPLANATION-Sends damage to the Damage() and then stuff
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function AIAttackTarget(attackType_:String)
+    {
+        //initial attack damage
+        var damage = this.Attack;
+        var stanima:Integer = 0;
+        //variable to adjust the attack damage
+        var attackModifier:Integer = 0;
+        
+        //punch attack
+        if(attackType_ == "punch")
+        {
+            attackModifier = new Random().DieRoll(4);
+            stanima = this.PunchCost;
+            //Console.WriteLine("`attackType_` modifer added `attackModifier` to the attack");
+            this.Say("Punch + `attackModifier` damage");
+        }
+        //jab attack
+        if(attackType_ == "jab")
+        {
+            attackModifier = new Random().DieRoll(2);
+            stanima = this.JabCost;
+            //Console.WriteLine("`attackType_` modifer added `attackModifier` to the attack");
+            this.Say("Jab  + `attackModifier` damage");
+        }
+        //special attack
+        if(attackType_ == "special")
+        {
+            var turn = this.LevelSettings.BoxingRing.Turn;
+            var enemyToStun = this.Space.FindObjectByName("Player").Name;
+            for(var index = 0; index < turn.Count; ++index)
+            {
+                if(turn.Get(index).Owner.Name == enemyToStun)
+                {
+                    //turn.RemoveAt(index);
+                }
+            }
+            
+            attackModifier = -2;
+            stanima = this.SpecialCost;
+            //Console.WriteLine("`attackType_` modifer added `attackModifier` to the attack");
+            this.Say("Special Stun Attack");
+        }
+        //growl attack
+        if(attackType_ == "growl")
+        {
+            attackModifier = -50;
+            stanima = this.GrowlCost;
+            //Console.WriteLine("`attackType_` modifer added `attackModifier` to the attack");
+            this.Say("Growl! Regain 2 Stamina");
+        }
+        //add the modifier to the initial damage
+        damage += attackModifier;
+        
+        //make sure we do not do negative damage
+        if(damage < 0)
+        {
+            damage = 0;
+        }
+        
+        //Console.WriteLine("Damage done = `damage`");
+        //Console.WriteLine("Stanima used by `this.Owner.Name` = `stanima`");
+        
+        this.DamagePlayer(damage, stanima);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-AttackTarget
+    //EXPLANATION-Sends damage to the Damage() and then stuff
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function AttackTarget(boxer_:Boxer, attackType_:String)
+    {
+        //initial attack damage
+        var damage = this.Attack;
+        var stanima:Integer = 0;
+        //variable to adjust the attack damage
+        var attackModifier:Integer = 0;
+        
+        //punch attack
+        if(attackType_ == "punch")
+        {
+            attackModifier = new Random().DieRoll(4);
+            stanima = this.PunchCost;
+            //Console.WriteLine("`attackType_` modifer added `attackModifier` to the attack");
+            this.Say("Punch  + `attackModifier` damage");
+        }
+        //jab attack
+        if(attackType_ == "jab")
+        {
+            attackModifier = new Random().DieRoll(2);
+            stanima = this.JabCost;
+            //Console.WriteLine("`attackType_` modifer added `attackModifier` to the attack");
+            this.Say("Jab  + `attackModifier` damage");
+        }
+        //special attack
+        if(attackType_ == "special")
+        {
+            var turn = this.LevelSettings.BoxingRing.Turn;
+            var enemyToStun = this.Space.FindObjectByName("Enemy").Name;
+            for(var index = 0; index < turn.Count; ++index)
+            {
+                if(turn.Get(index).Owner.Name == enemyToStun)
+                {
+                    //turn.RemoveAt(index);
+                }
+            }
+            
+            attackModifier = -2;
+            stanima = this.SpecialCost;
+            //Console.WriteLine("`attackType_` modifer added `attackModifier` to the attack");
+            this.Say("Special Stun Attack");
+        }
+        //growl attack
+        if(attackType_ == "growl")
+        {
+            attackModifier = -50;
+            stanima = this.GrowlCost;
+            //Console.WriteLine("`attackType_` modifer added `attackModifier` to the attack");
+            this.Say("Growl! Regain 2 Stamina");
+        }
+        //add the modifier to the initial damage
+        damage += attackModifier;
+        
+        //make sure we do not do negative damage
+        if(damage < 0)
+        {
+            damage = 0;
+        }
+        
+        //Console.WriteLine("Damage done to `boxer_.Owner.Name` = `damage`");
+        //Console.WriteLine("Stanima used by `this.Owner.Name` = `stanima`");
+        
+        //perform damage to enemy
+        this.Damage(damage, stanima);
+    }
+}

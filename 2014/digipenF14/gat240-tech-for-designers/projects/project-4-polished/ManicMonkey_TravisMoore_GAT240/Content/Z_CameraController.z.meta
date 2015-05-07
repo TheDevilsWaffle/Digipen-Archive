@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_CameraController",
+		uint64 ResourceId = 54ace123b5f4ea70,
+	},
+},

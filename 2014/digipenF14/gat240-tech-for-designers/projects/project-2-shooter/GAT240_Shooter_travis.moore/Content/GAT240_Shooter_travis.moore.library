@@ -1,0 +1,7 @@
+ContentLibrary = 
+{
+	string Name = "GAT240_Shooter_travis.moore",
+	uint64 LibraryId = 54bcf68ca997788a,
+	string SourceControlType = "",
+	bool ReadOnly = false,
+},

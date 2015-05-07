@@ -1,0 +1,68 @@
+class BasicRaycaster : ZilchComponent
+{
+    // The local space vector that we use to raycast
+    [Property]
+    var LocalVector : Real3 = Real3(0.0, 1.0, 0.0);
+    // The maximum distance the raycast will go
+    [Property]
+    var CastDistance : Real = 10.0;
+    // Color to draw the ray and arrow head
+    [Property]
+    var DrawColor : Real4 = Real4(1.0, 1.0, 1.0, 1.0);
+    // Size of the arrow head to draw
+    [Property]
+    var HeadSize : Real = 0.25;
+    // If the ray is always drawn on top of everything else
+    [Property]
+    var OnTop : Boolean = true;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(updateEvent : UpdateEvent)
+    {
+        var transform = this.Owner.Transform;
+        // Get the ray start and direction
+        
+        var ray = Ray();
+        ray.Start = transform.Translation;
+        ray.Direction = transform.TransformNormal(this.LocalVector);
+        ray.Direction = Math.Normalize(ray.Direction);
+        
+        // Do a raycast for only 1 result
+        var castResultRange = this.Space.PhysicsSpace.CastRayResults(ray, 1);
+        
+        // Iterate through all results
+        foreach(var castResult in castResultRange)
+        {
+            // Get how far away the object was that we hit
+            var distance = castResult.Distance;
+            
+            // If the object we hit was too far away for our max cast distance, then ignore Iterate
+            if(distance >= this.CastDistance)
+            {
+                break;
+            }
+            
+            // Draw to the raycast point
+            var endPos = ray.Start + ray.Direction * distance;
+            
+            this.DrawArrow(ray.Start, endPos);
+            // Only doing 1 cast right now, so just return
+            return;
+        }
+        
+        // We didn't hit anything, draw to our max distance
+        var endPos = ray.Start + ray.Direction * this.CastDistance;
+        this.DrawArrow(ray.Start, endPos);
+    }
+    
+    function DrawArrow(start : Real3, end : Real3)
+    {
+        var line = DebugLine();
+        line.Start(start).End(end).HeadSize(this.HeadSize).Float4Color(this.DrawColor).OnTop(this.OnTop);
+        line.Draw();
+    }
+}

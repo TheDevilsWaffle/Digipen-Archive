@@ -1,0 +1,27 @@
+ImageContent = 
+{
+	ContentTags = 
+	{
+		Array Tags = 
+		[
+			"scn",
+		],
+	},
+	SpriteSourceBuilder = 
+	{
+		string Name = "scn-splash-digipen",
+		uint64 ResourceId = 54513b76fc122166,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 1920,
+		uint FrameSizeY = 1080,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 960,
+		float OriginY = 540,
+		float PixelsPerUnit = 64,
+		bool Smoothing = true,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+		SpriteFill Fill = Stretch,
+	},
+},

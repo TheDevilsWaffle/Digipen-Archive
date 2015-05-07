@@ -1,0 +1,67 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_EnemyPatrol.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_EnemyPatrol:ZilchComponent
+{
+    //MOVEMENT PROPERTIES
+    [Property]
+    var MovementTimerMax:Real = 2.0;
+    [Property]
+    var MoveSpeed:Real = 2.0;
+    //nonsettable properties
+    var MovementTimer:Real = 0.0;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //set movement timer
+        this.MovementTimer = 0.0;
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Patrol
+    //EXPLANATION-Move Left and Right
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Patrol(event:UpdateEvent):Void
+    {
+        //create a movement variable
+        var movement:Real3 = Real3(0,0,0);
+        
+        //determine which way we should move based on Sprite FlipX
+        if(this.Owner.Sprite.FlipX)
+        {
+            movement = Real3(1,0,0);
+        }
+        if(this.Owner.Sprite.FlipX == false)
+        {
+            movement = Real3(-1,0,0);
+        }
+        //set flipx if we've reached our timer max
+        if(this.MovementTimer >= this.MovementTimerMax)
+        {
+            if(this.Owner.Sprite.FlipX)
+            {
+                this.Owner.Sprite.FlipX = false;
+            }
+            else
+            {
+                this.Owner.Sprite.FlipX = true;
+            }
+            this.MovementTimer = 0.0;
+            
+        }
+        //move this thing
+        this.Owner.SweptController.MaxMoveSpeed = this.MoveSpeed;
+        this.Owner.SweptController.Update(movement, event.Dt);
+        
+        //update the timer variable
+        this.MovementTimer += event.Dt;
+    }
+}

@@ -1,0 +1,28 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "temp-btn-menu-main-active",
+		uint64 ResourceId = 5469821274747930,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 300,
+		uint FrameSizeY = 69,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 150,
+		float OriginY = 34,
+		float PixelsPerUnit = 64,
+		bool Smoothing = true,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+		SpriteFill Fill = Stretch,
+	},
+	ContentTags = 
+	{
+		Array Tags = 
+		[
+			"temp",
+			"btn",
+		],
+	},
+},

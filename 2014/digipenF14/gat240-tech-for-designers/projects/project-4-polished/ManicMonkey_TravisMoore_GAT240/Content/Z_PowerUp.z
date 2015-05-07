@@ -1,0 +1,70 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_PowerUp.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_PowerUp:ZilchComponent
+{
+    //non-settables
+    var Music:Cog = null;
+    var PowerUpType:String = "";
+    var Target:Cog = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        
+        //set target
+        this.Target = this.Space.FindObjectByName("Player");
+        
+        //determine poweruptype
+        this.PowerUpType = this.Owner.Name;
+        
+        //set music if it is music powerup
+        if(this.PowerUpType == "Powerup-Music")
+        {
+            //set music
+            this.Music = this.Space.FindObjectByName("Music");
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted
+    //EXPLANATION-When the powerup is collected by the player
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event:CollisionEvent):Void
+    {
+        //make sure we have a target
+        if(this.Target != null)
+        {
+            //if other object is target
+            if(event.OtherObject == this.Target)
+            {
+                //play sound to indicate that we got the powerup
+                this.Space.SoundSpace.PlayCue(SoundCue.Find("SFXPowerup"));
+                
+                //music powerup
+                if(this.PowerUpType == "Powerup-Music")
+                {
+                    //allow pitch warping
+                    this.Music.Z_PitchModifier.IsActive = true;
+                }
+                //jump powerup
+                if(this.PowerUpType == "Powerup-Jump")
+                {
+                    //enable double jumping
+                    event.OtherObject.Z_CharacterController.MaxJumps = 2;
+                }
+                
+                //destroy the powerup
+                event.Object.Destroy();
+            }
+        }
+    }
+}

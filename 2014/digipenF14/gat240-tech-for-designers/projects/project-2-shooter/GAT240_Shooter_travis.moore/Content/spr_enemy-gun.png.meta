@@ -1,0 +1,20 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "spr_enemy-gun",
+		uint64 ResourceId = 546f914febf3cac9,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 264,
+		uint FrameSizeY = 352,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 132,
+		float OriginY = 260,
+		float PixelsPerUnit = 64,
+		bool Smoothing = true,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+		SpriteFill Fill = Stretch,
+	},
+},

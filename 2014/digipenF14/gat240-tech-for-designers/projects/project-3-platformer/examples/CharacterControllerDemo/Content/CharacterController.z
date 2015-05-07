@@ -1,0 +1,106 @@
+class CharacterController : ZilchComponent
+{
+    var JumpCount : Integer = 0;
+    
+    var WallCount : Integer = 0;
+    
+    var WallTimer : Real = 0;
+    
+    var WallNormal : Real3 = Real3(0,0,0);
+    
+    [Dependency]
+    var SweptController :SweptController = null;
+    
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        Zero.Connect(this.Owner, Events.CollisionEnded, this.OnCollisionEnded);
+    }
+
+    function OnCollisionEnded(event : CollisionEvent)
+    {
+        if(event.OtherObject.Wall != null)
+        {
+            --this.WallCount;
+            this.WallTimer = 0.2;
+        }
+    }
+
+    function OnCollisionStarted(event : CollisionEvent)
+    {
+        if(event.OtherObject.Wall != null)
+        {
+            ++this.WallCount;
+            this.WallNormal = -event.FirstPoint.WorldNormalTowardsOther;
+        }
+    }
+
+  
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if(this.SweptController.Grounded)
+        {
+            this.JumpCount = 1;
+        }
+        
+        this.WallTimer -= event.Dt;
+        
+        if(this.WallCount > 0)
+        {
+            this.SweptController.Gravity = 4;
+        }
+        else
+        {
+            this.SweptController.Gravity = 10;
+        }
+        
+       
+        var movement = Real3(0,0,0);
+        
+        if(Zero.Keyboard.KeyIsDown(Keys.A))
+        {
+            movement += Real3(-1,0,0);
+        }
+        
+        if(Zero.Keyboard.KeyIsDown(Keys.D))
+        {
+            movement += Real3(1,0,0);
+        }
+        
+        if(Zero.Keyboard.KeyIsPressed(Keys.R))
+        {
+            this.SweptController.WorldUp = -this.SweptController.WorldUp;
+        }
+        
+        if(Zero.Keyboard.KeyIsPressed(Keys.Space))
+        {
+            if(this.SweptController.Grounded)
+            {
+                
+                this.SweptController.Jump();
+            }
+            else if(this.WallCount > 0 || this.WallTimer > 0)
+            {
+                
+                //--this.JumpCount;
+                Console.WriteLine("WallJump");
+                this.SweptController.JumpDirectionally( this.WallNormal * 10 );
+                //this.SweptController.JumpDirectionally( movement * 6 );
+                
+                
+                //this.SweptController.JumpUnconditionally();
+            }
+        }
+        
+        //if(Zero.Keyboard.KeyIsDown(Keys.Space))
+        //{
+        //    this.Owner.SweptController.Jump();
+        //} 
+        
+        this.SweptController.Update(movement, event.Dt);
+
+    }
+}

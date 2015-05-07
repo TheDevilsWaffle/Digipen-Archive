@@ -1,0 +1,53 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "Turret",
+	},
+	Archetyped = 
+	{
+		string Name = "548b4c6d3730d43e:EnemyGun",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [0.705919, -1.12574, 0],
+		Vec3 Scale = [0.75, 0.75, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "546f914febf3cac9:spr_enemy-gun",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = true,
+		bool OnTop = true,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+	},
+	Orientation = 
+	{
+		Vec3 GlobalUp = [0, 0, 1],
+		Vec3 UpVector = [0, 0, 1],
+		Vec3 ForwardVector = [0, 1, 0],
+		OrientationBases DefaultBases = ForwardYUpZ,
+	},
+	Z_EnemyGun = 
+	{
+		string Projectile = "54c11e899c6977a2:EnemyProjectile",
+		Vec3 Offset = [0, 2, 0],
+		float MuzzleSpeed = 10,
+		float FireSpeed = 1,
+		float TimeSinceFire = 1,
+		float RotationSpeed = 600,
+		float ScanningRotationSpeed = 100,
+	},
+},

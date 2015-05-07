@@ -1,0 +1,89 @@
+class EventsDemo : ZilchComponent
+{
+    
+    var MouseIsOver : Boolean  = false;
+    
+    var Animate : Action = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Owner, Events.MouseEnter, this.OnMouseEnter);
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Zero.Connect(this.Owner, Events.MouseExit, this.OnMouseExit);
+    }
+
+    function OnMouseExit(event : ViewportMouseEvent)
+    {
+        if(this.Animate != null)
+        {
+            this.Animate.Cancel();
+        }
+        
+        //if(this.Animate.Completed
+        
+        
+        this.MouseIsOver = false;
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        var someFunc = this.Update;
+        
+        someFunc();
+        
+        //this.Update();
+    }
+
+    function OnMouseEnter(event : ViewportMouseEvent)
+    {
+        var seq = Action.Sequence(this.Owner.Actions);  
+
+        var grp = Action.Group(seq);  
+        
+        Action.Property(grp, @this.Owner.Sprite.Color,
+          Real4(1,0,0,1), 0.4, Ease.Linear);          
+          
+        Action.Property(
+          grp, @this.Owner.Transform.Scale,
+          Real3(6,6,6), 3.2, Ease.Linear);          
+          
+        Action.Call(seq, this.ButtonReady);
+        
+        this.Animate = seq;
+          
+      //  Console.WriteLine("On Mouse Enter");        
+      //  this.Owner.Sprite.Color = Real4(1,0,0,1);
+        this.MouseIsOver = true;
+    }
+    
+    function ButtonReady()
+    {        
+        var myEvent = Event();
+      //  myEvent.Damage = 20;
+        //this.Owner.DispatchEvent("MyCoolEvent", myEvent);
+        //this.Owner.di
+    }   
+    
+    function Update()
+    {
+        if( this.MouseIsOver )
+        {
+            //var current = this.Owner.Sprite.Color;
+            
+            //this.Owner.Sprite.Color = Math.Lerp(current, Real4(1,0,0,1), 0.01);
+            
+        }
+        else
+        {
+           // this.Owner.Sprite.Color = Real4(1,1,1,1);
+        }
+    }
+    
+    
+}   
+
+
+class MyCoolEvent : ZilchEvent
+{
+    var Damage : Integer = 0;    
+}

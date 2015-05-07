@@ -1,0 +1,65 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_GroundFrozen.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_GroundFrozen:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var GroundTraction:Real = 0.1; //0 means absolutely slippery
+    [Property]
+    var Target:CogPath = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        Zero.Connect(this.Owner, Events.CollisionPersisted, this.OnCollisionPersisted);
+        Zero.Connect(this.Owner, Events.CollisionEnded, this.OnCollisionEnded);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted
+    //EXPLANATION-On contact play ice noise
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event:CollisionEvent):Void
+    {
+        if(event.OtherObject == this.Target.Cog)
+        {
+            //play slick ice noise
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("SFXIce"));
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionEnded
+    //EXPLANATION-Upon Leaving contact play noise
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionEnded(event:CollisionEvent):Void
+    {
+        if(event.OtherObject == this.Target.Cog)
+        {
+            //play slick ice noise
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("SFXIce"));
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionPersisted
+    //EXPLANATION-Persistent contact reduces the target's traction via their swept controller
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionPersisted(event:CollisionEvent):Void
+    {
+        if(event.OtherObject == this.Target.Cog)
+        {
+            //keep adjusting player's traction to minimally set GroundTraction value
+            event.OtherObject.SweptController.GroundTraction = this.GroundTraction;
+        }
+    }
+}

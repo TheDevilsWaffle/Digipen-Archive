@@ -1,0 +1,160 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_LevelLogic.z
+//AUTHOR-Travis Moore
+//COURSE-GAM205
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+class Z_LevelLogic:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var SplashScreenDelayTimer:Real = 3;
+    [Property]
+    var NextSplashToLoad:Level = null;
+    [Property]
+    var IsSplash:Boolean = false;
+    
+    //LEVELS
+    //splash/start screens
+    var LvlSplash:Level = Level.Find("lvl_splash_digipen");
+    var LvlStart:Level = Level.Find("lvl_splash_start");
+    var LvlSplashZero:Level = Level.Find("lvl_splash_zero");
+    var LvlSplashGameStudio:Level = Level.Find("lvl_splash_game_studio");
+    //menu levels
+    var LvlMenuMain:Level = Level.Find("lvl_menu_main");
+    //var LvlMenuPause:Level = Level.Find("lvl_menu_pause");
+    var LvlMenuControls:Level = Level.Find("lvl_menu_controls");
+    var LvlMenuCredits:Level = Level.Find("lvl_menu_credits");
+    //var LvlMenuOptions:Level = Level.Find("lvl_menu_options");
+    
+    //game over levels
+    var LvlLose:Level = Level.Find("lvl_gameover_lose");
+    var LvlWin:Level = Level.Find("lvl_gameover_win");
+    //in-game levels
+    var Lvl01:Level = Level.Find("lvl_01");
+    //current level
+    var LvlCurrentLevel:Level = null;
+    
+    //TIMER
+    //timer variabe
+    var Timer:Real = 0; //used to sequence through splash screen
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //variable to hook to current level
+        this.LvlCurrentLevel = this.Space.CurrentLevel;
+        
+        //connect to LogicUpdate event
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Update every frame, perform actions and listen for keyboard
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //if splash is true, do this sequence
+        if(this.IsSplash)
+        {
+            //keep track of the Timer
+            this.Timer += event.Dt;
+            
+            //continue to start screen once splash screen is done displaying
+            if(this.Timer >= this.SplashScreenDelayTimer)
+            {
+                this.LoadNextLevel();
+            }
+        }
+    }
+    
+    function LoadNextLevel():Void
+    {
+        //make sure this is not null
+        if(this.NextSplashToLoad != null)
+        {
+            this.Space.LoadLevel(this.NextSplashToLoad);
+        }
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-LoadLevelWin
+    //EXPLANATION-When called, loads the win screen
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function LoadWinLevel():Void
+    {
+        this.Space.LoadLevel(this.LvlWin);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-LoadLevelLose
+    //EXPLANATION-When called, loads the lose screen
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function LoadLoseLevel():Void
+    {
+        this.Space.LoadLevel(this.LvlLose);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-LoadLevelMainMenu
+    //EXPLANATION-When called, loads the main menu screen
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function LoadMainMenu():Void
+    {
+        this.Space.LoadLevel(this.LvlMenuMain);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-LoadControls
+    //EXPLANATION-When called, loads the controls
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function LoadControls():Void
+    {
+        this.Space.LoadLevel(this.LvlMenuControls);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-LoadOptions
+    //EXPLANATION-When called, loads the options
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function LoadOptions():Void
+    {
+        //this.Space.LoadLevel(this.LvlMenuOptions);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-LoadCredits
+    //EXPLANATION-When called, loads the credits
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function LoadCredits():Void
+    {
+        this.Space.LoadLevel(this.LvlMenuCredits);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ResetGame
+    //EXPLANATION-When called, restarts the game as a whole
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ResetGame():Void
+    {
+        this.Space.LoadLevel(this.LvlSplash);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-ReloadCurrentLevel
+    //EXPLANATION-When called, reloads the current level
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function ReloadCurrentLevel():Void
+    {
+        var player = this.Space.FindObjectByName("Player");
+
+        if(player != null)
+        {
+            //player.Transform.Translation = this.Owner.Z_LevelVariables.PlayerPosition;
+        }
+    }
+}

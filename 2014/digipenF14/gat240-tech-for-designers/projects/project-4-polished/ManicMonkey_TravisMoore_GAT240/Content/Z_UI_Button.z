@@ -1,0 +1,340 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//SCRIPT-Z_UI_Buttons.z
+//AUTHOR-Travis Moore
+//COURSE-GAM240
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+class Z_UI_Button:ZilchComponent
+{
+    //SPLASH
+    var LvlSplashDigipen:Level = Level.Find("lvl_splash_digipen");
+    var LvlSplashTeamLogo:Level = Level.Find("lvl_splash_game_studio");
+    var LvlSplashStart:Level = Level.Find("lvl_splash_start");
+    
+    //MENUS
+    var LvlMenuMain:Level = Level.Find("lvl_menu_main");
+    var LvlMenuControls: Level = Level.Find("lvl_menu_controls");
+    var LvlMenuCredits:Level = Level.Find("lvl_menu_credits");
+    
+    //GAMEOVER
+    var LvlGameoverLose:Level = Level.Find("lvl_gameover_lose");
+    var LvlGameoverWin:Level = Level.Find("lvl_gameover_win");
+    
+    //IN-GAME LEVELS
+    var Lvl_01:Level = Level.Find("lvl_01");
+    
+    //CURRENT LEVEL
+    var CurrentLevel:Level = null;
+    
+    //NEXT LEVEL
+    [Property]
+    var LevelToLoad:Level = null;
+    
+    //GAMEPAD
+    [Property]
+    var GamepadIndex:Integer = 0;
+    var Gamepad:Gamepad = null;
+    var Active:Boolean = false;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        //mouse related events and their functions
+        Zero.Connect(this.Owner, Events.MouseEnter, this.OnMouseEnter);
+        Zero.Connect(this.Owner, Events.MouseExit, this.OnMouseExit);
+        Zero.Connect(this.Owner, Events.MouseDown, this.OnMouseDown);
+        
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnMouseEnter
+    //EXPLANATION-Perform sprite swap to enchance player feedback
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnMouseEnter(event:ViewportMouseEvent):Void
+    {
+        //check to see what button we are by getting name
+        var currentBtn:String = this.Owner.Name;
+        
+        //Next, if checks to swap out correct ACTIVE sprites
+        
+        //GAME BUTTONS
+        //if button is "Start Game"
+        if(currentBtn == "BtnStartGame")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-game-start-active");
+        }
+        //if the button is "Resume Game
+        if(currentBtn == "BtnGameResume")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("ui-game-resume-active");
+        }
+        //if button is "New Game"
+        if(currentBtn == "BtnGameNew")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-game-new-active");
+        }
+        //if button is "Quit Game"
+        if(currentBtn == "BtnGameQuit")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-game-quit-active");
+        }
+        //if button is "Quit Game"
+        if(currentBtn == "BtnGameQuitWhite")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-quit-game-white-active");
+        }
+        //if button is "Quit Yes"
+        if(this.Owner.Sprite.SpriteSource.Name == "btn-yes-inactive")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-yes-active");
+        }
+        //if button is "Quit No"
+        if(currentBtn == "BtnNo")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("BtnNoActive");
+        }
+        
+        //MENU BUTTONS
+        //if button is "Menu Main"
+        if(currentBtn == "BtnMenuMain")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-menu-main-active");
+        }
+        //if button is the RED "Menu Main"
+        if(currentBtn == "BtnMenuMainRed")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-menu-main-red-active");
+        }
+        //if button is "Menu Options"
+        if(currentBtn == "BtnMenuOptions")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-menu-options-active");
+        }
+        //if button is "Menu Controls"
+        if(currentBtn == "BtnMenuControls")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-menu-controls-active");
+        }
+        //if button is "Menu Credits"
+        if(currentBtn == "BtnMenuCredits")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-menu-credits-active");
+        }
+        
+        //GAME DATA
+        //if button is "Erase Game Data"
+        if(currentBtn == "BtnGameEraseData")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-erase-game-data-active");
+        }
+        
+        //ARROW BUTTON
+        //if button is "btn-arrow-left"
+        if(currentBtn == "BtnArrowLeft")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("ui_selectorarrow_red");
+        }
+        //if button is "btn-arrow-right"
+        if(currentBtn == "BtnArrowRight")
+        {
+            this.Owner.Z_UI_Transitions.FadeInScaleUp();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("ui_selectorarrow_red");
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnMouseExit
+    //EXPLANATION-Undo original sprite swap to enhance player feedback
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnMouseExit(event:ViewportMouseEvent):Void
+    {
+        //check to see what button we are by getting name
+        var currentBtn:String = this.Owner.Name;
+        
+        //Next, if checks to swap out correct INACTIVE sprites
+        
+        //GAME BUTTONS
+        //if button is "Start Game"
+        if(currentBtn == "BtnStartGame")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-game-start-inactive");
+        }
+        //if the button is "Resume Game
+        if(currentBtn == "BtnGameResume")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("ui-game-resume-inactive");
+        }
+        //if button is "New Game"
+        if(currentBtn == "BtnGameNew")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-game-new-inactive");
+        }
+        //if button is "Quit Game"
+        if(currentBtn == "BtnGameQuit")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-game-quit-inactive");
+        }
+        //if button is "Quit Game"
+        if(currentBtn == "BtnGameQuitWhite")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-quit-game-white-inactive");
+        }
+        //if button is "Quit Yes"
+        if(this.Owner.Sprite.SpriteSource.Name == "btnYesActive")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-yes-inactive");
+        }
+        //if button is "Quit No"
+        if(currentBtn == "BtnNo")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("BtnNoInactive");
+        }
+        
+        //MENU BUTTONS
+        //if button is "Menu Main"
+        if(currentBtn == "BtnMenuMain")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-menu-main-inactive");
+        }
+        //if button is the RED "Menu Main"
+        if(currentBtn == "BtnMenuMainRed")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-menu-main-red-inactive");
+        }
+        //if button is "Menu Options"
+        if(currentBtn == "BtnMenuOptions")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-menu-options-inactive");
+        }
+        //if button is "Menu Controls"
+        if(currentBtn == "BtnMenuControls")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-menu-controls-inactive");
+        }
+        //if button is "Menu Credits"
+        if(currentBtn == "BtnMenuCredits")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-menu-credits-inactive");
+        }
+        
+        //GAME DATA
+        //if button is "Erase Game Data"
+        if(currentBtn == "BtnGameEraseData")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("btn-erase-game-data-inactive");
+        }
+        
+        //ARROW BUTTON
+        //if button is "btn-arrow-left"
+        if(currentBtn == "BtnArrowLeft")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("ui_selectorarrow_white");
+        }
+        //if button is "btn-arrow-right"
+        if(currentBtn == "BtnArrowRight")
+        {
+            this.Owner.Z_UI_Transitions.ScaleNormal();
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("ui_selectorarrow_white");
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnMouseDown
+    //EXPLANATION-Perform level loading
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnMouseDown(event:ViewportMouseEvent):Void
+    {
+        //check to see what button we are by getting name
+        var currentBtn:String = this.Owner.Name;
+        //grab the white fade out bg
+        //find the main space, assign to variable
+        var gameSpace = this.GameSession.FindSpaceByName("Main");
+        
+        //GAME BUTTONS
+        //if button is "Start Game"
+        if(this.Owner.Name == "BtnStartGame")
+        {
+            this.Space.LoadLevel(Level.Find("lvl_menu_main"));
+        }
+        //if button is "Resume Game"
+        //if(this.Owner.Name == "BtnGameResume")
+        //{
+        //    gameSpace.LevelSettings.QuickPause.TogglePauseMenu();
+        //}
+        //if button is "New Game"
+        if(this.Owner.Name == "BtnGameNew")
+        {
+            this.Space.LoadLevel(this.LevelToLoad);
+        }
+        //if button is "Quit Game"
+        if(this.Owner.Name == "BtnGameQuit" )
+        {
+            this.Space.LevelSettings.Z_UI_MenuPopUp.DetermineDialogBox("QuitConfirmation");
+        }
+        //if button is "Quit Game"
+        if(this.Owner.Name == "BtnGameQuitWhite" )
+        {
+            this.GameSession.Quit();
+        }
+        //if button is "Quit Yes"
+        if(currentBtn == "BtnYes")
+        {
+            this.GameSession.Quit();
+        }
+        //if button is "Quit No"
+        if(currentBtn == "BtnNo")
+        {
+            this.Space.LevelSettings.Z_UI_MenuPopUp.FadeOut();
+        }
+        
+        //MENU BUTTONS
+        //if button is "Menu Main"
+        if(this.Owner.Name == "BtnMenuMain")
+        {
+            this.Space.LoadLevel(this.LevelToLoad);
+        }
+        //if button is "Menu Controls"
+        if(this.Owner.Name == "BtnMenuControls")
+        {
+            this.Space.LoadLevel(this.LevelToLoad);
+        }
+        //if button is "Menu Credits"
+        if(this.Owner.Name == "BtnMenuCredits")
+        {
+            this.Space.LoadLevel(this.LevelToLoad);
+        }
+    }
+}

@@ -1,0 +1,156 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+  
+class BoxingRing:ZilchComponent
+{
+    //array to store boxers (including our player in)
+    var ArrayBoxers:Array[Boxer] = new Array[Boxer]();    
+    var Turn:Array[Boxer] = new Array[Boxer]();
+    
+    var PlayerCanTakeTurn:Boolean = true;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize functions/variables
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init_:CogInitializer):Void
+    {
+        Zero.Connect(Zero.Keyboard, Events.KeyDown, this.OnKeyDown);
+        
+        this.PlayerCanTakeTurn = true;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnKeyDown
+    //EXPLANATION-Listens for KeyboardEvents, performs calls based on which key is pressed.
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnKeyDown(event:KeyboardEvent):Void
+    {
+        if(event.Key == Keys.Space)
+        {
+            //this.TakeTurn();
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-SortArrayBoxers
+    //EXPLANATION-Orders Boxer in ArrayBoxers by their speed, returns from lowest to greatest
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function SortArrayBoxers(left:Boxer, right:Boxer):Boolean
+    {
+        return left.Speed < right.Speed;        
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-TakeTurn
+    //EXPLANATION-Performs actions that Boxers (including player) takes
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function TakeTurn(attackType_:String)
+    {
+        //check to make sure there are still boxers to fight
+        if(this.ArrayBoxers.Count == 0)
+        {
+            //exception used to explain there are no Boxers left to fight
+            throw Exception("There are no boxers left to fight");       
+        }
+        
+        //if there are no more turns left, copy the original ArrayBoxers and then sort by speed.
+        if(this.Turn.Count == 0)
+        {
+            this.Turn = this.ArrayBoxers.Copy();
+            this.Turn.Sort(this.SortArrayBoxers);
+        }
+        
+        //Console.WriteLine(this.ArrayBoxers);
+
+        var boxer = this.Turn.Get(0);
+        //Console.WriteLine("Taking turn with `boxer.Owner.Name`");
+        
+        //call Boxer's take turn and give it the attack type to use
+        if(this.PlayerCanTakeTurn)
+        {
+            boxer.TakeTurn(attackType_);
+            //end the player's turn
+            this.PlayerCanTakeTurn = false;
+        }
+        if(!this.PlayerCanTakeTurn)
+        {
+            //Console.WriteLine("ENEMY TURN");
+            var enemyBoxer = this.Space.FindObjectByName("Enemy").Boxer;
+            var randomAttack:String = null;
+            var randomAttackRoll = new Random().DieRoll(4);
+            if(randomAttackRoll == 1)
+            {
+                randomAttack = "punch";
+            }
+            if(randomAttackRoll == 2)
+            {
+                randomAttack = "jab";
+            }
+            if(randomAttackRoll == 3)
+            {
+                randomAttack = "special";
+            }
+            if(randomAttackRoll == 4)
+            {
+                randomAttack = "growl";
+            }
+            
+            enemyBoxer.AIAttackTarget(randomAttack);
+            //start the player's turn
+            this.PlayerCanTakeTurn = true;
+        }
+        
+        this.Turn.RemoveAt(0);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-FindTarget
+    //EXPLANATION-Find a Boxer to fight that is not ourself in the ArrayBoxers, return this Boxer
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function FindTarget(attackingBoxer_:Boxer):Boxer
+    {
+        //loop through available boxers
+        foreach(var boxer in this.ArrayBoxers)
+        {
+            //make sure we are not attacking ourselves
+            if(boxer != attackingBoxer_)
+            {
+                //return the exact boxer we are targeting
+                return boxer;                
+            }
+        }
+        
+        //otherwise null
+        return null;
+    }
+
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-AddBoxer
+    //EXPLANATION-Adds a Boxer into the ArrayBoxers
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function AddBoxer(boxer_:Boxer):Void
+    {
+        //let us know that we are adding a boxer
+        //Console.WriteLine("Boxer added named: `boxer_.Owner.Name`");
+        this.ArrayBoxers.Add(boxer_);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-RemoveBoxer
+    //EXPLANATION-Removes a Boxer from the ArrayBoxers
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function RemoveBoxer(boxer_:Boxer)
+    {
+        //let us know that we are removing a boxer
+        //Console.WriteLine("Boxer removed named: `boxer_.Owner.Name`");
+        this.ArrayBoxers.RemoveFirst(boxer_);
+        
+        this.Turn.RemoveFirst(boxer_);
+    }
+    
+}

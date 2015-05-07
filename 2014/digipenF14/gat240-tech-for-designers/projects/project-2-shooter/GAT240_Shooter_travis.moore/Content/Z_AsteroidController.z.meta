@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_AsteroidController",
+		uint64 ResourceId = 548b388d4270a71c,
+	},
+},

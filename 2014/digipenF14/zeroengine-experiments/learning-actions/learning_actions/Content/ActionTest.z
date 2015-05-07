@@ -1,0 +1,56 @@
+class ActionTest:ZilchComponent
+{
+    function Initialize(init:CogInitializer)
+    {
+        /*
+            There are 2 types of actions, Sequence and Group
+            Sequence = actions are performed one after the other
+            Group = actions are all performed at the same time
+        */
+        
+        //"seq" is an object that holds an action sequence (one at a time actions)
+        //try chancing Action.Sequence to Action.Group to see the actions take place all at once
+        var seq = Action.Sequence(this.Owner.Actions);
+        
+        //now we define the action sequence we want "seq" to contain
+        
+        //move up
+        Action.Property(seq,                                //variable object this sequence is attached to
+                        @this.Owner.Transform.Translation,  //property that we are affecting on @this.Owner
+                        Real3(0,10,0),                      //new value of the property we are affecting
+                        1.5,                                //time period (duration in seconds) that action happens over
+                        Ease.QuadInOut);                    //animation easing type
+        //move right
+        Action.Property(seq,
+                        @this.Owner.Transform.Translation,
+                        Real3(5,10,0), //*SPECIAL NOTE* these are coords, 10 needs to be in the y otherwise the object will move down as well as to the right
+                        1.5,
+                        Ease.Linear);
+                        
+        //scale x2
+        Action.Property(seq,
+                        @this.Owner.Transform.Scale,
+                        Real3(2,2,0),
+                        0.5,
+                        Ease.Linear);
+                        
+        //we can also add delays!
+        //wait 2 seconds
+        Action.Delay(seq, 2.0);
+        
+        //change color to Blue
+        Action.Property(seq,
+                        @this.Owner.Sprite.Color,
+                        Real4(0,0,1,1),             //remember colors use 4 channels (red, green, blue, alpha)
+                        0.5,
+                        Ease.SinInOut);
+        
+        //we can use Call to call a function on the object
+        Action.Call(seq, this.SayHello);
+    }
+    
+    function SayHello()
+    {
+        Console.WriteLine("Hello!");
+    }
+}

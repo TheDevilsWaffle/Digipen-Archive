@@ -1,0 +1,20 @@
+class Z_CameraController : ZilchComponent
+{
+    [Property]
+    var TargetObject:CogPath = null;
+    function Initialize(init : CogInitializer)
+    {
+        // we want to update our camera's position each game loop
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        // create a new variable to hold the player's position
+        var newCameraPos = this.TargetObject.Cog.Transform.LocalTranslation;
+        // save the camera's z value
+        newCameraPos.Z = this.Owner.Transform.LocalTranslation.Z;
+        // set the camera's new position to newCameraPos
+        this.Owner.Transform.LocalTranslation = newCameraPos;
+    }
+}

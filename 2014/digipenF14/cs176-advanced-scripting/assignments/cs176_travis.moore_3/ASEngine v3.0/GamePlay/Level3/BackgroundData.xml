@@ -1,0 +1,31 @@
+<Level>
+
+  <Columns> 12 </Columns>
+  <Rows> 14 </Rows>
+  <TileWidth> 40 </TileWidth>
+  <TileHeight> 40 </TileHeight>
+					
+  <TileIDs>
+    <tile id="0" name="MyAir" class_name="MyAir" class_type="displayobject" > </tile>
+    <tile id="1" name="MyBorder" class_name="MyBorder" class_type="displayobject"> </tile>
+    <tile id="2" name="MyGround" class_name="MyGround" class_type="displayobject"> </tile>
+   </TileIDs>		
+				
+   <TileMap>
+    <Row> 1,1,1,1,1,1,1,1,1,1,1,1 </Row>
+    <Row> 1,0,0,0,0,0,0,0,0,0,0,1 </Row>
+    <Row> 1,0,0,0,0,0,0,0,0,2,0,1 </Row>
+    <Row> 1,2,2,2,2,2,0,0,0,2,0,1 </Row>
+    <Row> 1,0,0,0,0,0,0,0,0,2,0,1 </Row>
+    <Row> 1,0,0,0,0,0,0,2,2,2,0,1 </Row>
+    <Row> 1,0,0,0,2,0,0,0,0,0,0,1 </Row>
+    <Row> 1,0,0,0,0,0,0,0,2,0,0,1 </Row>
+    <Row> 1,2,0,2,2,2,2,0,2,2,0,1 </Row>
+    <Row> 1,0,0,0,0,0,0,0,2,0,0,1 </Row>
+    <Row> 1,0,0,0,0,0,0,0,2,0,0,1 </Row>
+    <Row> 1,0,2,0,0,0,0,2,2,0,0,1 </Row>
+    <Row> 1,0,0,0,0,0,0,0,0,0,2,1 </Row>
+    <Row> 1,1,1,1,1,1,1,1,1,1,1,1 </Row>
+  </TileMap>
+  
+</Level>

@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_Buttons",
+		uint64 ResourceId = 54c127f57d2d3bd4,
+	},
+},

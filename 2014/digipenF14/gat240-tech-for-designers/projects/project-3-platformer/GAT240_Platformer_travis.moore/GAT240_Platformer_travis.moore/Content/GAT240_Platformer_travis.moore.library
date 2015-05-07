@@ -1,0 +1,7 @@
+ContentLibrary = 
+{
+	string Name = "GAT240_Platformer_travis.moore",
+	uint64 LibraryId = 546a79aaf437c7b2,
+	string SourceControlType = "",
+	bool ReadOnly = false,
+},

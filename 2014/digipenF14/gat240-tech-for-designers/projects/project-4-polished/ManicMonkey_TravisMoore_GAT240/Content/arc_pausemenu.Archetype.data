@@ -1,0 +1,475 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "PauseMenu",
+	},
+	Archetyped = 
+	{
+		string Name = "540ee32ecdeb09b2:arc_pausemenu",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [14.0841, -7.10725, 0],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		bool Visible = true,
+		bool VisibilityCulling = true,
+		Vec4 Color = [1, 1, 1, 1],
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+		string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+		string SpriteSource = "540e870933424b91:pause-menu",
+		bool RenderMask = false,
+		bool FlipX = false,
+		bool FlipY = false,
+		bool OnTop = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+	},
+	Reactive = 
+	{
+		bool Active = true,
+		bool CaptureMouse = false,
+	},
+	Area = 
+	{
+		Vec2 Size = [8, 10],
+		Location Origin = Center,
+	},
+	Hierarchy = 
+	{
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 2,
+			},
+			Named = 
+			{
+				string Name = "BtnResume",
+			},
+			Archetyped = 
+			{
+				string Name = "540e87f3d8390550:arc_btn",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0.0485492, 2.20486, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "540ee3eaf7ddbb23:BtnGameResumeInactive",
+				bool RenderMask = false,
+				bool FlipX = false,
+				bool FlipY = false,
+				bool OnTop = true,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+			Z_UI_Button = 
+			{
+				string LevelToLoad = "",
+				int GamepadIndex = 0,
+			},
+			Reactive = 
+			{
+				bool Active = true,
+				bool CaptureMouse = true,
+			},
+			Z_GamepadButtonController = 
+			{
+				CogPath UpButton = "../BtnPauseQuit",
+				CogPath DownButton = "../BtnPauseControls",
+				CogPath LeftButton = "",
+				CogPath RightButton = "",
+				string AltSprite = "540ee3eaf7dde3e6:BtnGameResumeActive",
+				int GamepadIndex = 0,
+				bool Active = true,
+				float Timer = 0,
+				float DelayBetweenButtonSwitch = 10,
+				string LevelToLoad = "",
+			},
+			Z_UI_Transitions = 
+			{
+				float FadeInTime = 0.5,
+				float FadeOutTime = 0.25,
+				float WaitTime = 2,
+				float ScaleOutTime = 0.2,
+				float ScaleInTime = 0.25,
+				float ScaleBiggerSize = 1.1,
+				Enum EaseType = QuadInOut,
+			},
+			Area = 
+			{
+				Vec2 Size = [4, 1],
+				Location Origin = Center,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 3,
+			},
+			Named = 
+			{
+				string Name = "scn-focus",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0, 0, -1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				Vec4 Color = [1, 1, 1, 0],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "540e870933426df6:scn-focus",
+				bool RenderMask = false,
+				bool FlipX = false,
+				bool FlipY = false,
+				bool OnTop = false,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+			Area = 
+			{
+				Vec2 Size = [32, 20],
+				Location Origin = Center,
+			},
+			Reactive = 
+			{
+				bool Active = true,
+				bool CaptureMouse = false,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 4,
+			},
+			Named = 
+			{
+				string Name = "BtnPauseMainMenu",
+			},
+			Archetyped = 
+			{
+				string Name = "540e87f3d8390550:arc_btn",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0.0485492, -2.69123, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "5457e7225fffc2d0:btn-menu-main-inactive",
+				bool RenderMask = false,
+				bool FlipX = false,
+				bool FlipY = false,
+				bool OnTop = true,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+			Z_UI_Button = 
+			{
+				string LevelToLoad = "",
+				int GamepadIndex = 0,
+			},
+			Reactive = 
+			{
+				bool Active = true,
+				bool CaptureMouse = true,
+			},
+			Z_GamepadButtonController = 
+			{
+				CogPath UpButton = "../BtnPauseCredits",
+				CogPath DownButton = "../BtnPauseQuit",
+				CogPath LeftButton = "",
+				CogPath RightButton = "",
+				string AltSprite = "5457e7225ffd5ae8:btn-menu-main-active",
+				int GamepadIndex = 0,
+				bool Active = false,
+				float Timer = 0,
+				float DelayBetweenButtonSwitch = 10,
+				string LevelToLoad = "",
+			},
+			Z_UI_Transitions = 
+			{
+				float FadeInTime = 0.5,
+				float FadeOutTime = 0.25,
+				float WaitTime = 2,
+				float ScaleOutTime = 0.2,
+				float ScaleInTime = 0.25,
+				float ScaleBiggerSize = 1.1,
+				Enum EaseType = QuadInOut,
+			},
+			Area = 
+			{
+				Vec2 Size = [4, 1],
+				Location Origin = Center,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 5,
+			},
+			Named = 
+			{
+				string Name = "BtnPauseControls",
+			},
+			Archetyped = 
+			{
+				string Name = "540e87f3d8390550:arc_btn",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0.0485492, 0.94715, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "5457e7225ffd079c:btn-menu-controls-inactive",
+				bool RenderMask = false,
+				bool FlipX = false,
+				bool FlipY = false,
+				bool OnTop = true,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+			Z_UI_Button = 
+			{
+				string LevelToLoad = "",
+				int GamepadIndex = 0,
+			},
+			Reactive = 
+			{
+				bool Active = true,
+				bool CaptureMouse = true,
+			},
+			Z_GamepadButtonController = 
+			{
+				CogPath UpButton = "../BtnResume",
+				CogPath DownButton = "../BtnPauseCredits",
+				CogPath LeftButton = "",
+				CogPath RightButton = "",
+				string AltSprite = "5457e7225ffceb3d:btn-menu-controls-active",
+				int GamepadIndex = 0,
+				bool Active = false,
+				float Timer = 0,
+				float DelayBetweenButtonSwitch = 10,
+				string LevelToLoad = "",
+			},
+			Z_UI_Transitions = 
+			{
+				float FadeInTime = 0.5,
+				float FadeOutTime = 0.25,
+				float WaitTime = 2,
+				float ScaleOutTime = 0.2,
+				float ScaleInTime = 0.25,
+				float ScaleBiggerSize = 1.1,
+				Enum EaseType = QuadInOut,
+			},
+			Area = 
+			{
+				Vec2 Size = [4, 1],
+				Location Origin = Center,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 6,
+			},
+			Named = 
+			{
+				string Name = "BtnPauseCredits",
+			},
+			Archetyped = 
+			{
+				string Name = "540e87f3d8390550:arc_btn",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0.0485492, -0.220723, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "5457e7225ffd3f43:btn-menu-credits-inactive",
+				bool RenderMask = false,
+				bool FlipX = false,
+				bool FlipY = false,
+				bool OnTop = true,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+			Z_UI_Button = 
+			{
+				string LevelToLoad = "",
+				int GamepadIndex = 0,
+			},
+			Reactive = 
+			{
+				bool Active = true,
+				bool CaptureMouse = true,
+			},
+			Z_GamepadButtonController = 
+			{
+				CogPath UpButton = "../BtnPauseControls",
+				CogPath DownButton = "../BtnPauseMainMenu",
+				CogPath LeftButton = "",
+				CogPath RightButton = "",
+				string AltSprite = "5457e7225ffd257d:btn-menu-credits-active",
+				int GamepadIndex = 0,
+				bool Active = false,
+				float Timer = 0,
+				float DelayBetweenButtonSwitch = 10,
+				string LevelToLoad = "",
+			},
+			Z_UI_Transitions = 
+			{
+				float FadeInTime = 0.5,
+				float FadeOutTime = 0.25,
+				float WaitTime = 2,
+				float ScaleOutTime = 0.2,
+				float ScaleInTime = 0.25,
+				float ScaleBiggerSize = 1.1,
+				Enum EaseType = QuadInOut,
+			},
+			Area = 
+			{
+				Vec2 Size = [4, 1],
+				Location Origin = Center,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 7,
+			},
+			Named = 
+			{
+				string Name = "BtnPauseQuit",
+			},
+			Archetyped = 
+			{
+				string Name = "540e87f3d8390550:arc_btn",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0.0485492, -3.88156, 1],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				bool Visible = true,
+				bool VisibilityCulling = true,
+				Vec4 Color = [1, 1, 1, 1],
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+				string SpriteLayer = "52ad5fa30d7fcd50:DefaultSpriteLayer",
+				string SpriteSource = "5457e7225ffc90f6:btn-game-quit-inactive",
+				bool RenderMask = false,
+				bool FlipX = false,
+				bool FlipY = false,
+				bool OnTop = true,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+			},
+			Z_UI_Button = 
+			{
+				string LevelToLoad = "",
+				int GamepadIndex = 0,
+			},
+			Reactive = 
+			{
+				bool Active = true,
+				bool CaptureMouse = true,
+			},
+			Z_GamepadButtonController = 
+			{
+				CogPath UpButton = "../BtnPauseMainMenu",
+				CogPath DownButton = "../BtnResume",
+				CogPath LeftButton = "",
+				CogPath RightButton = "",
+				string AltSprite = "5457e7225ffc7077:btn-game-quit-active",
+				int GamepadIndex = 0,
+				bool Active = false,
+				float Timer = 0,
+				float DelayBetweenButtonSwitch = 10,
+				string LevelToLoad = "",
+			},
+			Z_UI_Transitions = 
+			{
+				float FadeInTime = 0.5,
+				float FadeOutTime = 0.25,
+				float WaitTime = 2,
+				float ScaleOutTime = 0.2,
+				float ScaleInTime = 0.25,
+				float ScaleBiggerSize = 1.1,
+				Enum EaseType = QuadInOut,
+			},
+			Area = 
+			{
+				Vec2 Size = [4, 1],
+				Location Origin = Center,
+			},
+		},
+	},
+},

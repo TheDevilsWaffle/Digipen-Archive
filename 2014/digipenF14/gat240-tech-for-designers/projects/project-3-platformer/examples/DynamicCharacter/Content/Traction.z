@@ -1,0 +1,9 @@
+class Traction : ZilchComponent
+{
+    [Property]
+    var Traction : Real = 1.0;
+    
+    constructor() : base()
+    {
+    }
+}

@@ -1,0 +1,67 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_AnimationManager.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_AnimationManager:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var PlayerStand:SpriteSource = null;
+    [Property]
+    var PlayerWalk:SpriteSource = null;
+    [Property]
+    var PlayerJump:SpriteSource = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Perform actions every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+      //standing state
+      if(this.Owner.Sprite.SpriteSource == this.PlayerStand)
+      {
+        if(Zero.Keyboard.KeyIsDown(Keys.A) || Zero.Keyboard.KeyIsDown(Keys.D))
+        {
+            this.Owner.Sprite.SpriteSource = this.PlayerWalk;
+        }
+        
+        if(Zero.Keyboard.KeyIsPressed(Keys.Space))
+        {
+            this.Owner.Sprite.SpriteSource = this.PlayerJump;
+        }
+      }
+      // walking state
+      else if(this.Owner.Sprite.SpriteSource == this.PlayerWalk)
+      {
+        if(Zero.Keyboard.KeyIsDown(Keys.A) == false && Zero.Keyboard.KeyIsDown(Keys.D) == false)
+        {
+            this.Owner.Sprite.SpriteSource = this.PlayerStand;
+        }
+
+        if(Zero.Keyboard.KeyIsPressed(Keys.Space))
+        {
+            this.Owner.Sprite.SpriteSource = this.PlayerJump;
+        }
+      }
+      // jumping state
+      else if(this.Owner.Sprite.SpriteSource == this.PlayerJump)
+      {
+        if(this.Owner.SweptController.Grounded)
+        {
+            this.Owner.Sprite.SpriteSource = this.PlayerStand;
+        }
+      }
+    }
+}

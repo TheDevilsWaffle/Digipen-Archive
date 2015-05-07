@@ -1,0 +1,18 @@
+Cog = 
+{
+	Project = 
+	{
+		string ProjectName = "GAT240_Platformer_travis.moore",
+		string ProjectOwner = "",
+		string DefaultLevel = "Level",
+		string ProjectSpace = "Space",
+		uint ProjectEngineRevision = 10369,
+	},
+	EditorSettings = 
+	{
+		EditorMode EditorMode = Mode2D,
+		float DefaultPixelsPerUnit = 64,
+		bool SpriteSmoothing = true,
+		float DefaultImportScale = 1,
+	},
+},

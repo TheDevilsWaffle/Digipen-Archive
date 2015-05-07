@@ -1,0 +1,73 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_BouncePad.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_BouncePad:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var LaunchForce:Real = 2.2;                 //how much bounce
+    [Property]
+    var LaunchDirection:Real3 = Real3(0,1,0);   //currently set to launch up
+    [Property]
+    var Target:CogPath = null;                  //only affect the target
+    //non-settables
+    var IsAnimating:Boolean = false;
+    var Timer:Real = 0.0;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        //ensure that the animation is set initially to false
+        this.Owner.Sprite.AnimationActive = false;
+        this.Owner.Sprite.CurrentFrame = 0;
+        this.IsAnimating = false;
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Cancel the animation if it is beyond the animation limit (arbitrary value)
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent)
+    {
+        if(this.IsAnimating)
+        {
+            this.Timer += 0.1;
+            if(this.Timer >= 4.5)
+            {
+                this.Owner.Sprite.AnimationActive = false;
+                this.Owner.Sprite.CurrentFrame = 0;
+                this.IsAnimating = false;
+                this.Timer = 0.0;
+            }
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnCollisionStarted
+    //EXPLANATION-perform bounce/noise when target hits the bouncepad
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnCollisionStarted(event:CollisionEvent):Void
+    {
+        //make sure it affects only the target
+        if(event.OtherObject == this.Target.Cog)
+        {
+            //play bass jump sound
+            this.Space.SoundSpace.PlayCue(SoundCue.Find("SFXBouncePad"));
+            //perform jump
+            event.OtherObject.SweptController.JumpDirectionally(this.LaunchDirection * this.LaunchForce);
+            //animate
+            this.Owner.Sprite.AnimationActive = true;
+            this.IsAnimating = true;
+        }
+    }
+}

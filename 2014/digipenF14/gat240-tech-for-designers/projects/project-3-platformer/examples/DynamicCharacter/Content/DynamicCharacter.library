@@ -1,0 +1,7 @@
+ContentLibrary = 
+{
+	string Name = "DynamicCharacter",
+	uint64 LibraryId = 5423d89d98a0988f,
+	string SourceControlType = "",
+	bool ReadOnly = false,
+},

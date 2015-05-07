@@ -1,0 +1,35 @@
+class CharacterController : ZilchComponent
+{
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        var movement = Real3();
+        
+        if(Zero.Keyboard.KeyIsDown(Keys.A))
+        {
+            movement += Real3(-1,0,0);
+        }
+        
+        if(Zero.Keyboard.KeyIsDown(Keys.D))
+        {
+            movement += Real3(1,0,0);
+        }
+        
+        
+        if(Zero.Keyboard.KeyIsPressed(Keys.Space))
+        {
+            this.Owner.DynamicCharacterController.Jump();
+        }
+        
+        this.Owner.DynamicCharacterController.MoveDirection = movement;
+        
+
+        
+        
+        
+    }
+}

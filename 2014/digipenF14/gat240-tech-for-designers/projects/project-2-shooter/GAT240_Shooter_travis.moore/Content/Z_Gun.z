@@ -1,0 +1,59 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+class Z_Gun : ZilchComponent
+{
+    [Dependency]
+    var Transform : Transform = null;
+    [Dependency]
+    var Orientation : Orientation = null;
+    [Property]
+    var Projectile : Archetype = null;
+    [Property]
+    var Offset : Real3 = Real3(0,0.5,0);
+    [Property]
+    var MuzzleSpeed : Real = 10;
+    [Property]
+    var FireSpeed : Real = 1;
+    [Property]
+    var TimeSinceFire : Real = 0.0;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Generate the amount of enemies to use for the game
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        this.TimeSinceFire = this.FireSpeed;
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Fire shots at player forward
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if(Zero.Keyboard.KeyIsDown(Keys.Space))
+        {
+            if(this.TimeSinceFire > this.FireSpeed)
+            {
+                //reset the TimeSinceFire
+                this.TimeSinceFire = 0;
+                
+                //update the worldOffset
+                var worldOffset = this.Transform.TransformPoint(this.Offset);
+                
+                //find out what kind of projectile we are going to fire
+                var projectile  = this.Space.CreateAtPosition(this.Projectile, worldOffset);
+                projectile.RigidBody.Velocity =  this.Orientation.WorldForward * this.MuzzleSpeed;
+                projectile.Orientation.LookAtDirection(this.Orientation.WorldForward);
+            }
+        }
+        this.TimeSinceFire += event.Dt;
+    }
+}

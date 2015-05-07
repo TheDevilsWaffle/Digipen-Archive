@@ -1,0 +1,37 @@
+<Particle>
+  <Name> water </Name>
+  <ShapeClass> Water </ShapeClass>
+  
+  <Mass> 0.1 </Mass>
+
+  <Lifetime>
+    <Lower> 2 </Lower>
+    <Upper> 3 </Upper>
+  </Lifetime>
+			
+  <Opacity>
+    <Start>
+      <Lower> 0.5 </Lower>
+      <Upper> 1.0 </Upper>
+    </Start>
+    <End>
+      <Lower> 0.0 </Lower>
+      <Upper> 0.2 </Upper>
+    </End>
+  </Opacity>
+			
+  <Scale>
+    <Start>
+      <LowerX> 0.05 </LowerX>
+      <UpperX> 0.1 </UpperX>
+      <LowerY> 0.05 </LowerY>
+      <UpperY> 0.1 </UpperY>
+    </Start>	
+    <End>
+      <LowerX> 0.0 </LowerX>
+      <UpperX> 0.0 </UpperX>
+      <LowerY> 0.0 </LowerY>
+      <UpperY> 0.0 </UpperY>
+    </End>
+  </Scale>			
+</Particle>

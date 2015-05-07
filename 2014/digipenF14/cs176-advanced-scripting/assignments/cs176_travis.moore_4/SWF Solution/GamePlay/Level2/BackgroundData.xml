@@ -1,0 +1,27 @@
+<Level>
+
+  <Columns> 15 </Columns>
+  <Rows> 11 </Rows>
+  <TileWidth> 50 </TileWidth>
+  <TileHeight> 50 </TileHeight>
+					
+  <TileIDs>
+    <tile id="0" name="Air" class_name="Air" class_type="displayobject" > </tile>
+    <tile id="1" name="Ground1" class_name="Ground1" class_type="displayobject"> </tile>
+   </TileIDs>		
+				
+   <TileMap>
+    <Row> 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 </Row>
+    <Row> 1,0,0,0,0,0,0,0,0,0,0,0,0,0,1 </Row>
+    <Row> 1,0,0,0,0,0,0,0,1,1,1,1,1,1,1 </Row>
+    <Row> 1,0,0,1,1,0,0,0,0,0,0,0,0,0,1 </Row>
+    <Row> 1,0,0,0,1,0,0,0,0,0,0,0,0,0,1 </Row>
+    <Row> 1,0,0,0,1,0,0,0,0,0,0,0,0,0,1 </Row>
+    <Row> 1,0,0,0,1,0,0,0,0,0,0,0,0,0,1 </Row>
+    <Row> 1,0,0,0,1,0,0,0,0,0,0,0,0,1,1 </Row>
+    <Row> 1,0,0,0,1,1,0,0,0,0,0,0,1,1,1 </Row>
+    <Row> 1,0,0,0,0,0,0,0,0,0,0,1,1,1,1 </Row>
+    <Row> 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 </Row>
+  </TileMap>
+  
+</Level>

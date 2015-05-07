@@ -1,0 +1,44 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_PitchModifier.z
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_PitchModifier:ZilchComponent
+{
+    //non-settables
+    var Target:Cog = null;
+    var IsActive:Boolean = false;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        //set target
+        this.Target = this.Space.FindObjectByName("Player");
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Perform actions every frame
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent):Void
+    {
+        //if powerup has been collected, this is now true
+        if(this.IsActive)
+        {
+            //set soundemitter pitch equal to absolute value of the player's x velocity (at least 1.0 so it does not turn off)
+            this.Owner.SoundEmitter.Pitch = (Math.Abs(this.Target.RigidBody.Velocity.X) / 20) + 1.0;
+        }
+        //no powerup play music normally
+        else
+        {
+            this.Owner.SoundEmitter.Pitch = 1.0;
+        }
+    }
+}

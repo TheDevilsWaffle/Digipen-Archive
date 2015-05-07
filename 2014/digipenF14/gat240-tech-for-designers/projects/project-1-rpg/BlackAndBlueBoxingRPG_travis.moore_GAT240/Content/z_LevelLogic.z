@@ -1,0 +1,93 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+class Z_LevelLogic:ZilchComponent
+{
+    [Property]
+    var SplashScreenDelay:Real = 3;
+    
+    //timer variabe
+    var Timer:Real = 0; //used to sequence through splash screen
+    //levels
+    var LvlMenuMain:Level = Level.Find("lvl_menu_main");
+    var LvlMenuControls: Level = Level.Find("lvl_menu_controls");
+    var LvlLose:Level = Level.Find("lvl_player_lose");
+    var LvlWin:Level = Level.Find("lvl_player_win");
+    var LvlSplash:Level = Level.Find("lvl_splash");
+    var LvlStart:Level = Level.Find("lvl_start");
+    var LvlBoxingRing:Level = Level.Find("lvl_boxing_ring");
+    var CurrentLevel:Level = null;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        //variable to hook to current level
+        this.CurrentLevel = this.Space.CurrentLevel;
+        
+        //connect to LogicUpdate event
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Update every frame, perform actions and listen for keyboard
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if(this.CurrentLevel == this.LvlSplash)
+        {
+            //keep track of the Timer
+            this.Timer += event.Dt;
+            
+            //continue to start screen once splash screen is done displaying
+            if(this.Timer >= this.SplashScreenDelay)
+            {
+                this.Space.LoadLevel(this.LvlStart);
+            }
+        }
+        //CHEAT/SHORTCUT KEYS
+        //reload level
+        if(Zero.Keyboard.KeyIsPressed(Keys.R))
+        {
+            this.Space.ReloadLevel();
+        }
+        //Skip to Win level
+        if(Zero.Keyboard.KeyIsPressed(Keys.W))
+        {
+            this.Space.LoadLevel(this.LvlWin);
+        }
+        //Skip to Lose level
+        if(Zero.Keyboard.KeyIsPressed(Keys.L))
+        {
+            this.Space.LoadLevel(this.LvlLose);
+        }
+        //Kill Player
+        if(Zero.Keyboard.KeyIsPressed(Keys.P))
+        {
+            var player = this.Space.FindObjectByName("Player");
+            this.Space.LevelSettings.Z_UI.UpdatePlayerHP(0);
+            player.Boxer.Health =0;
+            
+        }
+        //Kill all Enemies
+        if(Zero.Keyboard.KeyIsPressed(Keys.E))
+        {
+            var enemy = this.Space.FindObjectByName("Enemy");
+            this.Space.LevelSettings.Z_UI.UpdateEnemyHP(0);
+            enemy.Boxer.Health = 0;
+            
+        }
+    }
+    
+    function Win():Void
+    {
+        this.Space.LoadLevel(this.LvlWin);
+    }
+}

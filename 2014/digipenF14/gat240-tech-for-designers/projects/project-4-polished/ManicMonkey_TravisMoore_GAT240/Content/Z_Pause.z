@@ -1,0 +1,46 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_UI_MenuPopUp.z
+//AUTHOR-Travis Moore
+//COURSE-GAM240
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_Pause:ZilchComponent
+{
+    var GamepadIndex:Integer = 0;
+    
+    var Gamepad:Gamepad = null;
+    var PauseMenu:Cog = null;
+    
+    var PauseMenuPosition:Real3 = Real3(0,0,1);
+    
+    function Initialize(init : CogInitializer)
+    {
+        this.Gamepad = Zero.Gamepads.GetGamePad(this.GamepadIndex);
+        Zero.Connect(this.Space, Events.FrameUpdate, this.OnFrameUpdate);
+    }
+
+    function OnFrameUpdate(event : UpdateEvent)
+    {
+        if(Zero.Keyboard.KeyIsPressed(Keys.P) || this.Gamepad.IsButtonPressed(Buttons.Start))
+        {
+            this.TogglePauseMenu();
+        }
+    }
+    
+    function TogglePauseMenu():Void
+    {
+        this.Space.TimeSpace.TogglePause();
+            this.Space.SoundSpace.Pause = !this.Space.SoundSpace.Pause;
+            if(this.Space.SoundSpace.Pause)
+            {
+                this.PauseMenu = this.LevelSettings.HudCreator.HudSpace.CreateAtPosition(Archetype.Find("arc_pausemenu"), this.PauseMenuPosition);
+            }
+            else
+            {
+                if(this.PauseMenu != null)
+                {
+                    this.PauseMenu.Destroy();
+                }
+            }
+    }
+}

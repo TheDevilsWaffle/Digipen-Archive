@@ -1,0 +1,115 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+class Z_MovementController : ZilchComponent
+{
+    [Dependency]
+    var Transform:Transform = null;
+    [Property]
+    var Speed:Real = 10;
+    [Property]
+    var RotationSpeed:Real = 250;
+    [Property]
+    var RotationSpeedOverride:Real = 500;
+    [Property]
+    var GamepadIndex:Integer = 0;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions for further use
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        
+        var movement = Real3(0,0,0);
+        var rotation = 0.0;
+        
+        //attempt to get the gamepad at the given index
+        
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnLogicUpdate
+    //EXPLANATION-Every logical frame update perform the following actions
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnLogicUpdate(event:UpdateEvent)
+    {
+        //reset movement and rotation
+        var movement = Real3(0,0,0);
+        var rotation = 0.0;
+        
+        
+        //move left
+        if(Zero.Keyboard.KeyIsDown(Keys.A))
+        {
+            movement += Real3(-1,0,0);
+        }
+        //move right
+        if(Zero.Keyboard.KeyIsDown(Keys.D))
+        {
+            movement += Real3(1,0,0);
+        }
+        //move up
+        if(Zero.Keyboard.KeyIsDown(Keys.W))
+        {
+            movement += Real3(0,1,0);
+        }  
+        //move down
+        if(Zero.Keyboard.KeyIsDown(Keys.S))
+        {
+            movement += Real3(0,-1,0);
+        }  
+        //rotate left
+        if(Zero.Keyboard.KeyIsDown(Keys.Q))
+        {
+            rotation = Math.ToRadians(this.RotationSpeedOverride) * event.Dt;
+        }
+        //rotate Right
+        if(Zero.Keyboard.KeyIsDown(Keys.E))
+        {
+            rotation = Math.ToRadians(-this.RotationSpeedOverride) * event.Dt;
+        }
+        
+        //set rotation
+        var localRotation = Math.ToQuaternion( Real3(0,0,1), rotation);
+        //apply rotation
+        this.Transform.RotateLocal(localRotation);
+        
+        //normalize movement (get direction)
+        movement = Math.Normalize(movement);   
+        movement = this.Transform.TransformNormal(movement);
+        //apply movement
+        this.Transform.Translation += movement * event.Dt * this.Speed;
+        
+        //rotate towards the mouse
+        //this.RotateTowardsMouse(event);
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-RotateTowardsMouse
+    //EXPLANATION-Grabs mouse location and orients player towards it.
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function RotateTowardsMouse(event:UpdateEvent):Void
+    {
+        // Get the mouse position on the screen
+        var mouseScreenPosition = Zero.Mouse.ScreenPosition;
+
+        // Convert the mouse position from screen coordinate to world coordinates
+        // use the main viewport for the level
+        var worldMousePosition = this.LevelSettings.CameraViewport.ScreenToWorldZPlane(mouseScreenPosition, 0);
+
+        // Get the rotation need to look at the point
+        var targetRotation = this.Owner.Orientation.GetLookAtPointRotation(worldMousePosition);
+
+        var currentRotation = this.Owner.Transform.Rotation;
+
+        // Move towards the needed rotation at RotationSpeed
+        var partialRotation = Math.RotateTowards(currentRotation, targetRotation, Math.ToRadians(this.RotationSpeed) * event.Dt);
+        this.Owner.Transform.Rotation = partialRotation;
+    }
+}

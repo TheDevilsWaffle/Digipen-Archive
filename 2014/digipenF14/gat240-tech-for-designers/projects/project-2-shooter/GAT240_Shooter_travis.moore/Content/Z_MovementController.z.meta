@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_MovementController",
+		uint64 ResourceId = 54bcf85f494d1419,
+	},
+},

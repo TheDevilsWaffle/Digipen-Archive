@@ -1,0 +1,230 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR-Travis Moore
+//COURSE-GAT240F14
+//INSTRUCTOR-Chris Peters
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+class Z_Buttons_Attack:ZilchComponent
+{
+    //attack buttons
+    var Atk_1_Punch:String = "p1-atk-punch";
+    var Atk_2_Punch:String = "p2-atk-punch";
+    var Atk_1_Jab:String = "p1-atk-jab";
+    var Atk_2_Jab:String = "p2-atk-jab";
+    var Atk_1_Special:String = "p1-atk-special";
+    var Atk_2_Special:String = "p2-atk-special";
+    var Atk_1_Growl:String = "p1-atk-growl";
+    var Atk_2_Growl:String = "p2-atk-growl";
+    
+    //button controlling next turn
+    var NextTurn:String = "btn-next-turn";
+    
+    var P1Stanima:Real = 0;
+    var P2Stanima:Real = 0;
+    var P1PunchCost:Integer = 0;
+    var P1JabCost:Integer = 0;
+    var P1SpecialCost:Integer = 0;
+    var P2PunchCost:Integer = 0;
+    var P2JabCost:Integer = 0;
+    var P2SpecialCost:Integer = 0;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize functions/variables
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init : CogInitializer)
+    {
+        //mouse related functions
+        Zero.Connect(this.Owner, Events.MouseEnter, this.OnMouseEnter);
+        Zero.Connect(this.Owner, Events.MouseExit, this.OnMouseExit);
+        Zero.Connect(this.Owner, Events.MouseDown, this.OnMouseDown);
+        
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnMouseEnter
+    //EXPLANATION-Perform sprite swap upon mouse enter to enchance player feedback
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnMouseEnter(event:ViewportMouseEvent):Void
+    {
+        //check to see what attack button we are by getting name
+        var currentBtn:String = this.Owner.Name;
+        
+        //Next, if checks to swap out correct sprites
+        //PLAYER1
+        //P1-Attack-Punch
+        if(currentBtn == "p1-atk-punch")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p1-punch-active");
+        }
+        //P1-Jab-Punch
+        if(currentBtn == "p1-atk-jab")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p1-jab-active");
+        }
+        //P1-Special-Punch
+        if(currentBtn == "p1-atk-special")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p1-special-active");
+        }
+        //P1-Growl-Punch
+        if(currentBtn == "p1-atk-growl")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p1-growl-active");
+        }
+        //PLAYER2
+        //P2-Attack-Punch
+        if(currentBtn == "p2-atk-punch")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p2-punch-active");
+        }
+        //P2-Jab-Punch
+        if(currentBtn == "p2-atk-jab")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p2-jab-active");
+        }
+        //P2-Special-Punch
+        if(currentBtn == "p2-atk-special")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p2-special-active");
+        }
+        //P2-Growl-Punch
+        if(currentBtn == "p2-atk-growl")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p2-growl-active");
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnMouseExit
+    //EXPLANATION-Perform sprite swap back to original inactive sprite to enhance player feedback
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnMouseExit(event:ViewportMouseEvent):Void
+    {
+        //check to see what attack button we are by getting name
+        var currentBtn:String = this.Owner.Name;
+        
+        //Next, if checks to swap out correct sprites
+        //PLAYER1
+        //P1-Attack-Punch
+        if(currentBtn == "p1-atk-punch")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p1-punch-inactive");
+        }
+        //P1-Jab-Punch
+        if(currentBtn == "p1-atk-jab")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p1-jab-inactive");
+        }
+        //P1-Special-Punch
+        if(currentBtn == "p1-atk-special")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p1-special-inactive");
+        }
+        //P1-Growl-Punch
+        if(currentBtn == "p1-atk-growl")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p1-growl-inactive");
+        }
+        //PLAYER2
+        //P2-Attack-Punch
+        if(currentBtn == "p2-atk-punch")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p2-punch-inactive");
+        }
+        //P2-Jab-Punch
+        if(currentBtn == "p2-atk-jab")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p2-jab-inactive");
+        }
+        //P2-Special-Punch
+        if(currentBtn == "p2-atk-special")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p2-special-inactive");
+        }
+        //P2-Growl-Punch
+        if(currentBtn == "p2-atk-growl")
+        {
+            this.Owner.Sprite.SpriteSource = SpriteSource.Find("atk-p2-growl-inactive");
+        }
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-OnMouseDown
+    //EXPLANATION-Perform actions upon mouse enter, send to Z_Attack()
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function OnMouseDown(event:ViewportMouseEvent):Void
+    {
+        //check to see what attack button we are by getting name
+        var currentBtn:String = this.Owner.Name;
+        
+        //NEXT TURN
+        if(this.Space.LevelSettings.BoxingRing.PlayerCanTakeTurn)
+        {
+            if(this.Space.LevelSettings.BoxingRing.PlayerCanTakeTurn)
+            {
+                
+                //variable to represent the BoxingRing zilchscript
+                var boxingRing = this.LevelSettings.BoxingRing;
+                //connecting to things
+                this.P2Stanima = this.Space.FindObjectByName("Enemy").Boxer.Stanima;
+                this.P1Stanima = this.Space.FindObjectByName("Player").Boxer.Stanima;
+                this.P1PunchCost = this.Space.FindObjectByName("Player").Boxer.PunchCost;
+                this.P1JabCost = this.Space.FindObjectByName("Player").Boxer.JabCost;
+                this.P1SpecialCost = this.Space.FindObjectByName("Player").Boxer.SpecialCost;
+                
+                //PLAYER1
+                //P1-Attack-Punch
+                if(currentBtn == this.Atk_1_Punch)
+                {
+                    if(this.P1Stanima >= this.P1PunchCost)
+                    {
+                        boxingRing.TakeTurn("punch");
+                    }
+                    else
+                    {
+                        this.Space.FindObjectByName("Player").Boxer.Say("I don't have enough stamina for that");
+                        //Console.WriteLine("You do not have enough Stanima to use PUNCH");
+                    }
+                }
+                //P1-Attack-Jab
+                if(currentBtn == this.Atk_1_Jab)
+                {
+                    if(this.P1Stanima >= this.P1JabCost)
+                    {
+                        boxingRing.TakeTurn("jab");
+                    }
+                    else
+                    {
+                        this.Space.FindObjectByName("Player").Boxer.Say("I don't have enough stamina for that");
+                        //Console.WriteLine("You do not have enough Stanima to use JAB");
+                    }
+                }
+                //P1-Attack-Special
+                if(currentBtn == this.Atk_1_Special)
+                {
+                    if(this.P1Stanima >= this.P1SpecialCost)
+                    {
+                        boxingRing.TakeTurn("special");
+                    }
+                    else
+                    {
+                        this.Space.FindObjectByName("Player").Boxer.Say("I don't have enough stamina for that");
+                        //Console.WriteLine("You do not have enough Stanima to use SPECIAL");
+                    }
+                }
+                //P1-Attack-Growl
+                if(currentBtn == this.Atk_1_Growl)
+                {
+                    boxingRing.TakeTurn("growl");
+                }
+            }
+        }
+        else
+        {
+            this.Space.FindObjectByName("Player").Boxer.Say("not my turn yet");
+            //Console.WriteLine("NOT YOUR TURN YET, IDIOT");
+        }
+    }
+}

@@ -1,0 +1,57 @@
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FILE-Z_UI_CreditsScroll.z
+//AUTHOR-Travis Moore
+//COURSE-GAM240
+//COPYRIGHT-© 2014 DigiPen, All Rights Reserved.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+class Z_UI_CreditsScroll:ZilchComponent
+{
+    //PROPERTIES
+    [Property]
+    var StartingPosition:Real3 = Real3(0,-33,1);
+    [Property]
+    var ScrollTime:Real = 10.0;
+    [Property]
+    var EndingYPosition:Real = 17.0;
+    [Property]
+    var EaseType:Ease = Ease.Linear;
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Initialize
+    //EXPLANATION-Initialize variables/functions so that we can use them
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Initialize(init:CogInitializer):Void
+    {
+        //set starting position
+        this.Owner.Transform.Translation = this.StartingPosition;
+        //start scrolling
+        this.Scroll();
+    }
+    
+    /*//////////////////////////////////////////////////////////////////////////////////////////////////////
+    //FUNCTION-Scroll
+    //EXPLANATION-Scrolls  the credits upward
+    //////////////////////////////////////////////////////////////////////////////////////////////////////*/
+    function Scroll():Void
+    {
+        
+        //create action sequence
+        var aCreditsSequence = Action.Sequence(this.Owner.Actions);
+        
+        //start scrolling up
+        Action.Property(aCreditsSequence,
+                        @this.Owner.Transform.Translation,
+                        Real3(this.Owner.Transform.Translation.X,
+                              this.EndingYPosition,
+                              1),
+                        this.ScrollTime,
+                        this.EaseType);
+                        
+        //fade in main menu button
+        Action.Property(aCreditsSequence,
+                        @this.Owner.FindChildByName("BtnMenuMain").Sprite.Color,
+                        Real4(1,1,1,1.0),
+                        1.0,
+                        Ease.Linear);
+    }
+}

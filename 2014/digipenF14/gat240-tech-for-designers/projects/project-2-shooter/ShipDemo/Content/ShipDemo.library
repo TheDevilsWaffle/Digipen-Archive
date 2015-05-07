@@ -1,0 +1,7 @@
+ContentLibrary = 
+{
+	string Name = "ShipDemo",
+	uint64 LibraryId = 548a50876791e0d9,
+	string SourceControlType = "",
+	bool ReadOnly = false,
+},

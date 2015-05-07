@@ -1,0 +1,31 @@
+class MovingPlatform : ZilchComponent
+{
+    [Property]
+    var Direction : Real = -1;
+    
+    [Property]
+    var Movement : Real3 = Real3(1,1,1);
+    
+    [Property]
+    var Speed : Real = 3;
+    
+    function Initialize(init : CogInitializer)
+    {
+        this.Move();
+    }
+    
+    function Move()
+    {
+        var moveDistance = Math.Length(this.Movement);
+        var time = moveDistance / this.Speed;
+        
+        var seq = Action.Sequence(this.Owner.Actions);
+        Action.Property(seq, @this.Owner.Transform.Translation, this.Owner.Transform.Translation + this.Movement * this.Direction, time , Ease.Linear);
+        Action.Call(seq, this.Move);        
+        this.Direction = -this.Direction;
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+    }
+}

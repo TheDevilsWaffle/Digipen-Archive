@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "Z_ZeroEngineGear",
+		uint64 ResourceId = 5451387aa1a27344,
+	},
+},
