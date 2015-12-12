@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 17fdbef3384a07344855bbf143b7f7b0
+timeCreated: 1447789807
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - MeteorShowerEvent: {instanceID: 0}
+  - RaiderEvent: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
