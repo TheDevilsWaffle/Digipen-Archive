@@ -1,0 +1,28 @@
+FILE HEADER
+
+/*******************************************************************************
+filename    FILENAME.cpp
+author      Travis Moore
+DP email    travis.moore@digipen.edu
+course      CS185
+section     
+assignment  #
+
+Brief Description:
+  This program calculates the distance to the moon using only a
+  compass and a straight-edge. 
+  
+*******************************************************************************/
+
+
+FUNCTION HEADER
+
+/*******************************************************************************
+   Function: FUNCTION_NAME
+
+Description: 
+
+     Inputs: None
+
+    Outputs: None
+*******************************************************************************/

@@ -1,0 +1,2217 @@
+
+<!-- saved from url=(0069)http://azrael.digipen.edu/~mmead/www/Courses/CS170/Strings-STL-1.html -->
+<html class="gr__azrael_digipen_edu"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="./The string Class and STL_files/new.css">
+<title>The string Class and STL</title>
+</head>
+
+<body data-gr-c-s-loaded="true">  
+<center><h1>The <b>string</b> Class and STL Introduction</h1></center>
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+<p class="SectionHeader">The string Class</p>
+
+
+<ul>
+<li>C++ does not have a "built-in" string type like some languages.
+</li><li>C has the "NUL terminated array of character" string, which C++ also has.
+</li><li>Newer C++ implementations have a <b>string</b> class (in the <b>std</b> namespace)
+</li><li>The C++ <tt><b>std::string</b></tt> class is much safer, flexible, easier to use than <tt><b>const char *</b></tt> C-style types
+</li><li>More expensive (slower, requires more memory)
+</li><li>Generally, you trade speed for memory usage. You make the choice.
+</li></ul>
+
+Using C-style (NUL-terminated) strings (static arrays).
+
+<pre class="sourcecode"><code><b>#include</b> &lt;iostream&gt;
+<b>#include</b> &lt;string.h&gt;
+
+<b>void</b> Concat1(<b>void</b>)
+{
+  <b>char</b> s1[20]; <font color="#003399"><i>// Magic number</i></font>
+  strcpy(s1, <font color="#9933CC">"The quick"</font>);
+  strcat(s1, <font color="#9933CC">" brown fox"</font>);
+  std::cout &lt;&lt; s1 &lt;&lt; std::endl;
+
+  <b>char</b> s2[25]; <font color="#003399"><i>// Magic number</i></font>
+  strcpy(s2, <font color="#9933CC">"jumped over"</font>);
+  strcat(s2, <font color="#9933CC">" the lazy"</font>);
+  strcat(s2, <font color="#9933CC">" dog"</font>);
+  std::cout &lt;&lt; s2 &lt;&lt; std::endl;
+
+  <b>char</b> s3[45]; <font color="#003399"><i>// Magic number</i></font>
+  strcpy(s3, s1);
+  strcat(s3, <font color="#9933CC">" "</font>);
+  strcat(s3, s2);
+  std::cout &lt;&lt; s3 &lt;&lt; std::endl;
+}
+</code></pre>
+
+<b>Output:</b>
+<blockquote><pre>The quick brown fox
+jumped over the lazy dog
+The quick brown fox jumped over the lazy dog
+</pre></blockquote>
+
+Using C-style (NUL-terminated) strings (dynamic arrays):
+
+<pre class="sourcecode"><code><b>#include</b> &lt;iostream&gt;
+<b>#include</b> &lt;string.h&gt;
+
+<b>void</b> Concat2(<b>void</b>)
+{
+  <b>char</b> *s1 = <b>new</b> <b>char</b>[20];
+  strcpy(s1, <font color="#9933CC">"The quick"</font>);
+  strcat(s1, <font color="#9933CC">" brown fox"</font>);
+  std::cout &lt;&lt; s1 &lt;&lt; std::endl;
+
+  <b>char</b> *s2 = <b>new</b> <b>char</b>[25];
+  strcpy(s2, <font color="#9933CC">"jumped over"</font>);
+  strcat(s2, <font color="#9933CC">" the lazy"</font>);
+  strcat(s2, <font color="#9933CC">" dog"</font>);
+  std::cout &lt;&lt; s2 &lt;&lt; std::endl;
+
+  <b>char</b> *s3 = <b>new</b> <b>char</b>[45];
+  strcpy(s3, s1);
+  strcat(s3, <font color="#9933CC">" "</font>);
+  strcat(s3, s2);
+  std::cout &lt;&lt; s3 &lt;&lt; std::endl;
+
+  <b>delete</b>[] s1;
+  <b>delete</b>[] s2;
+  <b>delete</b>[] s3;
+}</code></pre>
+
+
+<b>Output:</b>
+<blockquote><pre>The quick brown fox
+jumped over the lazy dog
+The quick brown fox jumped over the lazy dog
+</pre></blockquote>
+
+Using the <b>string</b> class:
+
+<pre class="sourcecode"><code><b>#include</b> &lt;iostream&gt;
+<b>#include</b> &lt;string&gt;
+
+<b>void</b> Concat3(<b>void</b>)
+{
+  std::string s1 = <font color="#9933CC">"The quick"</font>;
+  s1 += <font color="#9933CC">" brown fox"</font>;
+  std::cout &lt;&lt; s1 &lt;&lt; std::endl;
+
+  std::string s2;
+  s2 = s2 + <font color="#9933CC">"jumped over"</font> + <font color="#9933CC">" the lazy"</font> + <font color="#9933CC">" dog"</font>;
+  std::cout &lt;&lt; s2 &lt;&lt; std::endl;
+
+  std::string s3 = s1 + <font color="#9933CC">" "</font> + s2;
+  std::cout &lt;&lt; s3 &lt;&lt; std::endl;
+}</code></pre>
+
+<b>Output:</b>
+<blockquote><pre>The quick brown fox
+jumped over the lazy dog
+The quick brown fox jumped over the lazy dog
+</pre></blockquote>
+
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+<p class="SectionHeader">Constructors for the string class:</p>
+
+
+<pre class="sourcecode"><code><b>void</b> Construct(<b>void</b>)
+{
+    <font color="#003399"><i>// Create an empty string (default constructor)</i></font>
+  std::string s0;
+  std::cout &lt;&lt; s0 &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Create a string from a const char * (conversion constructor)</i></font>
+  std::string s1(<font color="#9933CC">"This is a string"</font>);
+  std::cout &lt;&lt; s1 &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Create a string of chars</i></font>
+  std::string s2(10, <font color="#9933CC">'#'</font>);
+  std::cout &lt;&lt; s2 &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Create a string from another string (copy constructor)</i></font>
+  std::string s3(s1);
+  std::cout &lt;&lt; s3 &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Create a string from a char * and a count</i></font>
+  <b>const</b> <b>char</b> *p = <font color="#9933CC">"The quick brown fox"</font>;
+  std::string s4(p, 9);
+  std::cout &lt;&lt; s4 &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Create a string from a char * and a count</i></font>
+  std::string s5(p + 4, 5);
+  std::cout &lt;&lt; s5 &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Create a string from two pointers (between, start ===&gt; one-past-the-end)</i></font>
+  std::string s6(p + 10, p + 15);
+  std::cout &lt;&lt; <font color="#9933CC">"|"</font> &lt;&lt; s6 &lt;&lt; <font color="#9933CC">"|"</font> &lt;&lt; std::endl;
+}</code></pre>
+
+<b>Output:</b>
+<blockquote><pre>
+This is a string
+##########
+This is a string
+The quick
+quick
+|brown|
+</pre></blockquote>
+
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+<p class="SectionHeader">string Input</p>
+
+<pre class="sourcecode"><code><b>void</b> Input(<b>void</b>)
+{
+  std::string s1;
+  std::cout &lt;&lt; <font color="#9933CC">"Enter a word: "</font>;
+
+    <font color="#003399"><i>// Read one "word"</i></font>
+  std::cin &gt;&gt; s1;
+
+  std::cout &lt;&lt; s1 &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Ignore the rest of the line</i></font>
+  <b>while</b> (std::cin.get() != <font color="#9933CC">'\n'</font>)
+    <b>continue</b>;
+
+  std::string s2;
+  std::cout &lt;&lt; <font color="#9933CC">"Enter several words: "</font>;
+
+    <font color="#003399"><i>// Read up to the new line</i></font>
+  std::getline(std::cin, s2);
+  std::cout &lt;&lt; s2 &lt;&lt; std::endl;
+}</code></pre>
+
+<b>Output:</b>
+<blockquote><pre>Enter a word: <font color="red"><b>Hello</b></font>
+Hello
+Enter several words: <font color="red"><b>One two three four.</b></font>
+One two three four.
+</pre></blockquote>
+
+
+<!--
+
+<b>Fixing the bug in Visual C++</b>
+<p>
+On line 165 of the file ..\VC98\Include\STRING you need to change :
+
+<blockquote><pre>
+_I.rdbuf()->snextc();
+</pre></blockquote>
+
+to
+
+<blockquote><pre>
+_I.rdbuf()->sbumpc();
+</pre></blockquote>
+
+Here's a web page that has info on the <a href="http://www.dinkumware.com/vc_fixes.html">getline fix</a>.
+-->
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+<p class="SectionHeader">Other string Methods</p>
+
+<pre class="sourcecode"><code><b>void</b> Test1(<b>void</b>)
+{
+  std::string s1 = <font color="#9933CC">"DigiPen"</font>;
+
+    <font color="#003399"><i>// Reading the length of a string</i></font>
+  std::cout &lt;&lt; <font color="#9933CC">"Length of "</font> &lt;&lt; s1 &lt;&lt; <font color="#9933CC">" is "</font> &lt;&lt; s1.length() &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// You can access the internal NUL terminated string</i></font>
+  std::cout &lt;&lt; <font color="#9933CC">"Length of "</font> &lt;&lt; s1.c_str() &lt;&lt; <font color="#9933CC">" is "</font> &lt;&lt; strlen(s1.c_str()) &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Getting at individual characters</i></font>
+  std::cout &lt;&lt; <font color="#9933CC">"The second char is: "</font> &lt;&lt; s1.at(1) &lt;&lt; std::endl;
+  std::cout &lt;&lt; <font color="#9933CC">"The second char is: "</font> &lt;&lt; s1[1] &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Finding substrings</i></font>
+  <b>unsigned</b> position = s1.find(<font color="#9933CC">"Pen"</font>);
+  <b>if</b> (position != std::string::npos)
+    std::cout &lt;&lt; s1.substr(position) &lt;&lt; std::endl;
+}</code></pre>
+
+<b>Output:</b>
+<blockquote><pre>Length of DigiPen is 7
+Length of DigiPen is 7
+The second char is: i
+The second char is: i
+Pen
+</pre></blockquote>
+
+
+<blockquote><pre></pre></blockquote>
+
+
+<blockquote><pre></pre></blockquote>
+
+<blockquote><pre></pre></blockquote>
+
+
+
+Difference between the subscript operator and the <tt>at()</tt> method:
+
+<blockquote><pre><b>void</b> At(<b>void</b>)
+{
+  std::string s1 = <font color="#9933CC">"DigiPen"</font>;
+
+    <font color="#003399"><i>// Retrieves garbage</i></font>
+  std::cout &lt;&lt; <font color="#9933CC">"The tenth char is: "</font> &lt;&lt; s1[10] &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Throws an exception</i></font>
+  std::cout &lt;&lt; <font color="#9933CC">"The tenth char is: "</font> &lt;&lt; s1.at(10) &lt;&lt; std::endl;
+}
+</pre></blockquote>
+
+Output:
+
+<blockquote><pre>The tenth char is: �
+ 12152 [sig] a 2416 open_stackdumpfile: Dumping stack trace to a.exe.stackdump
+ 12152 [sig] a 2416 open_stackdumpfile: Dumping stack trace to a.exe.stackdump
+</pre></blockquote>
+
+Catching the exception:
+
+<blockquote><pre><b>void</b> At2(<b>void</b>)
+{
+  std::string s1 = <font color="#9933CC">"DigiPen"</font>;
+  <b>try</b> 
+  {
+      <font color="#003399"><i>// Throws an exception</i></font>
+    std::cout &lt;&lt; <font color="#9933CC">"The tenth char is: "</font> &lt;&lt; s1.at(10) &lt;&lt; std::endl;
+  }
+  <b>catch</b> (<b>const</b> std::exception &amp;e)
+  {
+    std::cout &lt;&lt; e.what() &lt;&lt; std::endl;
+  }
+}
+</pre></blockquote>
+
+Output:
+<blockquote><pre>basic_string::at
+</pre></blockquote>
+
+<blockquote><pre></pre></blockquote>
+
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+<hr width="90%">
+
+
+There are lots of methods available in the <b>string</b> class to do things such as:
+<ul>
+<li>deleting all or part of a string
+</li><li>replacing all or part of a string with all or part of another string
+</li><li>comparing all or part of a string with all or part of another string
+</li><li>extracting substrings
+</li><li>copying substrings
+</li><li>just about anything else you'd need
+</li></ul>
+
+The <b>string</b> class is just a <b>typedef</b> of a templatized basic_string class:
+
+<blockquote><pre><b>template</b> &lt;<b>typename</b> CharType, <b>typename</b> Attr = char_traits&lt;CharType&gt;, <b>typename</b> Allocator = allocator&lt;CharType&gt; &gt;
+<b>class</b> basic_string
+{
+  <font color="#003399"><i>// ...</i></font>
+};
+
+<b>typedef</b> basic_string&lt;<b>char</b>&gt; string;
+<b>typedef</b> basic_string&lt;<b>wchar_t</b>&gt; wstring;
+</pre></blockquote>
+
+
+A quick <a href="http://www.cppreference.com/cppstring/index.html">reference for string</a>.
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+<p class="SectionHeader">STL Components</p>
+
+Several components make up the Standard Template Library. Three main components are:
+
+<ol>
+<li><b>Containers</b>
+<ul>
+<li>Manage a collection (container) of objects of the same type.
+</li><li>May be implemented as an array, linked-list, tree, or other type of structure. 
+</li><li>The different kinds of containers reflect the different implementations and uses.
+</li></ul>
+</li><li><b>Algorithms</b>
+<ul>
+<li>Algorithms are applied to containers (actually, ranges within containers) to process the elements.
+</li><li>There are algorithms to <b>search</b>, <b>sort</b>, <b>count</b>, or otherwise access or modify the container 
+and/or its elements.
+</li><li>The algorithms work closely with iterators.
+</li><li>These algorithms are often referred to as <i>generic algorithms</i> because they can be applied
+to almost any type of container or element. 
+</li><li>This allows an algorithm to be written once that can be used, for example, to search a list of
+integers, or an array (vector) of strings.
+<!--
+<li>In addition to the iterators, the generic algorithms can also be directed how to perform their
+functions by supplying <i>function objects</i> or <i>functors</i> to the algorithm. (These are
+similar in use to supplying function pointers (callbacks) to plain functions in C/C++.)
+-->
+</li></ul>
+</li><li><b>Iterators</b>
+<ul>
+<li>Iterators are used to traverse a container (or "walk a container") or subset of a container. 
+</li><li>They provide a common interface for iterating over a collection of objects. (e.g. iterate over an array
+vs. iterating over a linked-list.) 
+</li><li>They are similar to pointers in that an iterator will "point" to the "next" object in the container.
+</li><li>The concept of "next" varies among different containers. (e.g. the next element in an array vs. the
+next element in a linked list)
+</li><li>Iterators are the "glue" between containers and algorithms.
+
+</li></ul>
+</li></ol>
+
+<!--
+In one way, the STL separates the data from the algorithms, which is in stark contrast to how the 
+object-oriented paradigm is supposed to work. 
+-->
+
+<p>
+
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+</p><p class="SectionHeader">Containers</p>
+
+<ul>
+<li>The STL includes containers such as arrays, stacks, queues, linked lists, etc.
+</li><li>A very common container is the vector (sort of like a dynamic array).
+</li><li>Just include <tt>&lt;vector&gt;</tt> to use it.
+</li></ul>
+
+Creating a simple vector of integers and then <i>resizing</i> the vector:
+
+<pre class="sourcecode"><code><b>void</b> VecStuff(<b>void</b>)
+{
+  <b>int</b> SIZE = 5;
+  std::vector&lt;<b>int</b>&gt; numbers(SIZE);  <font color="#003399"><i>// create a vector of integers (5)</i></font>
+  <b>for</b> (<b>int</b> i = 0; i &lt; SIZE; i++)   <font color="#003399"><i>// assign values to each element</i></font>
+    numbers[i] = i * 10;
+
+  numbers.resize(numbers.size() * 2);  <font color="#003399"><i>// "grow" the vector twice as big (10)</i></font>
+  <b>for</b> (i = SIZE; i &lt; SIZE * 2; i++)    <font color="#003399"><i>// assign values to the new elements</i></font>
+    numbers[i] = i * 100;
+
+  <b>for</b> (i = 0; i &lt; SIZE * 2; i++)       <font color="#003399"><i>// print out all elements</i></font>
+    std::cout &lt;&lt; numbers[i] &lt;&lt; endl;
+}</code></pre>
+
+<b>Output:</b>
+<blockquote><pre>0
+10
+20
+30
+40
+500
+600
+700
+800
+900
+</pre></blockquote>
+
+Another example:
+<pre class="sourcecode"><code>
+    <font color="#003399"><i>// Create empty vector of integers</i></font>
+  std::vector&lt;<b>int</b>&gt; cont1;
+
+    <font color="#003399"><i>// Add 7 random integers (each added at the end)</i></font>
+  cont1.push_back(2);
+  cont1.push_back(3);
+  cont1.push_back(7);
+  cont1.push_back(5);
+  cont1.push_back(4);
+  cont1.push_back(6);
+  cont1.push_back(1);
+
+    <font color="#003399"><i>// Print out the elements using subscripts</i></font>
+  <b>for</b> (<b>unsigned</b> i = 0; i &lt; cont1.size(); ++i)
+    std::cout &lt;&lt; cont1[i] &lt;&lt; <font color="#9933CC">"  "</font>;
+  std::cout &lt;&lt; std::endl;
+
+  cont1[2] = 8;    <font color="#003399"><i>// change the 3rd element to 8 (using subscript operator)</i></font>
+  cont1.at(3) = 9; <font color="#003399"><i>// change the 4th element to 9 (using at method)</i></font>
+
+  cont1[15] = 13;    <font color="#003399"><i>// attempt to change the 16th element (undefined behavior)</i></font>
+  cont1.at(15) = 13; <font color="#003399"><i>// attempt to change the 16th element (throws std::out_of_range exception)</i></font>
+
+    <font color="#003399"><i>// Print out the elements</i></font>
+  <b>for</b> (<b>unsigned</b> i = 0; i &lt; cont1.size(); ++i)
+    std::cout &lt;&lt; cont1[i] &lt;&lt; <font color="#9933CC">"  "</font>;
+
+  std::cout &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Display the number of elements in the container</i></font>
+  std::cout &lt;&lt; <font color="#9933CC">"size: "</font> &lt;&lt; cont1.size() &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Display the amount of elements that can be accommodated</i></font>
+    <font color="#003399"><i>// without reallocating</i></font>
+  std::cout &lt;&lt; <font color="#9933CC">"capacity "</font> &lt;&lt; cont1.capacity() &lt;&lt; std::endl &lt;&lt; std::endl;
+
+  cont1.clear();  <font color="#003399"><i>// Remove all elements (calling destructors, if any)</i></font>
+
+    <font color="#003399"><i>// Show size and capacity after clear</i></font>
+  std::cout &lt;&lt; <font color="#9933CC">"size: "</font> &lt;&lt; cont1.size() &lt;&lt; std::endl;
+  std::cout &lt;&lt; <font color="#9933CC">"capacity "</font> &lt;&lt; cont1.capacity() &lt;&lt; std::endl;
+</code></pre>
+
+Output:
+<blockquote><pre>2  3  7  5  4  6  1
+2  3  8  9  4  6  1
+size: 7
+capacity 8
+
+size: 0       
+capacity 8
+</pre></blockquote>
+
+
+<a name="GETNUMBERS1">
+<b>Revisiting a previous example:</b> (</a><a href="http://azrael.digipen.edu/~mmead/www/Courses/CS170/LinkedLists-Intro1.html#PROBLEM_REVISITED">Linked list version</a>)
+
+<p>
+
+Comparing arrays and vectors: Reading integers from a file into an array.
+
+</p><p>
+</p><ol>
+<li>Allocate an array to hold the numbers
+</li><li>Open a file for reading
+</li><li>While there are more numbers in the file
+<ol>
+<li>Read in a number
+</li><li>Add it to the end of the array
+</li></ol>
+</li><li>Close the file
+</li></ol>
+
+
+<p>
+<table border="0" cellspacing="5" cellpadding="5">
+<tbody><tr><th>Using an array</th><th>Using a <tt>std::vector</tt></th></tr>
+<tr valign="top">
+<td>
+<blockquote><pre><b>void</b> get_numbers1(<b>void</b>)
+{
+  <b>int</b> numbers[30]; <font color="#003399"><i>// Holds at most 30 integers</i></font>
+  <b>int</b> count = 0;
+
+    <font color="#003399"><i>// Open text file of numbers for reading</i></font>
+  FILE *fp = fopen(<font color="#9933CC">"numbers.txt"</font>, <font color="#9933CC">"r"</font>);
+  <b>if</b> (!fp)
+    std::cout &lt;&lt; <font color="#9933CC">"Can't open file.\n"</font>;
+
+    <font color="#003399"><i>// Process the entire file</i></font>
+  <b>while</b> (!feof(fp))
+  {
+    <b>int</b> number;
+
+      <font color="#003399"><i>// Read next integer from the file</i></font>
+    <b>if</b> (fscanf(fp, <font color="#9933CC">"%i"</font>, &amp;number) == 0)
+      <b>break</b>;
+
+      <font color="#003399"><i>// Add the number to the end of the array</i></font>
+    numbers[count++] = number;
+  }
+
+    <font color="#003399"><i>// Close the file</i></font>
+  fclose(fp);
+
+    <font color="#003399"><i>// Print the array</i></font>
+  print_array(numbers, count);
+}
+</pre></blockquote>
+</td>
+<td>
+<blockquote><pre><b>void</b> get_numbers2(<b>void</b>)
+{
+  <font color="red"><b>std::vector&lt;<b>int</b>&gt; numbers; <font color="#003399"><i>// Holds unlimited integers</i></font></b></font>
+
+
+    <font color="#003399"><i>// Open text file of numbers for reading</i></font>
+  FILE *fp = fopen(<font color="#9933CC">"numbers.txt"</font>, <font color="#9933CC">"r"</font>);
+  <b>if</b> (!fp)
+    std::cout &lt;&lt; <font color="#9933CC">"Can't open file.\n"</font>;
+
+    <font color="#003399"><i>// Process the entire file</i></font>
+  <b>while</b> (!feof(fp))
+  {
+    <b>int</b> number;
+
+      <font color="#003399"><i>// Read next integer from the file</i></font>
+    <b>if</b> (fscanf(fp, <font color="#9933CC">"%i"</font>, &amp;number) == 0)
+      <b>break</b>;
+
+      <font color="#003399"><i>// Add the number to the end of the vector</i></font>
+    <font color="red"><b>numbers.push_back(number);</b></font>
+  }
+
+    <font color="#003399"><i>// Close the file</i></font>
+  fclose(fp);
+
+    <font color="#003399"><i>// Print the vector</i></font>
+  <font color="red"><b>print_vector(numbers);</b></font>
+}
+</pre></blockquote>
+</td>
+</tr></tbody></table>
+
+These are the caveats that were discussed when using arrays:
+</p><p>
+</p><blockquote>
+<table border="1" cellpadding="10" cellspacing="0">
+<tbody><tr><td>
+Of course, if there are more than 30 numbers, we are going to overwrite the end of the array.
+<p>
+Possible "fixes":
+</p><ul>
+<li>Don't read in more than 30 numbers. 
+</li><li>Set the size of the array to more than 30 (and hope it's big enough or waste a lot of space)
+</li><li>Allocate the array at runtime. (Still need a size.) Choices:
+<ol>
+<li>Put the size in the file. (Maybe the first line contains the number of integers.) 
+Allocate the array when the size is known.
+</li><li>When the array is full, allocate another, bigger array, and copy old values
+into it. This may need to be done many times.
+</li><li>Don't forget to free any memory that was allocated or else there will be a memory leak.
+</li></ol>
+</li></ul>
+</td></tr></tbody></table>
+<p>
+</p></blockquote>
+
+None of these "problems" exist with the vector.
+<p>
+	
+
+
+Creating a vector of strings:
+
+</p><pre class="sourcecode"><code><b>#include</b> &lt;iostream&gt;
+<b>#include</b> &lt;vector&gt;
+<b>#include</b> &lt;string&gt;
+
+<b>void</b> Vector2(<b>void</b>)
+{
+  <b>int</b> SIZE = 6;
+  std::vector&lt;std::string&gt; speeds(SIZE); <font color="#003399"><i>// create a vector of strings (6)</i></font>
+
+  speeds[0] = <font color="#9933CC">"Snail (slowest)"</font>;         <font color="#003399"><i>// assign values to each element</i></font>
+  speeds[1] = <font color="#9933CC">"Turtle (slower)"</font>;
+  speeds[2] = <font color="#9933CC">"Penguin (slow)"</font>;
+  speeds[3] = <font color="#9933CC">"Rabbit (fast)"</font>;
+  speeds[4] = <font color="#9933CC">"Lion (faster)"</font>;
+  speeds[5] = <font color="#9933CC">"Cheetah (fastest)"</font>;
+
+    <font color="#003399"><i>// Display each speed that contains the substring "fast"</i></font>
+  <b>for</b> (<b>int</b> i = 0; i &lt; SIZE; i++)
+    <b>if</b> (speeds[i].find(<font color="#9933CC">"fast"</font>) != std::string::npos)
+      std::cout &lt;&lt; speeds[i] &lt;&lt; std::endl;
+
+}</code></pre>
+
+
+<b>Output:</b>
+<blockquote><pre>Rabbit (fast)
+Lion (faster)
+Cheetah (fastest)
+</pre></blockquote>
+
+<p>
+</p><hr width="90%">
+<p>
+	
+Other popular methods for vector:
+
+
+</p><ul>
+<li><b>push_back()</b> Add an element to the end. (Constant time if the array has room. Linear time if the array has to be grown.)
+</li><li><b>insert()</b> Add at a particular position. (Linear time)
+</li><li><b>begin()</b> and <b>end()</b> Return iterators to the first element and (one past) the last element, respectively.
+</li><li><b>erase()</b> Deletes an element or range of elements. All elements may need to be shifted; Capacity
+is not reduced.
+</li><li><b>clear()</b> Deletes all elements. Capacity is not reduced. (Linear time)
+</li><li><b>empty()</b> Returns true if the vector is empty, otherwise false. (Constant time)
+</li><li><b>operator[]</b> and <b>at()</b> Get/Set an element by index. (Constant time)
+<ul>
+<li>The overloaded subscript operator for reading/writing to the vector doesn't throw an exception when 
+subscript is out of range, but certainly will corrupt memory if the subscript is out of range.
+</li><li>The <i>at(int index)</i> method for reading and writing elements does throw an exception when subscript is out of range.
+</li></ul>
+</li><li><b>front()</b> and <b>back()</b> Return the first and last element, respectively. (Constant time)
+</li><li><b>size()</b> Returns the number of elements in the vector. (Constant time)
+</li><li><b>capacity()</b> Returns the number of elements that can be placed in the vector <i>without 
+growing the vector</i>. (Constant time)
+</li><li><b>swap()</b> Exchanges the elements of two vectors. (Constant time. How can that be?)
+</li></ul>
+
+Features
+<ul>
+<li>Use a vector when you need array semantics (random access for reading/writing and you're adding at the back of the vector).
+</li><li>Automatically resizes so that you don't have to worry about writing past the end.
+</li><li>Use <b>reserve</b> to avoid unnecessary re-allocations.
+</li><li>You can "preallocate" the amount of space you need to avoid the overhead of resizing.
+</li><li>Inserting and deleting will invalidate pointers or iterators to elements that <i>follow</i> the
+insertion or deletion.
+<ul>
+<li>If a reallocation occurs, all pointers and iterators are invalidated.
+</li></ul>
+</li></ul>
+
+Some constructors:
+<p>
+<!--
+<ul>
+<li><tt>vector&lt;<i>type</i>&gt; v</tt> - Default constructor creates an empty vector.
+<li><tt>vector&lt;<i>type</i>&gt; v1(v2)</tt> - Copy constructor.
+<li><tt>vector&lt;<i>type</i>&gt; v(n)</tt> - Creates a vector with <i>n</i> elements set to default value. (Default constructor)
+<li><tt>vector&lt;<i>type</i>&gt; v(n, value)</tt> - Creates a vector with <i>n</i> elements set to <i>value</i>.
+<li><tt>vector&lt;<i>type</i>&gt; v(beg, end)</tt> - Creates a vector from the specified range of elements.
+</ul>
+-->
+
+</p><blockquote>
+<table border="0">
+<tbody><tr><td><tt>vector&lt;<i>type</i>&gt; v</tt></td><td width="20"></td><td>Default constructor creates an empty vector.</td></tr>
+<tr><td><tt>vector&lt;<i>type</i>&gt; v1(v2)</tt></td><td width="20"></td><td>Copy constructor.</td></tr>
+<tr><td><tt>vector&lt;<i>type</i>&gt; v(n)</tt></td><td width="20"></td><td>Creates a vector with <i>n</i> elements set to default value. (Default constructor)</td></tr>
+<tr><td><tt>vector&lt;<i>type</i>&gt; v(n, value)</tt></td><td width="20"></td><td>Creates a vector with <i>n</i> elements set to <i>value</i>.</td></tr>
+<tr><td><tt>vector&lt;<i>type</i>&gt; v(beg, end)</tt></td><td width="20"></td><td>Creates a vector from the specified range of elements.</td></tr>
+</tbody></table>
+</blockquote>
+<p>
+
+</p><p>
+</p><hr width="90%">
+<p>
+
+<b>Using vectors with C API Functions</b>
+</p><p>
+	
+</p><pre class="sourcecode"><code><b>void</b> FillArray(<b>int</b> *array, <b>int</b> size)
+{
+  <b>for</b> (<b>int</b> i = 0; i &lt; size; i++)
+    array[i] = i * i;
+}
+
+<b>int</b> main(<b>void</b>)
+{
+  <b>int</b> i, size = 10;
+
+    <font color="#003399"><i>// Create a vector with size elements (initialized to 0) </i></font>
+  std::vector&lt;<b>int</b>&gt; cont1(size);
+
+    <font color="#003399"><i>// Print them</i></font>
+  <b>for</b> (i = 0; i &lt; size; ++i)
+    std::cout &lt;&lt; cont1[i] &lt;&lt; <font color="#9933CC">"   "</font>;
+  std::cout &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Update array contents</i></font>
+  FillArray(&amp;cont1[0], cont1.size());
+
+    <font color="#003399"><i>// Print them</i></font>
+  <b>for</b> (i = 0; i &lt; size; ++i)
+    std::cout &lt;&lt; cont1[i] &lt;&lt; <font color="#9933CC">"   "</font>;
+  std::cout &lt;&lt; std::endl;
+
+  <b>return</b> 0;
+}</code></pre>
+
+<b>Output:</b>
+<blockquote><pre>0   0   0   0   0   0   0   0   0   0
+0   1   4   9   16   25   36   49   64   81
+</pre></blockquote>
+
+Notes:
+<ul>
+<li>The C++ Standard guarantees that vector elements are stored in contiguous memory (like C arrays).
+</li><li>You can't write into empty positions (size &lt; capacity) because the internal data members
+won't get updated. (You can't use the subscript operator to add elements.)
+</li><li>Just like ordinary array manipulation, modifying the underlying array can be dangerous (it's up to 
+the programmer to protect the data/memory).
+</li><li>Empty vectors may contain invalid pointers to data, so check the <b>empty()</b> method first.
+</li></ul>
+<p>
+
+A quick <a href="http://www.cppreference.com/cppvector/index.html">reference for vector</a>.
+</p><p>
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+</p><p class="SectionHeader">Lists</p>
+
+An STL list is a doubly linked-list. Add this header file: 
+
+<blockquote><pre><b>#include</b> &lt;list&gt;
+</pre></blockquote>
+
+<ul>
+<li>Lists are <i>node-based</i> structures, which is very different from vectors (which are array-based).
+</li><li>Since there is no random-access methods (indexing), accessing an arbitrary element is expensive. (Linear time)
+</li><li>However, removing from the middle or inserting into the middle is inexpensive because only pointers
+need to be manipulated. (Constant time)
+</li><li>Inserting and deleting does not invalidate pointers or iterators to the other elements.
+</li><li>List also provides <b>push_front()</b> and <b>pop_front()</b> methods (which are missing in vectors).
+</li><li>There is no <b>reserve()</b> or <b>capacity()</b> method, since they are not necessary.
+<!--	
+<li>Additional methods are available such as <b>sort</b>, <b>merge</b>, <b>unique</b>, and <b>splice</b>
+-->
+</li></ul>
+
+Example:
+
+We will need these headers:
+
+<blockquote><pre><b>#include</b> &lt;iostream&gt;
+<b>#include</b> &lt;list&gt;
+<b>#include</b> &lt;string&gt;
+</pre></blockquote>
+
+First, create a list and add some strings:
+
+<blockquote><pre><b>int</b> main(<b>void</b>)
+{
+    <font color="#003399"><i>// Create empty list of strings</i></font>
+  std::list&lt;std::string&gt; cont1;
+
+    <font color="#003399"><i>// Add 7 strings</i></font>
+  cont1.push_back(<font color="#9933CC">"one"</font>);    <font color="#003399"><i>// add to end</i></font>
+  cont1.push_back(<font color="#9933CC">"two"</font>);    <font color="#003399"><i>// add to end</i></font>
+  cont1.push_back(<font color="#9933CC">"three"</font>);  <font color="#003399"><i>// add to end</i></font>
+  cont1.push_back(<font color="#9933CC">"four"</font>);   <font color="#003399"><i>// add to end</i></font>
+  cont1.push_front(<font color="#9933CC">"five"</font>);  <font color="#003399"><i>// insert at front</i></font>
+  cont1.push_front(<font color="#9933CC">"six"</font>);   <font color="#003399"><i>// insert at front</i></font>
+  cont1.push_front(<font color="#9933CC">"seven"</font>); <font color="#003399"><i>// insert at front</i></font>
+</pre></blockquote>
+
+<b>Review Question</b>: If we have a list of strings, how can we get away with passing
+const char pointers instead?
+<p>
+
+To print out the items, we might try this:
+
+</p><blockquote><pre>  <font color="#003399"><i>// Print out the elements using subscripts like with vector</i></font>
+<b>for</b> (<b>unsigned</b> <b>int</b> i = 0; i &lt; cont1.size(); ++i)
+  std::cout &lt;&lt; cont1[i] &lt;&lt; std::endl;   
+</pre></blockquote>
+
+but we would quickly be met with this error message: (or something similar)
+
+<blockquote><pre>main.cpp: In function `int main()':
+main.cpp:215: error: no match for 'operator[]' in 'cont1[i]'
+</pre></blockquote>
+
+There is no random access (no <tt><b>operator[]</b></tt>) so we need another way to iterate
+over the list. So, we use our while loop (not a good idea):
+
+<blockquote><pre>  <font color="#003399"><i>// Print the contents of the list</i></font>
+<b>while</b> (!cont1.empty())
+{
+  std::cout &lt;&lt; cont1.front() &lt;&lt; <font color="#9933CC">"  "</font>;
+  cont1.pop_front();
+}
+std::cout &lt;&lt; std::endl;
+</pre></blockquote>
+
+<b>Output:</b>
+<blockquote><pre>seven  six  five  one  two  three  four
+</pre></blockquote>
+
+What we really want to do is to use an <i>iterator</i>:
+
+<blockquote><pre>  <font color="#003399"><i>// Declare an iterator </i></font>
+std::list&lt;std::string&gt;::iterator it;
+
+  <font color="#003399"><i>// "Walk" (iterate) over the list until the end</i></font>
+<b>for</b> (it = cont1.begin(); it != cont1.end(); ++it)
+  std::cout &lt;&lt; *it &lt;&lt; <font color="#9933CC">"  "</font>;  <font color="#003399"><i>// dereference the iterator to get the value</i></font>
+
+std::cout &lt;&lt; std::endl;
+</pre></blockquote>
+
+
+<b>Output:</b>
+<blockquote><pre>seven  six  five  one  two  three  four
+</pre></blockquote>
+
+Summary:
+<ul>
+<li>The list class is essentially an abstraction of a double linked-list.
+</li><li>There is no random access, so you can't use the subscript operator.
+</li><li>You must traverse the elements with iterators.
+</li><li>Iterators overload <tt><b>operator++</b></tt>, which simply <i>moves to the next element</i> whatever that means.
+</li><li>Adding/removing elements (anywhere in the list) is always done in constant time.
+However, <i>locating</i> the item/position requires linear time (no random access).
+</li></ul>
+
+<blockquote><pre></pre></blockquote>
+
+
+<p>
+A quick <a href="http://www.cppreference.com/cpplist/index.html">reference for list</a>.
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+</p><p class="SectionHeader">Iterators</p>
+
+Iterators provide a generic method for traversing the standard containers. 
+
+<ul>
+<li>Iterators are objects (instantiated from classes) so they have an interface that clients can use.
+</li><li>All of the standard containers support iterators, so the code for accessing elements is similar
+between containers. 
+</li><li>In keeping with abstraction, this hides the implementation details of the container. (e.g. Code
+for traversing an array is different than code for traversing a linked-list.)
+</li><li>An example of using iterators on a vector:
+</li></ul>
+
+<pre class="sourcecode"><code>    <font color="#003399"><i>// Create vector, add 5 integers</i></font>
+  std::vector&lt;<b>int</b>&gt; cont1;
+  <b>for</b> (<b>int</b> i = 0; i &lt; 5; ++i)
+    cont1.push_back(i);
+
+    <font color="#003399"><i>// Create an iterator of the proper type</i></font>
+  std::vector&lt;<b>int</b>&gt;::iterator iter;
+
+    <font color="#003399"><i>// Iterate over the container, printing each element</i></font>
+  <b>for</b> (iter = cont1.begin(); iter != cont1.end(); ++iter)
+    std::cout &lt;&lt; *iter &lt;&lt; <font color="#9933CC">"  "</font>;
+</code></pre>
+
+<b>Output:</b>
+<blockquote><pre>0  1  2  3  4
+</pre></blockquote>
+
+
+A closer look at this syntax:
+
+<blockquote><pre>  <font color="#003399"><i>// Create an iterator of the proper type</i></font>
+std::vector&lt;<b>int</b>&gt;::iterator iter;
+</pre></blockquote>
+
+
+<blockquote><pre></pre></blockquote>
+
+<blockquote><pre></pre></blockquote>
+
+Suppose we add a public <b>typedef</b> to a class:
+<p>
+
+</p><blockquote><pre><b>namespace</b> CS170
+{
+  <b>class</b> Foo
+  {
+    <b>public</b>:
+      <b>typedef</b> <b>int</b> FooInt;   <font color="#003399"><i>// public typedef</i></font>
+  };
+}
+</pre></blockquote>
+
+<a name="ITERATOR_TYPEDEF">
+Now we can use the <b>typedef</b>:
+</a>
+<p>
+
+</p><blockquote><pre>  <font color="#003399"><i>// Declare variable 'i' as type CS170::Foo::FooInt</i></font>
+CS170::Foo::FooInt i;
+</pre></blockquote>
+
+
+All container classes provide an iterator <b>typedef</b>. The <i>vector</i> class looks 
+something like this:
+<p>
+
+</p><blockquote><pre><b>namespace</b> std
+{
+  <b>template</b> &lt;<b>typename</b> T&gt;
+  <b>class</b> vector
+  {
+    <b>public</b>:
+      <b>class</b> vector_iterator
+      {
+        <font color="#003399"><i>// ...</i></font>
+      };
+
+      <b>typedef</b> vector_iterator iterator; <font color="#003399"><i>// public iterator</i></font>
+  };
+}
+</pre></blockquote>
+
+That allows us to use <i>iterator</i> as a type: 
+<p>
+
+</p><blockquote><pre>  <font color="#003399"><i>// Create an iterator of the proper type</i></font>
+std::vector&lt;<b>int</b>&gt;::iterator iter;
+</pre></blockquote>
+
+
+
+<blockquote><pre></pre></blockquote>
+
+
+Common syntax of declaring the variable within the <b>for</b> loop:
+
+<blockquote><pre>  <font color="#003399"><i>// Iterate over the container, printing each element</i></font>
+<b>for</b> (std::vector&lt;<b>int</b>&gt;::iterator iter = cont1.begin(); iter != cont1.end(); ++iter)
+  std::cout &lt;&lt; *iter &lt;&lt; <font color="#9933CC">"  "</font>;
+</pre></blockquote>
+
+Using a <b>typedef</b> in the client for convenience: (this example uses <tt>std::list</tt>)
+
+<blockquote><pre>  <font color="#003399"><i>// Create a typedef for an iterator that's used</i></font>
+  <font color="#003399"><i>// with lists of integers</i></font>
+<b>typedef</b> std::list&lt;<b>int</b>&gt;::iterator IntIter;
+
+  <font color="#003399"><i>// Use the typedef to declare a loop variable</i></font>
+<b>for</b> (IntIter iter = cont1.begin(); iter != cont1.end(); ++iter)
+  std::cout &lt;&lt; *iter &lt;&lt; <font color="#9933CC">"  "</font>;
+</pre></blockquote>
+
+
+<hr width="90%">
+<p>
+
+Common usage:
+
+</p><ul>
+<li><b>begin()</b> Returns an iterator that references the first element in the container.
+</li><li><b>end()</b> Returns an iterator that references <i>one past</i> the last element in the container.
+</li><li><b>*iter</b> Returns the object referenced by <i>iter</i>.
+</li></ul>
+
+Since containers are instantiated from templates, their associated iterators are also instantiated
+from templates. The type <i>iterator</i> is defined in the container as a <b>typedef</b>. So, our code
+looks like this:
+
+<blockquote><pre>  <font color="#003399"><i>// Create an iterator for a <font color="blue"><b>vector</b></font> of <font color="blue"><b>ints</b></font></i></font>
+std::vector&lt;<b>int</b>&gt;::iterator iter;
+</pre></blockquote>
+
+This creates an iterator that can be used to iterate over a vector of integers. If we wanted to
+iterate over a vector of strings:
+
+<blockquote><pre>  <font color="#003399"><i>// Create an iterator for a <font color="blue"><b>vector</b></font> of <font color="blue"><b>strings</b></font></i></font>
+std::vector&lt;std::string&gt;::iterator iter;
+</pre></blockquote>
+
+or for a <tt>std::list</tt> of doubles:
+
+<blockquote><pre>  <font color="#003399"><i>// Create an iterator for a <font color="blue"><b>list</b></font> of <font color="blue"><b>doubles</b></font></i></font>
+std::list&lt;<b>double</b>&gt;::iterator iter;
+</pre></blockquote>
+
+So, if our code contained a <tt>std::list</tt> of integers (instead of a <tt>std::vector</tt>):
+
+<pre class="sourcecode"><code>    <font color="#003399"><i>// Create list, add 5 integers</i></font>
+  std::list&lt;<b>int</b>&gt; cont1;
+  <b>for</b> (<b>int</b> i = 0; i &lt; 5; ++i)
+    cont1.push_back(i);
+
+    <font color="#003399"><i>// Create an iterator for a list of integers</i></font>
+  std::list&lt;<b>int</b>&gt;::iterator iter;
+
+    <font color="#003399"><i>// Iterate over the container, printing each element</i></font>
+  <b>for</b> (iter = cont1.begin(); iter != cont1.end(); ++iter)
+    std::cout &lt;&lt; *iter &lt;&lt; <font color="#9933CC">"  "</font>;
+</code></pre>
+
+Note that the loop doesn't change. This is why iterators are the backbone of the <i>generic algorithms</i>.
+<p>
+A final example showing the client creating a <b>typedef</b> for the container as well:
+</p><p>
+
+</p><pre class="sourcecode"><code>  <font color="#003399"><i>// Any of these typedefs will work</i></font>
+<b>typedef</b> std::vector&lt;<b>int</b>&gt; Container;
+<font color="#003399"><i>//typedef std::list&lt;int&gt; Container;</i></font>
+<font color="#003399"><i>//typedef std::deque&lt;int&gt; Container;</i></font>
+
+  <font color="#003399"><i>// Create container, add 5 integers</i></font>
+Container cont1;
+<b>for</b> (<b>int</b> i = 0; i &lt; 5; ++i)
+  cont1.push_back(i);
+
+  <font color="#003399"><i>// Use the typedef to declare a loop variable</i></font>
+<b>for</b> (Container::iterator iter = cont1.begin(); iter != cont1.end(); ++iter)
+  std::cout &lt;&lt; *iter &lt;&lt; <font color="#9933CC">"  "</font>;
+std::cout &lt;&lt; std::endl;
+</code></pre>
+
+
+<blockquote><pre></pre></blockquote>
+
+
+
+<!--
+
+
+Modifying the Polygon class to use a <b>vector</b> instead of an array. 
+<p>
+Current implementation:
+
+<pre class="sourcecode"><code><b>#include</b> <font color="#9933CC">&quot;Shape.h&quot;</font>
+
+<b>class</b> Polygon : <b>public</b> Shape
+{
+  <b>private</b>:
+    Point *m_Vertices;  <font color="#003399"><i>// array of Points</i></font>
+    <b>int</b> m_NumVertices;  <font color="#003399"><i>// number of Points</i></font>
+
+  <b>public</b>:
+      <font color="#003399"><i>// public methods</i></font>
+};</code></pre>
+
+Proposed implementation:
+
+<pre class="sourcecode"><code><b>#include</b> <font color="#9933CC">&quot;Shape.h&quot;</font>
+<b>#include</b> &lt;vector&gt;
+
+<b>class</b> Polygon : <b>public</b> Shape
+{
+  <b>private</b>:
+    vector&lt;Point&gt; m_Vertices;  <font color="#003399"><i>// vector of Points</i></font>
+
+  <b>public</b>:
+      <font color="#003399"><i>// public methods</i></font>
+};</code></pre>
+
+
+<a href="Polygon-vector-1.cpp.html">Polygon</a> using vectors.
+<p>
+
+
+
+An old constructor:
+
+<blockquote><pre>
+Polygon::Polygon(<b>const</b> Point *Vertices, <b>int</b> NumVertices)
+{
+  m_NumVertices = NumVertices;
+  m_Vertices = <b>new</b> Point[m_NumVertices];
+  <b>for</b> (<b>int</b> i = 0; i &lt; m_NumVertices; i++)
+    m_Vertices[i] = Vertices[i];
+}
+</pre></blockquote>
+
+A new constructor:
+
+<blockquote><pre>
+Polygon::Polygon(<b>const</b> Point *Vertices, <b>int</b> NumVertices)
+{
+  m_Vertices.resize(NumVertices);
+  <b>for</b> (<b>int</b> i = 0; i &lt; m_Vertices.size(); i++)
+    m_Vertices[i] = Vertices[i];
+}
+</pre></blockquote>
+
+The old Move method:
+
+<blockquote><pre>
+<b>void</b> Polygon::Move(<b>const</b> Point &amp;position)
+{
+  <b>for</b> (<b>int</b> i = 0; i &lt; m_NumVertices; i++)
+    m_Vertices[i] = m_Vertices[i] + position;
+}
+</pre></blockquote>
+
+The new Move method:
+
+<blockquote><pre>
+<b>void</b> Polygon::Move(<b>const</b> Point &amp;position)
+{
+  <b>for</b> (<b>int</b> i = 0; i &lt; m_Vertices.size(); i++)
+    m_Vertices[i] = m_Vertices[i] + position;
+}
+</pre></blockquote>
+
+<hr width=90%>
+<p>
+Using an <b>iterator</b> instead of a <b>for</b> loop:
+
+<blockquote><pre>
+ostream &amp; <b>operator</b>&lt;&lt;(ostream &amp; os, <b>const</b> Polygon &amp;polygon)
+{
+  os &lt;&lt; <font color="#9933CC">&quot;NumVertices: &quot;</font> &lt;&lt; polygon.m_Vertices.size();
+  vector&lt;Point&gt;::const_iterator it;
+  <b>for</b> (it = polygon.m_Vertices.begin(); it != polygon.m_Vertices.end(); it++)
+    os &lt;&lt; <font color="#9933CC">&quot;, &quot;</font> &lt;&lt; *it;
+  <b>return</b> os;
+}
+</pre></blockquote>
+
+<blockquote><pre>
+<b>void</b> Polygon::Move(<b>const</b> Point &amp;position)
+{
+  vector&lt;Point&gt;::iterator it;
+  <b>for</b> (it = m_Vertices.begin(); it != m_Vertices.end(); it++)
+    *it = *it + position;
+}
+</pre></blockquote>
+
+<hr width=90%>
+<p>
+Using <b>push_back</b>:
+
+<blockquote><pre>
+<b>void</b> Polygon::SetVertices(<b>const</b> Point vertices[], <b>int</b> NumVertices)
+{
+  m_Vertices.clear();
+  m_Vertices.resize(NumVertices);
+
+  <b>for</b> (<b>int</b> i = 0; i &lt; NumVertices; i++)
+    m_Vertices[i] = vertices[i];
+}
+</pre></blockquote>
+
+
+<blockquote><pre>
+<b>void</b> Polygon::SetVertices(<b>const</b> Point vertices[], <b>int</b> NumVertices)
+{
+  m_Vertices.clear();
+  <b>for</b> (<b>int</b> i = 0; i &lt; NumVertices; i++)
+    m_Vertices.push_back(vertices[i]);
+}
+</pre></blockquote>
+
+<hr width=90%>
+
+Constant-time vs. linear-time operations (Algorithm complexity)
+
+<ul>
+<li>vector - array notation, random access 
+<li>deque - array notation, random access
+<li>list - double linked list, no array notation, no random access
+<li>queue - no random access, no iteration, only queue operations 
+<li>priority_queue - same as queue but largest item is moved to front
+<li>stack - no random access, no iteration, only stack operations
+<li>set - set operations (membership, union, intersection, etc.)
+<li>map - key/value pairs (associative array)
+<li>multimap - key/value pairs but can have multiple values associated with one key
+</ul>
+
+-->
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+<p class="SectionHeader">Introduction to Using Generic Algorithms</p>
+
+The algorithms of the Standard Template Library are also known as the <i>generic algorithms</i> 
+because they are designed and implemented to work with the standard containers.
+
+<ul>
+<li>The generic algorithms typically work with a contiguous set of elements from a container
+called a <i>range</i> or a <i>sequence</i>.
+</li><li>These ranges are delimited by iterators. (e.g. <i>begin()</i> to <i>end()</i>. This is the largest range 
+in a container)
+</li><li>Many algorithms have default behavior, so you only need to specify the range.
+</li><li>You can change the behavior of an algorithm by supplying additional optional parameters. <!--(Think qsort)-->
+<!--
+<ul>
+<li>These additional parameters are in the form of function pointers or <i>function objects</i>. 
+<li>A function object is also known as a <i>functor</i>. (More on functors later)
+</ul>
+-->
+<p>
+</p></li><li>Algorithms behave in different ways. For example some are read-only (with respect to the elements), 
+some modify elements, and some change the order of the elements.
+</li><li>The generic algorithms can be loosely classified into several categories:
+<ol>
+<li><b>Non-modifying</b> Does not change any elements nor the order of the elements in the container.
+Counting, searching, comparing. (ex. <tt>find</tt>)
+</li><li><b>Modifying</b> Changes the value of the elements. Transforming, generating, etc. (ex. <tt>transform</tt>)
+</li><li><b>Removing</b> Removes elements from the container.(ex. <tt>remove</tt>)
+</li><li><b>Mutating</b> Changes the order of the elements in the container. 
+Reversing, rotating, shuffling. (ex. <tt>reverse</tt>)
+</li><li><b>Sorting</b> Similar to mutating algorithms, but more complicated. (ex. <tt>sort</tt>)
+</li><li><b>Sorted range</b> Assumes that the range to operate on is already sorted. (ex. <tt>binary_search</tt>)
+</li><li><b>Numeric</b> Acts on numerical elements and combines them based on a specified function.
+Sums, products. (ex. <tt>accumulate</tt>)
+</li></ol>
+</li></ul>
+
+As of April 2016, there are 85 generic algorithms in the STL.
+<p>
+
+<b>This is a partial list of algorithms:</b>
+</p><p>
+<table border="1" cellspacing="0" cellpadding="10">
+<tbody><tr>
+<th>Non-modifying</th>
+<th>Modifying</th>
+<th>Removing</th>
+<th>Mutating</th>
+</tr>
+
+<tr valign="top">
+<td>
+for_each, count, count_if, min_element, max_element, find, find_if,
+search_n, search, find_end, find_first_of, adjacent_find, 
+equal, mismatch, lexicographical_compare
+</td>
+
+<td>
+for_each, copy, copy_backward, transform, merge, swap_ranges, fill, fill_n,
+generate, generate_n, replace, replace_if, replace_copy, replace_copy_if
+</td>
+
+<td>
+remove, remove_if, remove_copy, remove_copy_if, unique, unique_copy
+</td>
+
+<td>
+reverse, reverse_copy, rotate, rotate_copy, next_permutation, prev_permutation,
+random_shuffle, partition, stable_partition
+</td>
+
+</tr>
+</tbody></table>
+
+</p><p>
+
+<table border="1" cellspacing="0" cellpadding="10">
+<tbody><tr>
+<th>Sorting</th>
+<th>Sorted range</th>
+<th>Numeric</th>
+</tr>
+
+<tr valign="top">
+<td>
+sort, stable_sort, partial_sort, partial_sort_copy, nth_element, partition,
+stable_partition, make_heap, push_heap, pop_heap, sort_heap
+</td>
+
+<td>
+binary_search, includes, lower_bound, upper_bound, equal_range, merge,
+set_union, set_intersection, set_difference, set_symmetric_difference,
+inplace_merge
+</td>
+
+<td>
+accumulate, inner_product, adjacent_difference, partial_sum
+</td>
+
+</tr>
+</tbody></table>
+</p><p>
+
+Some simple examples: (Note the magic <tt>Print5</tt> function)
+
+
+</p><pre class="sourcecode"><code><b>#include</b> &lt;iostream&gt;
+<b>#include</b> &lt;vector&gt;
+<b>#include</b> &lt;algorithm&gt;
+
+<b>void</b> f1(<b>void</b>)
+{
+    <font color="#003399"><i>// Container of integers and an iterator</i></font>
+  std::vector&lt;<b>int</b>&gt; cont1;
+  std::vector&lt;<b>int</b>&gt;::iterator iter;
+
+    <font color="#003399"><i>// Add some integers</i></font>
+  cont1.push_back(5);
+  cont1.push_back(7);
+  cont1.push_back(3);
+  cont1.push_back(8);
+  cont1.push_back(7);
+  cont1.push_back(1);
+
+    <font color="#003399"><i>// Print the container</i></font>
+    <font color="#003399"><i>// 5  7  3  8  7  1</i></font>
+  print5(cont1); 
+
+    <font color="#003399"><i>// Find the maximum and print</i></font>
+    <font color="#003399"><i>// Max: 8</i></font>
+  iter = <font color="blue"><b>std::max_element</b></font>(cont1.begin(), cont1.end());
+  std::cout &lt;&lt; <font color="#9933CC">"Max: "</font> &lt;&lt; *iter &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Find the minimum and print</i></font>
+    <font color="#003399"><i>// Min: 1</i></font>
+  iter = <font color="blue"><b>std::min_element</b></font>(cont1.begin(), cont1.end());
+  std::cout &lt;&lt; <font color="#9933CC">"Min: "</font> &lt;&lt; *iter &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Find the first occurrence of the value 7  </i></font>
+    <font color="#003399"><i>// Value 7 found.</i></font>
+  iter = <font color="blue"><b>std::find</b></font>(cont1.begin(), cont1.end(), 7);
+  <b>if</b> (iter != cont1.end())
+    std::cout &lt;&lt; <font color="#9933CC">"Value "</font> &lt;&lt; *iter &lt;&lt; <font color="#9933CC">" found."</font> &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Find the second occurrence of the value 7  </i></font>
+    <font color="#003399"><i>// Value 7 found.</i></font>
+  iter = <font color="blue"><b>std::find</b></font>(++iter, cont1.end(), 7);
+  <b>if</b> (iter != cont1.end())
+    std::cout &lt;&lt; <font color="#9933CC">"Value "</font> &lt;&lt; *iter &lt;&lt; <font color="#9933CC">" found."</font> &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Reverse the elements and print</i></font>
+    <font color="#003399"><i>// Reversed:  1  7  8  3  7  5</i></font>
+  <font color="blue"><b>std::reverse</b></font>(cont1.begin(), cont1.end());
+  std::cout &lt;&lt; <font color="#9933CC">"     Reversed:  "</font>;
+  print5(cont1); 
+
+    <font color="#003399"><i>// Sort the elements and print</i></font>
+    <font color="#003399"><i>// Sorted:  1  3  5  7  7  8</i></font>
+  <font color="blue"><b>std::sort</b></font>(cont1.begin(), cont1.end());  <font color="#003399"><i>// requires operator&lt;</i></font>
+  std::cout &lt;&lt; <font color="#9933CC">"       Sorted:  "</font>;
+  print5(cont1);
+
+    <font color="#003399"><i>// Reverse the first 3 and print</i></font>
+    <font color="#003399"><i>// Reverse 1st 3:  5  3  1  7  7  8</i></font>
+  <font color="blue"><b>std::reverse</b></font>(cont1.begin(), cont1.begin() + 3);
+  std::cout &lt;&lt; <font color="#9933CC">"Reverse 1st 3:  "</font>;
+  print5(cont1); 
+}</code></pre>
+
+Output:
+<blockquote><pre>5  7  3  8  7  1
+Max: 8
+Min: 1
+Value 7 found.
+Value 7 found.
+     Reversed:  1  7  8  3  7  5
+       Sorted:  1  3  5  7  7  8
+Reverse 1st 3:  5  3  1  7  7  8
+</pre></blockquote>
+
+Notes
+<ul>
+<li>Almost all algorithms take a range as their first two parameters.
+</li><li>The range is actually the first element to process and <i>one after</i> the last
+element to process.(This mimics how <i>end()</i> works.)
+</li><li>This is called a <i>left-inclusive</i> or <i>half-open</i> range and is noted like this:
+<blockquote>
+[first, last)
+</blockquote>
+</li><li>Many algorithms require a comparison function such as the less-than operator.
+</li><li>Some algorithms require iterators with certain functionality, e.g. sort requires random-access (subscript operator).
+</li></ul>
+
+<!--
+The "magic" <i>Print5</i> function:
+
+<blockquote><pre>
+<b>template</b> &lt;<b>typename</b> T&gt;
+<b>void</b> print5(<b>const</b> T&amp; v)
+{
+  <b>typename</b> T::const_iterator iter;
+  <b>for</b> (iter = v.begin(); iter != v.end(); ++iter)
+    std::cout &lt;&lt; *iter &lt;&lt; <font color="#9933CC">&quot;  &quot;</font>;
+  std::cout &lt;&lt; std::endl;
+}
+</pre></blockquote>
+-->
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+<p class="SectionHeader">Algorithms with Multiple Ranges
+</p>
+
+<ul>
+<li>Some algorithms take multiple ranges as parameters. 
+</li><li>This is usually because these algorithms need to operate on multiple containers.
+</li><li>For example, comparing elements in two containers, copying from one container to another, etc.
+</li><li>Usually, you specify the [first, last) elements of the first container and only the first element
+of the second container. (The size of the second range is implied by the first range.)
+</li><li>No range checking is done on the second container, so you must ensure that it has enough room.
+</li></ul>
+
+<p>
+</p><hr width="90%">
+<p>
+
+Example: Comparing two vectors:
+
+</p><pre class="sourcecode"><code><b>void</b> f2(<b>void</b>)
+{
+    <font color="#003399"><i>// Containers of integers</i></font>
+  std::vector&lt;<b>int</b>&gt; cont1, cont2;
+  <b>int</b> i, size = 10;
+
+    <font color="#003399"><i>// Populate both with identical elements</i></font>
+  <b>for</b> (i = 0; i &lt; size; i++)
+  {
+    cont1.push_back(i);
+    cont2.push_back(i);
+  }
+
+    <font color="#003399"><i>// See if the containers are the same (must be same size)</i></font>
+  <b>if</b> ( <font color="blue"><b>std::equal</b></font>(cont1.begin(), cont1.end(), cont2.begin()) )
+    std::cout &lt;&lt; <font color="#9933CC">"cont1 and cont2 are equal"</font> &lt;&lt; std::endl;
+  <b>else</b>
+    std::cout &lt;&lt; <font color="#9933CC">"cont1 and cont2 are NOT equal"</font> &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Using the overloaded '==' operator for vectors</i></font>
+  <b>if</b> (cont1 == cont2)
+    std::cout &lt;&lt; <font color="#9933CC">"cont1 and cont2 are equal"</font> &lt;&lt; std::endl;
+  <b>else</b>
+    std::cout &lt;&lt; <font color="#9933CC">"cont1 and cont2 are NOT equal"</font> &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Change the first element in cont1</i></font>
+  cont1[0] = 100;
+
+    <font color="#003399"><i>// See if the containers are the same (must be same size)</i></font>
+  <b>if</b> ( <font color="blue"><b>std::equal</b></font>(cont1.begin(), cont1.end(), cont2.begin()) )
+    std::cout &lt;&lt; <font color="#9933CC">"cont1 and cont2 are equal"</font> &lt;&lt; std::endl;
+  <b>else</b>
+    std::cout &lt;&lt; <font color="#9933CC">"cont1 and cont2 are NOT equal"</font> &lt;&lt; std::endl;
+}</code></pre>
+
+Output:
+<blockquote><pre>cont1 and cont2 are equal
+cont1 and cont2 are equal
+cont1 and cont2 are NOT equal
+</pre></blockquote>
+
+
+A better (safer) way to check for equality would be something like this:
+<blockquote><pre><b>if</b> ( cont1.size() == cont2.size() &amp;&amp;
+     std::equal(cont1.begin(), cont1.end(), cont2.begin()) )
+</pre></blockquote>
+
+<ul>
+<li>If there are more elements in the second container than the first, they are simply ignored.
+</li><li>Algorithms may be needed instead of built-in operators (such as the equality '= =' operator above).
+</li><li>Note that if we changed one of the containers (so they are different):
+<blockquote><pre>  <font color="#003399"><i>// List/vector of integers</i></font>
+std::vector&lt;<b>int</b>&gt; cont1;
+std::list&lt;<b>int</b>&gt; cont2;
+</pre></blockquote>
+
+this still works just fine:
+
+<blockquote><pre>std::equal(cont1.begin(), cont1.end(), cont2.begin())
+</pre></blockquote>
+
+However, this will no longer work. Why?
+
+<blockquote><pre>(cont1 == cont2)
+</pre></blockquote>
+
+<p>
+What are the issues when comparing the following containers for equality? (In other words,
+<i>exactly</i> why won't it compile?)
+
+</p><blockquote><pre>std::vector&lt;<b>int</b>&gt; cont1;     <font color="#003399"><i>// Vector of integers</i></font>
+std::vector&lt;string&gt; cont2;  <font color="#003399"><i>// Vector of strings</i></font>
+</pre></blockquote>
+
+<!--
+it will cause an error with the equality operator. You can't compare int and string.
+Even if implemented with <, it will fail.
+-->
+
+</li></ul>
+
+<p>
+</p><hr width="90%">
+<p>
+
+Example: Copying between different containers
+
+</p><pre class="sourcecode"><code><b>void</b> f4(<b>void</b>)
+{
+    <font color="#003399"><i>// List/vector of integers</i></font>
+  std::vector&lt;<b>int</b>&gt; cont1;
+  std::list&lt;<b>int</b>&gt; cont2;
+  <b>int</b> i, size = 10;
+
+    <font color="#003399"><i>// Populate </i></font>
+  <b>for</b> (i = 0; i &lt; size; i++)
+    cont1.push_back(i);
+
+    <font color="#003399"><i>// Make sure there is enough room in the list (elements initialized to 0)</i></font>
+  cont2.resize(cont1.size());
+
+    <font color="#003399"><i>// Copy all elements from vector to list</i></font>
+  <font color="blue"><b>std::copy</b></font>(cont1.begin(), cont1.end(), cont2.begin());
+
+    <font color="#003399"><i>// Create a deque same size as list (elements initialized to 0)</i></font>
+  std::deque&lt;<b>int</b>&gt; cont3(cont2.size());
+
+    <font color="#003399"><i>// Copy all elements from list into deque</i></font>
+  <font color="blue"><b>std::copy</b></font>(cont2.begin(), cont2.end(), cont3.begin());
+
+    <font color="#003399"><i>// Print the containers</i></font>
+  print5(cont1);
+  print5(cont2);
+  print5(cont3);
+
+    <font color="#003399"><i>// See if the containers are the same</i></font>
+  <b>if</b> ( <font color="blue"><b>std::equal</b></font>(cont1.begin(), cont1.end(), cont2.begin()) &amp;&amp;
+       <font color="blue"><b>std::equal</b></font>(cont2.begin(), cont2.end(), cont3.begin()) 
+     )
+    std::cout &lt;&lt; <font color="#9933CC">"All containers are the same"</font> &lt;&lt; std::endl;
+  <b>else</b>
+    std::cout &lt;&lt; <font color="#9933CC">"The containers are NOT the same"</font> &lt;&lt; std::endl;
+  
+}</code></pre>
+
+Output:
+<blockquote><pre>0  1  2  3  4  5  6  7  8  9
+0  1  2  3  4  5  6  7  8  9
+0  1  2  3  4  5  6  7  8  9
+All containers are the same
+</pre></blockquote>
+
+An example using <tt>for_each</tt> and modifying it's behavior:
+<p>
+
+</p><pre class="sourcecode"><code><b>#include</b> &lt;iostream&gt;
+<b>#include</b> &lt;vector&gt;
+<b>#include</b> &lt;algorithm&gt;
+
+<b>void</b> Print(<b>int</b> value)
+{
+  std::cout &lt;&lt; value &lt;&lt; <font color="#9933CC">" "</font>;
+}
+
+<b>void</b> PrintVec(<b>const</b> std::vector&lt;<b>int</b>&gt; &amp;vec)
+{
+  std::vector&lt;<b>int</b>&gt;::const_iterator iter;
+  <b>for</b> (iter = vec.begin(); iter != vec.end(); iter++)
+    Print(*iter);
+
+  std::cout &lt;&lt; std::endl;
+}
+
+<b>int</b> main(<b>void</b>)
+{
+    <font color="#003399"><i>// Create an empty vector of integers</i></font>
+  std::vector&lt;<b>int</b>&gt; nums;
+
+    <font color="#003399"><i>// Put 10 random integers in the vector</i></font>
+  <b>for</b> (<b>int</b> i = 0; i &lt; 10; i++)
+    nums.push_back(rand() % 100);
+
+    <font color="#003399"><i>// Pass the vector to a function to print</i></font>
+  PrintVec(nums);
+
+    <font color="#003399"><i>// Sort the vector</i></font>
+  std::sort(nums.begin(), nums.end());
+
+    <font color="#003399"><i>// Pass each element of the vector to a function to print</i></font>
+  std::for_each(nums.begin(), nums.end(), Print);  
+  
+  <b>return</b> 0;
+}
+
+<b>Output:</b>
+41 67 34 0 69 24 78 58 62 64
+0 24 34 41 58 62 64 67 69 78
+</code></pre>
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+<p class="SectionHeader">Templates
+</p>
+
+
+<pre class="sourcecode"><code>
+<b>#include</b> &lt;iostream&gt;
+<b>#include</b> &lt;vector&gt;
+<b>#include</b> &lt;algorithm&gt;
+
+<b>template</b> &lt;<b>typename</b> T&gt;
+<b>void</b> Print(T value)
+{
+  std::cout &lt;&lt; value &lt;&lt; <font color="#9933CC">" "</font>;
+}
+
+<b>template</b> &lt;<b>typename</b> T&gt;
+<b>void</b> PrintVec(<b>const</b> std::vector&lt;T&gt; &amp;vec)
+{
+  std::vector&lt;T&gt;::const_iterator iter;
+  <b>for</b> (iter = vec.begin(); iter != vec.end(); iter++)
+    Print(*iter);
+
+  std::cout &lt;&lt; std::endl;
+}
+
+<b>int</b> main(<b>void</b>)
+{
+    <font color="#003399"><i>// Create an empty vector of integers</i></font>
+  std::vector&lt;<b>int</b>&gt; nums;
+
+    <font color="#003399"><i>// Put 10 random integers in the vector</i></font>
+  <b>for</b> (<b>int</b> i = 0; i &lt; 10; i++)
+    nums.push_back(rand() % 100);
+
+    <font color="#003399"><i>// Pass the vector to a template function to print</i></font>
+  PrintVec(nums);
+
+    <font color="#003399"><i>// Sort the vector</i></font>
+  std::sort(nums.begin(), nums.end());
+
+    <font color="#003399"><i>// Pass each element of the vector to a template function to print</i></font>
+  std::for_each(nums.begin(), nums.end(), Print&lt;<b>int</b>&gt;);
+  
+  <b>return</b> 0;
+}
+
+<b>Output:</b>
+41 67 34 0 69 24 78 58 62 64
+0 24 34 41 58 62 64 67 69 78
+</code></pre>
+
+Since the PrintVec function is redundant (due to the <b>for_each</b> function) we can just remove it. 
+<!--However, the following code won't compile: (in VS 6.0 it didn't...)-->
+
+<blockquote><pre><b>template</b> &lt;<b>typename</b> T&gt;
+<b>void</b> Print(T value)
+{
+  std::cout &lt;&lt; value &lt;&lt; <font color="#9933CC">" "</font>;
+}
+
+<b>int</b> main(<b>void</b>)
+{
+    <font color="#003399"><i>// Create an empty vector of integers</i></font>
+  std::vector&lt;<b>int</b>&gt; nums;
+
+    <font color="#003399"><i>// Put 10 random integers in the vector</i></font>
+  <b>for</b> (<b>int</b> i = 0; i &lt; 10; i++)
+    nums.push_back(std::rand() % 100);
+
+    <font color="#003399"><i>// Pass each element of the vector to a template function to print</i></font>
+  std::for_each(nums.begin(), nums.end(), Print&lt;<b>int</b>&gt;);
+  std::cout &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Sort the vector</i></font>
+  std::sort(nums.begin(), nums.end());
+
+    <font color="#003399"><i>// Pass each element of the vector to a template function to print</i></font>
+  std::for_each(nums.begin(), nums.end(), Print&lt;<b>int</b>&gt;);
+  std::cout &lt;&lt; std::endl;
+  
+  <b>return</b> 0;
+}
+</pre></blockquote>
+
+<!--
+
+This used to be required with MSVC 6.0
+
+We need to explicitly instantiate the version of the template we need:
+
+<blockquote><pre>
+<b>template</b> &lt;<b>typename</b> T&gt;
+<b>void</b> Print(T value)
+{
+  cout &lt;&lt; value &lt;&lt; <font color="#9933CC">&quot; &quot;</font>;
+}
+
+<b>template</b> <b>void</b> Print&lt;<b>int</b>&gt;(<b>int</b>);  <font color="#003399"><i>// explicit instantiation</i></font>
+
+<b>int</b> main(<b>void</b>)
+{
+  ...
+}
+</pre></blockquote>
+
+Why did it work with the PrintVec function?
+-->
+<p>
+Client code using a <b>vector</b> of <b>string</b>:
+
+</p><blockquote><pre><!--<b>template</b> <b>void</b> Print&lt;string&gt;(string); <font color="#003399"><i>// explicit instantiation</i></font>-->
+
+<b>int</b> main(<b>void</b>)
+{
+    <font color="#003399"><i>// Create an empty vector of strings</i></font>
+  std::vector&lt;string&gt; critters;
+
+  critters.push_back(<font color="#9933CC">"Snail"</font>);   
+  critters.push_back(<font color="#9933CC">"Turtle"</font>);
+  critters.push_back(<font color="#9933CC">"Penguin"</font>);
+  critters.push_back(<font color="#9933CC">"Rabbit"</font>);
+  critters.push_back(<font color="#9933CC">"Lion"</font>);
+  critters.push_back(<font color="#9933CC">"Cheetah"</font>);
+
+    <font color="#003399"><i>// Pass each element of the vector to a template function to print</i></font>
+  std::for_each(critters.begin(), critters.end(), Print&lt;string&gt;);
+  std::cout &lt;&lt; std::endl;
+
+    <font color="#003399"><i>// Sort the vector</i></font>
+  std::sort(critters.begin(), critters.end());
+
+    <font color="#003399"><i>// Pass each element of the vector to a template function to print</i></font>
+  std::for_each(critters.begin(), critters.end(), Print&lt;string&gt;);
+  std::cout &lt;&lt; std::endl;
+  
+  <b>return</b> 0;
+}
+</pre></blockquote>
+
+
+<b>Output:</b>
+<blockquote><pre>Snail Turtle Penguin Rabbit Lion Cheetah
+Cheetah Lion Penguin Rabbit Snail Turtle
+</pre></blockquote>
+
+<p>
+<a href="http://www.sgi.com/tech/stl/table_of_contents.html">STL Reference</a>
+
+<!-- ************************************************************************************************ -->
+<!-- ************************************************************************************************ -->
+</p><p class="SectionHeader">Other Examples</p>
+
+Interface to our <i>Employee</i> class: <a href="http://azrael.digipen.edu/~mmead/www/Courses/CS170/Employee-1.cpp.html">Employee.h</a>
+<p>
+
+Data in file <b>employees1.txt</b>: (<tt>lastName_, firstName_, salary_, years_</tt>)
+	
+</p><blockquote><pre>Faith Ian 80000 10
+Tufnel Nigel 90000 12
+Savage Viv 50000 4
+Shrimpton Mick 50000 4
+Besser Joe 40000 1
+Smalls Derek 80000 10
+St.Hubbins David 90000 12
+Fleckman Bobbi 120000 8
+Upham Danny 60000 5
+McLochness Ross 60000 5
+Pudding Ronnie 50000 2
+Schindler Danny 60000 3
+</pre></blockquote>
+	
+<p>
+	
+<table border="0" cellspacing="5" cellpadding="5">
+<tbody><tr><th>Code using <tt>vector</tt></th><th>Output</th></tr>
+<tr valign="top">
+<td>
+<blockquote><pre><b>void</b> f3(<b>void</b>)
+{
+  std::ifstream infile(<font color="#9933CC">"employees1.txt"</font>);
+  <b>if</b> (!infile.is_open())
+    std::cout &lt;&lt; <font color="#9933CC">"Can't open file.\n"</font>;
+  <b>else</b>
+  {
+    std::vector&lt;Employee&gt; Emps;
+    <b>while</b> (!infile.eof())
+    {
+      std::string first, last;
+      <b>float</b> salary;
+      <b>int</b> years;
+
+        <font color="#003399"><i>// Read in data (assume valid data file)</i></font>
+      infile &gt;&gt; last;
+      <b>if</b> (infile.eof())
+        <b>break</b>;
+
+      infile &gt;&gt; first;
+      infile &gt;&gt; salary;
+      infile &gt;&gt; years;
+
+        <font color="#003399"><i>// Construct an Employee object</i></font>
+      Employee emp(first, last, salary, years);
+      
+        <font color="#003399"><i>// Add it to the vector</i></font>
+      Emps.push_back(emp);
+    }
+    
+      <font color="#003399"><i>// Print out all of the objects</i></font>
+      <font color="#003399"><i>// Assume there is a PrintEmp function</i></font>
+    std::for_each(Emps.begin(), Emps.end(), PrintEmp);
+  }
+}
+
+</pre></blockquote>
+</td>
+<td>
+<blockquote><pre>  Name: Faith, Ian
+Salary: $80000.00
+ Years: 10
+  Name: Tufnel, Nigel
+Salary: $90000.00
+ Years: 12
+  Name: Savage, Viv
+Salary: $50000.00
+ Years: 4
+  Name: Shrimpton, Mick
+Salary: $50000.00
+ Years: 4
+  Name: Besser, Joe
+Salary: $40000.00
+ Years: 1
+  Name: Smalls, Derek
+Salary: $80000.00
+ Years: 10
+  Name: St.Hubbins, David
+Salary: $90000.00
+ Years: 12
+  Name: Fleckman, Bobbi
+Salary: $120000.00
+ Years: 8
+  Name: Upham, Danny
+Salary: $60000.00
+ Years: 5
+  Name: McLochness, Ross
+Salary: $60000.00
+ Years: 5
+  Name: Pudding, Ronnie
+Salary: $50000.00
+ Years: 2
+  Name: Schindler, Danny
+Salary: $60000.00
+ Years: 3
+</pre></blockquote>
+</td>
+</tr></tbody></table>
+
+Adding some code to sort the data before printing it:
+	
+</p><blockquote><pre>  <font color="#003399"><i>// After reading in the data, sort the data and print it.</i></font>
+std::sort(Emps.begin(), Emps.end());
+std::for_each(Emps.begin(), Emps.end(), PrintEmp);
+</pre></blockquote>
+
+But the call to <tt>sort</tt> causes <a href="http://azrael.digipen.edu/~mmead/www/Courses/CS170/STL-err-sort-1.txt">an error</a>. How do you sort <i>Employees</i>?
+<p>
+	
+We need to overload the less-than operator. (Arbitrarily sort on the last name):
+
+</p><blockquote><pre><b>bool</b> Employee::<b>operator</b>&lt;(<b>const</b> Employee&amp; rhs) <b>const</b>
+{
+    <font color="#003399"><i>// Sort by last name</i></font>
+  <b>return</b> lastName_ &lt; rhs.lastName_;
+}
+</pre></blockquote>
+
+No, the code works and we get this as output:
+
+<table border="0" cellspacing="5" cellpadding="0">
+<tbody><tr><th>Sort by last name</th><th>Sort by first name</th><th>Sort by salary</th></tr>
+<tr valign="top">
+<td>
+<blockquote><pre>  Name: Besser, Joe
+Salary: $40000.00
+ Years: 1
+  Name: Faith, Ian
+Salary: $80000.00
+ Years: 10
+  Name: Fleckman, Bobbi
+Salary: $120000.00
+ Years: 8
+  Name: McLochness, Ross
+Salary: $60000.00
+ Years: 5
+  Name: Pudding, Ronnie
+Salary: $50000.00
+ Years: 2
+  Name: Savage, Viv
+Salary: $50000.00
+ Years: 4
+  Name: Schindler, Danny
+Salary: $60000.00
+ Years: 3
+  Name: Shrimpton, Mick
+Salary: $50000.00
+ Years: 4
+  Name: Smalls, Derek
+Salary: $80000.00
+ Years: 10
+  Name: St.Hubbins, David
+Salary: $90000.00
+ Years: 12
+  Name: Tufnel, Nigel
+Salary: $90000.00
+ Years: 12
+  Name: Upham, Danny
+Salary: $60000.00
+ Years: 5
+</pre></blockquote>
+</td>
+<td>
+<blockquote><pre>  Name: Fleckman, Bobbi
+Salary: $120000.00
+ Years: 8
+  Name: Upham, Danny
+Salary: $60000.00
+ Years: 5
+  Name: Schindler, Danny
+Salary: $60000.00
+ Years: 3
+  Name: St.Hubbins, David
+Salary: $90000.00
+ Years: 12
+  Name: Smalls, Derek
+Salary: $80000.00
+ Years: 10
+  Name: Faith, Ian
+Salary: $80000.00
+ Years: 10
+  Name: Besser, Joe
+Salary: $40000.00
+ Years: 1
+  Name: Shrimpton, Mick
+Salary: $50000.00
+ Years: 4
+  Name: Tufnel, Nigel
+Salary: $90000.00
+ Years: 12
+  Name: Pudding, Ronnie
+Salary: $50000.00
+ Years: 2
+  Name: McLochness, Ross
+Salary: $60000.00
+ Years: 5
+  Name: Savage, Viv
+Salary: $50000.00
+ Years: 4
+</pre></blockquote>
+</td>
+<td>
+<blockquote><pre>  Name: Besser, Joe
+Salary: $40000.00
+ Years: 1
+  Name: Savage, Viv
+Salary: $50000.00
+ Years: 4
+  Name: Shrimpton, Mick
+Salary: $50000.00
+ Years: 4
+  Name: Pudding, Ronnie
+Salary: $50000.00
+ Years: 2
+  Name: Upham, Danny
+Salary: $60000.00
+ Years: 5
+  Name: McLochness, Ross
+Salary: $60000.00
+ Years: 5
+  Name: Schindler, Danny
+Salary: $60000.00
+ Years: 3
+  Name: Faith, Ian
+Salary: $80000.00
+ Years: 10
+  Name: Smalls, Derek
+Salary: $80000.00
+ Years: 10
+  Name: Tufnel, Nigel
+Salary: $90000.00
+ Years: 12
+  Name: St.Hubbins, David
+Salary: $90000.00
+ Years: 12
+  Name: Fleckman, Bobbi
+Salary: $120000.00
+ Years: 8
+</pre></blockquote>
+</td>
+</tr></tbody></table>
+
+Sort by first name:
+<blockquote><pre><b>bool</b> Employee::<b>operator</b>&lt;(<b>const</b> Employee&amp; rhs) <b>const</b>
+{
+  <b>return</b> firstName_ &lt; rhs.firstName_;
+}
+</pre></blockquote>
+
+Sort by salary:
+<blockquote><pre><b>bool</b> Employee::<b>operator</b>&lt;(<b>const</b> Employee&amp; rhs) <b>const</b>
+{
+  <b>return</b> salary_ &lt; rhs.salary_;
+}
+</pre></blockquote>
+
+Sort by first name and last name:
+<blockquote><pre><b>bool</b> Employee::<b>operator</b>&lt;(<b>const</b> Employee&amp; rhs) <b>const</b>
+{
+  <b>if</b> (firstName_ == rhs.firstName_)
+    <b>return</b> lastName_ &lt; rhs.lastName_;
+  <b>else</b>
+    <b>return</b> firstName_ &lt; rhs.firstName_;
+}
+</pre></blockquote>
+
+or you could do this: (less efficient)
+
+<blockquote><pre><b>bool</b> Employee::<b>operator</b>&lt;(<b>const</b> Employee&amp; rhs) <b>const</b>
+{
+  <b>return</b> (firstName_ + lastName_) &lt; (rhs.firstName_ + rhs.lastName_);
+}
+</pre></blockquote>
+
+<p>
+</p><hr width="90%">
+<p>
+
+Allowing the client to choose the sort order:
+
+</p><blockquote><pre><b>bool</b> CompareByYear(<b>const</b> Employee&amp; emp1, <b>const</b> Employee&amp; emp2)
+{
+  <b>return</b> emp1.getYears() &lt; emp2.getYears();
+}
+
+<b>bool</b> CompareBySalary(<b>const</b> Employee&amp; emp1, <b>const</b> Employee&amp; emp2)
+{
+  <b>return</b> emp1.getSalary() &lt; emp2.getSalary();
+}
+
+<b>bool</b> CompareByName(<b>const</b> Employee&amp; emp1, <b>const</b> Employee&amp; emp2)
+{
+  <b>return</b> (emp1.getLastName() + emp1.getFirstName()) &lt; (emp2.getLastName() + emp2.getFirstName());
+}
+</pre></blockquote>
+
+Calling sort:
+
+<blockquote><pre>  <font color="#003399"><i>// Sort by year</i></font>
+std::sort(Emps.begin(), Emps.end(), CompareByYear);
+
+  <font color="#003399"><i>// Sort by salary</i></font>
+std::sort(Emps.begin(), Emps.end(), CompareBySalary);
+
+  <font color="#003399"><i>// Sort by name</i></font>
+std::sort(Emps.begin(), Emps.end(), CompareByName);
+</pre></blockquote>
+
+
+
+
+Changing <tt>vector</tt> to <tt>list</tt> causes <a href="http://azrael.digipen.edu/~mmead/www/Courses/CS170/STL-err-sort-1.txt">this error</a>. How do you sort a <tt>list</tt>?
+
+<blockquote><pre>std::list&lt;Employee&gt; Emps;
+
+  <font color="#003399"><i>// read in the data</i></font>
+
+std::sort(Emps.begin(), Emps.end());  <font color="#003399"><i>// ERROR!</i></font>
+</pre></blockquote>
+
+<tt>std::sort</tt> requires a <i>random access iterator</i> (a subscript operator), which a <tt>list</tt> doesn't have. You
+must use the <tt>sort</tt> method of the <tt>list</tt> class:
+
+
+<blockquote><pre>Emps.sort();                 <font color="#003399"><i>// use Employee::operator&lt;</i></font>
+Emps.sort(CompareBySalary);  <font color="#003399"><i>// use compare function</i></font>
+Emps.sort(CompareByYears);   <font color="#003399"><i>// use compare function</i></font>
+</pre></blockquote>
+
+Use a <tt>std::set</tt>:
+
+<blockquote><pre>std::set&lt;Employee&gt; Emps;  <font color="#003399"><i>// use a set (sorted container)</i></font>
+<b>while</b> (!infile.eof())
+{
+  std::string first, last;
+  <b>float</b> salary;
+  <b>int</b> years;
+
+    <font color="#003399"><i>// Assume valid data file</i></font>
+  infile &gt;&gt; last;
+  <b>if</b> (infile.eof())
+    <b>break</b>;
+
+  infile &gt;&gt; first;
+  infile &gt;&gt; salary;
+  infile &gt;&gt; years;
+
+  Employee emp(first, last, salary, years);
+  Emps.insert(emp);  <font color="#003399"><i>// Uses Employee::operator&lt;</i></font>
+}
+  <font color="#003399"><i>// Display (already sorted)</i></font>
+std::for_each(Emps.begin(), Emps.end(), PrintEmp);
+</pre></blockquote>
+
+Output: (<tt>Employee::operator&lt;</tt> is set to sort on first/last name)
+
+<blockquote><pre>  Name: Fleckman, Bobbi
+Salary: $120000.00
+ Years: 8
+  Name: Schindler, Danny
+Salary: $60000.00
+ Years: 3
+  Name: Upham, Danny
+Salary: $60000.00
+ Years: 5
+  Name: St.Hubbins, David
+Salary: $90000.00
+ Years: 12
+  Name: Smalls, Derek
+Salary: $80000.00
+ Years: 10
+  Name: Faith, Ian
+Salary: $80000.00
+ Years: 10
+  Name: Besser, Joe
+Salary: $40000.00
+ Years: 1
+  Name: Shrimpton, Mick
+Salary: $50000.00
+ Years: 4
+  Name: Tufnel, Nigel
+Salary: $90000.00
+ Years: 12
+  Name: Pudding, Ronnie
+Salary: $50000.00
+ Years: 2
+  Name: McLochness, Ross
+Salary: $60000.00
+ Years: 5
+  Name: Savage, Viv
+Salary: $50000.00
+ Years: 4
+</pre></blockquote>
+
+<blockquote><pre></pre></blockquote>
+
+
+<blockquote><pre></pre></blockquote>
+
+	
+	
+
+
+
+
+<blockquote><pre></pre></blockquote>
+
+
+<blockquote><pre></pre></blockquote>
+
+
+<blockquote>
+<table border="0" cellspacing="5" cellpadding="0">
+<tbody><tr><th></th><th></th><th></th></tr>
+<tr valign="top">
+<td>
+<blockquote><pre></pre></blockquote>
+</td>
+<td>
+<blockquote><pre></pre></blockquote>
+</td>
+<td>
+<blockquote><pre></pre></blockquote>
+</td>
+</tr></tbody></table>
+</blockquote>
+
+<tt><b></b></tt>
+
+<blockquote>
+<table border="0" cellspacing="5" cellpadding="5">
+<tbody><tr><th></th><th></th></tr>
+<tr valign="top">
+<td>
+<blockquote><pre></pre></blockquote>
+</td>
+<td>
+<blockquote><pre></pre></blockquote>
+</td>
+</tr></tbody></table>
+</blockquote>
+
+<blockquote><pre></pre></blockquote>
+
+</body></html>

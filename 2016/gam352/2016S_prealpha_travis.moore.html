@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="en" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; font-family: sans-serif; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; font-size: 10px; -webkit-tap-highlight-color: rgba(0,0,0,0);"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Spring 2016 Pre-Alpha Milestone Report for Travis Moore</title></head><body style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; margin: 0; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.42857143; color: #333; background-color: #fff;"><table class="table table-condensed" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; border-spacing: 0; border-collapse: collapse; background-color: transparent; width: 100%; max-width: 100%; margin-bottom: 20px;"><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td colspan="2" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0;"><h3 style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; font-family: inherit; font-weight: 500; line-height: 1.1; color: inherit; margin-top: 20px; margin-bottom: 10px; font-size: 24px;"></h3></td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Name</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;">Travis Moore &lt;travis.moore@digipen.edu&gt;</td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Class &amp; Degree</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;">GAM 352 (BA GD)</td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Team</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;">Orange Kiwi</td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Role(s)</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;">UX/UI &amp; Game Designer</td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Teammates</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;"></td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Project</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;">Planetary Pest Squad</td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Description</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;"><pre style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 9.5px; border-radius: 4px; font-family: Menlo,Monaco,Consolas,'Courier New',monospace; font-size: 13px; display: block; border: 1px solid #ccc; margin: 0 0 10px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; overflow: auto; white-space: pre-wrap;">HIGH CONCEPT:
+A multiplayer action shooter set in space where players work together to exterminate pests and compete to collect the most loot without dying.
+
+FEATURES:
+3D MOVEMENT AROUND SPHERICAL PLANETS
+Planets with local gravity that allow players and other entities to move around on their surface.
+
+RANDOMLY GENERATED LEVELS &amp; EVENTS
+Planets are individually designed in chunks to populate the world procedurally.
+
+COMPETITIVE RISK &amp; REWARD STYLE MULTIPLAYER
+Players compete to collect the most loot in an increasingly dangerous environment, where if you die, you lose everything.
+</pre></td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Source Control</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;">https://svn.digipen.edu/projects/orangekiwi/</td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Other Documentation</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;"><pre style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 9.5px; border-radius: 4px; font-family: Menlo,Monaco,Consolas,'Courier New',monospace; font-size: 13px; display: block; border: 1px solid #ccc; margin: 0 0 10px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; overflow: auto; white-space: pre-wrap;">TRELLO
+https://trello.com/b/cW8g6GWg/tasks
+
+SLACK
+https://gam300.slack.com/</pre></td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Weekly Reports<br style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;">(53 total)</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;"><table class="table table-condensed table-bordered" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; border-spacing: 0; border-collapse: collapse; width: 100%; max-width: 100%; margin-bottom: 20px; border: 1px solid #ddd; background-color: #fff;"><tbody style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 5px; line-height: 1.42857143; vertical-align: top; border-top: 1px solid #ddd; border: 1px solid #ddd;"><strong style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; font-weight: 700;">Week 1: 6 hours</strong><br style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><pre style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 9.5px; border-radius: 4px; font-family: Menlo,Monaco,Consolas,'Courier New',monospace; font-size: 13px; display: block; border: 1px solid #ccc; margin: 0 0 10px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; overflow: auto; white-space: pre-wrap;">Art Meeting	0:45:00	
+Menu Parallax	1:45:00	
+Unity3D: Menu Refactor	3:15:00</pre></td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 5px; line-height: 1.42857143; vertical-align: top; border-top: 1px solid #ddd; border: 1px solid #ddd;"><strong style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; font-weight: 700;">Week 2: 6 hours</strong><br style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><pre style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 9.5px; border-radius: 4px; font-family: Menlo,Monaco,Consolas,'Courier New',monospace; font-size: 13px; display: block; border: 1px solid #ccc; margin: 0 0 10px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; overflow: auto; white-space: pre-wrap;">New Menu System:        4:00:00	
+Design Meeting: User Flow	1:30:00	
+Mini Team Meeting	0:30:00</pre></td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 5px; line-height: 1.42857143; vertical-align: top; border-top: 1px solid #ddd; border: 1px solid #ddd;"><strong style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; font-weight: 700;">Week 3: 6 hours</strong><br style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><pre style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 9.5px; border-radius: 4px; font-family: Menlo,Monaco,Consolas,'Courier New',monospace; font-size: 13px; display: block; border: 1px solid #ccc; margin: 0 0 10px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; overflow: auto; white-space: pre-wrap;">	
+Character Controller Meeting w/ Auston	0:30:00	
+Splash Screen Refactor	1:30:00	
+Splash/Start Screens Refactor	1:30:00	
+Team Design Meeting	1:45:00	
+Trello Task Making	0:45:00</pre></td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 5px; line-height: 1.42857143; vertical-align: top; border-top: 1px solid #ddd; border: 1px solid #ddd;"><strong style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; font-weight: 700;">Week 4: 10 hours</strong><br style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><pre style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 9.5px; border-radius: 4px; font-family: Menlo,Monaco,Consolas,'Courier New',monospace; font-size: 13px; display: block; border: 1px solid #ccc; margin: 0 0 10px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; overflow: auto; white-space: pre-wrap;">Design: Jump Menu Sketching &amp; Illustrator Mockup	1:45:00	
+Team Design Meeting - Milestone 4	1:30:00	
+Testing All Menus, Fixing Responsive Size Scaling	1:30:00	
+Unity3D: Main Menu Responsive Elements	1:15:00	
+Unity3D: Refactor Pause Controller	3:30:00	
+Unity3D: Testing Refactor Pause Controller	0:30:00</pre></td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 5px; line-height: 1.42857143; vertical-align: top; border-top: 1px solid #ddd; border: 1px solid #ddd;"><strong style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; font-weight: 700;">Week 5: 25 hours</strong><br style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><pre style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 9.5px; border-radius: 4px; font-family: Menlo,Monaco,Consolas,'Courier New',monospace; font-size: 13px; display: block; border: 1px solid #ccc; margin: 0 0 10px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; overflow: auto; white-space: pre-wrap;">Asset Creation: Jump Menu Icons/Art	1:00:00	
+Git: Audio .dll tracking problem	0:30:00	
+Git: Auston &amp; Riley Repo Issues	1:30:00	
+Git: Merging and Fixing Conflicts	0:15:00	
+HUD: Scripting Functionality &amp; Animations	3:00:00	
+Git: Post Pre-Alpha Source Control Clean Up	1:30:00	
+Pre Alpha Power Point	0:30:00	
+Pre-Alpha Presentation	0:15:00	
+Pre-Alpha Presentation Practice	1:15:00	
+Team Meeting	1:00:00	
+Unity3D: HUD Redesign	2:00:00	
+Unity3D: Jump Menu Final Touches (new assets)	1:30:00	
+Unity3D: Jump Menu Scripting	7:15:00	
+Unity3D: Multiplayer Jump Menu Integration	3:00:00</pre></td></tr></tbody></table></td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Additional Work Done</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;"><pre style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 9.5px; border-radius: 4px; font-family: Menlo,Monaco,Consolas,'Courier New',monospace; font-size: 13px; display: block; border: 1px solid #ccc; margin: 0 0 10px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; overflow: auto; white-space: pre-wrap;"></pre></td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Coding Report</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;"><pre style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 9.5px; border-radius: 4px; font-family: Menlo,Monaco,Consolas,'Courier New',monospace; font-size: 13px; display: block; border: 1px solid #ccc; margin: 0 0 10px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; overflow: auto; white-space: pre-wrap;">TOTAL TEAM CODE:
+Source Files	92	Source Files
+Directories	15	Directories
+LOC	10310	Lines of Code
+BLOC	1691	Blank Lines of Code
+SLOC-P	6726	Physical Executable Lines of Code
+SLOC-L	4066	Logical Executable Lines of Code
+MVG	622	McCabe VG Complexity
+C&amp;SLOC	208	Code and Comment Lines of Code
+CLOC	1893	Comment Only Lines of Code
+CWORD	8161	Commentary Words
+HCLOC	0	Header Comment Lines of Code
+HCWORD	65	Header Commentary Words
+F:\Library\Desktop\pre-alpha_all-code\metrics - FOLDERS
+Folder	Files	LOC	SLOC Physical	SLOC Logical	MVG	BLOC	C&amp;SLOC	CLOC	CWORD	HCLOC	HCWORD
+Total	92	10310	6726	4066	622	1691	208	1893	8161	0	65
+F:\Library\Desktop\pre-alpha_all-code\all-code	92	10310	6726	4066	622	1691	208	1893	8161	0	65
+F:\Library\Desktop\pre-alpha_all-code\all-code\AI	6	1157	844	571	155	171	10	142	555	0	6
+F:\Library\Desktop\pre-alpha_all-code\all-code\CameraSystem	7	700	449	285	50	137	24	114	898	0	7
+F:\Library\Desktop\pre-alpha_all-code\all-code\Enemies	1	110	78	47	9	20	1	12	153	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\EventSystem	5	542	382	298	29	90	7	70	260	0	5
+F:\Library\Desktop\pre-alpha_all-code\all-code\GameplayMechanics	9	1243	753	406	66	161	37	329	1381	0	9
+F:\Library\Desktop\pre-alpha_all-code\all-code\InGameUI	6	732	416	215	10	133	21	183	604	0	5
+F:\Library\Desktop\pre-alpha_all-code\all-code\LevelSettings	5	682	451	264	36	69	20	162	468	0	5
+F:\Library\Desktop\pre-alpha_all-code\all-code\MenuScripts	10	1095	651	337	38	152	40	292	937	0	10
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc	22	1440	928	560	59	258	24	254	1196	0	16
+F:\Library\Desktop\pre-alpha_all-code\all-code\Multiplayer	3	224	170	104	23	48	0	6	30	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\PickUps	1	284	174	91	10	29	4	81	260	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Player	8	1046	745	446	63	185	12	116	641	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\SFX	2	55	38	22	2	11	0	6	26	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Weapons	2	179	122	76	6	39	0	18	90	0	0
+F:\Library\Desktop\pre-alpha_all-code\metrics - FILES
+File	LOC	SLOC Physical	SLOC Logical	MVG	BLOC	C&amp;SLOC	CLOC	CWORD	HCLOC	HCWORD
+F:\Library\Desktop\pre-alpha_all-code\all-code\dltme.cs	16	9	6	0	5	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\FlipOnDeath.cs	59	45	27	5	12	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\IK_Test.cs	34	24	14	0	8	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\PlanetGenerator.cs	408	238	160	30	92	0	78	382	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\SolarSystemManager.cs	304	209	137	31	71	8	24	250	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\AI\AI_Base.cs	402	299	206	66	50	1	53	206	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\AI\BehaviorChase.cs	166	127	85	20	24	1	15	57	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\AI\BehaviorExample.cs	172	104	62	22	32	4	36	99	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\AI\BehaviorFlee.cs	177	142	90	27	27	1	8	34	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\AI\EnemyMovement.cs	192	141	105	19	29	1	22	109	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\AI\EnemyShoot.cs	48	31	23	1	9	2	8	50	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\CameraSystem\CameraAnchor.cs	29	16	7	0	7	1	6	26	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\CameraSystem\CameraController.cs	100	42	30	0	25	4	33	216	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\CameraSystem\CameraSystem.cs	77	56	33	2	13	1	8	78	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\CameraSystem\CamRodTest.cs	74	40	27	3	14	1	20	93	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\CameraSystem\ForceCylinder.cs	257	185	125	30	49	15	23	297	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\CameraSystem\ForceSphere.cs	136	96	57	15	22	1	18	162	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\CameraSystem\WorldAnchor.cs	27	14	6	0	7	1	6	26	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Enemies\EnemyInput.cs	110	78	47	9	20	1	12	153	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\EventSystem\EventCallCheat.cs	42	30	22	2	7	2	5	23	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\EventSystem\EventManager.cs	172	120	90	8	25	2	27	87	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\EventSystem\EventMeteorShower.cs	106	79	65	6	17	1	10	33	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\EventSystem\EventRaiders.cs	176	126	104	11	31	1	19	74	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\EventSystem\MeteorLogic.cs	46	27	17	2	10	1	9	43	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\GameplayMechanics\BasicController.cs	148	103	73	6	22	3	23	190	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\GameplayMechanics\Bullet.cs	185	119	63	11	27	8	39	306	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\GameplayMechanics\DamageEffects.cs	227	120	55	11	22	4	85	224	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\GameplayMechanics\Health.cs	145	86	45	10	20	4	39	186	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\GameplayMechanics\ScriptTester_HP.cs	55	39	18	4	8	4	8	37	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\GameplayMechanics\Shoot.cs	125	78	48	7	16	2	31	107	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\GameplayMechanics\SuctionTarget.cs	95	54	26	3	12	4	29	87	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\GameplayMechanics\Vacuum.cs	211	126	67	11	26	4	59	187	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\GameplayMechanics\VacuumCollider.cs	52	28	11	3	8	4	16	57	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\InGameUI\HUDController.cs	205	121	63	3	40	4	44	113	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\InGameUI\JumpMenuController.cs	205	112	54	4	34	4	59	173	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\InGameUI\PlanetJump_ButtonController.cs	231	132	78	2	40	5	59	229	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\InGameUI\PlayerController_JumpMenu.cs	46	25	10	1	7	4	14	45	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\InGameUI\PlayerHud.cs	21	13	6	0	6	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\InGameUI\PlayerIconController.cs	24	13	4	0	6	4	5	34	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\LevelSettings\CameraShake.cs	37	23	8	0	4	4	10	41	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\LevelSettings\HUD.cs	256	170	110	15	30	4	56	161	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\LevelSettings\InGameMessageSystem.cs	53	28	15	0	6	4	19	51	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\LevelSettings\PauseSystem.cs	206	137	80	11	16	4	53	124	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\LevelSettings\StartGameCountdown.cs	130	93	51	10	13	4	24	91	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\MenuScripts\ButtonController.cs	154	106	60	19	18	4	30	90	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\MenuScripts\CreditsScroller.cs	46	29	14	0	6	4	11	43	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\MenuScripts\DestructiveConfirmation.cs	34	17	8	0	8	4	9	43	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\MenuScripts\FirstButtonSelected.cs	19	11	4	0	4	4	4	33	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\MenuScripts\MenuController.cs	160	91	45	1	19	4	50	153	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\MenuScripts\MenuLogic.cs	146	82	37	0	23	4	41	115	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\MenuScripts\MenuSwitcher.cs	101	62	38	5	14	4	25	62	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\MenuScripts\PauseController.cs	238	149	91	9	35	4	54	200	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\MenuScripts\SplashScreenController.cs	113	72	30	4	13	4	28	122	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\MenuScripts\__CSHARPTEMPLATE__.cs	84	32	10	0	12	4	40	76	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\CreateObjectsOnDestroy.cs	79	63	35	10	12	1	4	16	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\DestroyAfterTime.cs	20	12	6	0	3	1	5	20	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\Float.cs	44	31	20	1	11	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\GameEnd.cs	99	81	47	5	12	1	6	26	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\LimitObjectsWithTag.cs	36	28	15	2	6	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\LockTo.cs	31	19	12	0	6	1	6	26	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\MenuSound.cs	48	30	20	0	12	1	6	26	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\MessageManager.cs	43	28	15	1	9	1	6	26	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\MinimizeTest.cs	26	12	5	0	6	1	8	29	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\Move.cs	28	16	9	0	6	1	6	26	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\ParticleAttractor.cs	33	15	8	0	7	1	11	42	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\Player1Data.cs	72	43	23	1	9	4	20	68	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\PlayerController.cs	402	218	153	16	67	5	117	580	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\PopulatePlanet.cs	133	94	51	8	22	1	17	98	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\RotateForwardTowardVelocity.cs	38	25	15	1	8	0	5	38	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\RotateTopTowardVelocity.cs	35	27	16	2	6	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\SmoothLookAt.cs	37	25	15	0	8	1	4	23	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\SpawnObjectsAfterTime.cs	59	43	22	4	10	1	6	25	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\SphericalCoords.cs	65	47	35	1	12	1	6	33	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\StressManager.cs	45	27	15	4	11	1	7	28	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\TempStartGame.cs	27	15	7	1	6	1	6	26	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Misc\TranformContinuous.cs	40	29	16	2	9	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Multiplayer\MultiplayerManager.cs	135	105	68	15	28	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Multiplayer\SpawnPoint.cs	28	19	9	0	7	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Multiplayer\SplitScreen.cs	61	46	27	8	13	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\PickUps\PickUp.cs	284	174	91	10	29	4	81	260	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\Player\AiInput.cs	29	18	11	0	5	0	6	24	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Player\CameraManager.cs	291	206	125	19	57	4	28	258	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Player\CameraTarget.cs	20	12	6	0	6	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Player\FloatAbovePlanet.cs	34	24	12	0	8	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Player\InputBase.cs	18	15	8	0	3	0	0	0	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Player\Movement.cs	245	190	119	16	45	2	10	72	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Player\PlayerInput.cs	276	190	124	20	41	2	45	188	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Player\RespectPlanet.cs	133	90	41	8	20	4	23	79	0	1
+F:\Library\Desktop\pre-alpha_all-code\all-code\SFX\BackgroundMusic.cs	18	11	6	0	4	0	3	13	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\SFX\PlayerAudio.cs	37	27	16	2	7	0	3	13	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Weapons\Projectile.cs	84	64	41	3	17	0	3	20	0	0
+F:\Library\Desktop\pre-alpha_all-code\all-code\Weapons\Weapon.cs	95	58	35	3	22	0	15	70	0	0
+
+TEAM SUMMERY: 10310 Lines of Code
+
+MY CODE:
+Source Files	32	Source Files
+Directories	8	Directories
+LOC	4093	Lines of Code
+BLOC	551	Blank Lines of Code
+SLOC-P	2475	Physical Executable Lines of Code
+SLOC-L	1304	Logical Executable Lines of Code
+MVG	163	McCabe VG Complexity
+C&amp;SLOC	127	Code and Comment Lines of Code
+CLOC	1067	Comment Only Lines of Code
+CWORD	3607	Commentary Words
+HCLOC	0	Header Comment Lines of Code
+HCWORD	31	Header Commentary Words
+F:\Library\Desktop\pre-alpha_all-code\metrics - FOLDERS
+Folder	Files	LOC	SLOC Physical	SLOC Logical	MVG	BLOC	C&amp;SLOC	CLOC	CWORD	HCLOC	HCWORD
+Total	32	4093	2475	1304	163	551	127	1067	3607	0	31
+F:\Library\Desktop\pre-alpha_all-code\my-code	32	4093	2475	1304	163	551	127	1067	3607	0	31
+F:\Library\Desktop\pre-alpha_all-code\my-code\GameplayMechanics	8	1095	650	333	60	139	34	306	1191	0	8
+F:\Library\Desktop\pre-alpha_all-code\my-code\InGameUI	6	732	416	215	10	133	21	183	604	0	5
+F:\Library\Desktop\pre-alpha_all-code\my-code\LevelSettings	5	682	451	264	36	69	20	162	468	0	5
+F:\Library\Desktop\pre-alpha_all-code\my-code\MenuScripts	10	1095	651	337	38	152	40	292	937	0	10
+F:\Library\Desktop\pre-alpha_all-code\my-code\Misc	1	72	43	23	1	9	4	20	68	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\PickUps	1	284	174	91	10	29	4	81	260	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\Player	1	133	90	41	8	20	4	23	79	0	1
+F:\Library\Desktop\pre-alpha_all-code\metrics - FILES
+File	LOC	SLOC Physical	SLOC Logical	MVG	BLOC	C&amp;SLOC	CLOC	CWORD	HCLOC	HCWORD
+F:\Library\Desktop\pre-alpha_all-code\my-code\GameplayMechanics\Bullet.cs	185	119	63	11	27	8	39	306	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\GameplayMechanics\DamageEffects.cs	227	120	55	11	22	4	85	224	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\GameplayMechanics\Health.cs	145	86	45	10	20	4	39	186	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\GameplayMechanics\ScriptTester_HP.cs	55	39	18	4	8	4	8	37	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\GameplayMechanics\Shoot.cs	125	78	48	7	16	2	31	107	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\GameplayMechanics\SuctionTarget.cs	95	54	26	3	12	4	29	87	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\GameplayMechanics\Vacuum.cs	211	126	67	11	26	4	59	187	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\GameplayMechanics\VacuumCollider.cs	52	28	11	3	8	4	16	57	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\InGameUI\HUDController.cs	205	121	63	3	40	4	44	113	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\InGameUI\JumpMenuController.cs	205	112	54	4	34	4	59	173	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\InGameUI\PlanetJump_ButtonController.cs	231	132	78	2	40	5	59	229	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\InGameUI\PlayerController_JumpMenu.cs	46	25	10	1	7	4	14	45	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\InGameUI\PlayerHud.cs	21	13	6	0	6	0	2	10	0	0
+F:\Library\Desktop\pre-alpha_all-code\my-code\InGameUI\PlayerIconController.cs	24	13	4	0	6	4	5	34	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\LevelSettings\CameraShake.cs	37	23	8	0	4	4	10	41	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\LevelSettings\HUD.cs	256	170	110	15	30	4	56	161	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\LevelSettings\InGameMessageSystem.cs	53	28	15	0	6	4	19	51	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\LevelSettings\PauseSystem.cs	206	137	80	11	16	4	53	124	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\LevelSettings\StartGameCountdown.cs	130	93	51	10	13	4	24	91	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\MenuScripts\ButtonController.cs	154	106	60	19	18	4	30	90	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\MenuScripts\CreditsScroller.cs	46	29	14	0	6	4	11	43	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\MenuScripts\DestructiveConfirmation.cs	34	17	8	0	8	4	9	43	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\MenuScripts\FirstButtonSelected.cs	19	11	4	0	4	4	4	33	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\MenuScripts\MenuController.cs	160	91	45	1	19	4	50	153	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\MenuScripts\MenuLogic.cs	146	82	37	0	23	4	41	115	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\MenuScripts\MenuSwitcher.cs	101	62	38	5	14	4	25	62	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\MenuScripts\PauseController.cs	238	149	91	9	35	4	54	200	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\MenuScripts\SplashScreenController.cs	113	72	30	4	13	4	28	122	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\MenuScripts\__CSHARPTEMPLATE__.cs	84	32	10	0	12	4	40	76	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\Misc\Player1Data.cs	72	43	23	1	9	4	20	68	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\PickUps\PickUp.cs	284	174	91	10	29	4	81	260	0	1
+F:\Library\Desktop\pre-alpha_all-code\my-code\Player\RespectPlanet.cs	133	90	41	8	20	4	23	79	0	1
+
+MY SUMMARY: LOC	4093 Lines of Code / 10310 Lines of Code = ~40%</pre></td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Playtesting Report</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;"><pre style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 9.5px; border-radius: 4px; font-family: Menlo,Monaco,Consolas,'Courier New',monospace; font-size: 13px; display: block; border: 1px solid #ccc; margin: 0 0 10px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; overflow: auto; white-space: pre-wrap;">PLAYTEST NAME:
+Pre-Alpha Feedback Playtest Reports
+
+PLAYTESTERS:
+Team members of Paper Mill: Ian Aemmer, Stephen Gallwas
+
+TOTAL PLAYTEST TIME:
+1 hour
+
+PLAYTESTING GOAL:
+The purpose of this playtest was to test the overall feel of the game as a whole, as well as check if the player controller/camera controller work well now.
+
+PLAYTEST 01:
+
+PLAYTESTER:
+Ian Aemmer
+
+PLAYTEST LENGTH:
+15 Minutes
+
+NOTES:
+Ian has played our game before and has experienced the many iterations of our player controller and camera controller. Upon playing the game it only took Ian a moment to get used to the controls. This is most likely because he has played the game before. Ian seemed comfortable moving around the planet using the left thumbstick and the right thumbstick to control the player. After wandering around the planet and shooting at a few pests I asked Ian what he thought of the game so far. Ian's response is that the player controller feels better. He did not like the falling down animation when the player falls after jumping. Ian feels like the camera zoom out is helpful but he did not know about it until he accidentally used it. Ian feels like our game needs more to do than just shoot at pests, but he also feels like shooting at things is fun. Ian feels like our game needs a lot more feedback in general, whether it is sound effects, particles, or hud updates to make our game feel good.
+
+PLAYTEST 02:
+
+PLAYTESTER:
+Stephen Gallwas
+
+PLAYTEST LENGTH:
+15 Minutes
+
+NOTES:
+
+Stephen has played our game before and had no problem getting oriented with the controls of our game. Stephen spent a little more time running around and shooting at pests. Stephen seemed to enjoy the game but it was noticeable that once he experienced everything he was ready to be done. Stephen likes the way the player and camera controller feels but expressed that our game needs more to keep the player interested. Stephen wants more visual feedback and a variety of colors in our game. Stephen wants the hud to animate for more player interaction with the world and pests. Stephen is also color blind, so he told us to be careful about what colors we choose for the hud and for the other players in the game. It will be good to use Stephen again for future playtests to make sure we do not makes these mistakes.</pre></td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Discipline Best Practices</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;"><pre style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 9.5px; border-radius: 4px; font-family: Menlo,Monaco,Consolas,'Courier New',monospace; font-size: 13px; display: block; border: 1px solid #ccc; margin: 0 0 10px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; overflow: auto; white-space: pre-wrap;">As the resident source control guy for our game it is my responsibility to keep our repository in working order and to solve problems as they come up. Our team uses git as our primary source control management system so I try to keep current with updates. 
+
+Lately git has implemented a feature called LFS (large file storage). Git has a limit of 50mb for a single file which hurts our ability to save large files like .dll, .ai, and .psd files. Even files that are under the 50mb limit but are rather large can impact our entire team when it comes to pulling updates, especially when not every member of the team needs these changes. Thankfully, LFS helps fix this problem by allowing us to set specific files or file types to track using LFS. LFS specializes in uploading/downloading and storing these files and doesn't burden the whole team with updates to these files unless they are the owner of the content or request it. This has made pulling and cloning our repository a lot easier.
+
+This has really come in handy for our artist and for our sound designer who deal with large files. I've taught them about LFS and how to track files using this system.</pre></td></tr><tr style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;"><td class="col-xs-2" style="-moz-box-sizing: border-box; box-sizing: border-box; -webkit-box-sizing: border-box; padding: 0; width: 16.66666667%; min-height: 1px; padding-right: 15px; padding-left: 15px; float: none; position: static; display: table-cell;">Notes</td><td class="text-left" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 0; text-align: left;"><pre style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; padding: 9.5px; border-radius: 4px; font-family: Menlo,Monaco,Consolas,'Courier New',monospace; font-size: 13px; display: block; border: 1px solid #ccc; margin: 0 0 10px; line-height: 1.42857143; color: #333; word-break: break-all; word-wrap: break-word; background-color: #f5f5f5; overflow: auto; white-space: pre-wrap;">TEAM BREAKDOWN:
+This milestone has been mostly about refactoring our code and making things run smoother. We didn't make a lot of progress this milestone, save for Auston who was a machine this milestone when it came to getting things done. As a whole I think we could've communicated better and should've spent more time together as a team.
+
+INDIVIDUAL BREAKDOWN:
+Auston Linday — Auston, as always, was quite a hard worker for our team. We owe him for a lot of progress made on the character, camera, and multiplayer controller. I can't express enough how hard of a worker he is. Auston is always at the team space and always willing to help out the team. He's kind of the unofficial leader.
+
+Travis Moore — I regulated myself to refactoring menus, hud, and working on the new planet transition menus. I had a bit of a slow start to this milestone, as evident in my weekly reports. This last week I've taken to make sure that I'm at the team space more and I try to take the lead on directing our team meetings and putting together our milestone presentation. I feel guilty for such a late start, but I'm going to springboard from this milestone and push myself to take care of the biggest area of opportunity for our team: feedback systems.
+
+Fernando Lima — As our producer, Fernando has been a little lax on his duties, with Auston attending most of the producer meetings in his place. Fernando has also had a slow start to this milestone and I think he spends most of his time providing advice to our artist, Bernie. I'd like to see Fernando embrace his role as producer a little more. I feel like we have to remind him to do his duties.
+
+Nathan &quot;Bernie&quot; Hanson — Bernie has been quite a work horse for us this milestone. Bernie is perhaps the most excited about our game and is constantly around to provide art and models as we need it. I'm happy to see that, now that he is officially a part of the team, he is consistent with his participation. He really is the soul behind the game and the reason why our game looks as good as it does. I'd like for him to focus some of his time with me to make sure our menus and hud look good.
+
+Riley Bayless — A new member of the team, Riley is also always at the team space and has spent his time this milestone to learning the Unity engine and providing us SFX and music. He's got a great attitude and has fit in well with the team. I'm sure next milestone we'll see a lot of work coming from him.
+
+Enrique Rodriguez — Something is going on with Enrique and I fear he won't last too much longer with the team. Enrique does not spend any time in the team space and has not provided anything to this milestone. Unfortunately this isn't a one time thing and I think our team is going to have to have a meeting with him and ask him if he wants to continue with us and if yes, what we can do to help him be successful in his role. I really hope that we see a turnaround.
+
+Richard Grover — An unofficial member, Richard has been a great member of the team and has provided all the animations we have so far. He's got a great attitude, and while he's not constantly around, he is consistent in his contributions. It's amazing how just adding animations makes the game look more like a real game.</pre></td></tr></table></body></html>

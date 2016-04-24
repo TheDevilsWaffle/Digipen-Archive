@@ -1,0 +1,24 @@
+/*******************************************************************************
+filename    Comments.cpp
+author      Travis Moore
+DP email    travis.moore@digipen.edu
+course      CS185
+section     
+assignment  X
+
+Brief Description:
+  XXXXX
+  
+*******************************************************************************/
+
+
+
+/*******************************************************************************
+   Function: XXXXX
+
+Description: XXXXX
+
+     Inputs: None
+
+    Outputs: None
+*******************************************************************************/

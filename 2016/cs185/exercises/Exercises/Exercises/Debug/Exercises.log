@@ -1,0 +1,4 @@
+﻿  Source.cpp
+d:\library\mydocuments\github\digipenspring2016\cs185\exercises\exercises\exercises\source.cpp(10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Exercises.vcxproj -> D:\Library\MyDocuments\GitHub\DigiPenSpring2016\cs185\exercises\Exercises\Debug\Exercises.exe
+  Exercises.vcxproj -> D:\Library\MyDocuments\GitHub\DigiPenSpring2016\cs185\exercises\Exercises\Debug\Exercises.pdb (Partial PDB)
