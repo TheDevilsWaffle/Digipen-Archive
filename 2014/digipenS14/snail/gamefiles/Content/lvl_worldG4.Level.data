@@ -1,0 +1,1625 @@
+Level = 
+{
+	LevelSettings = 
+	{
+		LinkId = 
+		{
+			uint Id = 1,
+		},
+		Named = 
+		{
+			string Name = "LevelSettings",
+		},
+		GravityEffect = 
+		{
+			bool Active = true,
+			bool WakeUpOnChange = false,
+			bool LocalSpaceDirection = true,
+			float Strength = 10,
+			Vec3 Direction = [0, -1, 0],
+		},
+		DragEffect = 
+		{
+			bool Active = true,
+			bool WakeUpOnChange = false,
+			float Drag = 0.7,
+		},
+		CameraViewport = 
+		{
+			bool Background = true,
+			Vec2 Offset = [0, 0],
+			Vec2 Size = [1, 1],
+			int Layer = 0,
+			bool Active = true,
+			bool Blocking = true,
+			uint Renderer = 1,
+			uint Camera = 2,
+			ViewportScaling Scaling = Letterbox,
+			Vec2 Resolution = [16, 9],
+			Vec4 MarginColor = [0, 0, 0, 1],
+		},
+		ForwardRenderer = 
+		{
+			Vec4 ClearColor = [0.278431, 0.278431, 0.278431, 1],
+		},
+		py_level_logic = 
+		{
+			string nextLevel = "539094660fdaf3d5:lvl_worldG5",
+		},
+		py_HUDCreator = 
+		{
+			string LevelForHud = "53940ec92947738f:lvl_HUD",
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 3,
+		},
+		Named = 
+		{
+			string Name = "EditorCamera",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-2.0121, -0.402, 55.2792],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [-0, -1.09278e-008, 0, 1],
+		},
+		Camera = 
+		{
+			ProjectionMode ProjectionMode = Orthographic,
+			Facing Facing = NegativeZ,
+			SpriteSort SpriteSort = ZDepth,
+			float FieldOfView = 45,
+			float NearPlane = 0.5,
+			float FarPlane = 500,
+			float Size = 31,
+		},
+		EditorCameraController = 
+		{
+			ControlMode ControlMode = ZPlane,
+			float LookDistance = 50,
+			float VerticalAngle = 0,
+			float HorizontalAngle = 0,
+			Vec3 LookTarget = [-2.0121, -0.402, 5.27919],
+		},
+		EditorRenderer = 
+		{
+			Vec4 ClearColor = [0.278431, 0.278431, 0.278431, 1],
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 2,
+		},
+		Named = 
+		{
+			string Name = "Camera",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [0, 0, 40],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Camera = 
+		{
+			ProjectionMode ProjectionMode = Orthographic,
+			Facing Facing = NegativeZ,
+			SpriteSort SpriteSort = ZDepth,
+			float FieldOfView = 45,
+			float NearPlane = 0.5,
+			float FarPlane = 200,
+			float Size = 26,
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 4,
+		},
+		Named = 
+		{
+			string Name = "TileMap",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [0, 0, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		MultiSprite = 
+		{
+			Vec4 Color = [1, 1, 1, 1],
+			bool Visible = true,
+			BlendMode BlendMode = Alpha,
+		},
+		TileMap = 
+		{
+			string SourceName = "53909e0bafc813ec:lvl_worldG4_TileMap00",
+			float UnitsPerTile = 1,
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 5,
+		},
+		Named = 
+		{
+			string Name = "Snail",
+		},
+		Archetyped = 
+		{
+			string Name = "525dd674e5a8402f:arc_snail",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-0.644985, -10.9618, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			string SpriteSource = "5368a4c04670799e:spr_snail_idle",
+			bool FlipX = false,
+			bool FlipY = false,
+			Vec4 Color = [1, 1, 1, 1],
+			bool Visible = true,
+			bool OnTop = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+		},
+		RigidBody = 
+		{
+			bool Static = false,
+			bool Asleep = false,
+			bool Kinematic = false,
+			bool RotationLocked = true,
+			bool Mode2D = true,
+			bool AllowSleep = true,
+			bool Inherit2DMode = true,
+			Vec3 Velocity = [0, 0, 0],
+			Vec3 AngularVelocity = [0, 0, 0],
+		},
+		py_objectSettings = 
+		{
+			string objectClass = "Player",
+			bool canBeKilled = false,
+			int objectHealth = 0,
+			int damageToPlayer = 0,
+			bool inBubble = false,
+			int iTimer = 0,
+		},
+		CapsuleCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = false,
+			string MaterialName = "52a8b83bffdab19c:phy_character",
+			string SerializedGroupName = "53dad7686bc9bd1e:cg_level",
+			Vec3 Offset = [0, 0.58, 0],
+			float Radius = 0.6,
+			float Height = 0.6,
+			uint Direction = 0,
+		},
+		py_input_manager = 
+		{
+			bool InputType = true,
+			int GamepadIndex = 0,
+		},
+		py_shoot = 
+		{
+			string GooSprite = "52e2abbb2a544a32:arc_bubble",
+			float GooSpeed = 15,
+			float GooAngle = 3,
+			float GooStartingYPos = 0.5,
+			float GooStartingXPos = 0.5,
+			float FireSpeed = 5,
+			float FireAngle = 0,
+			float FireStartingYPos = 0.9,
+			float FireStartingXPos = 2,
+			float FireBlowBackForceXPos = 25,
+			float FireBlowBackForceYPos = 2.5,
+		},
+		py_collision_manager = 
+		{
+		},
+		py_character_movement = 
+		{
+			bool Active = true,
+			Vec3 Up = [0, 1, 0],
+			float MaxSpeed = 7,
+			float MovePower = 2,
+			float InAirControl = 0.2,
+			float WalkableSlopeAngle = 65,
+			float InitialJumpVelocity = 15,
+			float AdditiveJumpVelocity = 150,
+			float AdditiveJumpTime = 0,
+			float LateJumpTimer = 0,
+		},
+		DynamicMotor = 
+		{
+		},
+		GravityEffect = 
+		{
+			bool Active = true,
+			bool WakeUpOnChange = false,
+			bool LocalSpaceDirection = true,
+			float Strength = 10,
+			Vec3 Direction = [0, -1, 0],
+		},
+		py_ghosting = 
+		{
+		},
+		Orientation = 
+		{
+			Vec3 UpVector = [0, 1, 0],
+			Vec3 ForwardVector = [0, 0, 1],
+		},
+		SoundEmitter = 
+		{
+			bool StartPlaying = false,
+			int ExtraPriority = 10,
+			string CueName = "53c9420ae03d4d01:Burp",
+			float Volume = 1000,
+			float Pitch = 1,
+			bool Positional = true,
+		},
+		py_snail_animations = 
+		{
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 6,
+		},
+		Named = 
+		{
+			string Name = "Spider",
+		},
+		Archetyped = 
+		{
+			string Name = "52e2f8c4341dce2e:arc_spider",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [3.04065, -1.03469, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			string SpriteSource = "5344db0d1eb6fed4:spr_spider_idle",
+			bool FlipX = true,
+			bool FlipY = false,
+			Vec4 Color = [1, 1, 1, 1],
+			bool Visible = true,
+			bool OnTop = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+		},
+		RigidBody = 
+		{
+			bool Static = false,
+			bool Asleep = false,
+			bool Kinematic = false,
+			bool RotationLocked = true,
+			bool Mode2D = true,
+			bool AllowSleep = true,
+			bool Inherit2DMode = true,
+			Vec3 Velocity = [0, 0, 0],
+			Vec3 AngularVelocity = [0, 0, 0],
+		},
+		SphereCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = false,
+			string MaterialName = "52a8b83bffdab19c:phy_character",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0.7, 0],
+			float Radius = 0.7,
+		},
+		py_objectSettings = 
+		{
+			string objectClass = "Enemy",
+			bool canBeKilled = true,
+			int objectHealth = 1,
+			int damageToPlayer = 1,
+			bool inBubble = false,
+			int iTimer = 0,
+		},
+		py_enemy_basic = 
+		{
+			int bubbleTime = 300,
+		},
+		py_character_movement = 
+		{
+			bool Active = true,
+			Vec3 Up = [0, 1, 0],
+			float MaxSpeed = 7,
+			float MovePower = 2,
+			float InAirControl = 0.2,
+			float WalkableSlopeAngle = 40,
+			float InitialJumpVelocity = 6,
+			float AdditiveJumpVelocity = 150,
+			float AdditiveJumpTime = 0,
+			float LateJumpTimer = 0.23,
+		},
+		DynamicMotor = 
+		{
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 7,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [23.771, 1.19209e-006, 0],
+			Vec3 Scale = [25, 1, 1],
+			Quat Rotation = [0, 0, 0.707107, 0.707107],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 8,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-23.7276, 1.19209e-006, 0],
+			Vec3 Scale = [25, 1, 1],
+			Quat Rotation = [0, 0, 0.707107, 0.707107],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 9,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-0.05555, 11.6721, 0],
+			Vec3 Scale = [55, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 10,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-0.05555, -11.8238, 0],
+			Vec3 Scale = [55, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "52e2f8c4341dce2e:arc_spider",
+		LinkId = 
+		{
+			uint Id = 11,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [15.795, 4.45474, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Spider",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "530b6806244b0c38:arc_bouncyBall",
+		LinkId = 
+		{
+			uint Id = 12,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [21.4888, 8.29322, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "BallEnemy",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "530b6806244b0c38:arc_bouncyBall",
+		LinkId = 
+		{
+			uint Id = 13,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-18.1947, -0.658808, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "BallEnemy",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "530b6806244b0c38:arc_bouncyBall",
+		LinkId = 
+		{
+			uint Id = 14,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-0.794443, 2.05393, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "BallEnemy",
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 15,
+		},
+		Named = 
+		{
+			string Name = "sCargo",
+		},
+		Archetyped = 
+		{
+			string Name = "530bc7ef6ae42ba2:arc_sCargo",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-19.2411, 8.5645, 0],
+			Vec3 Scale = [0.5, 0.5, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			string SpriteSource = "53e9ed8c57ea5934:spr_sCargo_ver2",
+			bool FlipX = false,
+			bool FlipY = false,
+			Vec4 Color = [1, 1, 1, 1],
+			bool Visible = true,
+			bool OnTop = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+		},
+		RigidBody = 
+		{
+			bool Static = true,
+			bool Asleep = false,
+			bool Kinematic = false,
+			bool RotationLocked = true,
+			bool Mode2D = true,
+			bool AllowSleep = true,
+			bool Inherit2DMode = true,
+			Vec3 Velocity = [0, 0, 0],
+			Vec3 AngularVelocity = [0, 0, 0],
+		},
+		BoxCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = false,
+			string MaterialName = "4faa6050b8692851:HardMaterial",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0, 0],
+			Vec3 Size = [0.5, 0.5, 0.5],
+		},
+		py_objectSettings = 
+		{
+			string objectClass = "Projectile",
+			bool canBeKilled = false,
+			int objectHealth = 1,
+			int damageToPlayer = 1,
+			bool inBubble = false,
+			int iTimer = 0,
+		},
+		py_sCargo = 
+		{
+			int numOfSalt = 5,
+		},
+		Hierarchy = 
+		{
+			Cog = 
+			{
+				LinkId = 
+				{
+					uint Id = 16,
+				},
+				Named = 
+				{
+					string Name = "sCargoRegion",
+				},
+				Transform = 
+				{
+					Vec3 Translation = [0, -3.17929, 0],
+					Vec3 Scale = [2, 10.1828, 1],
+					Quat Rotation = [0, 0, 0, 1],
+				},
+				Sprite = 
+				{
+					string SpriteSource = "5275aa4d802dd6dc:Square",
+					bool FlipX = false,
+					bool FlipY = false,
+					Vec4 Color = [0, 1, 0, 0.5],
+					bool Visible = false,
+					bool OnTop = false,
+					bool AnimationActive = true,
+					float AnimationSpeed = 1,
+					uint StartFrame = 0,
+					BlendMode BlendMode = Alpha,
+					SpriteGeometryMode GeometryMode = ZPlane,
+				},
+				RigidBody = 
+				{
+					bool Static = true,
+					bool Asleep = false,
+					bool Kinematic = false,
+					bool RotationLocked = false,
+					bool Mode2D = true,
+					bool AllowSleep = true,
+					bool Inherit2DMode = true,
+					Vec3 Velocity = [0, 0, 0],
+					Vec3 AngularVelocity = [0, 0, 0],
+				},
+				BoxCollider = 
+				{
+					bool Ghost = true,
+					bool SendsMessages = true,
+					bool Seamless = false,
+					string MaterialName = "4faa6050b8692851:HardMaterial",
+					string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+					Vec3 Offset = [0, 0, 0],
+					Vec3 Size = [0.5, 0.5, 0.5],
+				},
+				py_objectSettings = 
+				{
+					string objectClass = "Gate",
+					bool canBeKilled = false,
+					int objectHealth = 0,
+					int damageToPlayer = 0,
+					bool inBubble = false,
+					int iTimer = 0,
+				},
+				py_dropperRegion = 
+				{
+					uint dropObject = 15,
+				},
+			},
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "530bc7ef6ae42ba2:arc_sCargo",
+		LinkId = 
+		{
+			uint Id = 17,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [13.7768, 7.55691, 0],
+			Vec3 Scale = [0.5, 0.5, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "sCargo",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "530bc7ef6ae42ba2:arc_sCargo",
+		LinkId = 
+		{
+			uint Id = 18,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-15.5595, -3.44905, 0],
+			Vec3 Scale = [0.5, 0.5, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "sCargo",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "536c369678b2d640:arc_potion_ice",
+		LinkId = 
+		{
+			uint Id = 19,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-22.0701, 1.70515, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "PickUp",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "536c36f37e551c39:arc_potion_lightning",
+		LinkId = 
+		{
+			uint Id = 20,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [21.3725, -3.29404, 0],
+			Vec3 Scale = [1, 1, 2],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "PickUp",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "536850eab5525fd2:arc_rolloui_polloui",
+		LinkId = 
+		{
+			uint Id = 21,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-10.4828, -9.41707, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Spider",
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 22,
+		},
+		Named = 
+		{
+			string Name = "Spider",
+		},
+		Archetyped = 
+		{
+			string Name = "536850eab5525fd2:arc_rolloui_polloui",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [11.6841, -10.3472, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			string SpriteSource = "5368501e9ab9c275:spr_roloui_poloui_idle",
+			bool FlipX = true,
+			bool FlipY = false,
+			Vec4 Color = [1, 1, 1, 1],
+			bool Visible = true,
+			bool OnTop = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+		},
+		RigidBody = 
+		{
+			bool Static = false,
+			bool Asleep = false,
+			bool Kinematic = false,
+			bool RotationLocked = true,
+			bool Mode2D = true,
+			bool AllowSleep = true,
+			bool Inherit2DMode = true,
+			Vec3 Velocity = [0, 0, 0],
+			Vec3 AngularVelocity = [0, 0, 0],
+		},
+		py_objectSettings = 
+		{
+			string objectClass = "Enemy",
+			bool canBeKilled = true,
+			int objectHealth = 1,
+			int damageToPlayer = 1,
+			bool inBubble = false,
+			int iTimer = 0,
+		},
+		py_enemy_basic = 
+		{
+			int bubbleTime = 300,
+		},
+		py_character_movement = 
+		{
+			bool Active = true,
+			Vec3 Up = [0, 1, 0],
+			float MaxSpeed = 7,
+			float MovePower = 2,
+			float InAirControl = 0.2,
+			float WalkableSlopeAngle = 40,
+			float InitialJumpVelocity = 0,
+			float AdditiveJumpVelocity = 0,
+			float AdditiveJumpTime = 0,
+			float LateJumpTimer = 0.23,
+		},
+		CapsuleCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = false,
+			string MaterialName = "52a8b83bffdab19c:phy_character",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0.6, 0],
+			float Radius = 0.5,
+			float Height = 1,
+			uint Direction = 0,
+		},
+		DynamicMotor = 
+		{
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 23,
+		},
+		Named = 
+		{
+			string Name = "SaltDropper",
+		},
+		Archetyped = 
+		{
+			string Name = "52e2fbd3025d5a58:arc_saltDropper",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-7.60664, 5.01193, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			string SpriteSource = "535fa0f41dd093b7:spr_saltshaker_idle",
+			bool FlipX = true,
+			bool FlipY = false,
+			Vec4 Color = [1, 1, 1, 1],
+			bool Visible = true,
+			bool OnTop = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+		},
+		RigidBody = 
+		{
+			bool Static = false,
+			bool Asleep = false,
+			bool Kinematic = false,
+			bool RotationLocked = true,
+			bool Mode2D = true,
+			bool AllowSleep = true,
+			bool Inherit2DMode = true,
+			Vec3 Velocity = [0, 0, 0],
+			Vec3 AngularVelocity = [0, 0, 0],
+		},
+		py_objectSettings = 
+		{
+			string objectClass = "Enemy",
+			bool canBeKilled = true,
+			int objectHealth = 1,
+			int damageToPlayer = 1,
+			bool inBubble = false,
+			int iTimer = 0,
+		},
+		py_saltDropper = 
+		{
+			bool isAwake = false,
+			uint targetObject = 0,
+			float ChaseTriggerDistance = 7,
+			float dropLimiter = 40,
+			float oveSpeed = 7,
+			int bubbleTime = 300,
+		},
+		CapsuleCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = false,
+			string MaterialName = "52a8b83bffdab19c:phy_character",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [-0.05, 1.025, 0],
+			float Radius = 0.55,
+			float Height = 0.9,
+			uint Direction = 1,
+		},
+		DynamicMotor = 
+		{
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "52e2fbd3025d5a58:arc_saltDropper",
+		LinkId = 
+		{
+			uint Id = 24,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-16.9934, -7.90569, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "SaltDropper",
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 25,
+		},
+		Named = 
+		{
+			string Name = "Fly",
+		},
+		Archetyped = 
+		{
+			string Name = "53308814c2f9590f:arc_fly",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-12.4592, 8.52575, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			string SpriteSource = "5339a1539653cac1:spr_fly_idle",
+			bool FlipX = true,
+			bool FlipY = false,
+			Vec4 Color = [1, 1, 1, 1],
+			bool Visible = true,
+			bool OnTop = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+		},
+		RigidBody = 
+		{
+			bool Static = false,
+			bool Asleep = false,
+			bool Kinematic = false,
+			bool RotationLocked = false,
+			bool Mode2D = true,
+			bool AllowSleep = true,
+			bool Inherit2DMode = true,
+			Vec3 Velocity = [0, 0, 0],
+			Vec3 AngularVelocity = [0, 0, 0],
+		},
+		py_enemy_fly = 
+		{
+			int bubbleTimer = 300,
+		},
+		py_objectSettings = 
+		{
+			string objectClass = "Enemy",
+			bool canBeKilled = true,
+			int objectHealth = 1,
+			int damageToPlayer = 1,
+			bool inBubble = false,
+			int iTimer = 2,
+		},
+		SphereCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = false,
+			string MaterialName = "52a8b83bffdab19c:phy_character",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0.65, 0],
+			float Radius = 0.6,
+		},
+		DynamicMotor = 
+		{
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "53308814c2f9590f:arc_fly",
+		LinkId = 
+		{
+			uint Id = 26,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [18.0397, 0.891328, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Fly",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 27,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [14.7054, 10.677, 0],
+			Vec3 Scale = [8.66952, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 28,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [12.2176, 8.74204, 0],
+			Vec3 Scale = [4.6149, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 29,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-6.80029, 10.6217, 0],
+			Vec3 Scale = [3.25204, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 30,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-20.1239, 9.62658, 0],
+			Vec3 Scale = [3.25204, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 31,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-10.5044, 1.7209, 0],
+			Vec3 Scale = [3.78334, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 32,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-0.940122, -3.30999, 0],
+			Vec3 Scale = [4.6149, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 33,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [2.98508, -4.30511, 0],
+			Vec3 Scale = [1.11738, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 34,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [4.42248, -2.64658, 0],
+			Vec3 Scale = [4.6149, 1, 1],
+			Quat Rotation = [0, 0, 0.388666, 0.921379],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 35,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-8.07183, 2.88187, 0],
+			Vec3 Scale = [4.06875, 0.884686, 1],
+			Quat Rotation = [0, 0, 0.388666, 0.921379],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 36,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [15.0371, 10.0136, 0],
+			Vec3 Scale = [4.06875, 0.884686, 1],
+			Quat Rotation = [0, 0, 0.388666, 0.921379],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 37,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [19.9574, 11.838, 0],
+			Vec3 Scale = [4.06875, 0.884686, 1],
+			Quat Rotation = [0, 0, 0.388666, 0.921379],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 38,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-22.667, 8.13393, 0],
+			Vec3 Scale = [4.06875, 0.884686, 1],
+			Quat Rotation = [0, 0, 0.388666, 0.921379],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 39,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-17.9678, 11.0087, 0],
+			Vec3 Scale = [4.06875, 0.884686, 1],
+			Quat Rotation = [0, 0, 0.388666, 0.921379],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 40,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-12.9369, 2.82659, 0],
+			Vec3 Scale = [4.06875, 0.884686, 1],
+			Quat Rotation = [0, 0, -0.38832, 0.921525],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 41,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-3.59381, -2.5913, 0],
+			Vec3 Scale = [3.1339, 0.686325, 1],
+			Quat Rotation = [0, 0, -0.38832, 0.921525],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 42,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-3.59381, -2.5913, 0],
+			Vec3 Scale = [3.1339, 0.686325, 1],
+			Quat Rotation = [0, 0, -0.38832, 0.921525],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 43,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [12.4387, -4.58154, 0],
+			Vec3 Scale = [3.1339, 0.686325, 1],
+			Quat Rotation = [0, 0, -0.38832, 0.921525],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 44,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-12.8263, -3.47585, 0],
+			Vec3 Scale = [3.1339, 0.686325, 1],
+			Quat Rotation = [0, 0, -0.38832, 0.921525],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 45,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-18.752, 2.8748, 0],
+			Vec3 Scale = [2.48235, 1, 1],
+			Quat Rotation = [0, 0, 0.707107, 0.707107],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 46,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-14.1081, 4.97561, 0],
+			Vec3 Scale = [2.48235, 1, 1],
+			Quat Rotation = [0, 0, 0.707107, 0.707107],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 47,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-3.05119, -2.43252, 0],
+			Vec3 Scale = [2.48235, 1, 1],
+			Quat Rotation = [0, 0, 0.707107, 0.707107],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 48,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [3.03011, -10.5041, 0],
+			Vec3 Scale = [2.48235, 1, 1],
+			Quat Rotation = [0, 0, 0.707107, 0.707107],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 49,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-7.41867, -10.5041, 0],
+			Vec3 Scale = [2.48235, 1, 1],
+			Quat Rotation = [0, 0, 0.707107, 0.707107],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 50,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-18.1889, -8.61556, 0],
+			Vec3 Scale = [9.19937, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 51,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [1.27126, 4.76155, 0],
+			Vec3 Scale = [13.131, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 52,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-4.53362, 4.15342, 0],
+			Vec3 Scale = [2.4516, 0.527522, 1],
+			Quat Rotation = [0, 0, 0.388666, 0.921379],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 53,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [4.64362, -10.7734, 0],
+			Vec3 Scale = [5.1022, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 54,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-9.50922, -10.7734, 0],
+			Vec3 Scale = [6.83119, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 55,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [19.5704, -9.77828, 0],
+			Vec3 Scale = [5.1022, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 56,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [22.7216, -8.83844, 0],
+			Vec3 Scale = [5.1022, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 57,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-23.4962, -7.67747, 0],
+			Vec3 Scale = [5.1022, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 58,
+		},
+		Named = 
+		{
+			string Name = "Sprite",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-5, -12, -1],
+			Vec3 Scale = [1.75, 1.75, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			string SpriteSource = "53ccfa81943f7086:spr_bg_mainbackground_4",
+			bool FlipX = false,
+			bool FlipY = false,
+			Vec4 Color = [1, 1, 1, 1],
+			bool Visible = true,
+			bool OnTop = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 59,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [13.7971, 3.73243, 0],
+			Vec3 Scale = [0.448807, 0.714835, 1],
+			Quat Rotation = [0, 0, 0.707107, 0.707107],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+},

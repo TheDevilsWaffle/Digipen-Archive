@@ -1,0 +1,88 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "Spider",
+	},
+	Archetyped = 
+	{
+		string Name = "536850eab5525fd2:arc_rolloui_polloui",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [0, 0, 0],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "5368501e9ab9c275:spr_roloui_poloui_idle",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = true,
+		bool OnTop = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+	},
+	RigidBody = 
+	{
+		bool Static = false,
+		bool Asleep = false,
+		bool Kinematic = false,
+		bool RotationLocked = true,
+		bool Mode2D = false,
+		bool AllowSleep = true,
+		bool Inherit2DMode = true,
+		Vec3 Velocity = [0, 0, 0],
+		Vec3 AngularVelocity = [0, 0, 0],
+	},
+	py_objectSettings = 
+	{
+		string objectClass = "Enemy",
+		bool canBeKilled = true,
+		int objectHealth = 1,
+		int damageToPlayer = 1,
+		bool inBubble = false,
+		int iTimer = 0,
+	},
+	py_enemy_basic = 
+	{
+		int bubbleTime = 300,
+	},
+	py_character_movement = 
+	{
+		bool Active = true,
+		Vec3 Up = [0, 1, 0],
+		float MaxSpeed = 7,
+		float MovePower = 2,
+		float InAirControl = 0.2,
+		float WalkableSlopeAngle = 40,
+		float InitialJumpVelocity = 0,
+		float AdditiveJumpVelocity = 0,
+		float AdditiveJumpTime = 0,
+		float LateJumpTimer = 0.23,
+	},
+	CapsuleCollider = 
+	{
+		bool Ghost = false,
+		bool SendsMessages = true,
+		bool Seamless = false,
+		string MaterialName = "52a8b83bffdab19c:phy_character",
+		string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+		Vec3 Offset = [0, 0.6, 0],
+		float Radius = 0.5,
+		float Height = 1,
+		uint Direction = 0,
+	},
+	DynamicMotor = 
+	{
+	},
+},

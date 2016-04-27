@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_pickupSettings",
+		uint64 ResourceId = 5311821c38cdfa60,
+	},
+},

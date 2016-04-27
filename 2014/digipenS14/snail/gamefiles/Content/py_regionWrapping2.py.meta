@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_regionWrapping2",
+		uint64 ResourceId = 5314025b0e62678a,
+	},
+},

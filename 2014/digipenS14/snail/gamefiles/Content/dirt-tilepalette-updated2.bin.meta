@@ -1,0 +1,11 @@
+BinaryContent = 
+{
+	BinaryBuilder = 
+	{
+		string Name = "dirt-tilepalette-updated2",
+		uint64 ResourceId = 5312f14e15794fcf,
+		string LoaderType = "TilePaletteSource",
+		uint Version = 0,
+		string FilterTag = "",
+	},
+},

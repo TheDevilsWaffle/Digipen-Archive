@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_pauseMenu",
+		uint64 ResourceId = 539346bcd8d7852c,
+	},
+},

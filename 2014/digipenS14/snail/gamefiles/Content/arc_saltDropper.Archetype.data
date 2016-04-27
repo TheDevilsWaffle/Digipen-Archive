@@ -1,0 +1,80 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "SaltDropper",
+	},
+	Archetyped = 
+	{
+		string Name = "52e2fbd3025d5a58:arc_saltDropper",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [18.5, 8, 0],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "535fa0f41dd093b7:spr_saltshaker_idle",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = true,
+		bool OnTop = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+	},
+	RigidBody = 
+	{
+		bool Static = false,
+		bool Asleep = false,
+		bool Kinematic = false,
+		bool RotationLocked = true,
+		bool Mode2D = true,
+		bool AllowSleep = false,
+		bool Inherit2DMode = true,
+		Vec3 Velocity = [0, 0, 0],
+		Vec3 AngularVelocity = [0, 0, 0],
+	},
+	py_objectSettings = 
+	{
+		string objectClass = "Enemy",
+		bool canBeKilled = true,
+		int objectHealth = 1,
+		int damageToPlayer = 1,
+		bool inBubble = false,
+		int iTimer = 0,
+	},
+	py_saltDropper = 
+	{
+		bool isAwake = false,
+		uint targetObject = 0,
+		float ChaseTriggerDistance = 7,
+		float dropLimiter = 40,
+		float oveSpeed = 7,
+		int bubbleTime = 300,
+	},
+	CapsuleCollider = 
+	{
+		bool Ghost = false,
+		bool SendsMessages = true,
+		bool Seamless = false,
+		string MaterialName = "52a8b83bffdab19c:phy_character",
+		string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+		Vec3 Offset = [-0.05, 1.025, 0],
+		float Radius = 0.55,
+		float Height = 0.9,
+		uint Direction = 1,
+	},
+	DynamicMotor = 
+	{
+	},
+},

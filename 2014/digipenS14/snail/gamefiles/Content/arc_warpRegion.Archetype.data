@@ -1,0 +1,62 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "warpRegion",
+	},
+	Archetyped = 
+	{
+		string Name = "53141309479a303f:arc_warpRegion",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [-25.5, 8.5, 0],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "5275aa4d802dd6dc:Square",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = false,
+		bool OnTop = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+	},
+	py_regionWrapping = 
+	{
+		uint targetObject = 0,
+		bool exitLeft = true,
+		bool exitRight = false,
+		bool exitTop = false,
+		bool exitBottom = false,
+	},
+	BoxCollider = 
+	{
+		bool Ghost = false,
+		bool SendsMessages = true,
+		bool Seamless = false,
+		string MaterialName = "4faa6050b8692851:HardMaterial",
+		string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+		Vec3 Offset = [0, 0, 0],
+		Vec3 Size = [0.5, 0.5, 0.5],
+	},
+	py_objectSettings = 
+	{
+		string objectClass = "Gate",
+		bool canBeKilled = false,
+		int objectHealth = 0,
+		int damageToPlayer = 0,
+		bool inBubble = false,
+		int iTimer = 0,
+	},
+},

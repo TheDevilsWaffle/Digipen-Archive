@@ -1,0 +1,11 @@
+AudioContent = 
+{
+	SoundBuilder = 
+	{
+		string Name = "20 - The Four Seasons, Summer, Concerto in G Minor Op 8 N2, RV 315",
+		uint64 ResourceId = 53e0c7b1fac878e5,
+		bool Compressed = true,
+		uint Quality = 100,
+		SoundLoadType LoadType = Streamed,
+	},
+},

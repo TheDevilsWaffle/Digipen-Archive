@@ -1,0 +1,91 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "spr_goo_fireblast",
+	},
+	Archetyped = 
+	{
+		string Name = "53cce03b283a7d7d:arc_firebreath",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [-5.09415, 16.8018, 0],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0.022141, 0.999755],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "536db0fb3beba71d:spr_goo_fireblast",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = true,
+		bool OnTop = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+	},
+	RigidBody = 
+	{
+		bool Static = false,
+		bool Asleep = false,
+		bool Kinematic = false,
+		bool RotationLocked = true,
+		bool Mode2D = true,
+		bool AllowSleep = true,
+		bool Inherit2DMode = true,
+		Vec3 Velocity = [0, 0, 0],
+		Vec3 AngularVelocity = [0, 0, 0],
+	},
+	BoxCollider = 
+	{
+		bool Ghost = false,
+		bool SendsMessages = true,
+		bool Seamless = false,
+		string MaterialName = "4faa6050b8692851:HardMaterial",
+		string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+		Vec3 Offset = [0.1, -0.1, 0],
+		Vec3 Size = [0.875, 0.675, 0.5],
+	},
+	py_objectSettings = 
+	{
+		string objectClass = "Projectile",
+		bool canBeKilled = false,
+		int objectHealth = 0,
+		int damageToPlayer = 0,
+		bool inBubble = false,
+		int iTimer = 0,
+	},
+	IgnoreSpaceEffects = 
+	{
+		bool Drag = true,
+		bool Flow = false,
+		bool Force = false,
+		bool Gravity = true,
+		bool Thrust = false,
+		bool Vortex = false,
+		bool Wind = false,
+		bool Invalid = false,
+		bool Torque = false,
+		bool PointGravity = false,
+		bool PointForce = false,
+		bool Buoyancy = false,
+	},
+	py_projectileLogic = 
+	{
+		float Speed = 30,
+		float Damage = 10,
+		int LifeSpan = 0,
+		int MaxLifeSpan = 0,
+	},
+	py_fire_logic = 
+	{
+	},
+},

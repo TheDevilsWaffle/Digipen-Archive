@@ -1,0 +1,20 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "spr_ash_overlay",
+		uint64 ResourceId = 53cc10f893931230,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 154,
+		uint FrameSizeY = 127,
+		uint FrameCount = 6,
+		float FrameDelay = 0.166667,
+		float OriginX = 77,
+		float OriginY = 127,
+		float PixelsPerUnit = 64,
+		bool Smoothing = false,
+		bool Looping = false,
+		Vec4 Slices = [0, 0, 0, 0],
+		SpriteFill Fill = Stretch,
+	},
+},

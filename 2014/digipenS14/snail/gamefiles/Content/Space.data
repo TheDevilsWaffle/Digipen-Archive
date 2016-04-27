@@ -1,0 +1,44 @@
+Space = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Archetyped = 
+	{
+		string Name = "525dce1559b9be74:Space",
+	},
+	TimeSpace = 
+	{
+		float TimeScale = 1,
+		float Framerate = 60,
+		float FramelossCap = 0.5,
+	},
+	GraphicsSpace = 
+	{
+	},
+	ActionSpace = 
+	{
+	},
+	PhysicsSpace = 
+	{
+		bool AllowSleep = true,
+		bool Mode2D = true,
+		bool Deterministic = false,
+		uint SubStepCount = 1,
+		string CollisionFilterName = "4e66a5c0b9dc59b9:DefaultCollisionTable",
+		uint IterationCount = 15,
+		uint StabilizationCount = 1,
+		float VelocityThreshold = 3,
+	},
+	SoundSpace = 
+	{
+	},
+	py_globalVariables = 
+	{
+		float PlayerMaxHealth = 1,
+		float playerMaxLives = 5,
+		bool DoubleJump = false,
+		bool inShell = true,
+	},
+},

@@ -1,0 +1,2 @@
+<h1>Documents</h1>
+<p>This directory contains the GDD, as well as the personal bio&rsquo;s of the team. It should also be considered as the directory that all written documentation should be kept in for future documents.</p>

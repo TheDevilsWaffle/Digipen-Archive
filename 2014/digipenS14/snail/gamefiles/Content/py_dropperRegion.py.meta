@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_dropperRegion",
+		uint64 ResourceId = 530bc48f178eb44b,
+	},
+},

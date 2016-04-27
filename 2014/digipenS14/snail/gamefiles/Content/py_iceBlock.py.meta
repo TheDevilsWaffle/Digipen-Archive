@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_iceBlock",
+		uint64 ResourceId = 5305dcd4b7fb17a6,
+	},
+},

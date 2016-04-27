@@ -1,0 +1,467 @@
+Level = 
+{
+	LevelSettings = 
+	{
+		LinkId = 
+		{
+			uint Id = 1,
+		},
+		Named = 
+		{
+			string Name = "LevelSettings",
+		},
+		GravityEffect = 
+		{
+			bool Active = true,
+			bool WakeUpOnChange = false,
+			bool LocalSpaceDirection = true,
+			float Strength = 10,
+			Vec3 Direction = [0, -1, 0],
+		},
+		DragEffect = 
+		{
+			bool Active = true,
+			bool WakeUpOnChange = false,
+			float Drag = 0.7,
+		},
+		CameraViewport = 
+		{
+			bool Background = true,
+			Vec2 Offset = [0, 0],
+			Vec2 Size = [1, 1],
+			int Layer = 0,
+			bool Active = true,
+			bool Blocking = true,
+			uint Renderer = 1,
+			uint Camera = 2,
+			ViewportScaling Scaling = Fill,
+			Vec2 Resolution = [1280, 720],
+			Vec4 MarginColor = [0, 0, 0, 1],
+		},
+		ForwardRenderer = 
+		{
+			Vec4 ClearColor = [0.278431, 0.278431, 0.278431, 1],
+		},
+		py_HUDCreator = 
+		{
+			string LevelForHud = "53940ec92947738f:lvl_HUD",
+		},
+		py_level_logic = 
+		{
+			string nextLevel = "4faa6050b86892a8:DefaultLevel",
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 3,
+		},
+		Named = 
+		{
+			string Name = "EditorCamera",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-14.96, 16.88, 50],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [-0, -1.09278e-008, 0, 1],
+		},
+		Camera = 
+		{
+			ProjectionMode ProjectionMode = Orthographic,
+			Facing Facing = NegativeZ,
+			SpriteSort SpriteSort = ZDepth,
+			float FieldOfView = 45,
+			float NearPlane = 0.5,
+			float FarPlane = 500,
+			float Size = 20,
+		},
+		EditorCameraController = 
+		{
+			ControlMode ControlMode = ZPlane,
+			float LookDistance = 50,
+			float VerticalAngle = 0,
+			float HorizontalAngle = 0,
+			Vec3 LookTarget = [-14.96, 16.88, -6.53922e-007],
+		},
+		EditorRenderer = 
+		{
+			Vec4 ClearColor = [0.278431, 0.278431, 0.278431, 1],
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 2,
+		},
+		Named = 
+		{
+			string Name = "Camera",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-17.1527, 14.1306, 40],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Camera = 
+		{
+			ProjectionMode ProjectionMode = Orthographic,
+			Facing Facing = NegativeZ,
+			SpriteSort SpriteSort = ZDepth,
+			float FieldOfView = 45,
+			float NearPlane = 0.5,
+			float FarPlane = 200,
+			float Size = 20,
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 4,
+		},
+		Named = 
+		{
+			string Name = "TileMap",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [0, 0, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		MultiSprite = 
+		{
+			Vec4 Color = [1, 1, 1, 1],
+			bool Visible = true,
+			BlendMode BlendMode = Alpha,
+		},
+		TileMap = 
+		{
+			string SourceName = "5362e0c37405d4bf:lvl_Travis_TileMap00",
+			float UnitsPerTile = 1,
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 5,
+		},
+		Named = 
+		{
+			string Name = "Snail",
+		},
+		Archetyped = 
+		{
+			string Name = "525dd674e5a8402f:arc_snail",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-21.6896, 19.5688, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			string SpriteSource = "5368a4c04670799e:spr_snail_idle",
+			bool FlipX = false,
+			bool FlipY = false,
+			Vec4 Color = [1, 1, 1, 1],
+			bool Visible = true,
+			bool OnTop = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+		},
+		RigidBody = 
+		{
+			bool Static = false,
+			bool Asleep = false,
+			bool Kinematic = false,
+			bool RotationLocked = true,
+			bool Mode2D = true,
+			bool AllowSleep = true,
+			bool Inherit2DMode = true,
+			Vec3 Velocity = [0, 0, 0],
+			Vec3 AngularVelocity = [0, 0, 0],
+		},
+		py_objectSettings = 
+		{
+			string objectClass = "Player",
+			bool canBeKilled = true,
+			int objectHealth = 0,
+			int damageToPlayer = 0,
+			bool inBubble = false,
+			int iTimer = 0,
+		},
+		CapsuleCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = false,
+			string MaterialName = "52a8b83bffdab19c:phy_character",
+			string SerializedGroupName = "53dad7686bc9bd1e:cg_level",
+			Vec3 Offset = [0, 0.58, 0],
+			float Radius = 0.6,
+			float Height = 0.6,
+			uint Direction = 0,
+		},
+		py_input_manager = 
+		{
+			bool InputType = true,
+			int GamepadIndex = 0,
+		},
+		py_collision_manager = 
+		{
+		},
+		DynamicMotor = 
+		{
+		},
+		GravityEffect = 
+		{
+			bool Active = true,
+			bool WakeUpOnChange = false,
+			bool LocalSpaceDirection = true,
+			float Strength = 10,
+			Vec3 Direction = [0, -1, 0],
+		},
+		py_ghosting = 
+		{
+		},
+		Orientation = 
+		{
+			Vec3 UpVector = [0, 1, 0],
+			Vec3 ForwardVector = [0, 0, 1],
+		},
+		SoundEmitter = 
+		{
+			bool StartPlaying = false,
+			int ExtraPriority = 10,
+			string CueName = "53c9420ae03d4d01:Burp",
+			float Volume = 1000,
+			float Pitch = 1,
+			bool Positional = true,
+		},
+		py_snail_animations = 
+		{
+		},
+		py_shoot = 
+		{
+			string GooSprite = "52e2abbb2a544a32:arc_bubble",
+			float GooSpeed = 10,
+			float GooAngle = 3,
+			float GooStartingYPos = 0.5,
+			float GooStartingXPos = 0.5,
+			float FireSpeed = 5,
+			float FireAngle = 0,
+			float FireStartingYPos = 0.9,
+			float FireStartingXPos = 2,
+			float FireBlowBackForceXPos = 25,
+			float FireBlowBackForceYPos = 2.5,
+		},
+		py_platformer_mechanics = 
+		{
+			bool Active = true,
+			Vec3 Up = [0, 1, 0],
+			float MaxSpeed = 7,
+			float MovePower = 2,
+			float InAirControl = 0.2,
+			float WalkableSlopeAngle = 65,
+			float InitialJumpVelocity = 12,
+			float AdditiveJumpVelocity = 150,
+			float AdditiveJumpTime = 0,
+			float LateJumpTimer = 0.23,
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 6,
+		},
+		Named = 
+		{
+			string Name = "rollie-ouille",
+		},
+		Archetyped = 
+		{
+			string Name = "536850eab5525fd2:arc_rolloui_polloui",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-21.7768, 12.526, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Sprite = 
+		{
+			string SpriteSource = "5368501e9ab9c275:spr_roloui_poloui_idle",
+			bool FlipX = false,
+			bool FlipY = false,
+			Vec4 Color = [1, 1, 1, 1],
+			bool Visible = true,
+			bool OnTop = false,
+			bool AnimationActive = true,
+			float AnimationSpeed = 1,
+			uint StartFrame = 0,
+			BlendMode BlendMode = Alpha,
+			SpriteGeometryMode GeometryMode = ZPlane,
+		},
+		RigidBody = 
+		{
+			bool Static = false,
+			bool Asleep = false,
+			bool Kinematic = false,
+			bool RotationLocked = true,
+			bool Mode2D = true,
+			bool AllowSleep = true,
+			bool Inherit2DMode = true,
+			Vec3 Velocity = [0, 0, 0],
+			Vec3 AngularVelocity = [0, 0, 0],
+		},
+		py_objectSettings = 
+		{
+			string objectClass = "Enemy",
+			bool canBeKilled = true,
+			int objectHealth = 1,
+			int damageToPlayer = 1,
+			bool inBubble = false,
+			int iTimer = 0,
+		},
+		py_enemy_basic = 
+		{
+			int bubbleTime = 300,
+		},
+		CapsuleCollider = 
+		{
+			bool Ghost = false,
+			bool SendsMessages = true,
+			bool Seamless = false,
+			string MaterialName = "52a8b83bffdab19c:phy_character",
+			string SerializedGroupName = "4e740859314e5515:DefaultGroup",
+			Vec3 Offset = [0, 0.6, 0],
+			float Radius = 0.5,
+			float Height = 1,
+			uint Direction = 0,
+		},
+		DynamicMotor = 
+		{
+		},
+		py_platformer_mechanics = 
+		{
+			bool Active = true,
+			Vec3 Up = [0, 1, 0],
+			float MaxSpeed = 7,
+			float MovePower = 2,
+			float InAirControl = 0.2,
+			float WalkableSlopeAngle = 65,
+			float InitialJumpVelocity = 6,
+			float AdditiveJumpVelocity = 150,
+			float AdditiveJumpTime = 0,
+			float LateJumpTimer = 0.23,
+		},
+	},
+	Cog = 
+	{
+		LinkId = 
+		{
+			uint Id = 7,
+		},
+		Named = 
+		{
+			string Name = "LevelGeometry",
+		},
+		Archetyped = 
+		{
+			string Name = "4de020863e84941e:Transform",
+		},
+		Transform = 
+		{
+			Vec3 Translation = [0, 0, 0],
+			Vec3 Scale = [1, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		LevelGeometry = 
+		{
+			float LayerDepth = 1,
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 8,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-17.0911, 4.48067, 0],
+			Vec3 Scale = [20, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 9,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-17.026, 23.4983, 0],
+			Vec3 Scale = [20, 1, 1],
+			Quat Rotation = [0, 0, 0, 1],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 10,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-26.4371, 13.8918, 0],
+			Vec3 Scale = [20, 1, 1],
+			Quat Rotation = [0, 0, 0.707107, 0.707107],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+	ArchetypeInstance = 
+	{
+		string Name = "537637dd968be59c:arc_barrier",
+		LinkId = 
+		{
+			uint Id = 11,
+		},
+		Transform = 
+		{
+			Vec3 Translation = [-7.54972, 13.8592, 0],
+			Vec3 Scale = [20, 1, 1],
+			Quat Rotation = [0, 0, 0.707107, 0.707107],
+		},
+		Named = 
+		{
+			string Name = "Barrier",
+		},
+	},
+},

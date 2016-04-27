@@ -1,0 +1,470 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "NotePad",
+	},
+	Archetyped = 
+	{
+		string Name = "539414b43d6837a1:arc_pauseMenu",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [0, 0, 0],
+		Vec3 Scale = [0.5, 0.5, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "53cd3ef23d1133a5:spr_ui_pause_menu",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = true,
+		bool OnTop = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+	},
+	py_pauseMenu = 
+	{
+	},
+	Hierarchy = 
+	{
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 2,
+			},
+			Named = 
+			{
+				string Name = "ContinueButton",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [15, 7.5, 1],
+				Vec3 Scale = [6, 2, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				string SpriteSource = "5275aa4d802dd6dc:Square",
+				bool FlipX = false,
+				bool FlipY = false,
+				Vec4 Color = [1, 1, 1, 1],
+				bool Visible = false,
+				bool OnTop = false,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+			},
+			Hierarchy = 
+			{
+				Cog = 
+				{
+					LinkId = 
+					{
+						uint Id = 3,
+					},
+					Named = 
+					{
+						string Name = "ContinueText",
+					},
+					Transform = 
+					{
+						Vec3 Translation = [-0.183435, 0.144817, 0],
+						Vec3 Scale = [0.166667, 0.5, 1],
+						Quat Rotation = [0, 0, 0, 1],
+					},
+					SpriteText = 
+					{
+						SpriteGeometryMode GeometryMode = ZPlane,
+						TextPositionMode Position = UpperLeft,
+						string FontName = "4e7bac697bec55c5:Verdana",
+						uint FontSize = 30,
+						Vec4 Color = [0, 0, 0, 1],
+						bool Visible = false,
+						string Text = "Continue",
+						bool OnTop = true,
+						BlendMode BlendMode = Alpha,
+						Vec2 Size = [0, 0],
+						TextAlign Align = Left,
+						float PixelsPerUnit = 64,
+						bool Smoothing = true,
+					},
+				},
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 4,
+			},
+			Named = 
+			{
+				string Name = "HowPlayButton",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [15, 2.5, 1],
+				Vec3 Scale = [6, 2, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				string SpriteSource = "5275aa4d802dd6dc:Square",
+				bool FlipX = false,
+				bool FlipY = false,
+				Vec4 Color = [1, 1, 1, 1],
+				bool Visible = false,
+				bool OnTop = false,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+			},
+			Hierarchy = 
+			{
+				Cog = 
+				{
+					LinkId = 
+					{
+						uint Id = 5,
+					},
+					Named = 
+					{
+						string Name = "HowToPlayText",
+					},
+					Transform = 
+					{
+						Vec3 Translation = [-0.298102, 0.158536, 0],
+						Vec3 Scale = [0.2, 0.5, 1],
+						Quat Rotation = [0, 0, 0, 1],
+					},
+					SpriteText = 
+					{
+						SpriteGeometryMode GeometryMode = ZPlane,
+						TextPositionMode Position = UpperLeft,
+						string FontName = "4e7bac697bec55c5:Verdana",
+						uint FontSize = 30,
+						Vec4 Color = [0, 0, 0, 1],
+						bool Visible = false,
+						string Text = "How To Play",
+						bool OnTop = true,
+						BlendMode BlendMode = Alpha,
+						Vec2 Size = [0, 0],
+						TextAlign Align = Left,
+						float PixelsPerUnit = 64,
+						bool Smoothing = true,
+					},
+					Hierarchy = 
+					{
+					},
+				},
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 6,
+			},
+			Named = 
+			{
+				string Name = "CreditsButton",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [15, -2.5, 1],
+				Vec3 Scale = [6, 2, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				string SpriteSource = "5275aa4d802dd6dc:Square",
+				bool FlipX = false,
+				bool FlipY = false,
+				Vec4 Color = [1, 1, 1, 1],
+				bool Visible = false,
+				bool OnTop = false,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+			},
+			Hierarchy = 
+			{
+				Cog = 
+				{
+					LinkId = 
+					{
+						uint Id = 7,
+					},
+					Named = 
+					{
+						string Name = "CredtisText",
+					},
+					Transform = 
+					{
+						Vec3 Translation = [-0.168022, 0.149052, 0],
+						Vec3 Scale = [0.2, 0.5, 1],
+						Quat Rotation = [0, 0, 0, 1],
+					},
+					SpriteText = 
+					{
+						SpriteGeometryMode GeometryMode = ZPlane,
+						TextPositionMode Position = UpperLeft,
+						string FontName = "4e7bac697bec55c5:Verdana",
+						uint FontSize = 30,
+						Vec4 Color = [0, 0, 0, 1],
+						bool Visible = false,
+						string Text = "Credits",
+						bool OnTop = true,
+						BlendMode BlendMode = Alpha,
+						Vec2 Size = [0, 0],
+						TextAlign Align = Left,
+						float PixelsPerUnit = 64,
+						bool Smoothing = true,
+					},
+					Hierarchy = 
+					{
+					},
+				},
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 8,
+			},
+			Named = 
+			{
+				string Name = "MenuButton",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [15, -7.5, 1],
+				Vec3 Scale = [6, 2, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				string SpriteSource = "5275aa4d802dd6dc:Square",
+				bool FlipX = false,
+				bool FlipY = false,
+				Vec4 Color = [1, 1, 1, 1],
+				bool Visible = false,
+				bool OnTop = false,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+			},
+			Hierarchy = 
+			{
+				Cog = 
+				{
+					LinkId = 
+					{
+						uint Id = 9,
+					},
+					Named = 
+					{
+						string Name = "MenuText",
+					},
+					Transform = 
+					{
+						Vec3 Translation = [-0.260162, 0.14905, 0],
+						Vec3 Scale = [0.2, 0.5, 1],
+						Quat Rotation = [0, 0, 0, 1],
+					},
+					SpriteText = 
+					{
+						SpriteGeometryMode GeometryMode = ZPlane,
+						TextPositionMode Position = UpperLeft,
+						string FontName = "4e7bac697bec55c5:Verdana",
+						uint FontSize = 30,
+						Vec4 Color = [0, 0, 0, 1],
+						bool Visible = false,
+						string Text = "Main Menu",
+						bool OnTop = true,
+						BlendMode BlendMode = Alpha,
+						Vec2 Size = [0, 0],
+						TextAlign Align = Left,
+						float PixelsPerUnit = 64,
+						bool Smoothing = true,
+					},
+				},
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 10,
+			},
+			Named = 
+			{
+				string Name = "Highlight",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [15, 7.5, 1],
+				Vec3 Scale = [6, 2, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				string SpriteSource = "5275aa4d802dd6dc:Square",
+				bool FlipX = true,
+				bool FlipY = false,
+				Vec4 Color = [1, 0, 0, 0.505],
+				bool Visible = false,
+				bool OnTop = true,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 11,
+			},
+			Named = 
+			{
+				string Name = "ContinueHighlight",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0.149682, 6.52466, -8.09236],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				string SpriteSource = "53cd3ef23d114f17:spr_ui_pause_continue_high",
+				bool FlipX = false,
+				bool FlipY = false,
+				Vec4 Color = [1, 1, 1, 1],
+				bool Visible = false,
+				bool OnTop = true,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 12,
+			},
+			Named = 
+			{
+				string Name = "HowToPlayHighlight",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0.0862674, 1.57832, -8.09236],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				string SpriteSource = "53cd3ef23d11860a:spr_ui_pause_howtoplay_high",
+				bool FlipX = false,
+				bool FlipY = false,
+				Vec4 Color = [1, 1, 1, 1],
+				bool Visible = false,
+				bool OnTop = true,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 13,
+			},
+			Named = 
+			{
+				string Name = "CreditsHighlight",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [0.0862674, -3.62168, -8.09236],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				string SpriteSource = "53cd3ef23d116aae:spr_ui_pause_credits_high",
+				bool FlipX = false,
+				bool FlipY = false,
+				Vec4 Color = [1, 1, 1, 1],
+				bool Visible = false,
+				bool OnTop = true,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+			},
+		},
+		Cog = 
+		{
+			LinkId = 
+			{
+				uint Id = 14,
+			},
+			Named = 
+			{
+				string Name = "MenuHighlight",
+			},
+			Transform = 
+			{
+				Vec3 Translation = [-0.0405618, -8.44119, -8.09236],
+				Vec3 Scale = [1, 1, 1],
+				Quat Rotation = [0, 0, 0, 1],
+			},
+			Sprite = 
+			{
+				string SpriteSource = "53cd3ef23d11a163:spr_ui_pause_mainmenu_high",
+				bool FlipX = false,
+				bool FlipY = false,
+				Vec4 Color = [1, 1, 1, 1],
+				bool Visible = false,
+				bool OnTop = true,
+				bool AnimationActive = true,
+				float AnimationSpeed = 1,
+				uint StartFrame = 0,
+				BlendMode BlendMode = Alpha,
+				SpriteGeometryMode GeometryMode = ZPlane,
+			},
+		},
+	},
+},

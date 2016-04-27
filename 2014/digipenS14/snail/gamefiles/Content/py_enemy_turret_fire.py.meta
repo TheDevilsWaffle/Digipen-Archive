@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_enemy_turret_fire",
+		uint64 ResourceId = 53886b644a3d04c8,
+	},
+},

@@ -1,0 +1,11 @@
+AudioContent = 
+{
+	SoundBuilder = 
+	{
+		string Name = "03 - Toccata and Fugue in D Minor, BWV 565",
+		uint64 ResourceId = 53e0c5465f8a002b,
+		bool Compressed = true,
+		uint Quality = 100,
+		SoundLoadType LoadType = Streamed,
+	},
+},

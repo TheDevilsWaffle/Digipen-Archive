@@ -1,0 +1,11 @@
+DataContent = 
+{
+	DataBuilder = 
+	{
+		string Name = "ProjTileSet",
+		uint64 ResourceId = 52ea7153d67a2635,
+		string LoaderType = "TileSet",
+		uint Version = 0,
+		bool ShowInEditor = true,
+	},
+},

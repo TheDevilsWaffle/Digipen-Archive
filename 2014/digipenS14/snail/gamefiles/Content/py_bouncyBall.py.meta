@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_bouncyBall",
+		uint64 ResourceId = 530b190bbb11b96c,
+	},
+},

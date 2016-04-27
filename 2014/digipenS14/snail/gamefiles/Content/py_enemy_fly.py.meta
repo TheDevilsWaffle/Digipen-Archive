@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_enemy_fly",
+		uint64 ResourceId = 532bf94a64a305a3,
+	},
+},

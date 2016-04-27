@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_snail_animations",
+		uint64 ResourceId = 53616f130bef09c1,
+	},
+},

@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_lightningLogic",
+		uint64 ResourceId = 53e9bd91d0b76c29,
+	},
+},

@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_clockHunter",
+		uint64 ResourceId = 53ce1c521f918e09,
+	},
+},

@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_fire_logic",
+		uint64 ResourceId = 53cce6116e61614c,
+	},
+},

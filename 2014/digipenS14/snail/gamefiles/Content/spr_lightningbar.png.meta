@@ -1,0 +1,20 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "spr_lightningbar",
+		uint64 ResourceId = 53e9bec121ea3791,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 196,
+		uint FrameSizeY = 1024,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 98,
+		float OriginY = 512,
+		float PixelsPerUnit = 64,
+		bool Smoothing = false,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+		SpriteFill Fill = Stretch,
+	},
+},

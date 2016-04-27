@@ -1,0 +1,20 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "spr_roloui_poloui_idle",
+		uint64 ResourceId = 5368501e9ab9c275,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 128,
+		uint FrameSizeY = 96,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 64,
+		float OriginY = 96,
+		float PixelsPerUnit = 64,
+		bool Smoothing = true,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+		SpriteFill Fill = Stretch,
+	},
+},

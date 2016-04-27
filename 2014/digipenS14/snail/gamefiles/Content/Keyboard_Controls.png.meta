@@ -1,0 +1,20 @@
+ImageContent = 
+{
+	SpriteSourceBuilder = 
+	{
+		string Name = "Keyboard_Controls",
+		uint64 ResourceId = 53c4881955c661d0,
+		uint64 AtlasId = 5274cf95e4a661fd,
+		uint FrameSizeX = 792,
+		uint FrameSizeY = 612,
+		uint FrameCount = 1,
+		float FrameDelay = 0.0833333,
+		float OriginX = 396,
+		float OriginY = 306,
+		float PixelsPerUnit = 64,
+		bool Smoothing = true,
+		bool Looping = true,
+		Vec4 Slices = [0, 0, 0, 0],
+		SpriteFill Fill = Stretch,
+	},
+},

@@ -1,0 +1,15 @@
+DataContent = 
+{
+	DataBuilder = 
+	{
+		string Name = "lvl_HUD_Pause.Level",
+<<<<<<< HEAD
+		uint64 ResourceId = 5395d58bb623c922,
+=======
+		uint64 ResourceId = 53605258c2a9a9e6,
+>>>>>>> f2b1b1dc7a059392a7bef58b838fd920200a4312
+		string LoaderType = "Level",
+		uint Version = 0,
+		bool ShowInEditor = true,
+	},
+},

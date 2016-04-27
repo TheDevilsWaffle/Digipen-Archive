@@ -1,0 +1,9 @@
+TileSet = 
+{
+	uint CurrentId = 1,
+	Tile = 
+	{
+		uint Id = 0,
+		string TileDefinition = "4e289736e95f8ec3:DefaultTileGridDefinition",
+	},
+},

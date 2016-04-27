@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_platformer_mechanics",
+		uint64 ResourceId = 52a8baab3b74e65c,
+	},
+},

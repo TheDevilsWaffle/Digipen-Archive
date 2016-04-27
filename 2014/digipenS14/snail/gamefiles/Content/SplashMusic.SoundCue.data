@@ -1,0 +1,21 @@
+SoundCue = 
+{
+	PlayMode PlayMode = Looping,
+	float Volume = 1,
+	float VolumeVariation = 0,
+	float Pitch = 0,
+	float PitchVariation = 0,
+	float MinDistance = 10,
+	float MaxDistance = 10000,
+	float PositionRandomization = 0,
+	uint MaxPlaybacks = 10,
+	int Priority = 128,
+	bool LinearRollOff = true,
+	Array Sounds = 
+	[
+		{
+			string SoundName = "53e0c5465f8a002b:03 - Toccata and Fugue in D Minor, BWV 565",
+			float Weight = 1,
+		},
+	],
+},

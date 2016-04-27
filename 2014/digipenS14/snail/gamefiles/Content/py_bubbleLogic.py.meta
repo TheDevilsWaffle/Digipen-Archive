@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_bubbleLogic",
+		uint64 ResourceId = 52e2a8ebc92db39a,
+	},
+},

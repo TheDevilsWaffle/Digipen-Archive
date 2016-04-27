@@ -1,0 +1,134 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "Snail",
+	},
+	Archetyped = 
+	{
+		string Name = "525dd674e5a8402f:arc_snail",
+	},
+	Transform = 
+	{
+		Vec3 Translation = [0.0572665, -1.94154, 0],
+		Vec3 Scale = [1, 1, 1],
+		Quat Rotation = [0, 0, 0, 1],
+	},
+	Sprite = 
+	{
+		string SpriteSource = "5368a4c04670799e:spr_snail_idle",
+		bool FlipX = false,
+		bool FlipY = false,
+		Vec4 Color = [1, 1, 1, 1],
+		bool Visible = true,
+		bool OnTop = false,
+		bool AnimationActive = true,
+		float AnimationSpeed = 1,
+		uint StartFrame = 0,
+		BlendMode BlendMode = Alpha,
+		SpriteGeometryMode GeometryMode = ZPlane,
+	},
+	RigidBody = 
+	{
+		bool Static = false,
+		bool Asleep = false,
+		bool Kinematic = false,
+		bool RotationLocked = true,
+		bool Mode2D = true,
+		bool AllowSleep = true,
+		bool Inherit2DMode = true,
+		Vec3 Velocity = [0, 0, 0],
+		Vec3 AngularVelocity = [0, 0, 0],
+	},
+	py_objectSettings = 
+	{
+		string objectClass = "Player",
+		bool canBeKilled = true,
+		int objectHealth = 0,
+		int damageToPlayer = 0,
+		bool inBubble = false,
+		int iTimer = 0,
+	},
+	CapsuleCollider = 
+	{
+		bool Ghost = false,
+		bool SendsMessages = true,
+		bool Seamless = false,
+		string MaterialName = "52a8b83bffdab19c:phy_character",
+		string SerializedGroupName = "53dad7686bc9bd1e:cg_level",
+		Vec3 Offset = [0, 0.58, 0],
+		float Radius = 0.6,
+		float Height = 0.6,
+		uint Direction = 0,
+	},
+	py_input_manager = 
+	{
+		bool InputType = true,
+		int GamepadIndex = 0,
+	},
+	py_collision_manager = 
+	{
+	},
+	py_character_movement = 
+	{
+		bool Active = true,
+		Vec3 Up = [0, 1, 0],
+		float MaxSpeed = 7,
+		float MovePower = 2,
+		float InAirControl = 0.2,
+		float WalkableSlopeAngle = 65,
+		float InitialJumpVelocity = 15,
+		float AdditiveJumpVelocity = 150,
+		float AdditiveJumpTime = 0,
+		float LateJumpTimer = 0,
+	},
+	DynamicMotor = 
+	{
+	},
+	GravityEffect = 
+	{
+		bool Active = true,
+		bool WakeUpOnChange = false,
+		bool LocalSpaceDirection = true,
+		float Strength = 10,
+		Vec3 Direction = [0, -1, 0],
+	},
+	py_ghosting = 
+	{
+	},
+	Orientation = 
+	{
+		Vec3 UpVector = [0, 1, 0],
+		Vec3 ForwardVector = [0, 0, 1],
+	},
+	SoundEmitter = 
+	{
+		bool StartPlaying = false,
+		int ExtraPriority = 10,
+		string CueName = "53c9420ae03d4d01:Burp",
+		float Volume = 1000,
+		float Pitch = 1,
+		bool Positional = true,
+	},
+	py_snail_animations = 
+	{
+	},
+	py_shoot = 
+	{
+		string GooSprite = "52e2abbb2a544a32:arc_bubble",
+		float GooSpeed = 10,
+		float GooAngle = 3,
+		float GooStartingYPos = 0.5,
+		float GooStartingXPos = 0.5,
+		float FireSpeed = 5,
+		float FireAngle = 0,
+		float FireStartingYPos = 0.9,
+		float FireStartingXPos = 2,
+		float FireBlowBackForceXPos = 25,
+		float FireBlowBackForceYPos = 2.5,
+	},
+},

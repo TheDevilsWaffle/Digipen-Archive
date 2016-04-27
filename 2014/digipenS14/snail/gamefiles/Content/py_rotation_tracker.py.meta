@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_rotation_tracker",
+		uint64 ResourceId = 53577d63a82692f4,
+	},
+},

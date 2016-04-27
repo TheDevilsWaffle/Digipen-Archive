@@ -1,0 +1,15 @@
+DataContent = 
+{
+	DataBuilder = 
+	{
+		string Name = "lvl_Chris.Level",
+<<<<<<< HEAD
+		uint64 ResourceId = 5395d58bb619abe0,
+=======
+		uint64 ResourceId = 53605258c2a65d32,
+>>>>>>> f2b1b1dc7a059392a7bef58b838fd920200a4312
+		string LoaderType = "Level",
+		uint Version = 0,
+		bool ShowInEditor = true,
+	},
+},

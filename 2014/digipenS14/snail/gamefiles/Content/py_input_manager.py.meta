@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_input_manager",
+		uint64 ResourceId = 52a8b9182895976a,
+	},
+},

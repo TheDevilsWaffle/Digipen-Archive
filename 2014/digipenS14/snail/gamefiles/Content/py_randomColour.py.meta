@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_randomColour",
+		uint64 ResourceId = 53ed5f81901b1fbd,
+	},
+},

@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_wall_sticky",
+		uint64 ResourceId = 5363bbc9740f5a89,
+	},
+},

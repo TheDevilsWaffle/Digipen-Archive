@@ -1,0 +1,8 @@
+TextContent = 
+{
+	PyScriptBuilder = 
+	{
+		string Name = "py_saltPellet",
+		uint64 ResourceId = 525778d26a72577e,
+	},
+},

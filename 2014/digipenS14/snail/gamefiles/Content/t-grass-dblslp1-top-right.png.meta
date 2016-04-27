@@ -1,0 +1,17 @@
+ImageContent = 
+{
+	TextureBuilder = 
+	{
+		string Name = "t-grass-dblslp1-top-right",
+<<<<<<< HEAD
+		uint64 ResourceId = 53f0fcc25fa255b0,
+=======
+		uint64 ResourceId = 53715dfac5fe1f57,
+>>>>>>> ec9612de242233ac0ebe20e2c4790c736b0daf50
+		OutputTextureFormat Format = AutoColor,
+		FixPowerOf2 FixPowerOf2 = Auto,
+		ImageFilter ResizeFilter = Cubic,
+		bool GenerateMipMaps = true,
+		ImageFilter MipFilter = Cubic,
+	},
+},
