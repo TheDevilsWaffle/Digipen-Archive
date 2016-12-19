@@ -1,0 +1,1 @@
+drop teleport locations with a,x,b,y

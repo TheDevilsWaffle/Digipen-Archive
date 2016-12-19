@@ -1,0 +1,259 @@
+<tw-storydata name="gat330_travis_moore_twine" startnode="1" creator="Twine" creator-version="2.0.11" ifid="89F08FD2-692E-4FDD-8F9C-E84467E60411" format="Harlowe" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">
+
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">
+
+</script><tw-passagedata pid="1" name="Intro" tags="" position="0,0">{
+(set: $player to &quot;&quot;)
+(set: $count to 15)
+(set: $shots to 0)
+(set: $stareoffs to 0)
+(set: $slaps to 0)
+}
+
+Welcome to Super Space Quest!
+
+You&#39;ve just completed a dangerous mission of taking over and recapturing a space cruiser from a powerful enemy. You&#39;re part of the Galatic Order, devoted to peace and justice, and your name is…
+
+
+(link-reveal: &quot;Umm, what&#39;s your name again (Don&#39;t just leave it blank, alright)?&quot;)[(set: $player to (prompt: &quot;Enter a name for the security officer&quot;))
+(if: $player is &quot;&quot;)[&lt;/br&gt;&lt;/br&gt;(link-reveal: (set: $nameConfirmation to (confirm: &quot;Warning! If you don&#39;t pick a name, I&#39;ll pick one for you…&quot;)))(if: $nameConfirmation)[(goto: &quot;You Asked For It&quot;)](else:)[(reload:)]](else:)[&lt;/br&gt;&lt;/br&gt;That&#39;s right, you&#39;re name is $player!&lt;/br&gt;&lt;/br&gt;(link-goto: &quot;Start Journey&quot;)]]
+
+</tw-passagedata>
+<tw-passagedata pid="2" name="You Asked For It" tags="" position="0,700">(set: $player to (either: &quot;Anita Name&quot;, &quot;Terry Bulname&quot;, &quot;Noah Name&quot;, &quot;Ivanna Name&quot;))
+
+&lt;p&gt;Alright, your name is $player. Was it really so hard? I hope you&#39;re happy.&lt;/p&gt;
+(link-goto: &quot;I&#39;m not, but whatever&quot;, &quot;Start Journey&quot;)
+[[Start Journey]]
+
+</tw-passagedata>
+<tw-passagedata pid="3" name="Start Journey" tags="" position="200,700">(set: $cadet to (either: &quot;Cadet Larsen&quot;, &quot;Cadet Bernie&quot;, &quot;Cadet Johnney Jacobson&quot;))
+(set: $commander to (either: &quot;Lieutenant Commander Willey&quot;, &quot;Lieutenant Commander Rodriguez&quot;, &quot;Lieutenant Commander Lindsay&quot;))
+(set: $captian to (either: &quot;Captain Fernando&quot;, &quot;Captain Karl&quot;, &quot;Captain Riley&quot;))
+
+You are $player, fresh out of the academy and ready for new frontiers, wonderous new worlds, and all the adventure your heart desires. Unfortunately, you barely scraped by at the academy, landing you with the only position for those who don&#39;t do well and aren&#39;t expected of much: Security Officer.
+
+You stare down at the low rank pinned upon your red security officer uniform, clutching your pulse rifle as you stand guard outside the engineering bay. The operations division planned for every contingency in this mission, but recapturing this star cruiser was quite a harrowing experience. You&#39;re just glad that everything is over now, and you can finally relax. Despite the constant droning of an alarm siren everything actually seems kinda peaceful. Too peaceful.
+
+Suddenly your senses detect a multitude of things happening. There&#39;s arguing coming from inside the engineering bay, you see a lost cadet to the right of the corridor, and you smell the most delicious smell coming from the left of the corridor.
+
+You take action by…
+(link-goto:&quot;investigating the arguement&quot;, &quot;investigate the engineering bay&quot;)
+(link-goto:&quot;investigating the cadet&#39;s problem&quot;, &quot;investigate the cadet&quot;)
+(link-goto:&quot;investigating that delicious smell&quot;, &quot;investigate the smell&quot;)
+</tw-passagedata>
+<tw-passagedata pid="4" name="investigate the engineering bay" tags="" position="400,200">(set: $count to + 1)
+(if: $count &gt; $limit)[(goto: &quot;The Ship has Exploded!&quot;)]
+
+engineering bay</tw-passagedata>
+<tw-passagedata pid="5" name="investigate the cadet" tags="" position="400,700">Just down the corridor you see a young man, $cadet. You don&#39;t know much about $cadet, other than he was the top of his class at the academy and kinda neurotic. He appears to be lost, confused, or possibly both, stumbling up and down the corridor looking for someone or something.
+
+You approach $cadet who mumbles something incomprehensible.
+
+Using your expert security guard training you…
+
+[[stare at him with a blank expression on your face]]
+[[ask the cadet a question]]
+[[slap the cadet in the face]]</tw-passagedata>
+<tw-passagedata pid="6" name="investigate the smell" tags="" position="400,2000">(set: $count to + 1)
+(if: $count &gt; $limit)[(goto: &quot;The Ship has Exploded!&quot;)]
+
+</tw-passagedata>
+<tw-passagedata pid="7" name="stare at him with a blank expression on your face" tags="" position="600,600">(set: $stareoffs to it + 1)
+
+Without fear you stare at $cadet, who stares right back at you. A stare-off has begun.
+
+What&#39;s your next move?
+
+[[keep staring at him]]
+[[ask the cadet a question]] 
+[[slap the cadet in the face]]</tw-passagedata>
+<tw-passagedata pid="8" name="ask the cadet a question" tags="" position="600,800">(set: $cadetDead to false)
+
+You find a break in the odd mutterings being uttered by $cadet and ask him a question.
+
+$player: &quot;What&#39;s your problem, $cadet?&quot;
+
+Your question doesn&#39;t even seem to have been heard, as the cadet continues to mumble nonsense.
+
+That didin&#39;t seem to work, so your next approach is to…
+[[stare at him with a blank expression on your face]]
+[[slap the cadet in the face]]
+[[return to your post]]</tw-passagedata>
+<tw-passagedata pid="9" name="slap the cadet in the face" tags="" position="600,1000">(set: $slaps to it + 1)
+As $cadet stands there, mumbling like a mad man you slowly raise up your arm and then quickly SLAP the cadet across the face with the power of a thousand slaps.
+
+$player: &quot;Snap out of it!&quot;
+
+$cadet reels back from the hit and shakes his head cartoonishly. After a moment he still seems distraught, but at least he now seems to have come to his senses.
+
+$cadet: &quot;S-sorry, $player. I-I didn&#39;t, I mean, there&#39;s a problem with the s-ship! D-don&#39;t you hear that alarm?
+
+Now that you think about it, that alarm really has been going off for as long as you remember. It&#39;s annoying. You try to tune it out.
+
+$player: &quot;Yeah, I hear it. I dunno, it&#39;s been doing that since we&#39;ve boarded the ship.&quot;
+
+$cadet: &quot;And y-you didn&#39;t th-think to find out what it is? W-we all in danger! We n-need to get to the engineering bay, NOW!&quot;
+
+$cadet makes a compelling arguement, so you decide to…
+
+[[arrest the cadet]]
+(link-goto: &quot;leave the cadet here and return to your post alone&quot;, &quot;return to your post&quot;)
+[[return to your post with the cadet]] </tw-passagedata>
+<tw-passagedata pid="10" name="keep staring at him" tags="" position="800,600">(set: $stareoffs to it + 1)
+
+$cadet&#39;s right eye starts to twitch a little. The stare-off continues.
+
+At this point you decide to…
+
+[[remain staring at the cadet]]
+[[slap the cadet in the face]]
+[[ask the cadet a question]]
+</tw-passagedata>
+<tw-passagedata pid="11" name="The Ship Has Exploded" tags="The-Ship-has-Exploded!" position="450,0">Boom!</tw-passagedata>
+<tw-passagedata pid="12" name="Debug-Header" tags="debug-header" position="150,0">
+---
+&lt;h5&gt;DEBUG HEADER&lt;/h5&gt;
+(print: &quot;count = &quot;)(print: $count)
+---</tw-passagedata>
+<tw-passagedata pid="13" name="remain staring at the cadet" tags="" position="1000,600">(set: $stareoffs to it + 1)
+
+The stare-off between you and $cadet continues. For what feels like a solid 2 minutes neither you nor $cadet say anything or break from each other&#39;s gaze. Sweat starts to bead up upon $cadet&#39;s forehead. It appears as if his willpower is breaking.
+
+You decide to…
+
+[[continue to stare intimidatingly]]
+[[ask the cadet a question]]
+[[slap the cadet in the face]]
+</tw-passagedata>
+<tw-passagedata pid="14" name="continue to stare intimidatingly" tags="" position="1200,600">(set: $stareoffs to it + 1)
+
+The stare-off reaches a fever pitch. $cadet&#39;s sweating becomes intense and his willpower waivers. He breaks off his stare and becomes enraged.
+
+$cadet: &quot;AAAHAHHH BAARG DA AARH!&quot;
+
+$cadet starts snarling, raises up his arms, and takes two slow menacing steps towards you.
+
+You respond by…
+
+[[shoot the cadet]]
+[[arrest the cadet]]
+[[tell the cadet you come in peace]]</tw-passagedata>
+<tw-passagedata pid="15" name="shoot the cadet" tags="" position="1400,600">(set: $cadetDead to true)
+(set: $shots to it + 1)
+
+Without hesitation you take you ready your pulse rifle.
+
+$player: &quot;You lose, $cadet, eat laser!&quot;
+
+You press the trigger, letting out a loud BLAST that rings down the corridor.
+
+$cadet looks down at the large hole where the bulk of his chest used to be before falling to the floor with a bloody gurgle.
+
+$player: &quot;That&#39;s for always ruining the class curve on math tests.&quot;
+
+With the problem seemingly solved, you next…
+
+[[return to your post]]
+[[examine the cadet&#39;s body]]</tw-passagedata>
+<tw-passagedata pid="16" name="arrest the cadet" tags="" position="1400,400">You determine that $cadet has gone mad and you give him a good punch to the gut. The cadet hunches over to clutch his stomach.
+
+Cadet: &quot;Uuugh&quot;
+
+You reach into your utility belt and pull out some handcuffs. You are able to easily handcuff the cadet while he is whincing in pain.
+
+$player: &quot;Heh, another problem solved, but now what to do with you?&quot;
+
+[[transport the cadet to the brigg]]
+[[return to your post with the cadet]]
+[[return to your post]] </tw-passagedata>
+<tw-passagedata pid="17" name="tell the cadet you come in peace" tags="" position="1400,800"></tw-passagedata>
+<tw-passagedata pid="18" name="return to your post" tags="" position="400,1200">(if: $cadetDead)[Feeling accomplished with how you handled the &#39;$cadet&#39; problem, you had back to your post while merrily whistiling a little tune.&lt;/br&gt;&lt;/br&gt;$player: &quot;Another problem solved, I think I&#39;m really getting the hang of this job.&quot;&lt;/br&gt;&lt;/br&gt;]
+(else:)[You had back to you post, leaving that lunatic, $cadet, to his own business.&lt;/br&gt;&lt;/br&gt;$player: &quot;Too much smarts will make ya crazy. Maybe I&#39;m better off being a Secruity Officer.&quot;&lt;/br&gt;&lt;/br&gt;]
+
+As you approah your post you realize the arguing in the engineering bay is much louder than it was before.
+
+You decide to take action by…
+
+(link-goto: &quot;investigate the engineering bay&quot;, &quot;investigate the engineering bay&quot;)
+(link-goto: &quot;investigate that alluring smell from before&quot;, &quot;investigate the smell&quot;)</tw-passagedata>
+<tw-passagedata pid="19" name="examine the cadet&#39;s body" tags="" position="1600,600">(set: $playerAwareOfDanger to true)
+You stoop down to check out the damage your pulse rifle did to $cadet.
+
+&lt;CENTER&gt;
+$player: 
+&quot;Yup, he&#39;s definitely dead.&quot;
+&lt;/CENTER&gt;
+
+You hestiate for a moment before rumaging through the clothing of the dead cadet. The giant hole you tore through his chest has made things, umm, gross and sticky.
+
+&lt;CENTER&gt;
+$player: 
+&quot;Yuck! Why does this always seem like a good idea in video games?&quot;
+&lt;/CENTER&gt;
+
+You manage to find some sort of crazy looking science do-hickey that is still powered on. You turn it around and look at the screen which reads:
+
+&lt;CENTER&gt;
+SYSTEM ANALYSIS COMPLETE:
+WEAPONS: OFFLINE...
+SHIELDS:OFFLINE...
+IMPULSE ENGINES: OFFLINE...
+UNSTABLE POWER FLUCTULATIONS DETECTED IN ENGINEERING BAY...
+COMMAND CODES OVERRIDE IN ENGINEERING BAY...
+LAST RESORT OPTIONS ACCESSED...
+SELF-DESTRUCT INITIATED...
+TIME UNTIL SELF-DESTRUCT: $count
+&lt;/CENTER&gt;
+
+This is a disaster! You have no choice but to…
+(link-goto: &quot;quickly run to the engineering bay!&quot;, &quot;return to your post&quot;)
+(link-goto: &quot;finally find out what that amazing smell is&quot;, &quot;investigate the smell&quot;)
+[[accept your fate]]</tw-passagedata>
+<tw-passagedata pid="20" name="transport the cadet to the brigg" tags="" position="1600,400">(set: $cadetArrested = true)
+Being the brilliant security officer that you are, you decide it&#39;s best to lock up this screwball. Unfortunately, you have no idea where the brig is on this ship.
+
+&lt;CENTER&gt;
+$player: 
+&quot;Uhhh, do you know where the brig is, $cadet?&quot;
+&lt;/CENTER&gt;
+
+Appalled that you would even ask such a thing, the cadet gives you a nasty look.
+
+&lt;CENTER&gt;
+$cadet: 
+&quot;W-WHAT? W-WHY WOULD I TELL YOU THAT? D-DIDN&#39;T YOU ATTEND THE PRE-MISSION BRIEFFING? T-THAT&#39;S BESIDES THE POINT! W-WE&#39;RE ALL IN DANGER!&quot;
+
+$player: 
+&quot;Danger? The battle&#39;s over. We&#39;ve captured the ship and the crew. Everything is fine.&quot;
+
+$cadet: 
+&quot;Y-you&#39;re utterly hopeless! I n-need to get to the engineering bay, NOW!&quot;
+&lt;/CENTER&gt;
+
+The cadet kicks you in the shin, releasing him from your grip, and makes a fast break towards the engineering bay.
+
+You have to do something, so you…
+[[shoot the cadet]]
+(link-goto: &quot;chase after the cadet&quot;, &quot;return to your post with the cadet&quot;)
+(link-goto: &quot;give up and decide to finally hunt down that smell from earlier&quot;, &quot;investigate the smell&quot;)</tw-passagedata>
+<tw-passagedata pid="21" name="return to your post with the cadet" tags="" position="400,1400">Double-click this passage to edit it.</tw-passagedata>
+<tw-passagedata pid="22" name="Header" tags="header" position="300,0">(set: $count to it - 1)
+(if: $count &lt; -1)[(goto: &quot;accept your fate&quot;)]</tw-passagedata>
+<tw-passagedata pid="23" name="accept your fate" tags="" position="600,0">Knowing that you don&#39;t have much time left, you decide that it&#39;s best not to fret over these things that are out of your control. You decide to take a stroll down the rest of the corridor and simply enjoy the few moments of being alive that you have left. 
+
+It&#39;s actually quite a pleasant moment. Well, except for the fact that you&#39;re doomed. So, you know, it&#39;s only kinda pleasant.
+
+If it means anything, you barely felt the explosion that tore through the ship and killed everyone.
+
+&lt;CENTER&gt;
+The End
+&lt;/CENTER&gt;
+Statistics:
+JOURNEY: The path you took through the game was: (history:).
+SLAPS: You slapped $slaps people/things.
+STARE-OFFS: You engaged in $stareoffs stare-offs against people/things.
+SHOT: You shot $shot people/things.
+
+Thank you for playing!
+[[Intro]] </tw-passagedata>
+</tw-storydata>

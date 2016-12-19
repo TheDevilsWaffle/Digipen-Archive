@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 432aaf92b29854143b73d5f2ffe12b09
+timeCreated: 1476715235
+licenseType: Store
+ShaderImporter:
+  defaultTextures:
+  - _Matcaptexture: {fileID: 1600699999, guid: 20eeca7a73a9b3a4d875f843ff932ba3, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

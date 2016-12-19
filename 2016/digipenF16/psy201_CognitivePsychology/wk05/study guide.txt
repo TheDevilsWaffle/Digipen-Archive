@@ -1,0 +1,138 @@
+PSY201 EXAM 01 STUDY GUIDE
+
+1) What is the general definition of cognition?
+	The mental processes involved in perception, attention, memory, reasoning, and problem solving.
+
+2) With what perspective was Watson associated? Any criticisms to his perspective?
+	Behaviorism (stimulus -> response model). One dimensional approach that does not account for
+	internal influences like mood, thoughts, or feelings.
+
+3) What is cognitive psychology?
+	The science of how the brain processes information and generates thought and perception
+
+4) Describe cognition as a 'complex' process. What does it involve?
+	Many cognitive processes are hidden from view, occur very rapidly, and are difficult to
+	directly observe. We are constantly perceiving, using memory, paying attention, reasoning.
+
+5) Theoretical and practical reasons for the study of cognition?
+	Theoretical: Discover processes and abilities that help us mentally represent information
+		understand memory, cognitive distoritions, language acquisition. Learn how to predict
+		how we learn, make decisions, and solve problems.
+	Practical: Undestand how to overcome biased thinking. Study brain functions and disorders that
+		impair thinging. Understand effects of imagery on cognitive ability, memory, emotion,
+		and awareness. AI!
+
+6) What does it mean to say that humans are 'information processors'?
+	environment provides data, some information is selected for processing, behavioral impact, etc.
+
+7) What are mental representations? How does this contrast with mental processing?
+	mental representations are the format used to represent concepts and the content
+	mental processing is the way we process the input as mental output
+
+8) Describe Wundt's contributions to the field of cognition. How did this later influence other researchers?
+	Established first psychological research laboratory. Many early psychologists started in his lab.
+
+9) Describe Functionalism:
+	a mental state is determined by its relation to sensory stimulations, other mental states, or behavior.
+
+10) Difference between functionalism and behaviorism?
+	Behaviorism doesn't believe in mental states and focuses on the external behavior of human beings.
+	
+11) Gestalt stuff I already know
+
+12) What role did the rise of AI research and linguistics play in terms of shaping cognitive psychology?
+	a need for understanding human-technology interfaces and cross-cultural language development,
+	along with the increased dissatisfaction with behaviorism showed mental processes/structures can
+	be revealed, studied, and predicted through proper observation and measurement.
+
+13) Cognitive revolution?
+	increased satisfaction with behaviorism, convergence of several fields during WWII and the above.
+
+14) What is phrenology? What aspects are flawed? What good came from it?
+	Phrenology is the detailed study of the shape and size of the cranum as a indicator of character
+	and mental abilities.
+
+15) Serial search versus parallel search:
+	Serial Search compares a memory to a target stimulus one at a time, while parallel processing carries our multiple operations at the same time. Serial stops as soon as target is found, generating a response. Parallel processing is like vision: color, motion, shape, and depth.
+
+16) What is brain localization? What evidence supports this?
+	The idea that different parts of the brain do different things. Phineas Gage.
+
+17) Major lobes of the brain and the role of the cerebellum:
+	Frontal Lobe: motor function, problem solving, memory, language, social behavior, etc.
+	Parietal Lobe: processing sensory information, visual information, language, math, etc.
+	Occipital Lobe: visual processing center.
+	Temporal Lobe: auditory processing.
+	Cerebellum: spinal chord, voluntary movements, speech, muscular activity in general.
+
+18) Nervous System
+	Peripheral NS: Carries information to and from the CNS.
+	Central NS: Directs psychological and basic life proceses, responds to stimuli.
+	Somatic NS: Transmits sensory information to the CNS and carries out motor commands.
+	Automatic NS: basic life functions like heart and responses to stress.
+	Sympathetic NS: Readies the body in response to threat (fight/flight).
+	Parasympathetic NS: Routine bodily functions and tasks, calms.
+
+19) What is the golgi stain? 
+	It is used to visualize nervous tissue under a microscope. Allows us to track connections between neurons and make visible the complex networking structure of the brain/spinal chord
+
+20) How to gather behavioral data?
+	Task response time, 
+	judgements/ratings,
+	protocol collection (observe),
+	& localization methods (scans of the brain).
+
+21) What is the ceiling/floor effect? Which is worse?
+	ceiling = too easy, floor = too hard.
+
+22) What is the expectancy effect?
+	a researcher expects an effect and unconsciously affects the outcome.
+
+24) Attitude accessibility?
+	How quickly an attitude is activated from memory, predictive of behavior and how info is processed.
+
+25) WISC card sorting and clock drawing test demonstrate?
+	Cognitive impairment and dementia.
+
+26) Scan types, ugh*
+
+27) What is sensation versus perception?
+	sensation = detection of physical energy in environment, perception = interpretation of sensory data
+
+28) Difference between data-driven and conceptually-driven?
+	data-driven = sensory (bottom-up), conceptually-driven = perception (top-down) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,65 @@
+﻿///////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR — Travis Moore
+//SCRIPT — KillPlayer.cs
+//COPYRIGHT — © 2016 DigiPen Institute of Technology
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+using UnityEngine;
+using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine.UI;
+
+#region ENUMS
+
+#endregion
+
+#region EVENTS
+
+#endregion
+
+public class KillPlayer : MonoBehaviour
+{
+    #region FIELDS
+
+    #endregion
+
+    #region INITIALIZATION
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// Awake()
+    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    void Awake()
+    {
+
+    }
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// Start()
+    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    void Start()
+    {
+	
+	}
+    #endregion
+
+    #region METHODS
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="_collision"></param>
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    void OnCollisionEnter(Collision _collision)
+    {
+        GameObject _player = _collision.gameObject;
+        if(_player.GetComponent<ExplosiveDeath>() != null)
+        {
+            _player.GetComponent<ExplosiveDeath>().Explode(_player.transform.position, _player.GetComponent<PlayerData>().PlayerColor);
+            Events.instance.Raise(new EVENT_Player_Died(_player.GetComponent<PlayerData>(), this.gameObject.transform.position));
+        }
+    }
+    #endregion
+}

@@ -1,0 +1,80 @@
+-Title-
+
+
+-About-
+My name is Travis Moore and I love making video games.
+I am a game designer with a graphic design background.
+I am a determined life long learner wants to growand work in collaboration with a great team.
+
+-Knowledge-
+TOOLS & ENGINES
+Unity 3D, Zero Engine, Autodesk Maya, Adobe Illustrator,Adobe After Effects, Adobe Photoshop, Adobe Flash
+
+SCRIPTING / PROGRAMMING LANGUAGES
+C#, C++, Python, JavaScript, ActionScript 3, Lua, Zilch
+
+GRAPHIC DESIGN
+Branding, Grid Layout, Logo Design, Illustration, Animation,Typography, Concept Development, Packaging Design
+
+VERSION CONTROL & OTHER SOFTWARE
+Git (Github), SVN, Slack, Trello, Visual Studio,Sublime Text 3, Audacity
+
+SOFT SKILLS
+Communication, Level Design, Testing, Rapid Prototyping,Systems Design, Design Documentation, Agile Workflow
+
+-Contact-
+thedevilswaffle@gmail.com
+www.thedevilswaffle.com
+1.425.908.9018
+
+-Project Experience-
+PLANETARY PEST SQUAD
+UX/UI Designer
+3D multiplayer action shooter that is scripted C# in Unity3D. I designed and implemented UI features like the HUD, menusand feedback systems. Worked as an Agile team, maintainedsource control, playtested, and designed collaboratively.
+
+PROJECT SNAIL
+Game Designer & Artist
+Scripted Python in Zero engine by implementing a charactercontroller, various mechanics, and power-ups. I created all artwork and animations and helped with level design.
+
+UP + DOWN
+Solo Project
+2D multiplayer puzzle-platformer that I scripted in the Zeroengine using Zilch (C#-like). This project was an exploration incharacter controllers, puzzle mechanics, and level design.
+
+-Work Experience-
+2003 – present
+Starbucks Coffee Company — Shift Supervisor / Barista
+California & Washington
+
+2013
+Decipher Inc. — Front End Web Developer
+California
+
+2012
+Five Creative Group — Graphic Designer / Web Designer
+California
+
+-Education-
+2013 – present (est. graduation 2017)
+DigiPen Institute of Technology — BA Game Design
+Washington
+
+2008 – 2012
+California State University, Fresno — BFA, Graphic Design
+California
+
+2003 – 2008
+Fresno City College — Leon S. Peter’s Honors Program
+California
+
+-Recognition-
+
+DIGIPEN GAME GALLERY
+2013 — Project SNAIL
+2014 — Setsuko
+
+INDIECADE NOMINEE
+2013 — Project SNAIL
+
+AWARD OF EXCELLENCE
+2012 Graphic Design — Interactive Multimedia
+2011 Underclass Graphic Design — Interactive Multimedia

@@ -1,0 +1,66 @@
+﻿///////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR — Travis Moore
+//SCRIPT — DetectNPCs.cs
+//COPYRIGHT — © 2016 DigiPen Institute of Technology
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+using UnityEngine;
+using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine.UI;
+
+#region ENUMS
+
+#endregion
+
+#region EVENTS
+#endregion
+
+public class DetectNPCs : MonoBehaviour
+{
+    #region FIELDS
+    Transform tr;
+    SphereCollider sc;
+    ExplosiveDeath ed;
+    public LayerMask layerToDetect;
+    public float delayBeforeDeath = 0.75f;
+    #endregion
+
+    #region INITIALIZATION
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// Awake()
+    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    void Awake()
+    {
+        sc = GetComponent<SphereCollider>();
+        ed = GetComponent<ExplosiveDeath>();
+        tr = transform;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// Start()
+    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    void Start()
+    {
+        //print("LAYER TO DETECT = " + layerToDetect.value);
+    }
+    #endregion
+
+    #region METHODS
+    void OnTriggerEnter(Collider _c)
+    {
+        //print(_c.collider.gameObject.layer);
+        if ((layerToDetect.value & 1 << _c.gameObject.layer) != 0)
+        {
+            Events.instance.Raise(new EVENT_AllFollowersDead());
+        }
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    #endregion
+}

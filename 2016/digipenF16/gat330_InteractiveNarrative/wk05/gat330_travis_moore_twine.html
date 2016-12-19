@@ -1,0 +1,17 @@
+<tw-storydata name="gat330_travis_moore_twine" startnode="1" creator="Twine" creator-version="2.0.11" ifid="89F08FD2-692E-4FDD-8F9C-E84467E60411" format="Harlowe" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Intro" tags="" position="0,0">(set: $player to &quot;&quot;)
+
+our journey begins with blargh
+
+(link-reveal: &quot;Umm, what&#39;s the security officer&#39;s name?&quot;)[(set: $player to (prompt: &quot;Enter a name for the security officer&quot;))
+(if: $player is &quot;&quot;)[&lt;/br&gt;&lt;/br&gt;(link-reveal: (set: $nameConfirmation to (confirm: &quot;Warning! If you don&#39;t name the security officer, we&#39;ll name him/her for you…&quot;)))(if: $nameConfirmation)[(goto: &quot;You Asked For It&quot;)](else:)[(reload:)]](else:)[(goto: &quot;Start Journey&quot;)]]
+
+</tw-passagedata>
+<tw-passagedata pid="2" name="You Asked For It" tags="" position="150,0">(set: $player to (either: &quot;Charity Case&quot;, &quot;Anita Name&quot;, &quot;Terry Bulname&quot;, &quot;Noah Name&quot;))
+
+&lt;p&gt;Alright, you&#39;re name is $player, I hope you&#39;re happy.&lt;/p&gt;
+(link-goto: &quot;I&#39;m not, but whatever&quot;, &quot;Start Journey&quot;)
+[[Start Journey]]
+
+</tw-passagedata>
+<tw-passagedata pid="3" name="Start Journey" tags="" position="300,0">Double-click this passage to edit it.</tw-passagedata>
+</tw-storydata>

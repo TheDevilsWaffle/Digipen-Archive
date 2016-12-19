@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gat330_travis_moore_non_verbal_game.Plugins", "gat330_travis_moore_non_verbal_game.Plugins.csproj", "{A55C214E-E831-1057-0C49-45A53B12769F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gat330_travis_moore_non_verbal_game", "gat330_travis_moore_non_verbal_game.csproj", "{D22CDB00-C4A7-FCFF-5515-62E58B58830A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gat330_travis_moore_non_verbal_game.Editor.Plugins", "gat330_travis_moore_non_verbal_game.Editor.Plugins.csproj", "{647A217C-FB09-EC90-F4BF-A0D6DD7F41F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gat330_travis_moore_non_verbal_game.Editor", "gat330_travis_moore_non_verbal_game.Editor.csproj", "{02FDAB09-4A7F-44B5-7EB2-B40941C7C5FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A55C214E-E831-1057-0C49-45A53B12769F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A55C214E-E831-1057-0C49-45A53B12769F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A55C214E-E831-1057-0C49-45A53B12769F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A55C214E-E831-1057-0C49-45A53B12769F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D22CDB00-C4A7-FCFF-5515-62E58B58830A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D22CDB00-C4A7-FCFF-5515-62E58B58830A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D22CDB00-C4A7-FCFF-5515-62E58B58830A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D22CDB00-C4A7-FCFF-5515-62E58B58830A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{647A217C-FB09-EC90-F4BF-A0D6DD7F41F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{647A217C-FB09-EC90-F4BF-A0D6DD7F41F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{647A217C-FB09-EC90-F4BF-A0D6DD7F41F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{647A217C-FB09-EC90-F4BF-A0D6DD7F41F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02FDAB09-4A7F-44B5-7EB2-B40941C7C5FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02FDAB09-4A7F-44B5-7EB2-B40941C7C5FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02FDAB09-4A7F-44B5-7EB2-B40941C7C5FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02FDAB09-4A7F-44B5-7EB2-B40941C7C5FA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
