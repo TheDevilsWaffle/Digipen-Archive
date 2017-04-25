@@ -1,0 +1,33 @@
+﻿///////////////////////////////////////////////////////////////////////////////////////////////////
+//AUTHOR — Travis Moore
+//SCRIPT — InitializeLeanTween.cs
+//COPYRIGHT — © 2016 DigiPen Institute of Technology
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+using UnityEngine;
+using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine.UI;
+
+public class InitializeLeanTween : MonoBehaviour
+{
+    #region FIELDS
+    [SerializeField]
+    int numberOfTweensAllowed = 1000;
+    #endregion
+
+    #region INITIALIZATION
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// Awake()
+    /// </summary>
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    void Awake()
+    {
+        if (numberOfTweensAllowed > 0)
+            LeanTween.init(numberOfTweensAllowed);
+    }
+
+    #endregion
+
+}

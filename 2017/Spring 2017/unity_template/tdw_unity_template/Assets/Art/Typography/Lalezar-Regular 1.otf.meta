@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 688d87a42a65fe34aa221694ce30ba7d
+timeCreated: 1487032821
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Lalezar
+  fontNames:
+  - Lalezar
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 784bbacd859636b4b95a99ae72e3ba24, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 60627ebc2bc973a41aca3d0e06523827
+timeCreated: 1485909138
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 100
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: SciFly
+  fontNames:
+  - SciFly
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

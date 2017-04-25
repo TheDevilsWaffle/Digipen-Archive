@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 41099ff82211cd84da37baaf31490cbd
+timeCreated: 1485909138
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Furore
+  fontNames:
+  - Furore
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

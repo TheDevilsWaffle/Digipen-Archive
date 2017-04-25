@@ -1,0 +1,20 @@
+GAME:
+	Super Space Race (UX/UI Project)
+STUDENT:
+	Travis Moore
+
+WORK COMPLETED:
+	As a solo project, Travis Moore worked on all aspects of this game. With the exception of the space ship model, all art assets are made by Travis Moore. With the exception of the LeanTween (animation plugin) and XInput (DirectX API to manage the controllers connected to a PC), all scripts are written by Travis Moore. 
+
+In particular, this project featured these systems built by Travis Moore:
+
+* Gamepad Input System (stores and detects data from XBox controllers like button states, time held, time released, etc.)
+* Mouse Input System (stores and detects data from mice like percentage of position on screen space, button states, time held, etc.)
+* Keyboard Input System (stores and detects data from a select few buttons defined as used, button states, duration held, etc.)
+* Menu System (uses a stack to keep track of menus traversed for easy backtracking, custom button states, uses gamepad, mouse, and keyboard input)
+* Menu UI Bar System (tracks the last method of input used to update menu controls to show the correct icons and methods of input available for a button)
+* Pause Menu System (self explanatory)
+* Ship Controller (thrust states, brake, pitch, roll, yaw, shoot lasers, speed boost, etc.)
+* HUD System (animated HUD that tracks time, throttle, lasers, and shields)
+* Throttle Based Diegetic Feedback (speed determines camera effects, particle systems, sound effects, engine trail renderer size, etc.)
+* Audio System (keeps track of and stores audio effects, allows for quick deletion of spent audio, deploys audio source with or without a parent (for doppler effect)

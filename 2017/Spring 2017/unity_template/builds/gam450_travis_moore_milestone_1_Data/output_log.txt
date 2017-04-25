@@ -1,0 +1,59 @@
+Initialize engine version: 5.5.0f3 (38b4efef76f0)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 780 Ti (ID=0x100a)
+    Vendor:   NVIDIA
+    VRAM:     3039 MB
+    Driver:   21.21.13.7849
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+Platform assembly: C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+Platform assembly: C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\XInputDotNetPure.dll (this message is harmless)
+Loading C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\XInputDotNetPure.dll into Unity Child Domain
+- Completed reload, in  0.082 seconds
+Platform assembly: C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\System.dll (this message is harmless)
+Platform assembly: C:\Users\thede\Documents\GitHub\DigiPenSpring2017\unity_template\builds\gam450_travis_moore_milestone_1_Data\Managed\Boo.Lang.dll (this message is harmless)
+desktop: 1920x1200 59Hz; virtual: 3600x1200 at -1680,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.688384 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 1328 -> priority: 1 
+  Thread -> id: 360 -> priority: 1 
+The referenced script on this Behaviour (Game Object 'Ship') is missing!
+ 
+(Filename:  Line: 1754)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.006978 ms
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 948.
+Total: 0.401408 ms (FindLiveObjects: 0.035840 ms CreateObjectMapping: 0.018176 ms MarkObjects: 0.325888 ms  DeleteObjects: 0.021248 ms)
+
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.229568 ms
+
+Unloading 19 unused Assets to reduce memory usage. Loaded Objects now: 1259.
+Total: 0.770816 ms (FindLiveObjects: 0.090112 ms CreateObjectMapping: 0.025856 ms MarkObjects: 0.569600 ms  DeleteObjects: 0.084736 ms)
+
+Can not play a disabled audio source
+ 
+(Filename:  Line: 1826)
+

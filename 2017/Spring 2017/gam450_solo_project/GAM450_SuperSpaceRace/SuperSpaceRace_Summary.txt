@@ -1,0 +1,1 @@
+Super Space Race is a UX/UI prototype project for a space flight/racing game. It features a custom multi-input system, menu system, contextual user interface bar, animated HUD, and space flight controller that work together to create an amazing sensation of flying through space quickly in a hi-tech space ship.
